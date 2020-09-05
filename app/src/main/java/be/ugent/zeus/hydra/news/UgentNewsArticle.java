@@ -16,18 +16,7 @@ import be.ugent.zeus.hydra.common.utils.DateUtils;
  * @author Niko Strijbol
  */
 public final class UgentNewsArticle implements Parcelable, ArticleViewer.Article {
-
-    public static final Creator<UgentNewsArticle> CREATOR = new Creator<UgentNewsArticle>() {
-        @Override
-        public UgentNewsArticle createFromParcel(Parcel source) {
-            return new UgentNewsArticle(source);
-        }
-
-        @Override
-        public UgentNewsArticle[] newArray(int size) {
-            return new UgentNewsArticle[size];
-        }
-    };
+    
     private String description;
     private List<String> contributors;
     private String text;
@@ -152,6 +141,18 @@ public final class UgentNewsArticle implements Parcelable, ArticleViewer.Article
         dest.writeString(this.title);
         dest.writeStringList(this.creators);
     }
+
+    public static final Creator<UgentNewsArticle> CREATOR = new Creator<UgentNewsArticle>() {
+        @Override
+        public UgentNewsArticle createFromParcel(Parcel source) {
+            return new UgentNewsArticle(source);
+        }
+
+        @Override
+        public UgentNewsArticle[] newArray(int size) {
+            return new UgentNewsArticle[size];
+        }
+    };
 
     @Override
     public boolean equals(Object o) {

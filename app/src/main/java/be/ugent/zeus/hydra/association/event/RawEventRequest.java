@@ -37,7 +37,7 @@ public class RawEventRequest extends JsonOkHttpRequest<EventList> {
 
     /**
      * Transform by applying:
-     * - {@link Request#map(Function)} with {@link EventSorter}
+     * - {@link Request#map(Function)}.
      *
      * @param context The context.
      * @return The modified request.

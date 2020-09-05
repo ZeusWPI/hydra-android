@@ -14,18 +14,7 @@ import com.squareup.moshi.Json;
  * @author Mitch
  */
 public final class RestoMeal implements Parcelable {
-
-    public static final Parcelable.Creator<RestoMeal> CREATOR = new Parcelable.Creator<RestoMeal>() {
-        @Override
-        public RestoMeal createFromParcel(Parcel source) {
-            return new RestoMeal(source);
-        }
-
-        @Override
-        public RestoMeal[] newArray(int size) {
-            return new RestoMeal[size];
-        }
-    };
+    
     private String name;
     private String price;
     private MealType type;
@@ -110,4 +99,16 @@ public final class RestoMeal implements Parcelable {
         @Json(name = "side")
         SIDE
     }
+
+    public static final Parcelable.Creator<RestoMeal> CREATOR = new Parcelable.Creator<RestoMeal>() {
+        @Override
+        public RestoMeal createFromParcel(Parcel source) {
+            return new RestoMeal(source);
+        }
+
+        @Override
+        public RestoMeal[] newArray(int size) {
+            return new RestoMeal[size];
+        }
+    };
 }

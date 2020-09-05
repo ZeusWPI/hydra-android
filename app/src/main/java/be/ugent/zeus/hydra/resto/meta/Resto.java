@@ -13,18 +13,7 @@ import java.util.Objects;
  */
 @SuppressWarnings("WeakerAccess")
 public final class Resto implements Parcelable {
-
-    public static final Creator<Resto> CREATOR = new Creator<Resto>() {
-        @Override
-        public Resto createFromParcel(Parcel in) {
-            return new Resto(in);
-        }
-
-        @Override
-        public Resto[] newArray(int size) {
-            return new Resto[size];
-        }
-    };
+    
     private String name;
     private String address;
     private double latitude;
@@ -103,4 +92,16 @@ public final class Resto implements Parcelable {
     public int hashCode() {
         return Objects.hash(name, address, latitude, longitude, type, endpoint);
     }
+
+    public static final Creator<Resto> CREATOR = new Creator<Resto>() {
+        @Override
+        public Resto createFromParcel(Parcel in) {
+            return new Resto(in);
+        }
+
+        @Override
+        public Resto[] newArray(int size) {
+            return new Resto[size];
+        }
+    };
 }

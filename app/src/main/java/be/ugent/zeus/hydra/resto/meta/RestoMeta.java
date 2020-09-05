@@ -10,18 +10,7 @@ import java.util.Objects;
  * Created by feliciaan on 04/02/16.
  */
 public final class RestoMeta implements Parcelable {
-
-    public static final Parcelable.Creator<RestoMeta> CREATOR = new Parcelable.Creator<RestoMeta>() {
-        @Override
-        public RestoMeta createFromParcel(Parcel source) {
-            return new RestoMeta(source);
-        }
-
-        @Override
-        public RestoMeta[] newArray(int size) {
-            return new RestoMeta[size];
-        }
-    };
+    
     public List<Resto> locations;
 
     @SuppressWarnings("unused") // Used by Moshi.
@@ -54,4 +43,16 @@ public final class RestoMeta implements Parcelable {
     public int hashCode() {
         return Objects.hash(locations);
     }
+
+    public static final Parcelable.Creator<RestoMeta> CREATOR = new Parcelable.Creator<RestoMeta>() {
+        @Override
+        public RestoMeta createFromParcel(Parcel source) {
+            return new RestoMeta(source);
+        }
+
+        @Override
+        public RestoMeta[] newArray(int size) {
+            return new RestoMeta[size];
+        }
+    };
 }

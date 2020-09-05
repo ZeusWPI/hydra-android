@@ -8,9 +8,10 @@ import androidx.annotation.NonNull;
 import java.util.List;
 import java.util.stream.Stream;
 
-import be.ugent.zeus.hydra.association.Association;
+import be.ugent.zeus.hydra.association.AssociationListRequest;
+import be.ugent.zeus.hydra.association.AssociationMap;
 import be.ugent.zeus.hydra.association.event.Event;
-import be.ugent.zeus.hydra.association.list.EventItem;
+import be.ugent.zeus.hydra.association.event.RawEventRequest;
 import be.ugent.zeus.hydra.association.list.Filter;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
@@ -25,11 +26,12 @@ import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDao;
  */
 public class EventRequest extends HideableHomeFeedRequest {
 
-    private final Request<List<Pair<Event, Association>>> request;
+    private final Request<Pair<List<Event>, AssociationMap>> request;
 
     public EventRequest(Context context, DismissalDao dismissalDao) {
         super(dismissalDao);
-        this.request = EventItem.request(context, new Filter()).map(listListPair -> listListPair.first);
+        this.request = RawEventRequest.create(context, new Filter())
+                .andThen(AssociationListRequest.create(context));
     }
 
     @Override
@@ -40,6 +42,8 @@ public class EventRequest extends HideableHomeFeedRequest {
     @NonNull
     @Override
     protected Result<Stream<Card>> performRequestCards(@NonNull Bundle args) {
-        return request.execute(args).map(events -> events.stream().map(EventCard::new));
+        return request.execute(args)
+                .map(events -> events.first.stream()
+                        .map(event -> new EventCard(event, events.second)));
     }
 }

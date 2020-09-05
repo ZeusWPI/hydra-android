@@ -1,793 +1,1612 @@
-[
-    {
-        "display_name": "12Urenloop",
-        "internal_name": "URENLOOP",
-        "parent_association": "URENLOOP"
-    },
-    {
-        "display_name": "Internationaal Konvent",
-        "internal_name": "IK",
-        "parent_association": "IK"
-    },
-    {
-        "display_name": "ChiSAG",
-        "full_name": "Chinese Students Organisation",
-        "internal_name": "CHISAG",
-        "parent_association": "IK"
-    },
-    {
-        "display_name": "ESN",
-        "full_name": "Erasmus Student Network",
-        "internal_name": "ESN",
-        "parent_association": "IK"
-    },
-    {
-        "display_name": "ISAG",
-        "full_name": "International Students Association Ghent",
-        "internal_name": "ISAG",
-        "parent_association": "IK"
-    },
-    {
-        "display_name": "Ghent Students Club",
-        "internal_name": "GSC",
-        "parent_association": "IK"
-    },
-    {
-        "display_name": "Hayasa Gent",
-        "internal_name": "HAYASA",
-        "parent_association": "IK"
-    },
-    {
-        "display_name": "Vinasag",
-        "internal_name": "VINASAG",
-        "parent_association": "IK"
-    },
-    {
-        "display_name": "Tomo No Kai",
-        "internal_name": "TNOK",
-        "parent_association": "IK"
-    },
-    {
-        "display_name": "AIESEC",
-        "internal_name": "AIESEC",
-        "parent_association": "IK"
-    },
-    {
-        "display_name": "Indonesian Students Association Ghent",
-        "internal_name": "IndoSAG",
-        "parent_association": "IK"
-    },
-    {
-        "display_name": "International Association of Agricultural Students",
-        "internal_name": "IAAS",
-        "parent_association": "IK"
-    },
-    {
-        "display_name": "Board of European Students of Technology Ghent",
-        "internal_name": "BEST",
-        "parent_association": "IK"
-    },
-    {
-        "display_name": "Filologica",
-        "internal_name": "FILOLOGICA",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Chemica",
-        "internal_name": "CHEMICA",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Dentalia",
-        "internal_name": "DENTALIA",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "FaculteitenKonvent Gent vzw",
-        "internal_name": "FK",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Gentse Biologische Kring",
-        "internal_name": "GBK",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Geografica",
-        "internal_name": "GEOGRAFI",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Geologica",
-        "internal_name": "GEOLOGIC",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Gentse Farma Kring",
-        "internal_name": "GFK",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Kunsthistorische kring",
-        "internal_name": "KHK",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Kring Moraal en Filosofie",
-        "internal_name": "KMF",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Lombrosiana",
-        "internal_name": "LOMBRO",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Oosterse Afrikaanse Kring",
-        "internal_name": "OAK",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Politeia",
-        "internal_name": "POLITEIA",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Slavia",
-        "internal_name": "SLAVIA",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Vlaamse Biomedische Kring",
-        "internal_name": "VBK",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Vlaamse Diergeneeskundige Kring",
-        "internal_name": "VDK",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Vlaamse Economische Kring",
-        "internal_name": "VEK",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Vlaamse Geneeskundige Kring",
-        "internal_name": "VGKFGEN",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Vlaamse Geschiedkundige Kring",
-        "internal_name": "VGKFLWI",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Vlaamse Logopedische en Audiologische Kring",
-        "internal_name": "VLAK",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Vlaamse Levenstechnische Kring",
-        "internal_name": "VLK",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Vlaamse Psychologische en Pedagogische Kring",
-        "internal_name": "VPPK",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Vlaamse Rechtsgenootschap",
-        "internal_name": "VRG",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Vlaamse Technische Kring",
-        "internal_name": "VTK",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "WiNA",
-        "internal_name": "WINA",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "HILOK",
-        "full_name": "Hoger instituut voor lichamelijke opvoeding en kinesitherapie",
-        "internal_name": "HILOK",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Levenslange Inzet voor Leute en Ambiance",
-        "internal_name": "LILA",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Moeder lies",
-        "internal_name": "LIES",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "VeTo",
-        "internal_name": "VETO",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Hermes",
-        "internal_name": "HERMES",
-        "parent_association": "FK"
-    },
-    {
-        "display_name": "Home Astrid",
-        "internal_name": "ASTRID",
-        "parent_association": "HK"
-    },
-    {
-        "display_name": "Home Bertha de Vriese",
-        "internal_name": "BERTHA",
-        "parent_association": "HK"
-    },
-    {
-        "display_name": "Home Boudewijn",
-        "internal_name": "BOUDEWIJN",
-        "parent_association": "HK"
-    },
-    {
-        "display_name": "Home Fabiola",
-        "internal_name": "FABIOLA",
-        "parent_association": "HK"
-    },
-    {
-        "display_name": "Home Konvent",
-        "internal_name": "HK",
-        "parent_association": "HK"
-    },
-    {
-        "display_name": "Home Vermeylen",
-        "internal_name": "VERMEYL",
-        "parent_association": "HK"
-    },
-    {
-        "display_name": "Fotoklas",
-        "internal_name": "FOTOKLAS",
-        "parent_association": "KULTK"
-    },
-    {
-        "display_name": "Gents Universitair Koor",
-        "internal_name": "GUK",
-        "parent_association": "KULTK"
-    },
-    {
-        "display_name": "Kultureel Konvent",
-        "internal_name": "KULTK",
-        "parent_association": "KULTK"
-    },
-    {
-        "display_name": "Matrak",
-        "internal_name": "MATRAK",
-        "parent_association": "KULTK"
-    },
-    {
-        "display_name": "Schildersatelier",
-        "internal_name": "SCHILDER",
-        "parent_association": "KULTK"
-    },
-    {
-        "display_name": "Studentenfanfare",
-        "internal_name": "SF",
-        "parent_association": "KULTK"
-    },
-    {
-        "display_name": "GUSO",
-        "full_name": "Gents Universitair Symfonisch Orkest",
-        "internal_name": "GUSO",
-        "parent_association": "KULTK"
-    },
-    {
-        "display_name": "GUDc",
-        "full_name": "Gentse Universitaire Dansclub",
-        "internal_name": "GUDc",
-        "parent_association": "KULTK"
-    },
-    {
-        "display_name": "GUHO",
-        "full_name": "Gents Universitair Harmonie Orkest",
-        "internal_name": "GUHO",
-        "parent_association": "KULTK"
-    },
-    {
-        "display_name": "Auw La",
-        "internal_name": "AUWLA",
-        "parent_association": "KULTK"
-    },
-    {
-        "display_name": "Massacantus",
-        "internal_name": "MCANTUS",
-        "parent_association": "MCANTUS"
-    },
-    {
-        "display_name": "Actief Linkse Studenten",
-        "internal_name": "ALS",
-        "parent_association": "PFK"
-    },
-    {
-        "display_name": "CDS",
-        "full_name": "Christen Democratische Studenten",
-        "internal_name": "CDS",
-        "parent_association": "PFK"
-    },
-    {
-        "display_name": "Comac",
-        "internal_name": "COMAC",
-        "parent_association": "PFK"
-    },
-    {
-        "display_name": "GPS",
-        "full_name": "StudentenPastoraal Gent",
-        "internal_name": "GPS",
-        "parent_association": "PFK"
-    },
-    {
-        "display_name": "JGroen StuGent",
-        "full_name": "Jong Groen StuGent",
-        "internal_name": "JGroen",
-        "parent_association": "PFK"
-    },
-    {
-        "display_name": "KVHV",
-        "full_name": "Katholiek Vlaams Hoogstudenten Verbond",
-        "internal_name": "KVHV",
-        "parent_association": "PFK"
-    },
-    {
-        "display_name": "LVSV",
-        "full_name": "Liberaal Vlaams Studentenverbond",
-        "internal_name": "LVSV",
-        "parent_association": "PFK"
-    },
-    {
-        "display_name": "Politiek en Filosofisch Konvent",
-        "internal_name": "PFK",
-        "parent_association": "PFK"
-    },
-    {
-        "display_name": "'t Zal Wel Gaan",
-        "internal_name": "TZAL",
-        "parent_association": "PFK"
-    },
-    {
-        "display_name": "NSV! Gent",
-        "full_name": "Nationalistische Studentenvereniging",
-        "internal_name": "NSV",
-        "parent_association": "PFK"
-    },
-    {
-        "display_name": "Jongsocialisten StuGent",
-        "internal_name": "JS",
-        "parent_association": "PFK"
-    },
-    {
-        "display_name": "Minos Gent",
-        "internal_name": "MINOS",
-        "parent_association": "PFK"
-    },
-    {
-        "display_name": "Jong N-VA UGent",
-        "internal_name": "JONGNVA",
-        "parent_association": "PFK"
-    },
-    {
-        "display_name": "Jonge Europese Federalisten",
-        "internal_name": "JEF",
-        "parent_association": "PFK"
-    },
-    {
-        "display_name": "Vereniging voor de Verenigde Naties Youth",
-        "internal_name": "VVNY",
-        "parent_association": "PFK"
-    },
-    {
-        "display_name": "Senioren Konvent",
-        "internal_name": "SK",
-        "parent_association": "SK"
-    },
-    {
-        "display_name": "Moeder Meetjesland",
-        "internal_name": "MEETJESLAND",
-        "parent_association": "SK"
-    },
-    {
-        "display_name": "Antwerpen Boven",
-        "internal_name": "AB",
-        "parent_association": "SK"
-    },
-    {
-        "display_name": "Brugse Universitaire Kring",
-        "internal_name": "BUK",
-        "parent_association": "SK"
-    },
-    {
-        "display_name": "HSC De Dijlebrassers",
-        "internal_name": "DIJLEBRASSERS",
-        "parent_association": "SK"
-    },
-    {
-        "display_name": "Deliria",
-        "internal_name": "DELIRIA",
-        "parent_association": "SK"
-    },
-    {
-        "display_name": "Dionysus",
-        "internal_name": "DIONYSUS",
-        "parent_association": "SK"
-    },
-    {
-        "display_name": "Geeraard",
-        "internal_name": "GEERAARD",
-        "parent_association": "SK"
-    },
-    {
-        "display_name": "Internia",
-        "internal_name": "INTERNIA",
-        "parent_association": "SK"
-    },
-    {
-        "display_name": "Laetitia",
-        "internal_name": "LAETITIA",
-        "parent_association": "SK"
-    },
-    {
-        "display_name": "Limburgia",
-        "internal_name": "LIMBURGIA",
-        "parent_association": "SK"
-    },
-    {
-        "display_name": "Moeder Domper",
-        "internal_name": "DOMPER",
-        "parent_association": "SK"
-    },
-    {
-        "display_name": "Moeder Egmont",
-        "internal_name": "EGMONT",
-        "parent_association": "SK"
-    },
-    {
-        "display_name": "Moeder Oilsjterse",
-        "internal_name": "OILSJTERSE",
-        "parent_association": "SK"
-    },
-    {
-        "display_name": "Rodenbach",
-        "internal_name": "RODENBACH",
-        "parent_association": "SK"
-    },
-    {
-        "display_name": "Scaldis",
-        "internal_name": "SCALDIS",
-        "parent_association": "SK"
-    },
-    {
-        "display_name": "Sd'A Gent",
-        "internal_name": "SDA",
-        "parent_association": "SK"
-    },
-    {
-        "display_name": "Wase Club",
-        "internal_name": "WASE",
-        "parent_association": "SK"
-    },
-    {
-        "display_name": "Westlandia",
-        "internal_name": "WESTLANDIA",
-        "parent_association": "SK"
-    },
-    {
-        "display_name": "'t Stropke",
-        "internal_name": "STROPKE",
-        "parent_association": "SK"
-    },
-    {
-        "display_name": "'t Wielke",
-        "internal_name": "WIELKE",
-        "parent_association": "SK"
-    },
-    {
-        "display_name": "Urgent.fm",
-        "internal_name": "URGENT",
-        "parent_association": "URGENT"
-    },
-    {
-        "display_name": "Archeologische Werkgroep",
-        "internal_name": "AW",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "Klassieke Kring",
-        "internal_name": "KK",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "Noord-Zuid Studenten",
-        "internal_name": "NZS",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "PKarus",
-        "internal_name": "PKARUS",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "Verkeerd Geparkeerd",
-        "internal_name": "VG",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "Vereniging Voor Natuurkunde",
-        "internal_name": "VVN",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "Werkgroepen & Verenigingen Konvent",
-        "internal_name": "WVK",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "Zeus WPI",
-        "full_name": "Zeus WerkgroeP Informatica",
-        "internal_name": "ZEUS",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "De Loeiende Koe",
-        "internal_name": "DLK",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "Poutrix",
-        "internal_name": "POUTRIX",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "PRIME",
-        "internal_name": "PRIME",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "CenEka",
-        "internal_name": "CENEKA",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "IEEE SB",
-        "full_name": "IEEE Student Branch Gent",
-        "internal_name": "IEEE",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "FLYSE",
-        "full_name": "Flanders Youth Society for Entrepreneurship",
-        "internal_name": "FLYSE",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "Sense",
-        "internal_name": "SENSE",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "MaCht",
-        "internal_name": "MACHT",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "Kajira",
-        "internal_name": "KAJIRA",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "FLUX",
-        "internal_name": "FLUX",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "Groene Kring",
-        "internal_name": "GK",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "Capitant Gent",
-        "internal_name": "CAPITANT",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "BeMSA",
-        "internal_name": "BeMSA",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "Moeder Theepot",
-        "internal_name": "THEEPOT",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "180 degrees consulting ",
-        "internal_name": "OEDC",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "UGent1010",
-        "internal_name": "UGENT1010",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "Feunig",
-        "internal_name": "FEUNIG",
-        "parent_association": "WVK"
-    },
-    {
-        "display_name": "Schamper",
-        "internal_name": "SCHAMPER",
-        "parent_association": "SCHAMPER"
-    },
-    {
-        "display_name": "Dienst StudentenActiviteiten",
-        "internal_name": "DSA",
-        "parent_association": "DSA"
-    },
-    {
-        "display_name": "Extern",
-        "internal_name": "EXTERN",
-        "parent_association": "DSA"
-    },
-    {
-        "display_name": "Universiteit Gent",
-        "internal_name": "UGent",
-        "parent_association": "DSA"
-    },
-    {
-        "display_name": "Directie Studentenvoorzieningen",
-        "internal_name": "DSV",
-        "parent_association": "DSA"
-    },
-    {
-        "display_name": "Dienst Studentenactiviteiten",
-        "internal_name": "DSA",
-        "parent_association": "DSA"
-    },
-    {
-        "display_name": "Dienst StudentenActiviteiten",
-        "internal_name": "DSA",
-        "parent_association": "DSA"
-    },
-    {
-        "display_name": "Extern",
-        "internal_name": "EXTERN",
-        "parent_association": "DSA"
-    },
-    {
-        "display_name": "Universiteit Gent",
-        "internal_name": "UGent",
-        "parent_association": "DSA"
-    },
-    {
-        "display_name": "Directie Studentenvoorzieningen",
-        "internal_name": "DSV",
-        "parent_association": "DSA"
-    },
-    {
-        "display_name": "Dienst Studentenactiviteiten",
-        "internal_name": "DSA",
-        "parent_association": "DSA"
-    },
-    {
-        "display_name": "Gentse Studentenraad",
-        "internal_name": "GSTud",
-        "parent_association": "GSR"
-    },
-    {
-        "display_name": "De Psychologische en Pedagogische StudentenRaad",
-        "internal_name": "PPSR",
-        "parent_association": "GSR"
-    },
-    {
-        "display_name": "Alumni Orkest",
-        "internal_name": "aorkest",
-        "parent_association": "GSR"
-    },
-    {
-        "display_name": "Facultaire studentenraad rechtsgeleerdheid",
-        "internal_name": "FRE",
-        "parent_association": "GSR"
-    },
-    {
-        "display_name": "Raad van bestuur",
-        "internal_name": "RvB",
-        "parent_association": "GSR"
-    },
-    {
-        "display_name": "UGent MUN",
-        "internal_name": "UGentMUN",
-        "parent_association": "GSR"
-    },
-    {
-        "display_name": "Student Kick-Off",
-        "internal_name": "SKO",
-        "parent_association": "GSR"
-    },
-    {
-        "display_name": "Durf Doen",
-        "internal_name": "DurfDoen",
-        "parent_association": "GSR"
-    },
-    {
-        "display_name": "Faculteitsraad Ingenieurswetenschappen en Architectuur",
-        "internal_name": "FRiS",
-        "parent_association": "GSR"
-    },
-    {
-        "display_name": "Studentenraad Faculteit Economie en Bedrijfskunde",
-        "internal_name": "Stuveco",
-        "parent_association": "GSR"
-    },
-    {
-        "display_name": "Studentenraad Dierengeneeskunde",
-        "internal_name": "FDE",
-        "parent_association": "GSR"
-    },
-    {
-        "display_name": "Faculteitsraad Bio-ingenieurswetenschappen",
-        "internal_name": "FBW",
-        "parent_association": "GSR"
-    },
-    {
-        "display_name": "Studentenraad Faculteit Letteren en Wijsbegeerte",
-        "internal_name": "StuArt",
-        "parent_association": "GSR"
-    },
-    {
-        "display_name": "Studentenraad Faculteit Wetenschappen",
-        "internal_name": "StuW",
-        "parent_association": "GSR"
-    },
-    {
-        "display_name": "Studentenraad Geneeskunde en Gezondheidswetenschappen",
-        "internal_name": "StuGG",
-        "parent_association": "GSR"
-    },
-    {
-        "display_name": "StuJardin",
-        "internal_name": "STUJARDIN",
-        "parent_association": "GSR"
-    },
-    {
-        "display_name": "StudentenRaad Politieke en Sociale Wetenschappen",
-        "internal_name": "StuRa",
-        "parent_association": "GSR"
-    },
-    {
-        "display_name": "Stuvertegenwoordiging FEB",
-        "internal_name": "StuvEco",
-        "parent_association": "GSR"
-    },
-    {
-        "display_name": "Studentenraad Faculteit Farmaceutische Wetenschappen",
-        "internal_name": "STUFF",
-        "parent_association": "GSR"
-    },
-    {
-        "display_name": "Studentenraad Faculteit Farmaceutische Wetenschappen",
-        "internal_name": "STUFF",
-        "parent_association": "GSR"
-    },
-    {
-        "display_name": "Gentse Studentenraad",
-        "internal_name": "GSR",
-        "parent_association": "GSR"
-    },
-    {
-        "display_name": "Gentse Studentenraad2",
-        "internal_name": "GSR2",
-        "parent_association": "GSR"
-    }
-]
+{
+    "associations": [
+        {
+            "abbreviation": "12urenloop",
+            "description": null,
+            "email": "12urenloop@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/12urenloop/logo",
+            "name": "12Urenloop",
+            "path": [
+                "dsa"
+            ],
+            "website": "https://12urenloop.be/"
+        },
+        {
+            "abbreviation": "oedc",
+            "description": null,
+            "email": "oedc@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/oedc/logo",
+            "name": "180 degrees consulting",
+            "path": [
+                "dsa",
+                "wvk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "als",
+            "description": null,
+            "email": "als@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/als/logo",
+            "name": "Actief Linkse Studenten",
+            "path": [
+                "dsa",
+                "pfk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "aiesec",
+            "description": null,
+            "email": "aiesec@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/aiesec/logo",
+            "name": "AIESEC",
+            "path": [
+                "dsa",
+                "ik"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "ab",
+            "description": null,
+            "email": "ab@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/ab/logo",
+            "name": "Antwerpen Boven",
+            "path": [
+                "dsa",
+                "sk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "aw",
+            "description": null,
+            "email": "aw@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/aw/logo",
+            "name": "Archeologische Werkgroep",
+            "path": [
+                "dsa",
+                "wvk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "modelstudies",
+            "description": null,
+            "email": "modelstudies@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/modelstudies/logo",
+            "name": "Atelier Modelstudies",
+            "path": [
+                "dsa",
+                "kultk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "auwla",
+            "description": null,
+            "email": "auwla@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/auwla/logo",
+            "name": "Auw La",
+            "path": [
+                "dsa",
+                "kultk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "beam",
+            "description": null,
+            "email": "beam@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/beam/logo",
+            "name": "BEAM",
+            "path": [
+                "dsa",
+                "wvk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "bemsa",
+            "description": null,
+            "email": "bemsa@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/bemsa/logo",
+            "name": "BeMSA",
+            "path": [
+                "dsa",
+                "wvk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "best",
+            "description": null,
+            "email": "best@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/best/logo",
+            "name": "Board of European Students of Technology Ghent",
+            "path": [
+                "dsa",
+                "ik"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "buk",
+            "description": null,
+            "email": "buk@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/buk/logo",
+            "name": "Brugse Universitaire Kring",
+            "path": [
+                "dsa",
+                "sk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "capitant",
+            "description": null,
+            "email": "capitant@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/capitant/logo",
+            "name": "Capitant Gent",
+            "path": [
+                "dsa",
+                "wvk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "ceneka",
+            "description": null,
+            "email": "ceneka@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/ceneka/logo",
+            "name": "CenEka",
+            "path": [
+                "dsa",
+                "wvk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "chemica",
+            "description": null,
+            "email": "chemica@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/chemica/logo",
+            "name": "Chemica",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "chisag",
+            "description": null,
+            "email": "chisag@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/chisag/logo",
+            "name": "Chinese Students Organisation",
+            "path": [
+                "dsa",
+                "ik"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "cds",
+            "description": "Politieke studentenvereniging die er naar streeft, los van enige partijpolitiek, studenten warm te maken voor politiek in het algemeen en de christendemocratie in het bijzonder.",
+            "email": "cds@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/cds/logo",
+            "name": "Christen Democratische Studenten",
+            "path": [
+                "dsa",
+                "pfk"
+            ],
+            "website": "http://www.cdsnationaal.be/"
+        },
+        {
+            "abbreviation": "comac",
+            "description": null,
+            "email": "comac@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/comac/logo",
+            "name": "Comac",
+            "path": [
+                "dsa",
+                "pfk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "deliria",
+            "description": null,
+            "email": "deliria@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/deliria/logo",
+            "name": "Deliria",
+            "path": [
+                "dsa",
+                "sk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "dlk",
+            "description": null,
+            "email": "dlk@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/dlk/logo",
+            "name": "De Loeiende Koe",
+            "path": [
+                "dsa",
+                "wvk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "dentalia",
+            "description": null,
+            "email": "dentalia@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/dentalia/logo",
+            "name": "Dentalia",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "dsa",
+            "description": null,
+            "email": "dsa@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/dsa/logo",
+            "name": "Dienst StudentenActiviteiten",
+            "path": [],
+            "website": "https://dsa.ugent.be/"
+        },
+        {
+            "abbreviation": "dsr",
+            "description": null,
+            "email": "dsr@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/dsr/logo",
+            "name": "Diergeneeskundige Studentenraad",
+            "path": [
+                "gsr"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "dionysus",
+            "description": null,
+            "email": "dionysus@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/dionysus/logo",
+            "name": "Dionysus",
+            "path": [
+                "dsa",
+                "sk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "durgent",
+            "description": null,
+            "email": "durgent@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/durgent/logo",
+            "name": "D'URGENT",
+            "path": [
+                "dsa",
+                "wvk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "engage",
+            "description": null,
+            "email": "engage@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/engage/logo",
+            "name": "ENGAGE",
+            "path": [
+                "dsa",
+                "wvk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "esn",
+            "description": null,
+            "email": "esn@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/esn/logo",
+            "name": "Erasmus Student Network",
+            "path": [
+                "dsa",
+                "ik"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "fris",
+            "description": null,
+            "email": "fris@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/fris/logo",
+            "name": "Facultaire Raad van Ingenieursstudenten",
+            "path": [
+                "gsr"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "fk",
+            "description": "Het Faculteiten Konvent overkoepelt meer dan 27 (richtingsgebonden of opleidingsgebonden) verenigingen. Voor elke opleiding aan de universiteit bestaat er wel een Faculteitskring. Ze verzorgen de opvang van nieuwe studenten en organiseren tal van activiteiten waar elkeen zijn medestudenten kan ontmoeten.",
+            "email": "fk@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/fk/logo",
+            "name": "Faculteiten Konvent Gent vzw",
+            "path": [
+                "dsa"
+            ],
+            "website": "https://www.fkgent.be/"
+        },
+        {
+            "abbreviation": "filologica",
+            "description": null,
+            "email": "filologica@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/filologica/logo",
+            "name": "Filologica",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "flyse",
+            "description": null,
+            "email": "flyse@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/flyse/logo",
+            "name": "Flanders Youth Society for Entrepreneurship",
+            "path": [
+                "dsa",
+                "wvk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "flux",
+            "description": null,
+            "email": "flux@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/flux/logo",
+            "name": "FLUX",
+            "path": [
+                "dsa",
+                "wvk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "geeraard",
+            "description": null,
+            "email": "geeraard@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/geeraard/logo",
+            "name": "Geeraard",
+            "path": [
+                "dsa",
+                "sk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "gbk",
+            "description": "Studentenvereniging van de studenten Biologie te Gent, erkend binnen het FK Gent.",
+            "email": "gbk@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/gbk/logo",
+            "name": "Gentse Biologische Kring",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": "https://www.biologie-gent.be/"
+        },
+        {
+            "abbreviation": "gfk",
+            "description": null,
+            "email": "gfk@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/gfk/logo",
+            "name": "Gentse Farma Kring",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "gsr",
+            "description": "De Gentse Studentenraad is de centrale studentenraad van de UGent. De Gentse Studentenraad vertegenwoordigt en verdedigt (de belangen van) de studenten bij het universiteitsbestuur. Gaande van onderwijsaangelegenheden (Onderwijs- en examenreglement (OER), bijzondere statuten, studiemaatregelen ...) tot sociale zaken (homes, studentenresto's), de thema's die binnen de Gentse Studentenraad worden aangesneden zijn bijzonder divers.",
+            "email": "gsr@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/gsr/logo",
+            "name": "Gentse Studentenraad",
+            "path": [],
+            "website": "https://gentsestudentenraad.be"
+        },
+        {
+            "abbreviation": "gudc",
+            "description": null,
+            "email": "gudc@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/gudc/logo",
+            "name": "Gentse Universitaire Dansclub",
+            "path": [
+                "dsa",
+                "kultk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "guho",
+            "description": null,
+            "email": "guho@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/guho/logo",
+            "name": "Gents Universitair Harmonie Orkest",
+            "path": [
+                "dsa",
+                "kultk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "guk",
+            "description": null,
+            "email": "guk@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/guk/logo",
+            "name": "Gents Universitair Koor",
+            "path": [
+                "dsa",
+                "kultk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "guso",
+            "description": null,
+            "email": "guso@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/guso/logo",
+            "name": "Gents Universitair Symfonisch Orkest",
+            "path": [
+                "dsa",
+                "kultk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "geografica",
+            "description": null,
+            "email": "geografica@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/geografica/logo",
+            "name": "Geografica",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "geologica",
+            "description": null,
+            "email": "geologica@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/geologica/logo",
+            "name": "Geologica",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "gk",
+            "description": null,
+            "email": "gk@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/gk/logo",
+            "name": "Groene Kring",
+            "path": [
+                "dsa",
+                "wvk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "hayasa",
+            "description": null,
+            "email": "hayasa@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/hayasa/logo",
+            "name": "Hayasa Gent",
+            "path": [
+                "dsa",
+                "ik"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "hermes",
+            "description": null,
+            "email": "hermes@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/hermes/logo",
+            "name": "Hermes",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "hilok",
+            "description": null,
+            "email": "hilok@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/hilok/logo",
+            "name": "Hoger instituut voor lichamelijke opvoeding en kinesitherapie",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "astrid",
+            "description": "Gelegen aan het hectische verkeersknooppunt van de Sterre, lijkt de Astrid een oase van rust in het Gentse.\r\nNiets is echter minder waar, een prestatie voor deze home met slechts vijf verdiepingen!\r\n\r\nHome Astrid is een relatief kleine vereniging waar iedereen iedereen kent, maar wat hen vooral anders maakt, is dat zij samenleven, een beetje als een familie. De leden koken, feesten, eten, leren, sporten samen en zoveel meer! Ook is er sprake van hulp aan de bewoners en vindt er geregeld een vergadering met de universiteit plaats over eventuele vernieuwingen op de home.\r\n\r\nElk jaar staat er een kersvers, enthousiast praesidium klaar voor de bewoners. Zij organiseren met hé él vé él goesting spectaculaire fuiven, chille baravonden, onvergetelijke cantussen en een goede dosis aan sport- en cultuuractiviteiten. Er zit dus voor iedereen iets tussen! Deze activiteiten brengen de bewoners van de home samen en zo ontstaan gouden vriendschappen.\r\n\r\nDe Astridbewoners bezoeken niet enkel hun eigen activiteiten. Met het lint om de schouder zorgen ze steeds dat ze goed vertegenwoordigd zijn. Wanneer uiteindelijk de examens voor de deur staan, legt de homeraad zijn activiteiten stil. Studie krijgt dan volop voorrang. Het solarium (bovenste verdiep) is dan ingericht als studeerruimte en blijkt zeer populair te zijn onder de homebewoners.",
+            "email": "astrid@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/astrid/logo",
+            "name": "Home Astrid",
+            "path": [
+                "dsa",
+                "hk"
+            ],
+            "website": "http://astrid.ugent.be/"
+        },
+        {
+            "abbreviation": "bertha",
+            "description": null,
+            "email": "bertha@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/bertha/logo",
+            "name": "Home Bertha de Vriese",
+            "path": [
+                "dsa",
+                "hk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "boudewijn",
+            "description": null,
+            "email": "boudewijn@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/boudewijn/logo",
+            "name": "Home Boudewijn",
+            "path": [
+                "dsa",
+                "hk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "fabiola",
+            "description": null,
+            "email": "fabiola@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/fabiola/logo",
+            "name": "Home Fabiola",
+            "path": [
+                "dsa",
+                "hk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "hk",
+            "description": "Het HK is een plaats waar de verschillende vereningingen van de 5 homes elkaar treffen.",
+            "email": "hk@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/hk/logo",
+            "name": "Home Konvent",
+            "path": [
+                "dsa"
+            ],
+            "website": "http://www.homekonvent.be/"
+        },
+        {
+            "abbreviation": "vermeylen",
+            "description": null,
+            "email": "vermeylen@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/vermeylen/logo",
+            "name": "Home Vermeylen",
+            "path": [
+                "dsa",
+                "hk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "dijlebrassers",
+            "description": null,
+            "email": "dijlebrassers@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/dijlebrassers/logo",
+            "name": "HSC De Dijlebrassers",
+            "path": [
+                "dsa",
+                "sk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "ieee",
+            "description": null,
+            "email": "ieee@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/ieee/logo",
+            "name": "IEEE Student Branch Gent",
+            "path": [
+                "dsa",
+                "wvk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "indosag",
+            "description": null,
+            "email": "indosag@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/indosag/logo",
+            "name": "Indonesian Students Association Ghent",
+            "path": [
+                "dsa",
+                "ik"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "ik",
+            "description": "Het IK probeert de buitenlandse studenten en internationale studentenverenigingen te helpen in hun zoektocht naar informatie & ontspanning.",
+            "email": "ik@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/ik/logo",
+            "name": "Internationaal Konvent",
+            "path": [
+                "dsa"
+            ],
+            "website": "https://internationaalkonv.wixsite.com/internationalkonvent"
+        },
+        {
+            "abbreviation": "iaas",
+            "description": null,
+            "email": "iaas@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/iaas/logo",
+            "name": "International Association of students in Agricultural or related Sciences",
+            "path": [
+                "dsa",
+                "ik"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "isag",
+            "description": null,
+            "email": "isag@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/isag/logo",
+            "name": "International Students Association Ghent",
+            "path": [
+                "dsa",
+                "ik"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "isha",
+            "description": null,
+            "email": "isha@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/isha/logo",
+            "name": "International Students of History Association",
+            "path": [
+                "dsa",
+                "ik"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "internia",
+            "description": null,
+            "email": "internia@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/internia/logo",
+            "name": "Internia",
+            "path": [
+                "dsa",
+                "sk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "groen",
+            "description": null,
+            "email": "groen@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/groen/logo",
+            "name": "Jong Groen StuGent",
+            "path": [
+                "dsa",
+                "pfk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "nva",
+            "description": null,
+            "email": "nva@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/nva/logo",
+            "name": "Jong N-VA UGent",
+            "path": [
+                "dsa",
+                "pfk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "socialisten",
+            "description": null,
+            "email": "socialisten@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/socialisten/logo",
+            "name": "Jongsocialisten StuGent",
+            "path": [
+                "dsa",
+                "pfk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "kajira",
+            "description": null,
+            "email": "kajira@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/kajira/logo",
+            "name": "Kajira",
+            "path": [
+                "dsa",
+                "wvk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "kvhv",
+            "description": null,
+            "email": "kvhv@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/kvhv/logo",
+            "name": "Katholiek Vlaams Hoogstudenten Verbond",
+            "path": [
+                "dsa",
+                "pfk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "kk",
+            "description": "De Klassieke Kring, een studentenvereniging voor studenten Klassieke Talen aan de Universiteit van Gent. Wij zijn gesticht in 1931 en na de hervormingen in het hoger onderwijs, waarbij Filologica de overkoepelende studentenvereniging werd voor de opleiding Taal- en Letterkunde, zijn wij blijven bestaan als aparte kring, in de eerste plaats gericht op de studenten Grieks en Latijn. \r\n\r\nOnze kring organiseert een waaier aan eet-, drink-, sport-, feest- en cultuuractiviteiten. Naast deze activiteiten willen we aan de hand van onder andere onze site ons toespitsen op studiehulp. Iedereen met een hart voor de klassieke talen is welkom bij ons, zelfs als je deze niet studeert.",
+            "email": "kk@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/kk/logo",
+            "name": "Klassieke Kring",
+            "path": [
+                "dsa",
+                "wvk"
+            ],
+            "website": "http://www.klassiekekring.be/"
+        },
+        {
+            "abbreviation": "kmf",
+            "description": null,
+            "email": "kmf@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/kmf/logo",
+            "name": "Kring Moraal en Filosofie",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "kultk",
+            "description": "Het KultK telt acht vereningen die elk een eigen deel van de Kultuur met de grote K proberen te introduceren aan de medestudenten.",
+            "email": "kultk@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/kultk/logo",
+            "name": "Kultureel Konvent",
+            "path": [
+                "dsa"
+            ],
+            "website": "http://student.ugent.be/kultkcentraal/"
+        },
+        {
+            "abbreviation": "khk",
+            "description": null,
+            "email": "khk@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/khk/logo",
+            "name": "Kunsthistorische kring",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "laetitia",
+            "description": null,
+            "email": "laetitia@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/laetitia/logo",
+            "name": "Laetitia",
+            "path": [
+                "dsa",
+                "sk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "lila",
+            "description": null,
+            "email": "lila@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/lila/logo",
+            "name": "Levenslange Inzet voor Leute en Ambiance",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "lvsv",
+            "description": null,
+            "email": "lvsv@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/lvsv/logo",
+            "name": "Liberaal Vlaams Studentenverbond",
+            "path": [
+                "dsa",
+                "pfk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "limburgia",
+            "description": null,
+            "email": "limburgia@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/limburgia/logo",
+            "name": "Limburgia",
+            "path": [
+                "dsa",
+                "sk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "lombrosiana",
+            "description": null,
+            "email": "lombrosiana@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/lombrosiana/logo",
+            "name": "Lombrosiana",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "macht",
+            "description": null,
+            "email": "macht@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/macht/logo",
+            "name": "MaCht",
+            "path": [
+                "dsa",
+                "wvk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "massacantus",
+            "description": "Studentencomité dat instaat voor de organisatie van de Massacantus, dewelke elk jaar plaatsvindt de voorlaatste woensdag voor de kerstvakantie.",
+            "email": "massacantus@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/massacantus/logo",
+            "name": "Massacantus",
+            "path": [
+                "dsa"
+            ],
+            "website": "http://massacantus.ugent.be/"
+        },
+        {
+            "abbreviation": "matrak",
+            "description": null,
+            "email": "matrak@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/matrak/logo",
+            "name": "Matrak",
+            "path": [
+                "dsa",
+                "kultk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "minos",
+            "description": null,
+            "email": "minos@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/minos/logo",
+            "name": "Minos Gent",
+            "path": [
+                "dsa",
+                "pfk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "domper",
+            "description": null,
+            "email": "domper@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/domper/logo",
+            "name": "Moeder Domper",
+            "path": [
+                "dsa",
+                "sk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "egmont",
+            "description": null,
+            "email": "egmont@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/egmont/logo",
+            "name": "Moeder Egmont",
+            "path": [
+                "dsa",
+                "sk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "lies",
+            "description": null,
+            "email": "lies@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/lies/logo",
+            "name": "Moeder Lies",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "meetjesland",
+            "description": null,
+            "email": "meetjesland@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/meetjesland/logo",
+            "name": "Moeder Meetjesland",
+            "path": [
+                "dsa",
+                "sk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "oilsjterse",
+            "description": null,
+            "email": "oilsjterse@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/oilsjterse/logo",
+            "name": "Moeder Oilsjterse",
+            "path": [
+                "dsa",
+                "sk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "theepot",
+            "description": null,
+            "email": "theepot@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/theepot/logo",
+            "name": "Moeder Theepot",
+            "path": [
+                "dsa",
+                "wvk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "nsv",
+            "description": null,
+            "email": "nsv@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/nsv/logo",
+            "name": "Nationalistische Studentenvereniging",
+            "path": [
+                "dsa",
+                "pfk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "oak",
+            "description": null,
+            "email": "oak@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/oak/logo",
+            "name": "Oosterse Afrikaanse Kring",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "pkarus",
+            "description": null,
+            "email": "pkarus@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/pkarus/logo",
+            "name": "PKarus",
+            "path": [
+                "dsa",
+                "wvk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "politeia",
+            "description": null,
+            "email": "politeia@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/politeia/logo",
+            "name": "Politeia",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "pfk",
+            "description": "Het PFK groepeert de politieke, filosofische en levensbeschouwelijke verenigingen aan de UGent. Dit konvent is de uitgelezen plaats om je aan te sluiten bij een ideologische, filosofische of politieke beweging.",
+            "email": "pfk@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/pfk/logo",
+            "name": "Politiek en Filosofisch Konvent",
+            "path": [
+                "dsa"
+            ],
+            "website": "https://www.facebook.com/PFKGent"
+        },
+        {
+            "abbreviation": "poutrix",
+            "description": null,
+            "email": "poutrix@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/poutrix/logo",
+            "name": "Poutrix",
+            "path": [
+                "dsa",
+                "wvk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "prime",
+            "description": null,
+            "email": "prime@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/prime/logo",
+            "name": "Prime",
+            "path": [
+                "dsa",
+                "wvk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "prometheus",
+            "description": null,
+            "email": "prometheus@student.ugent.be",
+            "logo": null,
+            "name": "Prometheus",
+            "path": [
+                "dsa",
+                "kultk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "ppsr",
+            "description": null,
+            "email": "ppsr@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/ppsr/logo",
+            "name": "Psychologische en Pedagogische Studentenraad",
+            "path": [
+                "gsr"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "re9000",
+            "description": null,
+            "email": "re9000@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/re9000/logo",
+            "name": "Rethinking Economics Ghent",
+            "path": [
+                "dsa",
+                "wvk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "rodenbach",
+            "description": null,
+            "email": "rodenbach@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/rodenbach/logo",
+            "name": "Rodenbach",
+            "path": [
+                "dsa",
+                "sk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "scaldis",
+            "description": null,
+            "email": "scaldis@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/scaldis/logo",
+            "name": "Scaldis",
+            "path": [
+                "dsa",
+                "sk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "schamper",
+            "description": "Dit is het officiële studentenblad van de Ugent. Je wordt er geïnformeerd en geamuseerd over het reilen en zeilen van zowat alles wat de Gentse student kan aanbelangen en dit alles op een weinig conventionele manier.",
+            "email": "schamper@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/schamper/logo",
+            "name": "Schamper",
+            "path": [
+                "dsa"
+            ],
+            "website": "https://www.schamper.ugent.be/"
+        },
+        {
+            "abbreviation": "sda",
+            "description": null,
+            "email": "sda@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/sda/logo",
+            "name": "Sd'A Gent",
+            "path": [
+                "dsa",
+                "sk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "sk",
+            "description": "Het SK is de verzamelplaats voor streekgebonden studentikoze clubs.",
+            "email": "sk@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/sk/logo",
+            "name": "Senioren Konvent",
+            "path": [
+                "dsa"
+            ],
+            "website": "https://skghendt.be/"
+        },
+        {
+            "abbreviation": "slavia",
+            "description": null,
+            "email": "slavia@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/slavia/logo",
+            "name": "Slavia",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "studentenfanfare",
+            "description": null,
+            "email": "studentenfanfare@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/studentenfanfare/logo",
+            "name": "Studentenfanfare",
+            "path": [
+                "dsa",
+                "kultk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "stubio",
+            "description": null,
+            "email": "stubio@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/stubio/logo",
+            "name": "Studentenraad Bio-Ingenieurswetenschappen",
+            "path": [
+                "gsr"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "stuveco",
+            "description": null,
+            "email": "stuveco@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/stuveco/logo",
+            "name": "Studentenraad faculteit Economie en Bedrijfskunde",
+            "path": [
+                "gsr"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "stuff",
+            "description": null,
+            "email": "stuff@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/stuff/logo",
+            "name": "Studentenraad Faculteit Farmacie",
+            "path": [
+                "gsr"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "stuw",
+            "description": null,
+            "email": "stuw@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/stuw/logo",
+            "name": "Studentenraad faculteit Wetenschappen",
+            "path": [
+                "gsr"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "stugg",
+            "description": null,
+            "email": "stugg@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/stugg/logo",
+            "name": "Studentenraad Geneeskunde en Gezondheidswetenschappen",
+            "path": [
+                "gsr"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "stuart",
+            "description": null,
+            "email": "stuart@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/stuart/logo",
+            "name": "Studentenraad Letteren en Wijsbegeerte",
+            "path": [
+                "gsr"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "stura",
+            "description": null,
+            "email": "stura@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/stura/logo",
+            "name": "Studentenraad Politieke & Sociale wetenschappen",
+            "path": [
+                "gsr"
+            ],
+            "website": "https://stura.ugent.be/"
+        },
+        {
+            "abbreviation": "sturec",
+            "description": null,
+            "email": "sturec@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/sturec/logo",
+            "name": "Studentenraad voor Rechten en Criminologie",
+            "path": [
+                "gsr"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "sko",
+            "description": "Student Kick-Off is hét grootste studentenwelkomsfestival in Vlaanderen. Wat in 2006 begon met 7 studenten en 9000 toeschouwers op het Kramersplein is uitgegroeid tot een vaste waarde onder de Gentse muziekevenementen. Een evenement dat jaarlijks over de 30.000 toeschouwers naar het Sint-Pietersplein lokt.",
+            "email": "sko@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/sko/logo",
+            "name": "Student Kick-Off",
+            "path": [],
+            "website": "https://studentkickoff.be/"
+        },
+        {
+            "abbreviation": "tnk",
+            "description": null,
+            "email": "tnk@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/tnk/logo",
+            "name": "Tomo No Kai",
+            "path": [
+                "dsa",
+                "ik"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "stropke",
+            "description": null,
+            "email": "stropke@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/stropke/logo",
+            "name": "'t Stropke",
+            "path": [
+                "dsa",
+                "sk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "wielke",
+            "description": null,
+            "email": "wielke@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/wielke/logo",
+            "name": "'t Wielke",
+            "path": [
+                "dsa",
+                "sk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "tsg",
+            "description": null,
+            "email": "tsg@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/tsg/logo",
+            "name": "'t Zal Wel Gaan",
+            "path": [
+                "dsa",
+                "pfk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "umoja",
+            "description": null,
+            "email": "umoja@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/umoja/logo",
+            "name": "Umoja Gent",
+            "path": [
+                "dsa",
+                "ik"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "ugent",
+            "description": null,
+            "email": "ugent@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/ugent/logo",
+            "name": "Universiteit Gent",
+            "path": [],
+            "website": null
+        },
+        {
+            "abbreviation": "urgent",
+            "description": "Urgent.fm, het medialab van de Universiteit Gent, dé stadszender bij uitstek en dé referentie op het vlak van muziek en cultuur.",
+            "email": "urgent@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/urgent/logo",
+            "name": "Urgent.fm",
+            "path": [],
+            "website": "http://urgent.fm/"
+        },
+        {
+            "abbreviation": "vvny",
+            "description": null,
+            "email": "vvny@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/vvny/logo",
+            "name": "Vereniging voor de Verenigde Naties Youth",
+            "path": [
+                "dsa",
+                "pfk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "vvn",
+            "description": null,
+            "email": "vvn@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/vvn/logo",
+            "name": "Vereniging Voor Natuurkunde",
+            "path": [
+                "dsa",
+                "wvk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "vg",
+            "description": null,
+            "email": "vg@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/vg/logo",
+            "name": "Verkeerd Geparkeerd",
+            "path": [
+                "dsa",
+                "wvk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "veto",
+            "description": "Faculteitskring van de studenten Toegepaste Taalkunde, Vertalen, Tolken en Meertalige communicatie.",
+            "email": "veto@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/veto/logo",
+            "name": "Veto Gent",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": "https://vetogent.fkgent.be"
+        },
+        {
+            "abbreviation": "vsag",
+            "description": null,
+            "email": "vsag@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/vsag/logo",
+            "name": "VinaSAG",
+            "path": [
+                "dsa",
+                "ik"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "vbk",
+            "description": null,
+            "email": "vbk@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/vbk/logo",
+            "name": "Vlaamse Biomedische Kring",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "vdk",
+            "description": null,
+            "email": "vdk@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/vdk/logo",
+            "name": "Vlaamse Diergeneeskundige Kring",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "vek",
+            "description": null,
+            "email": "vek@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/vek/logo",
+            "name": "Vlaamse Economische Kring",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "vgeneesk",
+            "description": null,
+            "email": "vgeneesk@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/vgeneesk/logo",
+            "name": "Vlaamse Geneeskundige Kring",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "vgeschiedk",
+            "description": null,
+            "email": "vgeschiedk@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/vgeschiedk/logo",
+            "name": "Vlaamse Geschiedkundige Kring",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": "http://www.vgkgent.be/"
+        },
+        {
+            "abbreviation": "vlk",
+            "description": null,
+            "email": "vlk@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/vlk/logo",
+            "name": "Vlaamse Levenstechnische Kring",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "vlak",
+            "description": null,
+            "email": "vlak@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/vlak/logo",
+            "name": "Vlaamse Logopedische en Audiologische Kring",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "vppk",
+            "description": null,
+            "email": "vppk@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/vppk/logo",
+            "name": "Vlaamse Psychologische en Pedagogische Kring",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "vrg",
+            "description": null,
+            "email": "vrg@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/vrg/logo",
+            "name": "Vlaamse Rechtsgenootschap",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "vtk",
+            "description": null,
+            "email": "vtk@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/vtk/logo",
+            "name": "Vlaamse Technische Kring",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "wase",
+            "description": null,
+            "email": "wase@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/wase/logo",
+            "name": "Wase Club",
+            "path": [
+                "dsa",
+                "sk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "wvk",
+            "description": "Het WVK groepeert alle maatschappelijk-sociaal geïnspireerde studentenverenigingen en alle wetenschappelijke werkgroepen.\r\n\r\nAls konvent organiseert het WVK zelf (in tegenstelling tot sommige andere konventen) geen eigen activiteiten, maar richt het zich volledig op het samenbrengen en verdedigen van de belangen van de maatschappelijke verenigingen en wetenschappelijke werkgroepen aan de Universiteit Gent.",
+            "email": "wvk@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/wvk/logo",
+            "name": "Werkgroepen en Verenigingen Konvent",
+            "path": [
+                "dsa"
+            ],
+            "website": "https://wvk.ugent.be/"
+        },
+        {
+            "abbreviation": "westlandia",
+            "description": null,
+            "email": "westlandia@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/westlandia/logo",
+            "name": "Westlandia",
+            "path": [
+                "dsa",
+                "sk"
+            ],
+            "website": null
+        },
+        {
+            "abbreviation": "wina",
+            "description": "WiNA is de faculteitskring van en voor de studenten Wiskunde, Informatica en Fysica & Sterrenkunde aan de Universiteit Gent.",
+            "email": "wina@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/wina/logo",
+            "name": "WiNA",
+            "path": [
+                "dsa",
+                "fk"
+            ],
+            "website": "https://wina-gent.be/"
+        },
+        {
+            "abbreviation": "zeus",
+            "description": "Zeus WPI is the student association for Computer Science at Ghent University. Our goal is to provide a stimulating environment for motivated students looking to expand their skills by engaging in interesting real-world projects.",
+            "email": "zeus@student.ugent.be",
+            "logo": "https://dsa.ugent.be/api/verenigingen/zeus/logo",
+            "name": "Zeus WerkgroeP Informatica",
+            "path": [
+                "dsa",
+                "wvk"
+            ],
+            "website": "https://zeus.ugent.be/"
+        }
+    ]
+}

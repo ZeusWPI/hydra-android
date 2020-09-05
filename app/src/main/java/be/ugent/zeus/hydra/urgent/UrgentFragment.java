@@ -58,6 +58,34 @@ public class UrgentFragment extends Fragment {
     private View progressBar;
 
     private MediaBrowserCompat mediaBrowser;
+    private final MediaBrowserCompat.ConnectionCallback connectionCallback =
+            new MediaBrowserCompat.ConnectionCallback() {
+                @Override
+                public void onConnected() {
+                    mediaBrowser.subscribe(mediaBrowser.getRoot(), subscriptionCallback);
+                    try {
+                        MediaControllerCompat mediaController =
+                                new MediaControllerCompat(requireActivity(), mediaBrowser.getSessionToken());
+                        MediaControllerCompat.setMediaController(requireActivity(), mediaController);
+
+                        // Register a Callback to stay in sync
+                        mediaController.registerCallback(mediaControllerCallback);
+                    } catch (RemoteException e) {
+                        Log.e(TAG, "Failed to connect to MediaController", e);
+                    }
+                }
+
+                @Override
+                public void onConnectionFailed() {
+                    Log.e(TAG, "onConnectionFailed");
+                }
+
+                @Override
+                public void onConnectionSuspended() {
+                    Log.d(TAG, "onConnectionSuspended");
+                    disconnect();
+                }
+            };
     private boolean shouldUpdateButton = false;
     // Receive callbacks from the MediaController. Here we update our state such as which queue
     // is being shown, the current title and description and the PlaybackState.
@@ -90,34 +118,6 @@ public class UrgentFragment extends Fragment {
                 @Override
                 public void onError(@NonNull String id) {
                     Toast.makeText(requireContext(), "Error", Toast.LENGTH_LONG).show();
-                }
-            };
-    private final MediaBrowserCompat.ConnectionCallback connectionCallback =
-            new MediaBrowserCompat.ConnectionCallback() {
-                @Override
-                public void onConnected() {
-                    mediaBrowser.subscribe(mediaBrowser.getRoot(), subscriptionCallback);
-                    try {
-                        MediaControllerCompat mediaController =
-                                new MediaControllerCompat(requireActivity(), mediaBrowser.getSessionToken());
-                        MediaControllerCompat.setMediaController(requireActivity(), mediaController);
-
-                        // Register a Callback to stay in sync
-                        mediaController.registerCallback(mediaControllerCallback);
-                    } catch (RemoteException e) {
-                        Log.e(TAG, "Failed to connect to MediaController", e);
-                    }
-                }
-
-                @Override
-                public void onConnectionFailed() {
-                    Log.e(TAG, "onConnectionFailed");
-                }
-
-                @Override
-                public void onConnectionSuspended() {
-                    Log.d(TAG, "onConnectionSuspended");
-                    disconnect();
                 }
             };
 

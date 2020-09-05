@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import be.ugent.zeus.hydra.association.Association;
+import be.ugent.zeus.hydra.association.AssociationMap;
 import be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment;
 import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
 
@@ -18,12 +18,12 @@ import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
  *
  * @author Niko Strijbol
  */
-class EventLiveData extends RequestLiveData<Pair<List<EventItem>, List<Association>>> implements SharedPreferences.OnSharedPreferenceChangeListener {
+class EventLiveData extends RequestLiveData<Pair<List<EventItem>, AssociationMap>> implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private Set<String> disabledAssociations;
 
     EventLiveData(Context context, Filter filter) {
-        super(context, EventItem.request(context, filter).map(new EventListConverter()));
+        super(context, EventItem.request(context, filter));
     }
 
     @Override

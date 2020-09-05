@@ -19,7 +19,7 @@ public class AssociationTest extends ModelTest<Association> {
     @Override
     public void equalsAndHash() {
         Utils.defaultVerifier(Association.class)
-                .withOnlyTheseFields("internalName")
+                .withOnlyTheseFields("abbreviation")
                 .verify();
     }
 }

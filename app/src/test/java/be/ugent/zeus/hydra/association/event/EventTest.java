@@ -93,12 +93,6 @@ public class EventTest extends ModelTest<Event> {
     }
 
     @Test
-    public void shouldNotHavePreciesLocation_whenThereAreNoCoordinates() {
-        Event event = Utils.generate(Event.class, "latitude", "longitude");
-        assertFalse(event.hasPreciseLocation());
-    }
-
-    @Test
     public void shouldHavePreciesLocation_whenThereAreCoordinates() {
         Event event = Utils.generate(Event.class);
         assertTrue(event.hasPreciseLocation());
@@ -121,5 +115,10 @@ public class EventTest extends ModelTest<Event> {
     public void shouldHaveUrl_whenThereIsUrl() {
         Event event = Utils.generate(Event.class);
         assertTrue(event.hasUrl());
+    }
+
+    @Test
+    public void equalsAndHash() {
+        Utils.defaultVerifier(Event.class).withOnlyTheseFields("id").verify();
     }
 }

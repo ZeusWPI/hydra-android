@@ -1,16 +1,16 @@
 package be.ugent.zeus.hydra.common.request;
 
 import android.os.Bundle;
+import android.util.Pair;
 import androidx.annotation.NonNull;
 
 import java.util.function.Function;
 
 /**
- * The basis interface for a request. A request is something that returns data.
- * It is similar for {@link java.util.function.Supplier} in Java 8.
+ * The basic interface for a request. A request is something that returns data.
  * <p>
- * The interface does not specify any restrictions or requirements, but many implementations should only be run on
- * a background thread.
+ * The interface does not specify any restrictions or requirements, but many
+ * implementations should only be run on a background thread.
  *
  * @author Niko Strijbol
  */
@@ -50,5 +50,28 @@ public interface Request<T> {
     @NonNull
     default <R> Request<R> map(@NonNull Function<T, R> function) {
         return args -> execute(args).map(function);
+    }
+
+    /**
+     * Execute a second request if the first one is successful. This is useful if
+     * you only need the data if both requests succeeded.
+     * <p>
+     * If the first one errors, the produced error is returned, while the second
+     * request is not executed. If the second request errors, the error is returned
+     * while the result of the first request is discarded. If both succeed, the
+     * data is wrapped in a Pair and returned.
+     * <p>
+     * The new requests inherits the constraints of both requests. For example,
+     * if request A cannot be executed in a background thread and request B
+     * must be executed on a background thread, the resulting request will not
+     * be executable.
+     *
+     * @param second The second request to execute.
+     * @param <S>    The result type of the second request.
+     * @return A new combined request.
+     */
+    @NonNull
+    default <S> Request<Pair<T, S>> andThen(@NonNull Request<S> second) {
+        return args -> execute(args).andThen(second.execute(args));
     }
 }

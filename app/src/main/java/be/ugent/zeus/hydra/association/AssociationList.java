@@ -1,5 +1,8 @@
 package be.ugent.zeus.hydra.association;
 
+import androidx.annotation.NonNull;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,7 +13,7 @@ import com.squareup.moshi.Json;
  *
  * @author Niko Strijbol
  */
-public class AssociationList {
+public final class AssociationList {
 
     @Json(name = "associations")
     private List<Association> associations;
@@ -18,8 +21,13 @@ public class AssociationList {
     public AssociationList() {
     }
 
+    @NonNull
     public List<Association> getAssociations() {
-        return associations;
+        if (associations == null) {
+            return Collections.emptyList();
+        } else {
+            return associations;
+        }
     }
 
     @Override

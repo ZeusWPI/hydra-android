@@ -14,18 +14,7 @@ import java.util.Objects;
  * @author Niko Strijbol
  */
 public final class Association implements Parcelable {
-
-    public static final Creator<Association> CREATOR = new Creator<Association>() {
-        @Override
-        public Association createFromParcel(Parcel in) {
-            return new Association(in);
-        }
-
-        @Override
-        public Association[] newArray(int size) {
-            return new Association[size];
-        }
-    };
+    
     private String abbreviation;
     private String name;
     private List<String> path;
@@ -74,6 +63,18 @@ public final class Association implements Parcelable {
     public int describeContents() {
         return 0;
     }
+
+    public static final Creator<Association> CREATOR = new Creator<Association>() {
+        @Override
+        public Association createFromParcel(Parcel in) {
+            return new Association(in);
+        }
+
+        @Override
+        public Association[] newArray(int size) {
+            return new Association[size];
+        }
+    };
 
     @Nullable
     public String getDescription() {

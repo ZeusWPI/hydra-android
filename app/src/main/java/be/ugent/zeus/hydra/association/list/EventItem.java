@@ -1,20 +1,19 @@
 package be.ugent.zeus.hydra.association.list;
 
 import android.content.Context;
-import android.util.Log;
 import android.util.Pair;
 
 import java.time.LocalDate;
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.util.List;
+import java.util.Objects;
 
-import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.association.AssociationListRequest;
+import be.ugent.zeus.hydra.association.AssociationMap;
 import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.association.event.RawEventRequest;
 import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.common.request.Result;
 
 /**
  * Data structure for a list of events. The contains an item, a header or a footer, but only one of the elements.
@@ -22,52 +21,31 @@ import be.ugent.zeus.hydra.common.request.Result;
  *
  * @author Niko Strijbol
  */
-public final class EventItem {
-
-    private static final String TAG = "EventItem";
+public final class EventItem implements Comparable<EventItem> {
 
     private final Event event;
     private final LocalDate header;
-    private final Association association;
 
     private boolean isLastOfSection;
 
-    private EventItem(Event event, LocalDate header, Association association) {
+    private EventItem(Event event, LocalDate header) {
         this.event = event;
         this.header = header;
-        this.association = association;
     }
 
-    EventItem(Pair<Event, Association> eventPair, boolean isLastOfSection) {
-        this(eventPair.first, null, eventPair.second);
+    EventItem(Event event, boolean isLastOfSection) {
+        this(event, null);
         this.isLastOfSection = isLastOfSection;
     }
 
     EventItem(LocalDate header) {
-        this(null, header, null);
+        this(null, header);
     }
 
-    public static Request<Pair<List<Pair<Event, Association>>, List<Association>>> request(Context context, Filter filter) {
-        Request<List<Event>> eventRequest = RawEventRequest.create(context, filter);
-        Request<Map<String, Association>> associationRequest =
-                AssociationListRequest.asList(context)
-                        .map(associations -> associations.stream()
-                                .collect(Collectors.toMap(Association::getAbbreviation, Function.identity())));
-        return args -> {
-            Result<List<Event>> first = eventRequest.execute(args);
-            Result<Map<String, Association>> second = associationRequest.execute(args);
-            return first.andThen(second).map(listMapPair -> listMapPair.first.stream()
-                    .map(event -> {
-                        Association a = listMapPair.second.get(event.getAssociation());
-                        if (a == null) {
-                            Log.w(TAG, "request: unknown assoc: " + event.getAssociation());
-                            a = Association.unknown(event.getAssociation());
-                        }
-                        return new Pair<>(event, a);
-                    })
-                    .collect(Collectors.toList()))
-                    .andThen(second.map(stringAssociationMap -> new ArrayList<>(stringAssociationMap.values())));
-        };
+    public static Request<Pair<List<EventItem>, AssociationMap>> request(Context context, Filter filter) {
+        return RawEventRequest.create(context, filter)
+                .map(new EventListConverter())
+                .andThen(AssociationListRequest.create(context));
     }
 
     public boolean isHeader() {
@@ -99,13 +77,6 @@ public final class EventItem {
         return header;
     }
 
-    public Association getAssociation() {
-        if (!isItem()) {
-            throw new IllegalStateException("Can only be used if the EventItem contains an item.");
-        }
-        return association;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -123,5 +94,18 @@ public final class EventItem {
 
     void markAsLastOfSection() {
         this.isLastOfSection = true;
+    }
+    
+    public OffsetDateTime getDate() {
+        if (isItem()) {
+            return getItem().getStart();
+        } else {
+            return getHeader().atStartOfDay(ZoneId.systemDefault()).toOffsetDateTime();
+        }
+    }
+
+    @Override
+    public int compareTo(EventItem o) {
+        return getDate().compareTo(o.getDate());
     }
 }

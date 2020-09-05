@@ -17,7 +17,7 @@ import java.util.Set;
  */
 public class Filter {
 
-    private final Set<String> associations = new HashSet<>();
+    private final Set<String> whitelist = new HashSet<>();
     private OffsetDateTime after = OffsetDateTime.now();
     private OffsetDateTime before;
     private String term;
@@ -26,8 +26,8 @@ public class Filter {
 
     }
 
-    public Set<String> getAssociations() {
-        return associations;
+    public Set<String> getAssociationWhitelist() {
+        return whitelist;
     }
 
     public OffsetDateTime getAfter() {
@@ -43,7 +43,7 @@ public class Filter {
     }
 
     public Uri.Builder appendParams(Uri.Builder builder) {
-        for (String association : getAssociations()) {
+        for (String association : getAssociationWhitelist()) {
             builder.appendQueryParameter("association[]", association);
         }
         if (getAfter() != null) {
@@ -63,7 +63,7 @@ public class Filter {
         return "Filter{" +
                 "after=" + after +
                 ", before=" + before +
-                ", associations=" + associations +
+                ", whitelist=" + whitelist +
                 ", term='" + term + '\'' +
                 '}';
     }
@@ -84,14 +84,18 @@ public class Filter {
             setValue(filter);
         }
 
-        public void setAssociations(Collection<String> associations) {
-            this.filter.associations.clear();
-            this.filter.associations.addAll(associations);
+        public void setWhitelist(Collection<String> allowed) {
+            this.filter.whitelist.clear();
+            this.filter.whitelist.addAll(allowed);
         }
 
         public void setBefore(OffsetDateTime before) {
             this.filter.before = before;
             setValue(filter);
+        }
+
+        public boolean isWhitelisted(String abbreviation) {
+            return filter.getAssociationWhitelist().contains(abbreviation);
         }
 
         public void setTerm(String term) {

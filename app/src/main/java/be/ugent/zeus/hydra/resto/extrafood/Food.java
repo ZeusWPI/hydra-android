@@ -12,18 +12,7 @@ import java.util.Objects;
  * @author Niko Strijbol
  */
 public final class Food implements Parcelable {
-
-    public static final Parcelable.Creator<Food> CREATOR = new Parcelable.Creator<Food>() {
-        @Override
-        public Food createFromParcel(Parcel source) {
-            return new Food(source);
-        }
-
-        @Override
-        public Food[] newArray(int size) {
-            return new Food[size];
-        }
-    };
+    
     private String name;
     private String price;
 
@@ -72,4 +61,16 @@ public final class Food implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.price);
     }
+
+    public static final Parcelable.Creator<Food> CREATOR = new Parcelable.Creator<Food>() {
+        @Override
+        public Food createFromParcel(Parcel source) {
+            return new Food(source);
+        }
+
+        @Override
+        public Food[] newArray(int size) {
+            return new Food[size];
+        }
+    };
 }

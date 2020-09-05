@@ -23,18 +23,7 @@ import be.ugent.zeus.hydra.common.utils.DateUtils;
  * @author Niko Strijbol
  */
 final class Artist implements Parcelable {
-
-    public static final Creator<Artist> CREATOR = new Creator<Artist>() {
-        @Override
-        public Artist createFromParcel(Parcel source) {
-            return new Artist(source);
-        }
-
-        @Override
-        public Artist[] newArray(int size) {
-            return new Artist[size];
-        }
-    };
+    
     private static final String LOCATION = "Sint-Pietersplein, Gent";
     private String name;
     private String title;
@@ -230,4 +219,16 @@ final class Artist implements Parcelable {
         dest.writeString(this.description);
         dest.writeInt(this.index);
     }
+
+    public static final Creator<Artist> CREATOR = new Creator<Artist>() {
+        @Override
+        public Artist createFromParcel(Parcel source) {
+            return new Artist(source);
+        }
+
+        @Override
+        public Artist[] newArray(int size) {
+            return new Artist[size];
+        }
+    };
 }

@@ -28,6 +28,7 @@ import java.util.stream.StreamSupport;
 import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.Association;
+import be.ugent.zeus.hydra.association.AssociationMap;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
@@ -144,23 +145,24 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
         swipeRefreshLayout.setColorSchemeColors(secondaryColour);
 
         // Set default associations from preferences.
-        Set<String> disabled = PreferencesUtils.getStringSet(requireContext(), PREF_ASSOCIATIONS_SHOWING).stream()
+        Set<String> allowed = PreferencesUtils.getStringSet(requireContext(), PREF_ASSOCIATIONS_SHOWING).stream()
                 .map(String::toLowerCase)
                 .collect(Collectors.toSet());
-        filter.setAssociations(disabled);
+        filter.setWhitelist(allowed);
 
 
         viewModel = new ViewModelProvider(this).get(EventViewModel.class);
         viewModel.setParams(filter.getValue());
         viewModel.getData().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
         viewModel.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
-        viewModel.getData().observe(getViewLifecycleOwner(), new SuccessObserver<Pair<List<EventItem>, List<Association>>>() {
+        viewModel.getData().observe(getViewLifecycleOwner(), new SuccessObserver<Pair<List<EventItem>, AssociationMap>>() {
             @Override
-            protected void onSuccess(@NonNull Pair<List<EventItem>, List<Association>> data) {
+            protected void onSuccess(@NonNull Pair<List<EventItem>, AssociationMap> data) {
+                adapter.setAssociationMap(data.second);
                 adapter.submitData(data.first);
-                List<Pair<Association, Boolean>> mapped = data.second.stream()
-                        .map(association -> new Pair<>(association, filter.filter.getAssociations().contains(association.getAbbreviation())))
-                        .sorted(Comparator.comparing(associationBooleanPair -> associationBooleanPair.first.getName()))
+                List<Pair<Association, Boolean>> mapped = data.second.associations()
+                        .sorted(Comparator.comparing(Association::getName))
+                        .map(association -> new Pair<>(association, filter.isWhitelisted(association.getAbbreviation())))
                         .collect(Collectors.toList());
                 associationAdapter.setItemsAndState(mapped);
             }
@@ -207,7 +209,7 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
                 .filter(associationBooleanPair -> associationBooleanPair.second)
                 .map(associationBooleanPair -> associationBooleanPair.first.getAbbreviation())
                 .collect(Collectors.toSet());
-        this.filter.setAssociations(disabled);
+        this.filter.setWhitelist(disabled);
         this.viewModel.requestRefresh();
         hideSheet();
     }

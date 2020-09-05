@@ -25,18 +25,7 @@ import com.squareup.moshi.Json;
  */
 @SuppressWarnings("WeakerAccess")
 public final class Library implements Parcelable {
-
-    public static final Creator<Library> CREATOR = new Creator<Library>() {
-        @Override
-        public Library createFromParcel(Parcel source) {
-            return new Library(source);
-        }
-
-        @Override
-        public Library[] newArray(int size) {
-            return new Library[size];
-        }
-    };
+    
     private static final String FALLBACK_HEADER = "https://picsum.photos/800/450?image=1073";
     private static final String FALLBACK_HEADER_SMALL = "https://picsum.photos/400/225?image=1073";
     private String department;
@@ -114,6 +103,18 @@ public final class Library implements Parcelable {
             return name;
         }
     }
+
+    public static final Creator<Library> CREATOR = new Creator<Library>() {
+        @Override
+        public Library createFromParcel(Parcel source) {
+            return new Library(source);
+        }
+
+        @Override
+        public Library[] newArray(int size) {
+            return new Library[size];
+        }
+    };
 
     @VisibleForTesting
     public void setTestName(String name) {

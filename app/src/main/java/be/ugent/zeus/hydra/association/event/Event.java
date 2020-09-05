@@ -9,6 +9,7 @@ import java.time.OffsetDateTime;
 import java.util.Objects;
 
 import be.ugent.zeus.hydra.association.Association;
+import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.common.utils.DateUtils;
 import com.squareup.moshi.Json;
 
@@ -19,6 +20,56 @@ import com.squareup.moshi.Json;
  * @author feliciaan
  */
 public final class Event implements Parcelable, Comparable<Event> {
+
+    private long id;
+    private String title;
+    @Json(name = "start_time")
+    private OffsetDateTime start;
+    @Json(name = "end_time")
+    private OffsetDateTime end;
+    private String location;
+    private String address;
+    private String description;
+    @Json(name = "infolink")
+    private String url;
+    private String association;
+    private boolean advertise;
+
+    public Event() {
+        // Moshi uses this!
+    }
+
+    protected Event(Parcel in) {
+        id = in.readLong();
+        title = in.readString();
+        location = in.readString();
+        address = in.readString();
+        description = in.readString();
+        url = in.readString();
+        association = in.readString();
+        advertise = in.readInt() == 1;
+        start = end = DateTypeConverters.toOffsetDateTime(in.readString());
+        end = DateTypeConverters.toOffsetDateTime(in.readString());
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(title);
+        dest.writeString(location);
+        dest.writeString(address);
+        dest.writeString(description);
+        dest.writeString(url);
+        dest.writeString(association);
+        dest.writeInt(advertise ? 1 : 0);
+        dest.writeString(DateTypeConverters.fromOffsetDateTime(start));
+        dest.writeString(DateTypeConverters.fromOffsetDateTime(end));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
     public static final Creator<Event> CREATOR = new Creator<Event>() {
         @Override
@@ -31,45 +82,6 @@ public final class Event implements Parcelable, Comparable<Event> {
             return new Event[size];
         }
     };
-    private String title;
-    @Json(name = "start_time")
-    private OffsetDateTime start;
-    @Json(name = "end_time")
-    private OffsetDateTime end;
-    private String location;
-    private String address;
-    private String description;
-    @Json(name = "infolink")
-    private String url;
-    private String association;
-
-    public Event() {
-        // Moshi uses this!
-    }
-
-    protected Event(Parcel in) {
-        title = in.readString();
-        location = in.readString();
-        address = in.readString();
-        description = in.readString();
-        url = in.readString();
-        association = in.readString();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(title);
-        dest.writeString(location);
-        dest.writeString(address);
-        dest.writeString(description);
-        dest.writeString(url);
-        dest.writeString(association);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
     /**
      * Get the start date, converted to the local time zone. The resulting DateTime is the time as it is used
@@ -170,18 +182,11 @@ public final class Event implements Parcelable, Comparable<Event> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Event event = (Event) o;
-        return Objects.equals(title, event.title) &&
-                Objects.equals(start, event.start) &&
-                Objects.equals(end, event.end) &&
-                Objects.equals(location, event.location) &&
-                Objects.equals(address, event.address) &&
-                Objects.equals(description, event.description) &&
-                Objects.equals(url, event.url) &&
-                Objects.equals(association, event.association);
+        return id == event.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, start, end, location, address, description, url, association);
+        return Objects.hash(id);
     }
 }

@@ -15,9 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.Association;
+import be.ugent.zeus.hydra.association.AssociationMap;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
@@ -94,15 +96,13 @@ public class AssociationSelectionPreferenceFragment extends Fragment {
         }
     }
 
-    private void receiveData(@NonNull List<Association> data) {
+    private void receiveData(@NonNull AssociationMap data) {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         Set<String> enabled = preferences.getStringSet(PREF_ASSOCIATIONS_SHOWING, Collections.emptySet());
-        List<Pair<Association, Boolean>> values = new ArrayList<>();
-
-        for (Association association : data) {
-            values.add(new Pair<>(association, enabled.contains(association.getAbbreviation())));
-        }
+        List<Pair<Association, Boolean>> values = data.associations()
+                .map(association -> new Pair<>(association, enabled.contains(association.getAbbreviation())))
+                .collect(Collectors.toList());
 
         adapter.submitData(values);
     }

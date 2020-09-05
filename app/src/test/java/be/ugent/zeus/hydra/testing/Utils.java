@@ -70,6 +70,12 @@ public class Utils {
                 .withPrefabValues(ZonedDateTime.class, ZonedDateTime.now(), ZonedDateTime.now().minusDays(2));
     }
 
+    public static <T> T readJson(Moshi moshi, String file, Class<T> type) throws IOException {
+        BufferedSource source = Okio.buffer(Okio.source(new FileInputStream(getResourceFile(file))));
+        JsonAdapter<T> adapter = moshi.adapter(type);
+        return adapter.fromJson(source);
+    }
+
     public static <T> T readJson(Moshi moshi, String file, Type type) throws IOException {
         BufferedSource source = Okio.buffer(Okio.source(new FileInputStream(getResourceFile(file))));
         JsonAdapter<T> adapter = moshi.adapter(type);
