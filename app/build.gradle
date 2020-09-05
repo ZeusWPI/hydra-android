@@ -48,7 +48,9 @@ android {
                 // Allow overdraw, mainly used for selectable backgrounds
                 "Overdraw",
                 // We use dependabot for dependencies
-                "GradleDependency"
+                "GradleDependency",
+                // We decide when we upgrade
+                "OldTargetApi"
     }
 
     flavorDimensions "distribution"
