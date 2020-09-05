@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.association.list;
 
 
-import android.util.Pair;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -14,7 +13,7 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 
 /**
  * Simple view holder.
- *
+ * <p>
  * Needs to be static because generics are stupid.
  */
 class AssociationViewHolder extends DataViewHolder<Association> {

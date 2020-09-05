@@ -16,7 +16,6 @@ interface AdapterUpdate<D> {
      * {@link #applyUpdatesTo(ListUpdateCallback)} is called.
      *
      * @param existingData The existing data. Will no longer be used after this call. Null if there is no existing data.
-     *
      * @return The new data. May be the same as the existing data. Null if no data is available.
      */
     @Nullable

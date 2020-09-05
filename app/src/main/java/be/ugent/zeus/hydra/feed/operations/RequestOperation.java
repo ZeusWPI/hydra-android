@@ -27,11 +27,10 @@ class RequestOperation implements FeedOperation {
     /**
      * This methods removes all card instances of this operation's card type, performs the request and adds the results
      * back to the list.
-     *
+     * <p>
      * This means that while the cards may be logically equal, they will not be the same instance.
      *
      * @param current The current cards.
-     *
      * @return The updates cards.
      */
     @NonNull

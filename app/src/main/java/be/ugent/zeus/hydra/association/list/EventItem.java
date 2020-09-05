@@ -5,10 +5,7 @@ import android.util.Log;
 import android.util.Pair;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -48,6 +45,29 @@ public final class EventItem {
 
     EventItem(LocalDate header) {
         this(null, header, null);
+    }
+
+    public static Request<Pair<List<Pair<Event, Association>>, List<Association>>> request(Context context, Filter filter) {
+        Request<List<Event>> eventRequest = RawEventRequest.create(context, filter);
+        Request<Map<String, Association>> associationRequest =
+                AssociationListRequest.asList(context)
+                        .map(associations -> associations.stream()
+                                .collect(Collectors.toMap(Association::getAbbreviation, Function.identity())));
+        return args -> {
+            Result<List<Event>> first = eventRequest.execute(args);
+            Result<Map<String, Association>> second = associationRequest.execute(args);
+            return first.andThen(second).map(listMapPair -> listMapPair.first.stream()
+                    .map(event -> {
+                        Association a = listMapPair.second.get(event.getAssociation());
+                        if (a == null) {
+                            Log.w(TAG, "request: unknown assoc: " + event.getAssociation());
+                            a = Association.unknown(event.getAssociation());
+                        }
+                        return new Pair<>(event, a);
+                    })
+                    .collect(Collectors.toList()))
+                    .andThen(second.map(stringAssociationMap -> new ArrayList<>(stringAssociationMap.values())));
+        };
     }
 
     public boolean isHeader() {
@@ -103,28 +123,5 @@ public final class EventItem {
 
     void markAsLastOfSection() {
         this.isLastOfSection = true;
-    }
-
-    public static Request<Pair<List<Pair<Event, Association>>, List<Association>>> request(Context context, Filter filter) {
-        Request<List<Event>> eventRequest = RawEventRequest.create(context, filter);
-        Request<Map<String, Association>> associationRequest =
-                AssociationListRequest.asList(context)
-                        .map(associations -> associations.stream()
-                                .collect(Collectors.toMap(Association::getAbbreviation, Function.identity())));
-        return args -> {
-            Result<List<Event>> first = eventRequest.execute(args);
-            Result<Map<String, Association>> second = associationRequest.execute(args);
-            return first.andThen(second).map(listMapPair -> listMapPair.first.stream()
-                    .map(event -> {
-                        Association a = listMapPair.second.get(event.getAssociation());
-                        if (a == null) {
-                            Log.w(TAG, "request: unknown assoc: " + event.getAssociation());
-                            a = Association.unknown(event.getAssociation());
-                        }
-                        return new Pair<>(event, a);
-                    })
-                    .collect(Collectors.toList()))
-                    .andThen(second.map(stringAssociationMap -> new ArrayList<>(stringAssociationMap.values())));
-        };
     }
 }

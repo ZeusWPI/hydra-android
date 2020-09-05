@@ -2,10 +2,7 @@ package be.ugent.zeus.hydra.association.event;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import androidx.annotation.Nullable;
-
-import com.squareup.moshi.Json;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -13,6 +10,7 @@ import java.util.Objects;
 
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.common.utils.DateUtils;
+import com.squareup.moshi.Json;
 
 /**
  * Event from an {@link Association}.
@@ -22,6 +20,17 @@ import be.ugent.zeus.hydra.common.utils.DateUtils;
  */
 public final class Event implements Parcelable, Comparable<Event> {
 
+    public static final Creator<Event> CREATOR = new Creator<Event>() {
+        @Override
+        public Event createFromParcel(Parcel in) {
+            return new Event(in);
+        }
+
+        @Override
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
     private String title;
     @Json(name = "start_time")
     private OffsetDateTime start;
@@ -61,18 +70,6 @@ public final class Event implements Parcelable, Comparable<Event> {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<Event> CREATOR = new Creator<Event>() {
-        @Override
-        public Event createFromParcel(Parcel in) {
-            return new Event(in);
-        }
-
-        @Override
-        public Event[] newArray(int size) {
-            return new Event[size];
-        }
-    };
 
     /**
      * Get the start date, converted to the local time zone. The resulting DateTime is the time as it is used

@@ -5,14 +5,11 @@ import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 import androidx.recyclerview.widget.DiffUtil;
 
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Generic update for updated data.
- *
+ * <p>
  * This class supports both adding data for the first time, updating data and removing all data.
  *
  * @author Niko Strijbol

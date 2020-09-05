@@ -16,10 +16,10 @@ import be.ugent.zeus.hydra.common.utils.ViewUtils;
 
 /**
  * Custom dialog to select a time in the preferences.
- *
+ * <p>
  * This dialogs uses {@link LocalTime}, and saves the preference as a time string, such as "10:20". The exact format
  * depends on {@link LocalTime#toString()}, but is ISO-8601.
- *
+ * <p>
  * The formatting of the actual picker depends on the locale.
  *
  * @author Rien Maertens

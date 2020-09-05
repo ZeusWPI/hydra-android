@@ -9,7 +9,7 @@ import okhttp3.Response;
 
 /**
  * Prevent network access during tests.
- *
+ * <p>
  * TODO: maybe use something like OkReplay in the future)
  *
  * @author Niko Strijbol

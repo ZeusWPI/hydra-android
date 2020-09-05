@@ -56,17 +56,15 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
     private static final String TAG = "EventFragment";
 
     private final EventAdapter adapter = new EventAdapter();
+    private final Filter.Live filter = new Filter.Live();
+    private final AssociationsAdapter associationAdapter = new AssociationsAdapter();
     private EventViewModel viewModel;
-
     private FrameLayout bottomSheet;
     private BottomSheetBehavior<FrameLayout> behavior;
     private Toolbar bottomToolbar;
-
-    private final Filter.Live filter = new Filter.Live();
     private TextInputLayout searchTerm;
     private TextInputLayout startTime;
     private TextInputLayout endTime;
-    private final AssociationsAdapter associationAdapter = new AssociationsAdapter();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

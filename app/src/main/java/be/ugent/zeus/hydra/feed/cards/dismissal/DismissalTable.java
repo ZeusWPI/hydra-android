@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.feed.cards.dismissal;
 /**
  * Contract for the table with the agenda items. This represents the current table and column names. These might change,
  * so you CANNOT use this class in migrations.
- *
+ * <p>
  * For a description of the fields, see {@link CardDismissal}.
  *
  * @author Niko Strijbol

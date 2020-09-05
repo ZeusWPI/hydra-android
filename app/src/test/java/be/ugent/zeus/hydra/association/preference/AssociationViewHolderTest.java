@@ -17,7 +17,9 @@ import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * @author Niko Strijbol

@@ -6,8 +6,6 @@ import android.util.Pair;
 import java.util.List;
 
 import be.ugent.zeus.hydra.association.Association;
-import java.util.List;
-
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.common.ui.RefreshViewModel;
@@ -16,7 +14,7 @@ import be.ugent.zeus.hydra.common.ui.RefreshViewModel;
  * @author Niko Strijbol
  */
 public class EventViewModel extends RefreshViewModel<Pair<List<EventItem>, List<Association>>> {
-    
+
     private Filter filter;
 
     public EventViewModel(Application application) {

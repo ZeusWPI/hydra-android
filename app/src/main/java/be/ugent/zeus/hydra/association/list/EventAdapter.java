@@ -5,8 +5,6 @@ import androidx.annotation.NonNull;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DiffAdapter;
-import be.ugent.zeus.hydra.common.utils.ViewUtils;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.SearchableAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.common.utils.ViewUtils;
 

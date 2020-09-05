@@ -132,7 +132,6 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
      * Check if a entry with given position is checked or not.
      *
      * @param position The adapter position of the item.
-     *
      * @return The state of the item.
      */
     public boolean isChecked(int position) {
@@ -221,7 +220,7 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
      * Adds a new callback. If the callback already exists, the behaviour is safe, but undefined. This means the
      * callback could be registered again and called twice, or the calls with an existing callback could be ignored.
      * The only guarantee is that there will be no exception and the callback will be called at least once.
-     *
+     * <p>
      * There is no guarantee in which order the callbacks will be called.
      *
      * @param callback The callback to add.
@@ -232,7 +231,7 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
 
     /**
      * Removes a callback. If the callback is not registered, this does nothing.
-     *
+     * <p>
      * If the callback is registered twice, the behaviour is also safe, but undefined (same as {@link #addCallback(Callback)}.
      * The method may remove all instance or might remove one instance.
      *

@@ -17,7 +17,6 @@ public final class Reporting {
      * Get the default tracker.
      *
      * @param context The context.
-     *
      * @return The tracker.
      */
     public static Tracker getTracker(Context context) {

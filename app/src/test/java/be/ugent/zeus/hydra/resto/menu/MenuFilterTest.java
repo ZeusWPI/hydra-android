@@ -23,7 +23,9 @@ import org.robolectric.RobolectricTestRunner;
 
 import static be.ugent.zeus.hydra.testing.Assert.assertThat;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertTrue;
 
 /**

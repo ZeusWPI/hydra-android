@@ -23,10 +23,7 @@ import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
-import be.ugent.zeus.hydra.urgent.player.Player;
-import be.ugent.zeus.hydra.urgent.player.PlayerSessionServiceCallback;
-import be.ugent.zeus.hydra.urgent.player.SessionPlayerServiceCallback;
-import be.ugent.zeus.hydra.urgent.player.UrgentTrackProvider;
+import be.ugent.zeus.hydra.urgent.player.*;
 
 /**
  * Service for streaming audio from Urgent.fm.

@@ -10,7 +10,9 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.ShadowApplication;
 
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertTextIs;
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.getShadowApplication;
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;

@@ -2,10 +2,7 @@ package be.ugent.zeus.hydra.association.event;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.common.ModelTest;

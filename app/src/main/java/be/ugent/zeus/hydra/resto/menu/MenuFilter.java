@@ -6,10 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import androidx.preference.PreferenceManager;
 
-import java.time.Clock;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -60,7 +57,6 @@ public class MenuFilter implements Function<List<RestoMenu>, List<RestoMenu>> {
      * </ul>
      *
      * @param restoMenus The menus to filter. Cannot be null.
-     *
      * @return The filtered menus. Will not be null.
      */
     @NonNull

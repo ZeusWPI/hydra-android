@@ -20,17 +20,16 @@ import be.ugent.zeus.hydra.common.database.Database;
 import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDao;
 import be.ugent.zeus.hydra.library.Library;
 import be.ugent.zeus.hydra.testing.Utils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
 import org.robolectric.annotation.LooperMode;
 
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static be.ugent.zeus.hydra.testing.Utils.getRandom;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for the {@link DismissalDao}.

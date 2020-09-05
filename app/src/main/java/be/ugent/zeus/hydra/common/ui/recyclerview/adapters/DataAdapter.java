@@ -35,7 +35,6 @@ public abstract class DataAdapter<D, VH extends DataViewHolder<D>> extends Recyc
      * Get the item that is currently at {@code position}.
      *
      * @param position The position of the item in the adapter's data set.
-     *
      * @return The item.
      */
     public D getItem(int position) {

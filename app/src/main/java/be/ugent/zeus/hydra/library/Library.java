@@ -18,7 +18,7 @@ import com.squareup.moshi.Json;
 
 /**
  * Model for a library.
- *
+ * <p>
  * A library is uniquely defined by it's code. The equals/hashCode methods operate on this assumption.
  *
  * @author Niko Strijbol

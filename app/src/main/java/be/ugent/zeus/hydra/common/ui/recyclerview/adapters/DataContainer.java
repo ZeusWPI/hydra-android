@@ -8,10 +8,7 @@ import androidx.annotation.Nullable;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * Manages the data for an adapter.
@@ -101,7 +98,7 @@ public class DataContainer<D> {
 
     /**
      * @return Get a read-only copy of the current data. When the data in the container is updated,
-     *         this may or may not be updated.
+     * this may or may not be updated.
      */
     @NonNull
     public List<D> getData() {

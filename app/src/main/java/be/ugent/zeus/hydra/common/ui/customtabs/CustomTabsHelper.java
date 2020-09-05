@@ -22,7 +22,7 @@ import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 
 /**
  * Helper for custom tabs.
- *
+ * <p>
  * Taken from https://github.com/hitherejoe/Tabby
  *
  * @author Niko Strijbol
@@ -43,11 +43,10 @@ public class CustomTabsHelper {
      * Goes through all apps that handle VIEW intents and have a warm up service. Picks
      * the one chosen by the user if there is one, otherwise makes a best effort to return a
      * valid package name.
-     *
+     * <p>
      * This is <strong>not</strong> threadsafe.
      *
      * @param context {@link Context} to use for accessing {@link PackageManager}.
-     *
      * @return The package name recommended to use for connecting to custom tabs related components.
      */
     static String getPackageNameToUse(Context context) {
@@ -103,7 +102,6 @@ public class CustomTabsHelper {
      * Used to check whether there is a specialized handler for a given intent.
      *
      * @param intent The intent to check with.
-     *
      * @return Whether there is a specialized handler for the given intent.
      */
     private static boolean hasSpecializedHandlerIntents(Context context, Intent intent) {
@@ -139,7 +137,6 @@ public class CustomTabsHelper {
      *
      * @param activity The activity that calls the custom tab.
      * @param callback The callback.
-     *
      * @return The helper.
      */
     public static ActivityHelper initHelper(Activity activity, @Nullable ActivityHelper.ConnectionCallback callback) {

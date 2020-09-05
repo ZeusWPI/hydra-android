@@ -69,7 +69,7 @@ public class Player {
     /**
      * Indicates if the player should start playing if the state becomes
      * {@link be.ugent.zeus.hydra.urgent.player.MediaStateListener.State#PREPARED}.
-     *
+     * <p>
      * This is modifiable in this package.
      */
     boolean shouldPlayWhenReady = false;

@@ -17,7 +17,7 @@ import be.ugent.zeus.hydra.common.utils.DateUtils;
 
 /**
  * An SKO artist.
- *
+ * <p>
  * An artist is uniquely defined by his/her name, stage, start and stop time.
  *
  * @author Niko Strijbol
@@ -85,7 +85,7 @@ final class Artist implements Parcelable {
     /**
      * Get the start date, converted to the local time zone. The resulting DateTime is the time as it is used
      * in the current time zone.
-     *
+     * <p>
      * This value is calculated every time, so if you need it a lot, cache it in a local variable.
      *
      * @return The converted start date.
@@ -98,7 +98,7 @@ final class Artist implements Parcelable {
     /**
      * Get the end date, converted to the local time zone. The resulting DateTime is the time as it is used
      * in the current time zone.
-     *
+     * <p>
      * This value is calculated every time, so if you need it a lot, cache it in a local variable.
      *
      * @return The converted end date.
@@ -140,13 +140,12 @@ final class Artist implements Parcelable {
 
     /**
      * Get the display date. The resulting string is of the following format:
-     *
+     * <p>
      * dd/MM HH:mm tot [dd/MM] HH:mm
-     *
+     * <p>
      * The second date is only shown of it is not the same date as the first.
      *
      * @param context The context, to access localized string formatters.
-     *
      * @return The text to display.
      */
     @SuppressWarnings("WeakerAccess")

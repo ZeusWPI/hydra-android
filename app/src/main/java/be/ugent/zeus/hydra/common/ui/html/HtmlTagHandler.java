@@ -17,14 +17,8 @@
  */
 package be.ugent.zeus.hydra.common.ui.html;
 
-import android.text.Editable;
-import android.text.Html;
-import android.text.Layout;
-import android.text.Spannable;
-import android.text.style.AlignmentSpan;
-import android.text.style.BulletSpan;
-import android.text.style.LeadingMarginSpan;
-import android.text.style.TypefaceSpan;
+import android.text.*;
+import android.text.style.*;
 import android.util.Log;
 import androidx.annotation.Nullable;
 
@@ -35,7 +29,7 @@ import org.xml.sax.XMLReader;
 
 /**
  * Custom HTML tag handler to support more tags.
- *
+ * <p>
  * Currently the tag handler supports:
  * <ul>
  *  <li>ul</li>
@@ -45,10 +39,10 @@ import org.xml.sax.XMLReader;
  *  <li>code</li>
  *  <li>center</li>
  * </ul>
- *
+ * <p>
  * More elements can be added. However, some elements, such as center, are no longer part of the HTML standard. Thus,
  * this is 'pseudo-HTML'.
- *
+ * <p>
  * This class is based on work in https://github.com/skimarxall/RealTextView.
  *
  * @author Niko Strijbol
@@ -98,7 +92,6 @@ public class HtmlTagHandler implements Html.TagHandler {
      *
      * @param text The text.
      * @param kind The kind of tag.
-     *
      * @return The last marked position.
      */
     @Nullable

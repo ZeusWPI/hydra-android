@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.association.list;
 
-import android.util.Pair;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 

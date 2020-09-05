@@ -19,7 +19,7 @@ import be.ugent.zeus.hydra.common.utils.ColourUtils;
 
 /**
  * The base activity. Contains code related to common things for almost all activities.
- *
+ * <p>
  * Such features include:
  * <ul>
  *     <li>Support for the toolbar</li>
@@ -29,7 +29,7 @@ import be.ugent.zeus.hydra.common.utils.ColourUtils;
  *
  *
  * <h2>View binding</h2>
- *
+ * <p>
  * This activity requires the use of view binding. To set up the view on the
  * activity, call {@link #setContentView(Function)}, to which you must pass
  * the view binding constructor.
@@ -71,7 +71,6 @@ public abstract class BaseActivity<B extends ViewBinding> extends AppCompatActiv
      * time, an {@link IllegalStateException} is thrown.
      *
      * @return The ActionBar.
-     *
      * @throws IllegalStateException If the method is called at the wrong time or there is no ActionBar.
      */
     @NonNull

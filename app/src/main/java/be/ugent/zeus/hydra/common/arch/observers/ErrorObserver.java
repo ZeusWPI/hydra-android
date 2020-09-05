@@ -10,7 +10,7 @@ import be.ugent.zeus.hydra.common.request.Result;
 
 /**
  * Calls the listener if the result has no data and only an exception.
- *
+ * <p>
  * This differs from {@link PartialErrorObserver}, which will always call the listener if there is an exception, even
  * if there is data also.
  *

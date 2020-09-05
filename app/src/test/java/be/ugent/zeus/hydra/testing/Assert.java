@@ -14,10 +14,7 @@ import be.ugent.zeus.hydra.common.MockParcel;
 import be.ugent.zeus.hydra.testing.matcher.ShallowButFullEqual;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.StringDescription;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
+import org.hamcrest.*;
 import org.junit.ComparisonFailure;
 
 import static org.junit.Assert.assertEquals;

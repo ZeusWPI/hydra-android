@@ -13,7 +13,9 @@ import org.robolectric.Robolectric;
 import org.robolectric.Shadows;
 import org.robolectric.shadows.ShadowApplication;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * @author Niko Strijbol
@@ -29,7 +31,6 @@ public final class RobolectricUtils {
      *
      * @param layout The view to inflate.
      * @param <T>    Type of the root view.
-     *
      * @return The view
      */
     public static <T extends View> T inflate(@LayoutRes int layout) {
@@ -42,7 +43,6 @@ public final class RobolectricUtils {
      * @param context The context to use.
      * @param layout  The view to inflate.
      * @param <T>     Type of the root view.
-     *
      * @return The view
      */
     @SuppressWarnings("unchecked")

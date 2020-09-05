@@ -8,7 +8,7 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 
 /**
  * View holder for a title.
- *
+ * <p>
  * This class implements the base class with {@link ArtistOrTitle}, since it would be a lot of work to allow us to
  * have heterogeneous view holders in the adapters for little gain.
  *

@@ -17,7 +17,7 @@ import be.ugent.zeus.hydra.common.request.Request;
 
 /**
  * Get the events for all associations. This will get all events returned by the API, without any filtering.
- * 
+ * <p>
  * You probably want {@link #create(Context, Filter)} instead.
  *
  * @author feliciaan
@@ -35,6 +35,18 @@ public class RawEventRequest extends JsonOkHttpRequest<EventList> {
         Log.d("EVENT", "RawEventRequest: " + params);
     }
 
+    /**
+     * Transform by applying:
+     * - {@link Request#map(Function)} with {@link EventSorter}
+     *
+     * @param context The context.
+     * @return The modified request.
+     */
+    public static Request<List<Event>> create(Context context, Filter filter) {
+        return new RawEventRequest(context, filter)
+                .map(eventList -> eventList.getPage().getEntries());
+    }
+
     @NonNull
     @Override
     protected String getAPIUrl() {
@@ -47,17 +59,5 @@ public class RawEventRequest extends JsonOkHttpRequest<EventList> {
     @Override
     public Duration getCacheDuration() {
         return Duration.ofHours(1);
-    }
-
-    /**
-     * Transform by applying:
-     * - {@link Request#map(Function)} with {@link EventSorter}
-     *
-     * @param context The context.
-     * @return The modified request.
-     */
-    public static Request<List<Event>> create(Context context, Filter filter) {
-        return new RawEventRequest(context, filter)
-                .map(eventList -> eventList.getPage().getEntries());
     }
 }

@@ -4,9 +4,6 @@ import be.ugent.zeus.hydra.common.ModelTest;
 import be.ugent.zeus.hydra.testing.Utils;
 import org.junit.Test;
 
-import static be.ugent.zeus.hydra.testing.Utils.generate;
-import static org.junit.Assert.assertEquals;
-
 /**
  * Unit tests for {@link Association}.
  *

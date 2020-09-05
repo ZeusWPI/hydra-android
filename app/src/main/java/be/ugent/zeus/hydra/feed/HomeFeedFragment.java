@@ -28,15 +28,15 @@ import static be.ugent.zeus.hydra.feed.FeedLiveData.REFRESH_HOMECARD_TYPE;
 
 /**
  * The fragment showing the home feed.
- *
+ * <p>
  * The user has the possibility to decide to hide certain card types. When a user disables a certain type of cards,
  * we do not retrieve the data.
- *
+ * <p>
  * Getting the home feed data is not very simple, mainly because we want partial updates. The home feed consists of a
  * bunch of {@link HomeFeedRequest}s that are executed, and the result is shown in the RecyclerView. As there can be up
  * to 9 requests, we can't just load everything and then display it at once; this would show an empty screen for a long
  * time.
- *
+ * <p>
  * Instead, we insert data to the RecyclerView as soon the a request is completed.
  *
  * @author Niko Strijbol

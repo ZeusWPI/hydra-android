@@ -11,10 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.browser.customtabs.CustomTabsClient;
-import androidx.browser.customtabs.CustomTabsIntent;
-import androidx.browser.customtabs.CustomTabsServiceConnection;
-import androidx.browser.customtabs.CustomTabsSession;
+import androidx.browser.customtabs.*;
 
 import java.lang.ref.WeakReference;
 import java.util.HashSet;
@@ -26,7 +23,7 @@ import be.ugent.zeus.hydra.common.utils.ColourUtils;
 
 /**
  * Helper for activities that use custom tabs.
- *
+ * <p>
  * Taken from https://github.com/hitherejoe/Tabby
  *
  * @author Niko Strijbol

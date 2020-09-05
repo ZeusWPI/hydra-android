@@ -8,7 +8,6 @@ import android.provider.CalendarContract;
 import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -72,11 +71,11 @@ public class EventDetailsActivity extends BaseActivity<ActivityEventDetailBindin
             binding.description.setText(event.getDescription());
             LinkifyCompat.addLinks(binding.description, Linkify.ALL);
         }
-        
+
         if (association.getDescription() != null && !association.getDescription().trim().isEmpty()) {
             binding.eventOrganisatorSmall.setText(association.getDescription());
         }
-        
+
         if (association.getWebsite() != null) {
             binding.eventOrganisatorSmall.setOnClickListener(v -> NetworkUtils.maybeLaunchBrowser(v.getContext(), association.getWebsite()));
         }

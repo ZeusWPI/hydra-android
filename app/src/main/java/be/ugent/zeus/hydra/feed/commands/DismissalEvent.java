@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.feed.commands;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 
-import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.common.reporting.BaseEvents;
 import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.reporting.Reporting;

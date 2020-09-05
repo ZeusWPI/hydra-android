@@ -6,10 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.Transformations;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -34,7 +31,6 @@ class LibraryLiveData extends RequestLiveData<List<Pair<Library, Boolean>>> impl
      * Construct the request we want to use. This method is static because we need to call it in the constructor.
      *
      * @param context The context.
-     *
      * @return The request.
      */
     private static Request<List<Pair<Library, Boolean>>> makeRequest(Context context) {

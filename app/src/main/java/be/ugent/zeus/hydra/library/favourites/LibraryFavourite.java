@@ -11,7 +11,7 @@ import be.ugent.zeus.hydra.library.Library;
 
 /**
  * A library that was marked as a favourite by the user.
- *
+ * <p>
  * This will save various things in the database besides the ID, mainly to be able to use the data without having to
  * get the whole list of libraries every time.
  *

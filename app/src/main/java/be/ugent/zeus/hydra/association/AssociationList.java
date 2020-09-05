@@ -1,9 +1,9 @@
 package be.ugent.zeus.hydra.association;
 
-import com.squareup.moshi.Json;
-
 import java.util.List;
 import java.util.Objects;
+
+import com.squareup.moshi.Json;
 
 /**
  * A list of associations.
@@ -11,7 +11,7 @@ import java.util.Objects;
  * @author Niko Strijbol
  */
 public class AssociationList {
-    
+
     @Json(name = "associations")
     private List<Association> associations;
 

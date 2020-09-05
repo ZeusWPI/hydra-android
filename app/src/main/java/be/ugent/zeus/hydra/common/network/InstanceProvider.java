@@ -47,7 +47,6 @@ public final class InstanceProvider {
      * Get the OkHttpClient we use for requests.
      *
      * @param context A context.
-     *
      * @return The client.
      */
     public static synchronized OkHttpClient getClient(Context context) {

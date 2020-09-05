@@ -74,13 +74,13 @@
 
         <!-- Is used in the settings fragment for now -->
         <FrameLayout
-            android:visibility="gone"
             android:id="@+id/bottom_sheet"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            android:visibility="gone"
             app:behavior_hideable="true"
-            app:behavior_skipCollapsed="true" />
+            app:behavior_skipCollapsed="true"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

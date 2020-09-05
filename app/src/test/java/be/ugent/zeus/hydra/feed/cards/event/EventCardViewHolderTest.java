@@ -9,7 +9,6 @@ import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.association.event.EventDetailsActivity;
 import be.ugent.zeus.hydra.feed.cards.implementations.AbstractFeedViewHolderTest;
-import be.ugent.zeus.hydra.testing.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;

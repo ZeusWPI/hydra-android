@@ -24,7 +24,6 @@ public class NetworkUtils {
      * Check if the device is connected to the internet.
      *
      * @param context The context.
-     *
      * @return True if there is a connection, otherwise false.
      */
     public static boolean isConnected(Context context) {
@@ -51,12 +50,11 @@ public class NetworkUtils {
 
     /**
      * Check if the connection is one for which data should be restricted.
-     *
+     * <p>
      * Note that this does not check the user's settings in regards to Android 7's restricted background mode, since
      * we let the user choose what they want.
      *
      * @param context The context.
-     *
      * @return True if the connection is metered.
      */
     public static boolean isMeteredConnection(Context context) {
@@ -70,7 +68,6 @@ public class NetworkUtils {
      *
      * @param context The context to launch from.
      * @param url     The url to launch.
-     *
      * @see #maybeLaunchIntent(Context, Intent)
      */
     public static void maybeLaunchBrowser(Context context, String url) {

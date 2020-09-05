@@ -1,42 +1,42 @@
 {
-  "special-events": [
-    {
-      "name": "12urenloop",
-      "link": "https://live.12urenloop.be",
-      "simple-text": "Volg live de tussenstand van de 12urenloop",
-      "image": "https://12urenloop.be/images/logo.png",
-      "html": "https://live.12urenloop.be/generated-card.html",
-      "priority": 990,
-      "start": null,
-      "end": null,
-      "id": 1,
-      "development": false
-    },
-    {
-      "name": "Stuver16",
-      "link": "http://www.schamper.ugent.be/2016-online/verkiezingen-stuver16-voorstelling-kandidaten",
-      "simple-text": "Vind uw juiste kandidaat voor de studentenverkiezingen!",
-      "image": "https://zeus.ugent.be/hydra/api/2.0/association/logo/stuver16.png",
-      "html": "http://durfdoen.be/verkiezingen-mobile",
-      "priority": 1001,
-      "start": "2016-04-20T00:00:00+02:00",
-      "end": "2016-04-25T09:00:00+02:00",
-      "in-app": "verkiezingen",
-      "id": 2,
-      "development": false
-    },
-    {
-      "name": "Stuver16",
-      "link": "http://verkiezingen.ugent.be/",
-      "simple-text": "Stuver16 verkiezingen. Stem nu hier!",
-      "image": "https://zeus.ugent.be/hydra/api/2.0/association/logo/stuver16.png",
-      "html": "http://durfdoen.be/verkiezingen-mobile",
-      "priority": 1001,
-      "start": "2016-04-25T00:00:00+02:00",
-      "end": "2016-04-29T00:00:00+02:00",
-      "in-app": "verkiezingen",
-      "id": 3,
-      "development": false
-    }
-  ]
+    "special-events": [
+        {
+            "name": "12urenloop",
+            "link": "https://live.12urenloop.be",
+            "simple-text": "Volg live de tussenstand van de 12urenloop",
+            "image": "https://12urenloop.be/images/logo.png",
+            "html": "https://live.12urenloop.be/generated-card.html",
+            "priority": 990,
+            "start": null,
+            "end": null,
+            "id": 1,
+            "development": false
+        },
+        {
+            "name": "Stuver16",
+            "link": "http://www.schamper.ugent.be/2016-online/verkiezingen-stuver16-voorstelling-kandidaten",
+            "simple-text": "Vind uw juiste kandidaat voor de studentenverkiezingen!",
+            "image": "https://zeus.ugent.be/hydra/api/2.0/association/logo/stuver16.png",
+            "html": "http://durfdoen.be/verkiezingen-mobile",
+            "priority": 1001,
+            "start": "2016-04-20T00:00:00+02:00",
+            "end": "2016-04-25T09:00:00+02:00",
+            "in-app": "verkiezingen",
+            "id": 2,
+            "development": false
+        },
+        {
+            "name": "Stuver16",
+            "link": "http://verkiezingen.ugent.be/",
+            "simple-text": "Stuver16 verkiezingen. Stem nu hier!",
+            "image": "https://zeus.ugent.be/hydra/api/2.0/association/logo/stuver16.png",
+            "html": "http://durfdoen.be/verkiezingen-mobile",
+            "priority": 1001,
+            "start": "2016-04-25T00:00:00+02:00",
+            "end": "2016-04-29T00:00:00+02:00",
+            "in-app": "verkiezingen",
+            "id": 3,
+            "development": false
+        }
+    ]
 }

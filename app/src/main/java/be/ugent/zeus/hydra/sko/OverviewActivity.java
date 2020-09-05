@@ -26,7 +26,6 @@ public class OverviewActivity extends BaseActivity<ActivitySkoMainBinding> {
      * Start the activity on the default tab.
      *
      * @param context The context.
-     *
      * @return The intent to start the activity.
      */
     public static Intent start(Context context) {

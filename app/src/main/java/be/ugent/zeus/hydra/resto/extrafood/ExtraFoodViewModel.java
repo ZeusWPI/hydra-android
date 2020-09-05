@@ -23,7 +23,6 @@ public class ExtraFoodViewModel extends RequestViewModel<ExtraFood> {
      *
      * @param position The position. Must be [0-2].
      * @param data     The data.
-     *
      * @return The result.
      */
     static List<Food> getFor(int position, ExtraFood data) {

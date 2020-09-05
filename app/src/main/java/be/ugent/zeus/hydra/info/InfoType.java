@@ -19,7 +19,7 @@ import be.ugent.zeus.hydra.common.utils.ViewUtils;
 
 /**
  * The type of information (external url/app, internal url, ...).
- *
+ * <p>
  * The different behavior warrants a real enum because if-else/switch is bad.
  *
  * @author Niko Strijbol
@@ -98,7 +98,6 @@ public enum InfoType {
      *
      * @param context   The context.
      * @param attribute The attribute to colour the drawable in.
-     *
      * @return The drawable or null if there is no drawable.
      */
     @Nullable

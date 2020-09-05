@@ -25,6 +25,10 @@ public class AssociationListRequest extends JsonOkHttpRequest<AssociationList> {
         super(context, AssociationList.class);
     }
 
+    public static Request<List<Association>> asList(Context context) {
+        return new AssociationListRequest(context).map(AssociationList::getAssociations);
+    }
+
     @NonNull
     @Override
     protected String getAPIUrl() {
@@ -34,9 +38,5 @@ public class AssociationListRequest extends JsonOkHttpRequest<AssociationList> {
     @Override
     public Duration getCacheDuration() {
         return ChronoUnit.WEEKS.getDuration().multipliedBy(4);
-    }
-    
-    public static Request<List<Association>> asList(Context context) {
-        return new AssociationListRequest(context).map(AssociationList::getAssociations);
     }
 }

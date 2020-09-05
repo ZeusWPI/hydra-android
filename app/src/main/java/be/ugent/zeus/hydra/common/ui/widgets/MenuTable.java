@@ -36,6 +36,7 @@ public class MenuTable extends TableLayout {
     private boolean showTitles;
     private boolean messagePaddingTop;
     private int normalStyle;
+
     public MenuTable(Context context) {
         super(context);
         init(context, null);

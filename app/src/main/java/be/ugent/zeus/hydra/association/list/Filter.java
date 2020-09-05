@@ -17,9 +17,9 @@ import java.util.Set;
  */
 public class Filter {
 
+    private final Set<String> associations = new HashSet<>();
     private OffsetDateTime after = OffsetDateTime.now();
     private OffsetDateTime before;
-    private final Set<String> associations = new HashSet<>();
     private String term;
 
     public Filter() {
@@ -58,6 +58,16 @@ public class Filter {
         return builder;
     }
 
+    @Override
+    public String toString() {
+        return "Filter{" +
+                "after=" + after +
+                ", before=" + before +
+                ", associations=" + associations +
+                ", term='" + term + '\'' +
+                '}';
+    }
+
     public static class Live extends LiveData<Filter> {
 
         @NonNull
@@ -87,15 +97,5 @@ public class Filter {
         public void setTerm(String term) {
             this.filter.term = term;
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Filter{" +
-                "after=" + after +
-                ", before=" + before +
-                ", associations=" + associations +
-                ", term='" + term + '\'' +
-                '}';
     }
 }

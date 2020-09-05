@@ -14,7 +14,7 @@ import be.ugent.zeus.hydra.resto.RestoMenu;
 
 /**
  * Request the menu for a single day.
- *
+ * <p>
  * If not properly initialised before use (call {@link #setChoice(RestoChoice)} and {@link #setDate(LocalDate)}, it
  * will throw {@link IllegalStateException}s when used.
  *

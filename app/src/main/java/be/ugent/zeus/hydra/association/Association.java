@@ -15,10 +15,20 @@ import java.util.Objects;
  */
 public final class Association implements Parcelable {
 
+    public static final Creator<Association> CREATOR = new Creator<Association>() {
+        @Override
+        public Association createFromParcel(Parcel in) {
+            return new Association(in);
+        }
+
+        @Override
+        public Association[] newArray(int size) {
+            return new Association[size];
+        }
+    };
     private String abbreviation;
     private String name;
     private List<String> path;
-
     @Nullable
     private String description;
     private String email;
@@ -41,6 +51,14 @@ public final class Association implements Parcelable {
         website = in.readString();
     }
 
+    public static Association unknown(String name) {
+        Association association = new Association();
+        association.abbreviation = "unknown";
+        association.name = name;
+        association.description = "Onbekende vereniging";
+        return association;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(abbreviation);
@@ -56,18 +74,6 @@ public final class Association implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<Association> CREATOR = new Creator<Association>() {
-        @Override
-        public Association createFromParcel(Parcel in) {
-            return new Association(in);
-        }
-
-        @Override
-        public Association[] newArray(int size) {
-            return new Association[size];
-        }
-    };
 
     @Nullable
     public String getDescription() {
@@ -106,13 +112,5 @@ public final class Association implements Parcelable {
     @Override
     public int hashCode() {
         return Objects.hash(abbreviation);
-    }
-
-    public static Association unknown(String name) {
-        Association association = new Association();
-        association.abbreviation = "unknown";
-        association.name = name;
-        association.description = "Onbekende vereniging";
-        return association;
     }
 }

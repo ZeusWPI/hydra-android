@@ -19,13 +19,13 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
  * searchView.setOnSearchClickListener(v -> adapter.onOpen());
  * }
  * </pre>
- *
+ * <p>
  * This is a very generic class, supporting a lot of situations, including adapters with multiple
  * view types.
- *
+ * <p>
  * Currently searching is executed on the main thread. This imposes some limits, see the constructor description. This
  * is not guaranteed behaviour: searching may be executed in a different thread in the future.
- *
+ * <p>
  * Users of this class should call the {@link #onOpen()} method. Not doing so may result in unreliable behaviour related
  * to the listeners.
  *

@@ -32,9 +32,9 @@ import okhttp3.Response;
  * <h1>Caching</h1>
  * The caching implementation uses OkHttp's cache implementation. How long a response is cached is determined by
  * {@link #getCacheDuration()}. By default, requests are not cached.
- *
+ * <p>
  * Additionally, stale data is always used by default if needed.
- *
+ * <p>
  * To disable the cache, pass {@link BaseLiveData#REFRESH_COLD} as an argument to the request.
  *
  * <h1>Decode</h1>

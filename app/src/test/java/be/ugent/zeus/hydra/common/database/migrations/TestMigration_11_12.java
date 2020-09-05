@@ -3,14 +3,15 @@ package be.ugent.zeus.hydra.common.database.migrations;
 import android.app.Instrumentation;
 import androidx.room.testing.LocalMigrationTestHelper;
 import androidx.test.core.app.ApplicationProvider;
+
+import java.io.IOException;
+
 import be.ugent.zeus.hydra.common.database.Database;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-
-import java.io.IOException;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

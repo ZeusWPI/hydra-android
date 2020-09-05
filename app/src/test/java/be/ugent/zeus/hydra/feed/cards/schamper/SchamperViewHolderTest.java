@@ -10,7 +10,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertNotEmpty;
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertTextIs;
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;

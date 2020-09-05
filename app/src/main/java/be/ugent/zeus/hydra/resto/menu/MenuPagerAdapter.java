@@ -80,7 +80,6 @@ class MenuPagerAdapter extends FragmentStatePagerAdapter {
      * or no fragments will be made.
      *
      * @param position Which position the tab is in.
-     *
      * @return The title.
      */
     @Override

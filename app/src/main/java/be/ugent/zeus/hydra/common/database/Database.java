@@ -17,7 +17,7 @@ import static be.ugent.zeus.hydra.common.database.Database.VERSION;
 
 /**
  * The database for Hydra.
- *
+ * <p>
  * The database is implemented as a Room database. This class should be a singleton, as it is fairly expensive.
  *
  * @author Niko Strijbol
@@ -37,7 +37,7 @@ public abstract class Database extends RoomDatabase {
     private static final Object LOCK = new Object();
     /**
      * The current name of the database. Should not change.
-     *
+     * <p>
      * The name of the database is historically determined, although the database no longer contains any Minerva-related
      * things.
      */
@@ -48,7 +48,6 @@ public abstract class Database extends RoomDatabase {
      * Create a new instance of the database.
      *
      * @param context The context. Must be suitable for {@link Room#databaseBuilder(Context, Class, String)}.
-     *
      * @return An instance of the database.
      */
     public static Database get(Context context) {

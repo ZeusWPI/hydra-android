@@ -5,14 +5,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.time.*;
+import java.util.*;
 import java.util.stream.Stream;
 
 import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDaoTest;
@@ -68,7 +62,6 @@ public class Utils {
      *
      * @param clazz Class to verify.
      * @param <T>   Type of class.
-     *
      * @return The verifier.
      */
     public static <T> SingleTypeEqualsVerifierApi<T> defaultVerifier(Class<T> clazz) {
@@ -103,7 +96,7 @@ public class Utils {
 
     /**
      * Set a field to a value using reflection.
-     *
+     * <p>
      * Note: while useful when testing json classes for example, try to minimize usage.
      *
      * @param instance The instance to set the field on.
