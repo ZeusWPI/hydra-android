@@ -6,9 +6,9 @@ package be.ugent.zeus.hydra.common.network;
  * @author Niko Strijbol
  */
 public interface Endpoints {
-
-    String DSA_V3 = "http://student.ugent.be/hydra/api/3.0/";
     String DSA_V4 = "https://dsa.ugent.be/api/";
+    
+    String UGENT = "https://www.ugent.be/";
 
     String ZEUS_V1 = "https://hydra.ugent.be/api/1.0/";
     String ZEUS_V2 = "https://hydra.ugent.be/api/2.0/";
