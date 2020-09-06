@@ -163,8 +163,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_search"
-                    android:tint="?colorPrimarySecondary"
-                    android:contentDescription="@string/content_desc_search" />
+                    android:contentDescription="@string/content_desc_search"
+                    app:tint="?colorPrimarySecondary" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:paddingLeft="32dp"
@@ -172,8 +172,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     style="?textAppearanceBody2"
-                    android:text="@string/sko_artist_search_web"
-                    tools:ignore="RtlHardcoded,RtlSymmetry" />
+                    android:text="@string/sko_artist_search_web" />
 
             </LinearLayout>
 
@@ -193,8 +192,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_library_music"
-                    android:tint="?colorPrimarySecondary"
-                    android:contentDescription="@string/content_desc_search_artist" />
+                    android:contentDescription="@string/content_desc_search_artist"
+                    app:tint="?colorPrimarySecondary" />
 
                 <TextView
                     android:paddingLeft="32dp"
@@ -202,8 +201,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="@string/sko_artist_search_music"
-                    style="?textAppearanceBody2"
-                    tools:ignore="RtlHardcoded,RtlSymmetry" />
+                    style="?textAppearanceBody2" />
 
             </LinearLayout>
 

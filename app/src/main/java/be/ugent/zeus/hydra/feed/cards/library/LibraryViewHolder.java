@@ -7,13 +7,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import androidx.core.content.res.TypedArrayUtils;
 
 import java9.util.Optional;
 
 import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.request.Result;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.CardViewHolder;
@@ -38,8 +38,8 @@ public class LibraryViewHolder extends CardViewHolder {
         list = itemView.findViewById(R.id.library_list);
 
         Context c = itemView.getContext();
-        styleName = TypedArrayUtils.getAttr(c, R.attr.textAppearanceBody2, 0);
-        styleHours = TypedArrayUtils.getAttr(c, R.attr.textAppearanceCaption, 0);
+        styleName = ViewUtils.getAttr(c, R.attr.textAppearanceBody2);
+        styleHours = ViewUtils.getAttr(c, R.attr.textAppearanceCaption);
         rowPadding = c.getResources().getDimensionPixelSize(R.dimen.material_baseline_grid_1x);
 
         itemView.setOnClickListener(v -> {

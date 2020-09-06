@@ -12,7 +12,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -34,14 +36,14 @@ import be.ugent.zeus.hydra.common.reporting.BaseEvents;
 import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
-import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
+import be.ugent.zeus.hydra.common.utils.DateUtils;
+import be.ugent.zeus.hydra.common.utils.NetworkUtils;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
+import be.ugent.zeus.hydra.databinding.ActivityLibraryDetailsBinding;
 import be.ugent.zeus.hydra.library.Library;
 import be.ugent.zeus.hydra.library.favourites.FavouritesRepository;
 import be.ugent.zeus.hydra.library.favourites.LibraryFavourite;
-import be.ugent.zeus.hydra.common.utils.DateUtils;
-import be.ugent.zeus.hydra.common.utils.NetworkUtils;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 import net.cachapa.expandablelayout.ExpandableLayout;
@@ -51,16 +53,13 @@ import net.cachapa.expandablelayout.ExpandableLayout;
  *
  * @author Niko Strijbol
  */
-public class LibraryDetailActivity extends BaseActivity {
+public class LibraryDetailActivity extends BaseActivity<ActivityLibraryDetailsBinding> {
 
     public static final String ARG_LIBRARY = "argLibrary";
 
     private static final String TAG = "LibraryDetailActivity";
 
     private Library library;
-    private Button button;
-    private Button expandButton;
-    private FrameLayout layout;
 
     public static void launchActivity(Context context, Library library) {
         Intent intent = new Intent(context, LibraryDetailActivity.class);
@@ -71,90 +70,79 @@ public class LibraryDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_library_details);
+        setContentView(ActivityLibraryDetailsBinding::inflate);
 
         library = getIntent().getParcelableExtra(ARG_LIBRARY);
-        layout = findViewById(R.id.frame_layout);
 
-        ImageView header = findViewById(R.id.header_image);
-        Picasso.get().load(library.getHeaderImage(this)).into(header);
+        Picasso.get().load(library.getHeaderImage(this)).into(binding.headerImage);
 
-        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
-        collapsingToolbarLayout.setTitle(library.getName());
+        binding.collapsingToolbar.setTitle(library.getName());
         // TODO: why is this necessary?
         int white = ContextCompat.getColor(this, R.color.white);
-        collapsingToolbarLayout.setExpandedTitleColor(white);
-        collapsingToolbarLayout.setCollapsedTitleTextColor(white);
+        binding.collapsingToolbar.setExpandedTitleColor(white);
+        binding.collapsingToolbar.setCollapsedTitleTextColor(white);
 
         String address = makeFullAddressText();
         if (TextUtils.isEmpty(address)) {
-            findViewById(R.id.library_address_card).setVisibility(View.GONE);
+            binding.libraryAddressCard.setVisibility(View.GONE);
         } else {
-            TextView textView = findViewById(R.id.library_address);
-            textView.setText(makeFullAddressText());
-            textView.setOnClickListener(v -> NetworkUtils.maybeLaunchIntent(LibraryDetailActivity.this, mapsIntent()));
+            binding.libraryAddress.setText(makeFullAddressText());
+            binding.libraryAddress.setOnClickListener(v -> NetworkUtils.maybeLaunchIntent(LibraryDetailActivity.this, mapsIntent()));
         }
 
         final ViewModelProvider provider = new ViewModelProvider(this);
 
-        button = findViewById(R.id.library_favourite);
         FavouriteViewModel viewModel = provider.get(FavouriteViewModel.class);
         viewModel.setLibrary(library);
         viewModel.getData().observe(this, isFavourite -> {
             Drawable drawable;
             Context c = LibraryDetailActivity.this;
             if (isFavourite) {
-                button.setSelected(true);
+                binding.libraryFavourite.setSelected(true);
                 drawable = ViewUtils.getTintedVectorDrawableAttr(c, R.drawable.ic_star, R.attr.colorSecondary);
             } else {
                 drawable = ViewUtils.getTintedVectorDrawableAttr(c, R.drawable.ic_star, R.attr.colorPrimary);
-                button.setSelected(false);
+                binding.libraryFavourite.setSelected(false);
             }
-            button.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+            binding.libraryFavourite.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         });
-        button.setOnClickListener(v -> updateStatus(library, button.isSelected()));
+        binding.libraryFavourite.setOnClickListener(v -> updateStatus(library, binding.libraryFavourite.isSelected()));
 
-        ExpandableLayout layout = findViewById(R.id.expandable_layout);
-        expandButton = findViewById(R.id.expand_button);
-        expandButton.setOnClickListener(v -> layout.toggle());
+        binding.expandButton.setOnClickListener(v -> binding.expandableLayout.toggle());
 
-        layout.setOnExpansionUpdateListener((value, state) -> {
+        binding.expandableLayout.setOnExpansionUpdateListener((value, state) -> {
             if (state == ExpandableLayout.State.COLLAPSED) {
-                expandButton.setText(R.string.library_more);
+                binding.expandButton.setText(R.string.library_more);
             } else if (state == ExpandableLayout.State.EXPANDED) {
-                expandButton.setText(R.string.library_less);
+                binding.expandButton.setText(R.string.library_less);
             }
         });
 
-        TextView remarks = findViewById(R.id.library_remarks);
         String comments = library.getCommentsAsString();
         if (TextUtils.isEmpty(comments)) {
-            remarks.setVisibility(View.GONE);
-            findViewById(R.id.library_remarks_divider).setVisibility(View.GONE);
-            findViewById(R.id.library_remarks_title).setVisibility(View.GONE);
+            binding.libraryRemarks.setVisibility(View.GONE);
+            binding.libraryRemarksDivider.setVisibility(View.GONE);
+            binding.libraryRemarksTitle.setVisibility(View.GONE);
         } else {
-            remarks.setText(Utils.fromHtml(comments));
-            layout.setExpanded(true, false);
+            binding.libraryRemarks.setText(Utils.fromHtml(comments));
+            binding.expandableLayout.setExpanded(true, false);
         }
 
-        TextView email = findViewById(R.id.library_mail_row_text);
-        email.setText(library.getEmail());
-        LinkifyCompat.addLinks(email, Linkify.EMAIL_ADDRESSES);
-        TextView phone = findViewById(R.id.library_phone_row_text);
+        binding.libraryMailRowText.setText(library.getEmail());
+        LinkifyCompat.addLinks(binding.libraryMailRowText, Linkify.EMAIL_ADDRESSES);
         String phoneString = library.getPhones();
         if (TextUtils.isEmpty(phoneString)) {
-            phone.setText(R.string.library_detail_no_phone);
+            binding.libraryPhoneRowText.setText(R.string.library_detail_no_phone);
         } else {
-            phone.setText(phoneString);
-            LinkifyCompat.addLinks(phone, Linkify.PHONE_NUMBERS);
+            binding.libraryPhoneRowText.setText(phoneString);
+            LinkifyCompat.addLinks(binding.libraryPhoneRowText, Linkify.PHONE_NUMBERS);
         }
-        TextView contact = findViewById(R.id.library_contact_row_text);
-        contact.setText(library.getContact());
+        binding.libraryContactRowText.setText(library.getContact());
 
         HoursViewModel model = provider.get(HoursViewModel.class);
         model.setLibrary(library);
         model.getData().observe(this, PartialErrorObserver.with(this::onError));
-        model.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
+        model.getData().observe(this, new ProgressObserver<>(binding.progressBar));
         model.getData().observe(this, SuccessObserver.with(this::receiveData));
 
         Reporting.getTracker(this).log(new LibraryViewEvent(library));
@@ -175,7 +163,7 @@ public class LibraryDetailActivity extends BaseActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         // Save the toggle button state.
-        outState.putString("button", String.valueOf(expandButton.getText()));
+        outState.putString("button", String.valueOf(binding.expandButton.getText()));
     }
 
     @Override
@@ -183,7 +171,7 @@ public class LibraryDetailActivity extends BaseActivity {
         super.onRestoreInstanceState(savedInstanceState);
         // Restore the toggle button state.
         if (savedInstanceState.get("button") != null) {
-            expandButton.setText(savedInstanceState.getString("button"));
+            binding.expandButton.setText(savedInstanceState.getString("button"));
         }
     }
 
@@ -221,7 +209,7 @@ public class LibraryDetailActivity extends BaseActivity {
             tableLayout.addView(tableRow);
         }
 
-        layout.addView(tableLayout);
+        binding.frameLayout.addView(tableLayout);
     }
 
     @Override

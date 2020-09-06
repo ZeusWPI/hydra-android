@@ -1,8 +1,8 @@
-# Hydra (Android) [![Build Status](https://travis-ci.org/ZeusWPI/hydra-android.svg?branch=development)](https://travis-ci.org/ZeusWPI/hydra-android)
+# Hydra (Android) ![Android CI](https://github.com/ZeusWPI/hydra-android/workflows/Android%20CI/badge.svg?branch=development)
 
 <a href='https://play.google.com/store/apps/details?id=be.ugent.zeus.hydra&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="80px"/></a>
 
-Android version of the Hydra app, available for Jelly Bean and up. Available on [Google Play](https://play.google.com/store/apps/details?id=be.ugent.zeus.hydra) or as a download [here](https://github.com/ZeusWPI/hydra-android/releases) (apk file).
+The Android version of the Hydra app, available for Jelly Bean and up. Available on [Google Play](https://play.google.com/store/apps/details?id=be.ugent.zeus.hydra) or as a download [here](https://github.com/ZeusWPI/hydra-android/releases) (apk file).
 
 ## Contributing
 
@@ -20,6 +20,11 @@ Alternatively, you can [checkout](https://www.jetbrains.com/help/idea/set-up-a-g
 If you want to use the Google Maps integration, you will need the API keys. You can contact us for more information and to obtain the keys. _This is not required to compile and build the app._
 
 After you've obtained the keys, you will need to copy the file `app/secrets.properties.example` to `app/secrets.properties` and insert the correct keys.
+
+### Build variants
+
+Hydra comes in two build variants: `store` and `open`.
+The `store` variant is the main variant, and used for the Play Store and is the recommended version for most people. The `open` variant only uses open-source software (e.g. OpenStreetMaps instead of Google Maps). Since the open variant contains no crash reporting functionality, crashes from that version not accompanied by a stack trace will not be considered.
 
 ### Useful links
 - [How to Write a Git Commit Message](https://chris.beams.io/posts/git-commit/)

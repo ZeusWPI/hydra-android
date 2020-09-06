@@ -16,6 +16,7 @@ import jonathanfinerty.once.Once;
 import okhttp3.OkHttpClient;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.LooperMode;
@@ -34,6 +35,7 @@ import static org.robolectric.annotation.LooperMode.Mode.PAUSED;
 /**
  * @author Niko Strijbol
  */
+@Ignore("Race conditions make these tests unreliable")
 @LooperMode(PAUSED)
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!-- Cannot have ID due to bug in AS -->
+<!-- android:id="@+id/card_description_wrapper" -->
 <merge
-    android:id="@+id/card_description_wrapper"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -18,9 +19,9 @@
         android:layout_marginLeft="8dp"
         android:layout_gravity="center_vertical"
         tools:src="@drawable/tabs_resto"
-        tools:ignore="MissingPrefix,RtlHardcoded"
-        android:tint="@color/hydra_color_primary_variant_light"
-        android:contentDescription="@string/content_desc_resto"/>
+        tools:ignore="MissingPrefix"
+        android:contentDescription="@string/content_desc_resto"
+        app:tint="@color/hydra_color_primary_variant_light" />
 
     <TextView
         android:id="@+id/now_toolbar_title"
@@ -32,8 +33,7 @@
         android:paddingBottom="@dimen/card_title_padding_top"
         style="?textAppearanceCaption"
         android:paddingLeft="8dp"
-        tools:text="Menu voor de toekomst!"
-        tools:ignore="RtlHardcoded,RtlSymmetry" />
+        tools:text="Menu voor de toekomst!" />
 
     <ImageView
         android:layout_width="32dp"
@@ -41,10 +41,9 @@
         android:padding="8dp"
         android:layout_marginRight="8dp"
         android:layout_gravity="center_vertical"
-        android:tint="?colorOnSurface"
         app:srcCompat="@drawable/ic_more_vert"
         android:id="@+id/now_toolbar_menu"
         android:contentDescription="@string/content_desc_more"
-        tools:ignore="RtlHardcoded" />
+        app:tint="?colorOnSurface" />
 
 </merge>

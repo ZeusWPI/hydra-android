@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.association.event;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,7 +12,6 @@ import be.ugent.zeus.hydra.common.ModelTest;
 import be.ugent.zeus.hydra.testing.Utils;
 import be.ugent.zeus.hydra.common.utils.DateUtils;
 import de.jaehrig.gettersetterverifier.GetterSetterVerifier;
-import edu.emory.mathcs.backport.java.util.Collections;
 import org.junit.Test;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.OffsetDateTime;

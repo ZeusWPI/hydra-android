@@ -21,8 +21,8 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
-import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.NoPaddingArrayAdapter;
+import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
@@ -32,7 +32,6 @@ import be.ugent.zeus.hydra.resto.meta.RestoLocationActivity;
 import be.ugent.zeus.hydra.resto.meta.selectable.SelectableMetaViewModel;
 import be.ugent.zeus.hydra.resto.meta.selectable.SelectedResto;
 import be.ugent.zeus.hydra.resto.sandwich.SandwichActivity;
-import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -113,7 +112,7 @@ public class RestoFragment extends Fragment implements
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "receiveResto: on view created");
 
-        getBaseActivity().requireToolbar().setDisplayShowTitleEnabled(false);
+        requireBaseActivity(this).requireToolbar().setDisplayShowTitleEnabled(false);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -147,7 +146,7 @@ public class RestoFragment extends Fragment implements
         spinner = requireActivity().findViewById(R.id.spinner);
         spinner.setEnabled(false);
         spinner.setVisibility(View.VISIBLE);
-        restoAdapter = new NoPaddingArrayAdapter<>(getBaseActivity().requireToolbar().getThemedContext(), R.layout.x_spinner_title_main);
+        restoAdapter = new NoPaddingArrayAdapter<>(requireBaseActivity(this).requireToolbar().getThemedContext(), R.layout.x_spinner_title_main);
         restoAdapter.add(new SelectedResto.Wrapper(getString(R.string.resto_spinner_loading)));
         restoAdapter.setDropDownViewResource(R.layout.x_simple_spinner_dropdown_item);
         spinner.setAdapter(restoAdapter);
@@ -327,16 +326,12 @@ public class RestoFragment extends Fragment implements
         tabLayout.setVisibility(View.GONE);
         spinner.setVisibility(View.GONE);
         spinnerProgress.setVisibility(View.GONE);
-        getBaseActivity().requireToolbar().setDisplayShowTitleEnabled(true);
+        requireBaseActivity(this).requireToolbar().setDisplayShowTitleEnabled(true);
         spinner.setOnItemSelectedListener(null);
     }
 
     private void hideExternalViews() {
         bottomNavigation.setVisibility(View.GONE);
         bottomNavigation.setOnNavigationItemSelectedListener(null);
-    }
-
-    private BaseActivity getBaseActivity() {
-        return (BaseActivity) getActivity();
     }
 }

@@ -11,13 +11,14 @@ import androidx.fragment.app.Fragment;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
+import be.ugent.zeus.hydra.databinding.ActivityPreferencesBinding;
 
 /**
  * Activity that will show a fragment.
  *
  * @author Niko Strijbol
  */
-public class PreferenceActivity extends BaseActivity {
+public class PreferenceActivity extends BaseActivity<ActivityPreferencesBinding> {
 
     /**
      * Argument for the activity, indicating which fragment should be shown.
@@ -40,7 +41,7 @@ public class PreferenceActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_preferences);
+        setContentView(ActivityPreferencesBinding::inflate);
 
         if (savedInstanceState != null) {
             // If a specific screen is requested, use that one.

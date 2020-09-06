@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="be.ugent.zeus.hydra">
+
+    <application tools:ignore="AllowBackup">
+        <!-- Disable Firebase Reporting until explicitly started -->
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="false" />
+        <!-- Disables automatic initialisation of Crashlytics. -->
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="false" />
+        <!-- The Maps API key -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${google_maps_key}" />
+    </application>
+
+</manifest>

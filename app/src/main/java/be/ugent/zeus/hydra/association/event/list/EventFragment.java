@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -18,9 +18,9 @@ import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.ui.recyclerview.EmptyViewObserver;
+import be.ugent.zeus.hydra.common.utils.ColourUtils;
 import be.ugent.zeus.hydra.preferences.PreferenceActivity;
 import be.ugent.zeus.hydra.preferences.PreferenceEntry;
-import be.ugent.zeus.hydra.common.utils.ColourUtils;
 import com.google.android.material.snackbar.Snackbar;
 
 import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
@@ -65,11 +65,11 @@ public class EventFragment extends Fragment {
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(secondaryColour);
 
-        viewModel = ViewModelProviders.of(this).get(EventViewModel.class);
-        viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
-        viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
-        viewModel.getData().observe(this, new AdapterObserver<>(adapter));
-        viewModel.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
+        viewModel = new ViewModelProvider(this).get(EventViewModel.class);
+        viewModel.getData().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
+        viewModel.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
+        viewModel.getData().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
+        viewModel.getRefreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
         swipeRefreshLayout.setOnRefreshListener(viewModel);
 
         Button refresh = view.findViewById(R.id.events_no_data_button_refresh);

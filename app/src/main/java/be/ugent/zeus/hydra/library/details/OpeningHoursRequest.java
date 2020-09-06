@@ -3,10 +3,7 @@ package be.ugent.zeus.hydra.library.details;
 import android.content.Context;
 import androidx.annotation.NonNull;
 
-import java.util.List;
-
 import java9.util.Optional;
-import java9.util.function.Function;
 import java9.util.stream.StreamSupport;
 
 import be.ugent.zeus.hydra.common.network.Endpoints;

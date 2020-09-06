@@ -5,13 +5,12 @@ import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.res.TypedArrayUtils;
 import androidx.preference.DialogPreference;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import org.threeten.bp.LocalTime;
 
 /**
@@ -35,7 +34,7 @@ public class TimePreference extends DialogPreference {
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TimePreference, defStyleAttr, defStyleRes);
 
-        if (TypedArrayUtils.getBoolean(a, R.styleable.TimePreference_useDefaultSummary,
+        if (ViewUtils.getBoolean(a, R.styleable.TimePreference_useDefaultSummary,
                 R.styleable.TimePreference_useDefaultSummary, false)) {
             setSummaryProvider(new TimeSummaryProvider());
         }
@@ -48,7 +47,7 @@ public class TimePreference extends DialogPreference {
     }
 
     public TimePreference(Context context, AttributeSet attrs) {
-        this(context, attrs, TypedArrayUtils.getAttr(context,
+        this(context, attrs, ViewUtils.getAttr(context,
                 androidx.preference.R.attr.dialogPreferenceStyle,
                 android.R.attr.dialogPreferenceStyle));
     }

@@ -2,8 +2,6 @@ package be.ugent.zeus.hydra.common.network;
 
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
-
 import androidx.annotation.VisibleForTesting;
 
 import java.io.File;
@@ -11,11 +9,6 @@ import java.io.File;
 import be.ugent.zeus.hydra.common.converter.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.common.converter.DateThreeTenAdapter;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
-
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.security.ProviderInstaller;
 import com.squareup.moshi.Moshi;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
@@ -26,8 +19,6 @@ import okhttp3.OkHttpClient;
  * @author Niko Strijbol
  */
 public final class InstanceProvider {
-
-    private static final String TAG = "InstanceProvider";
 
     private static OkHttpClient client;
 
@@ -63,7 +54,7 @@ public final class InstanceProvider {
     public static synchronized OkHttpClient getClient(Context context) {
 
         if (Build.VERSION.SDK_INT <= 20) {
-            installGoogleProvider(context);
+            CertificateProvider.installProvider(context);
         }
 
         File cacheDir = new File(context.getCacheDir(), "http");
@@ -89,18 +80,5 @@ public final class InstanceProvider {
     public static void reset() {
         client = null;
         moshi = null;
-    }
-
-    private static void installGoogleProvider(Context context) {
-        Log.i(TAG, "Installing Play Services to enable TLSv1.2");
-        try {
-            ProviderInstaller.installIfNeeded(context);
-        } catch (GooglePlayServicesRepairableException e) {
-            Log.w(TAG, "Play Services are outdated", e);
-            // Prompt the user to install/update/enable Google Play services.
-            GoogleApiAvailability.getInstance().showErrorNotification(context, e.getConnectionStatusCode());
-        } catch (GooglePlayServicesNotAvailableException e) {
-            Log.e(TAG, "Unable to install provider, SSL will not work", e);
-        }
     }
 }

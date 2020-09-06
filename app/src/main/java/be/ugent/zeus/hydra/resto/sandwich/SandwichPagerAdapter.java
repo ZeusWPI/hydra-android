@@ -40,6 +40,7 @@ class SandwichPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
+    @NonNull
     public CharSequence getPageTitle(int position) {
         @StringRes int string;
         switch (position) {

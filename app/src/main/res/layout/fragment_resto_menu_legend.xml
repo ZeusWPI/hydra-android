@@ -34,8 +34,7 @@
                     android:contentDescription="@string/resto_legend_soup"
                     android:paddingEnd="16dp"
                     android:paddingRight="16dp"
-                    app:srcCompat="@drawable/resto_soup"
-                    tools:ignore="RtlSymmetry" />
+                    app:srcCompat="@drawable/resto_soup" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_gravity="center_vertical"
@@ -52,8 +51,7 @@
                     android:contentDescription="@string/resto_legend_vegetables"
                     android:paddingEnd="16dp"
                     android:paddingRight="16dp"
-                    app:srcCompat="@drawable/resto_vegetables"
-                    tools:ignore="RtlSymmetry" />
+                    app:srcCompat="@drawable/resto_vegetables" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_gravity="center_vertical"
@@ -70,8 +68,7 @@
                     android:contentDescription="@string/resto_legend_fish"
                     android:paddingEnd="16dp"
                     android:paddingRight="16dp"
-                    app:srcCompat="@drawable/resto_fish"
-                    tools:ignore="RtlSymmetry" />
+                    app:srcCompat="@drawable/resto_fish" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_gravity="center_vertical"
@@ -88,8 +85,7 @@
                     android:contentDescription="@string/resto_legend_meat"
                     android:paddingEnd="16dp"
                     android:paddingRight="16dp"
-                    app:srcCompat="@drawable/resto_meat"
-                    tools:ignore="RtlSymmetry" />
+                    app:srcCompat="@drawable/resto_meat" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_gravity="center_vertical"
@@ -106,8 +102,7 @@
                     android:contentDescription="@string/resto_legend_vegetarian"
                     android:paddingEnd="16dp"
                     android:paddingRight="16dp"
-                    app:srcCompat="@drawable/resto_vegetarian"
-                    tools:ignore="RtlSymmetry" />
+                    app:srcCompat="@drawable/resto_vegetarian" />
 
                 <TextView
                     android:layout_gravity="center_vertical"
@@ -124,8 +119,7 @@
                     android:contentDescription="@string/resto_legend_vegan"
                     android:paddingEnd="16dp"
                     android:paddingRight="16dp"
-                    app:srcCompat="@drawable/resto_vegan"
-                    tools:ignore="RtlSymmetry" />
+                    app:srcCompat="@drawable/resto_vegan" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_gravity="center_vertical"
@@ -156,8 +150,7 @@
                     android:text="@string/resto_legend_msc_abbr"
                     android:paddingEnd="16dp"
                     android:paddingRight="16dp"
-                    style="?textAppearanceBody2"
-                    tools:ignore="RtlSymmetry" />
+                    style="?textAppearanceBody2" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:textIsSelectable="true"
@@ -174,8 +167,7 @@
                     android:text="@string/resto_legend_asc_abbr"
                     android:paddingEnd="16dp"
                     style="?textAppearanceBody2"
-                    android:paddingRight="16dp"
-                    tools:ignore="RtlSymmetry" />
+                    android:paddingRight="16dp" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:textIsSelectable="true"
@@ -192,8 +184,7 @@
                     android:text="@string/resto_legend_gap_abbr"
                     android:paddingEnd="16dp"
                     android:paddingRight="16dp"
-                    style="?textAppearanceBody2"
-                    tools:ignore="RtlSymmetry" />
+                    style="?textAppearanceBody2" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:textIsSelectable="true"

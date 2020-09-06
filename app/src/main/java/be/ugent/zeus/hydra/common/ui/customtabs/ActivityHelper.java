@@ -3,8 +3,6 @@ package be.ugent.zeus.hydra.common.ui.customtabs;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.browser.customtabs.CustomTabsCallback;
 
 import java.util.List;
 

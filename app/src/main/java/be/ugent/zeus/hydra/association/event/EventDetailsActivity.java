@@ -5,21 +5,21 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
-import androidx.annotation.Nullable;
-import androidx.core.text.util.LinkifyCompat;
 import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.Nullable;
+import androidx.core.text.util.LinkifyCompat;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.reporting.BaseEvents;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.utils.NetworkUtils;
+import be.ugent.zeus.hydra.databinding.ActivityEventDetailBinding;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import org.threeten.bp.format.DateTimeFormatter;
@@ -29,7 +29,7 @@ import org.threeten.bp.format.DateTimeFormatter;
  *
  * @author Niko Strijbol
  */
-public class EventDetailsActivity extends BaseActivity {
+public class EventDetailsActivity extends BaseActivity<ActivityEventDetailBinding> {
 
     public static final String PARCEL_EVENT = "eventParcelable";
     private static final DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -46,59 +46,51 @@ public class EventDetailsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event_detail);
+        setContentView(ActivityEventDetailBinding::inflate);
 
         //Get data from saved instance, or from intent
         event = getIntent().getParcelableExtra(PARCEL_EVENT);
+        assert event != null;
 
-        TextView title = findViewById(R.id.title);
-        TextView location = findViewById(R.id.location);
-        TextView description = findViewById(R.id.description);
-        final ImageView organisatorImage = findViewById(R.id.event_organisator_image);
-        TextView mainName = findViewById(R.id.event_organisator_main);
-        TextView smallName = findViewById(R.id.event_organisator_small);
         if (event.getTitle() != null) {
-            title.setText(event.getTitle());
+            binding.title.setText(event.getTitle());
             requireToolbar().setTitle(event.getTitle());
         }
 
         if (event.getAssociation() != null) {
-            mainName.setText(event.getAssociation().getDisplayName());
-            smallName.setText(event.getAssociation().getFullName());
+            binding.eventOrganisatorMain.setText(event.getAssociation().getDisplayName());
+            binding.eventOrganisatorSmall.setText(event.getAssociation().getFullName());
         }
 
         if (event.getDescription() != null && !event.getDescription().trim().isEmpty()) {
-            description.setText(event.getDescription());
-            LinkifyCompat.addLinks(description, Linkify.ALL);
+            binding.description.setText(event.getDescription());
+            LinkifyCompat.addLinks(binding.description, Linkify.ALL);
         }
 
         if (event.hasPreciseLocation() || event.hasLocation()) {
             if (event.hasLocation()) {
-                location.setText(event.getLocation());
+                binding.location.setText(event.getLocation());
             } else {
-                location.setText(getString(R.string.event_detail_precise_location, event.getLatitude(), event.getLongitude()));
+                binding.location.setText(getString(R.string.event_detail_precise_location, event.getLatitude(), event.getLongitude()));
             }
             // Make location clickable
-            findViewById(R.id.location_row).setOnClickListener(view -> NetworkUtils.maybeLaunchIntent(this, getLocationIntent()));
+            binding.locationRow.setOnClickListener(view -> NetworkUtils.maybeLaunchIntent(this, getLocationIntent()));
         } else {
-            location.setText(R.string.event_detail_no_location);
+            binding.location.setText(R.string.event_detail_no_location);
         }
 
-        TextView startTime = findViewById(R.id.time_start);
-        TextView endTime = findViewById(R.id.time_end);
-
-        startTime.setText(event.getLocalStart().format(format));
+        binding.timeStart.setText(event.getLocalStart().format(format));
 
         if (event.getLocalEnd() != null) {
-            endTime.setText(event.getLocalEnd().format(format));
+            binding.timeEnd.setText(event.getLocalEnd().format(format));
         } else {
-            endTime.setText(R.string.event_detail_date_unknown);
+            binding.timeEnd.setText(R.string.event_detail_date_unknown);
         }
 
         if (event.getAssociation() != null) {
-            Picasso.get().load(event.getAssociation().getImageLink()).into(organisatorImage, new EventCallback(organisatorImage));
+            Picasso.get().load(event.getAssociation().getImageLink()).into(binding.eventOrganisatorImage, new EventCallback(binding.eventOrganisatorImage));
         } else {
-            organisatorImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+            binding.eventOrganisatorImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
         }
 
         Reporting.getTracker(this)

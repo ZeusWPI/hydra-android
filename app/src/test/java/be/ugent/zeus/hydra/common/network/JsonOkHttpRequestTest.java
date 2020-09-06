@@ -395,9 +395,7 @@ public class JsonOkHttpRequestTest {
         private final Duration cacheDuration;
 
         TestRequest(HttpUrl url) {
-            super(ApplicationProvider.getApplicationContext(), Integer.class);
-            this.url = url;
-            this.cacheDuration = Duration.ofHours(1);
+            this(url, Duration.ofHours(1));
         }
 
         TestRequest(HttpUrl url, Duration duration) {

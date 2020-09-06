@@ -48,7 +48,7 @@
             android:scaleType="fitEnd"
             android:paddingTop="16dp"
             android:id="@+id/image"
-            android:contentDescription="@string/content_desc_special_event_icon"/>
+            android:contentDescription="@string/content_desc_special_event_icon" />
 
     </LinearLayout>
 
