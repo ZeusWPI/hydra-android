@@ -4,6 +4,7 @@ import android.content.Intent;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 
+import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.common.network.InstanceProvider;
 import be.ugent.zeus.hydra.testing.NoNetworkInterceptor;
 import be.ugent.zeus.hydra.testing.RobolectricUtils;
@@ -35,7 +36,8 @@ public class EventDetailsActivityTest {
     @Test
     public void shouldReturnCorrectIntent_whenStartIsCalled() {
         Event e = Utils.generate(Event.class);
-        Intent actual = EventDetailsActivity.start(RobolectricUtils.getActivityContext(), e);
+        Association a = Utils.generate(Association.class);
+        Intent actual = EventDetailsActivity.start(RobolectricUtils.getActivityContext(), e, a);
         Intent expected = new Intent(RobolectricUtils.getActivityContext(), EventDetailsActivity.class);
 
         assertEquals(expected.getComponent(), actual.getComponent());

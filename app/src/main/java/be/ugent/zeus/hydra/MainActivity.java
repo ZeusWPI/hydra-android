@@ -18,7 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import java.util.Objects;
 
-import be.ugent.zeus.hydra.association.event.list.EventFragment;
+import be.ugent.zeus.hydra.association.list.EventFragment;
 import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
@@ -41,18 +41,18 @@ import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireArguments;
 
 /**
  * Main activity.
- *
+ * <p>
  * The logic for handling the navigation drawer is not immediately obvious to those who do not work with it regularly.
  * Proceed with caution.
  *
  * <h1>Navigation</h1>
- *
+ * <p>
  * One of the main responsibilities of this activity is managing navigation between the drawer, the fragments and the
  * fragments between each other. The navigation is built in two main components: navigation forward and navigating
  * backwards. Each component itself is not that difficult. Together the provide an intuitive navigation.
  *
  * <h2>Forward navigation</h2>
- *
+ * <p>
  * When the user navigates to a new fragment in this activity, the back stack (of the {@link #getSupportFragmentManager()}
  * must be updated. There are three scenario's to consider:
  * <ol>
@@ -69,22 +69,22 @@ import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireArguments;
  *         first time. Represented by {@link NavigationSource#INITIALISATION}.
  *     </li>
  * </ol>
- *
+ * <p>
  * On the first scenario, the back stack should be cleared [1]. The new fragment should not be added to the back stack,
  * as it should not be reversed. An implementation complexity is that this should not happen when restoring the
  * activity (scenario three).
- *
+ * <p>
  * In the second scenario, the user probably expects to be able to go back. Therefore, these should be added to the
  * back stack. Currently it is unlikely this will cause back stacks that are too large. In the future, we might need
  * to restrict this, e.g. by checking for existing instances of a fragment in the stack and popping until that instance
  * is reached. For example, assume the back stack is B -> A -> C. When the user then navigates to fragment A, the C
  * fragment should be removed from the stack.
- *
+ * <p>
  * The third and last scenario is the easiest: nothing should be done when the activity is first started or recreated.
  * The fragments should not be added to the back stack.
  *
  * <h2>Backwards navigation</h2>
- *
+ * <p>
  * The logic above makes the backwards navigation quite simple, and can be summarized as:
  * <pre>{@code
  * +-----------------------+
@@ -111,40 +111,40 @@ import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireArguments;
  * }</pre>
  *
  * <h1>Arguments for children</h1>
- *
+ * <p>
  * If a child fragment needs arguments to initialise, it should implement {@link ArgumentsReceiver}. When implementing
  * this interface, the activity will call this method on the fragment. This gives the fragment a chance to extract
  * arguments from the intent of the activity, which will then be set as arguments to the fragment.
- *
+ * <p>
  * After this method call, the fragment can behave as if the arguments were directly set on the fragment itself.
- *
+ * <p>
  * This function will only be called when creating a fragment, not when popping from the back stack.
  *
  * <h1>Common views and removal</h1>
- *
+ * <p>
  * The activity provides some common views:
  * <ul>
  *     <li>A {@link TabLayout} with id {@link R.id#tab_layout}</li>
  *     <li>A {@link BottomNavigationView} with id {@link R.id#bottom_navigation}</li>
  * </ul>
- *
+ * <p>
  * The fragment's view is automatically adjusted for the TabLayout, if the fragment makes it visible. The activity
  * does not manage the BottomNavigationView however. Fragments must take care of that themselves. The recommended
  * method is adding X bottom padding to the main view, where X is the height of the BottomNavigationView.
- *
+ * <p>
  * These are hidden by default and should be shown and hidden by the fragments that use them.
- *
+ * <p>
  * To this end, a fragment may implement {@link ScheduledRemovalListener}. This callback will called when the activity
  * determines that a fragment is no longer in use and fragment-specific views should be hidden.
- *
+ * <p>
  * The fragment itself should not be hidden; the activity takes care of this. The callback is specifically for views
  * outside the normal fragment, such as the two above or a contextual action bar.
- *
+ * <p>
  * The reason fragments cannot fully rely on the default lifecycle methods, such as {@link Fragment#onStop()}, is that
  * the fragment is not always removed immediately by the activity when it is hidden (this as to do with performance).
  *
  * <h1>Arguments</h1>
- *
+ * <p>
  * The activity has one public argument: which child fragment to load. The preferred way of using it is
  * {@link #ARG_TAB}, with an int value. The int value is the ID of the menu item in the drawer.
  *
@@ -288,7 +288,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     /**
      * Select a drawer item. This will update the fragment to the new one from the menu item, if it is a different one
      * than the current one.
-     *
+     * <p>
      * Note: this function does not update the drawer if the fragment should be adjusted, only if another activity
      * should be opened.
      *
@@ -464,6 +464,14 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
             MenuItem item = binding.navigationView.getMenu().findItem(getFragmentMenuId(current));
             updateDrawer(current, item);
         };
+
+        // Allow the current fragment to intercept the back press.
+        Fragment current = getSupportFragmentManager().findFragmentById(R.id.content);
+        if (current instanceof OnBackPressed && (((OnBackPressed) current).onBackPressed())) {
+            // The fragment has handled it.
+            return;
+        }
+
         // We need to listen to the back stack to update the drawer.
         getSupportFragmentManager().addOnBackStackChangedListener(listener);
         super.onBackPressed();
@@ -570,7 +578,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
          * Called when the fragment is created by the hosting activity. Allows the fragment to extract arguments from
          * the {@code activityIntent} and put them in {@code existingArguments}. The resulting bundle will then
          * eventually be set as the arguments of the fragment.
-         *
+         * <p>
          * This function should be a pure function, meaning there should be no side effects in the fragment. Side-effects
          * resulting from this function may cause undefined behaviour.
          *
@@ -583,7 +591,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     /**
      * Used to notify fragments they will be removed. At this point, a fragment should consider itself removed,
      * even if it is not yet removed.
-     *
+     * <p>
      * This allows fragments to do things like dismiss snackbars, or close action modes.
      *
      * @author Niko Strijbol
@@ -595,6 +603,21 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
          * Called when the user will be switching to another fragment.
          */
         void onRemovalScheduled();
+    }
+
+    /**
+     * Allows fragments to listen to and intercept back button presses.
+     */
+    @FunctionalInterface
+    public interface OnBackPressed {
+
+        /**
+         * Called when the back button is pressed. This function provides the fragment
+         * with an opportunity to intercept the back press.
+         *
+         * @return True if consumed, false otherwise. Consumed events are not propagated.
+         */
+        boolean onBackPressed();
     }
 
     private static final class TutorialEndEvent implements Event {

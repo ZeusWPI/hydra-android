@@ -13,7 +13,7 @@ import java.time.LocalTime;
 
 /**
  * Custom dialog to select a time in the preferences. This works together with {@link TimePreference}.
- *
+ * <p>
  * This dialogs uses {@link LocalTime} as the object.
  *
  * @author Niko Strijbol

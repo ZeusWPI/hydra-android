@@ -8,7 +8,7 @@ import be.ugent.zeus.hydra.feed.cards.Card;
 
 /**
  * Execute a command. Afterwards the cards of the returned type will be refreshed.
- *
+ * <p>
  * A command is normally one-use: calling it multiple times is undefined behaviour. Additionally, a command should
  * be a fairly short operation.
  *

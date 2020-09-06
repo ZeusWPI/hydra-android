@@ -10,11 +10,10 @@ import be.ugent.zeus.hydra.common.request.Result;
 
 /**
  * Generic view model with boiler plate for using a {@link Request} as data.
- *
+ * <p>
  * It also supports a refresh status.
  *
  * @param <D> The type of the data.
- *
  * @author Niko Strijbol
  */
 public abstract class RequestViewModel<D> extends RefreshViewModel<D> {

@@ -1,192 +1,192 @@
 [
-  {
-    "name": "Kaas",
-    "ingredients": [
-      "kaas",
-      "tomaat",
-      "sla",
-      "komkommer",
-      "ei",
-      "mayonaise"
-    ],
-    "price_small": "1.40",
-    "price_medium": "2.00"
-  },
-  {
-    "name": "Kruidenkaas",
-    "ingredients": [
-      "kruidenkaas",
-      "tomaat",
-      "sla",
-      "komkommer",
-      "ei"
-    ],
-    "price_small": "1.30",
-    "price_medium": "2.00"
-  },
-  {
-    "name": "Kip curry",
-    "ingredients": [
-      "kip curry",
-      "tomaat",
-      "sla",
-      "komkommer",
-      "ei"
-    ],
-    "price_small": "1.40",
-    "price_medium": "2.10"
-  },
-  {
-    "name": "Kip curry hawaï",
-    "ingredients": [
-      "kip curry",
-      "sla",
-      "komkommer",
-      "ei",
-      "ananas"
-    ],
-    "price_small": "1.40",
-    "price_medium": "2.10"
-  },
-  {
-    "name": "Makreelsalade",
-    "ingredients": [
-      "makreelsalade",
-      "tomaat",
-      "sla",
-      "komkommer",
-      "ei"
-    ],
-    "price_small": "1.40",
-    "price_medium": "2.10"
-  },
-  {
-    "name": "Martino",
-    "ingredients": [
-      "préparé",
-      "tomaat",
-      "augurk",
-      "mosterd",
-      "tabasco"
-    ],
-    "price_small": "1.40",
-    "price_medium": "2.10"
-  },
-  {
-    "name": "Préparé",
-    "ingredients": [
-      "préparé",
-      "tomaat",
-      "sla",
-      "komkommer",
-      "ei"
-    ],
-    "price_small": "1.40",
-    "price_medium": "2.10"
-  },
-  {
-    "name": "Ham",
-    "ingredients": [
-      "ham",
-      "tomaat",
-      "sla",
-      "komkommer",
-      "ei",
-      "mayonaise"
-    ],
-    "price_small": "1.50",
-    "price_medium": "2.20"
-  },
-  {
-    "name": "Brie",
-    "ingredients": [
-      "brie",
-      "sla",
-      "honing",
-      "pijnboompitten"
-    ],
-    "price_small": "1.50",
-    "price_medium": "2.30"
-  },
-  {
-    "name": "Maison",
-    "ingredients": [
-      "ham",
-      "kaas",
-      "tomaat",
-      "sla",
-      "ei",
-      "augurk",
-      "mayonaise",
-      "cocktailsaus"
-    ],
-    "price_small": "1.50",
-    "price_medium": "2.30"
-  },
-  {
-    "name": "Tropical",
-    "ingredients": [
-      "ham",
-      "kaas",
-      "sla",
-      "komkommer",
-      "ei",
-      "ananas",
-      "cocktailsaus"
-    ],
-    "price_small": "1.50",
-    "price_medium": "2.30"
-  },
-  {
-    "name": "Gerookte zalm - kruidenkaas",
-    "ingredients": [
-      "gerookte zalm",
-      "kruidenkaas",
-      "ui"
-    ],
-    "price_small": "1.50",
-    "price_medium": "2.40"
-  },
-  {
-    "name": "Hoeve-broodje",
-    "ingredients": [
-      "geitenkaas",
-      "gebakken spek",
-      "appeltjes",
-      "sla"
-    ],
-    "price_small": "1.60",
-    "price_medium": "2.40"
-  },
-  {
-    "name": "Tomaat-mozzarella",
-    "ingredients": [
-      "mozarella",
-      "tomaat",
-      "sla",
-      "groene pesto met basilicum"
-    ],
-    "price_small": "1.60",
-    "price_medium": "2.40"
-  },
-  {
-    "name": "Ecologisch",
-    "ingredients": [
-      "wisselend broodbeleg",
-      "sla"
-    ],
-    "price_small": "1.50",
-    "price_medium": "2.50"
-  },
-  {
-    "name": "Toscane",
-    "ingredients": [
-      "tomatensalsa",
-      "prosciutto ham",
-      "sla",
-      "mozarella"
-    ],
-    "price_small": "1.50",
-    "price_medium": "2.50"
-  }
+    {
+        "name": "Kaas",
+        "ingredients": [
+            "kaas",
+            "tomaat",
+            "sla",
+            "komkommer",
+            "ei",
+            "mayonaise"
+        ],
+        "price_small": "1.40",
+        "price_medium": "2.00"
+    },
+    {
+        "name": "Kruidenkaas",
+        "ingredients": [
+            "kruidenkaas",
+            "tomaat",
+            "sla",
+            "komkommer",
+            "ei"
+        ],
+        "price_small": "1.30",
+        "price_medium": "2.00"
+    },
+    {
+        "name": "Kip curry",
+        "ingredients": [
+            "kip curry",
+            "tomaat",
+            "sla",
+            "komkommer",
+            "ei"
+        ],
+        "price_small": "1.40",
+        "price_medium": "2.10"
+    },
+    {
+        "name": "Kip curry hawaï",
+        "ingredients": [
+            "kip curry",
+            "sla",
+            "komkommer",
+            "ei",
+            "ananas"
+        ],
+        "price_small": "1.40",
+        "price_medium": "2.10"
+    },
+    {
+        "name": "Makreelsalade",
+        "ingredients": [
+            "makreelsalade",
+            "tomaat",
+            "sla",
+            "komkommer",
+            "ei"
+        ],
+        "price_small": "1.40",
+        "price_medium": "2.10"
+    },
+    {
+        "name": "Martino",
+        "ingredients": [
+            "préparé",
+            "tomaat",
+            "augurk",
+            "mosterd",
+            "tabasco"
+        ],
+        "price_small": "1.40",
+        "price_medium": "2.10"
+    },
+    {
+        "name": "Préparé",
+        "ingredients": [
+            "préparé",
+            "tomaat",
+            "sla",
+            "komkommer",
+            "ei"
+        ],
+        "price_small": "1.40",
+        "price_medium": "2.10"
+    },
+    {
+        "name": "Ham",
+        "ingredients": [
+            "ham",
+            "tomaat",
+            "sla",
+            "komkommer",
+            "ei",
+            "mayonaise"
+        ],
+        "price_small": "1.50",
+        "price_medium": "2.20"
+    },
+    {
+        "name": "Brie",
+        "ingredients": [
+            "brie",
+            "sla",
+            "honing",
+            "pijnboompitten"
+        ],
+        "price_small": "1.50",
+        "price_medium": "2.30"
+    },
+    {
+        "name": "Maison",
+        "ingredients": [
+            "ham",
+            "kaas",
+            "tomaat",
+            "sla",
+            "ei",
+            "augurk",
+            "mayonaise",
+            "cocktailsaus"
+        ],
+        "price_small": "1.50",
+        "price_medium": "2.30"
+    },
+    {
+        "name": "Tropical",
+        "ingredients": [
+            "ham",
+            "kaas",
+            "sla",
+            "komkommer",
+            "ei",
+            "ananas",
+            "cocktailsaus"
+        ],
+        "price_small": "1.50",
+        "price_medium": "2.30"
+    },
+    {
+        "name": "Gerookte zalm - kruidenkaas",
+        "ingredients": [
+            "gerookte zalm",
+            "kruidenkaas",
+            "ui"
+        ],
+        "price_small": "1.50",
+        "price_medium": "2.40"
+    },
+    {
+        "name": "Hoeve-broodje",
+        "ingredients": [
+            "geitenkaas",
+            "gebakken spek",
+            "appeltjes",
+            "sla"
+        ],
+        "price_small": "1.60",
+        "price_medium": "2.40"
+    },
+    {
+        "name": "Tomaat-mozzarella",
+        "ingredients": [
+            "mozarella",
+            "tomaat",
+            "sla",
+            "groene pesto met basilicum"
+        ],
+        "price_small": "1.60",
+        "price_medium": "2.40"
+    },
+    {
+        "name": "Ecologisch",
+        "ingredients": [
+            "wisselend broodbeleg",
+            "sla"
+        ],
+        "price_small": "1.50",
+        "price_medium": "2.50"
+    },
+    {
+        "name": "Toscane",
+        "ingredients": [
+            "tomatensalsa",
+            "prosciutto ham",
+            "sla",
+            "mozarella"
+        ],
+        "price_small": "1.50",
+        "price_medium": "2.50"
+    }
 ]

@@ -27,7 +27,6 @@ public class ViewUtils {
      * @param context   A context.
      * @param drawable  The drawable to tint.
      * @param attribute The attribute to tint the drawable in.
-     *
      * @return The drawable.
      */
     public static Drawable
@@ -42,7 +41,6 @@ public class ViewUtils {
      * @param context  A context
      * @param drawable The drawable to tint.
      * @param color    The color int to tint the drawable in.
-     *
      * @return The drawable.
      */
     @Nullable
@@ -63,7 +61,6 @@ public class ViewUtils {
      *
      * @param dp      A value in dp (density independent pixels) unit. Which we need to convert into pixels
      * @param context Context to get resources and device specific display metrics
-     *
      * @return A float value to represent px equivalent to dp depending on device density
      */
     public static float convertDpToPixel(float dp, Context context) {
@@ -84,7 +81,6 @@ public class ViewUtils {
      *
      * @param parent   The parent layout.
      * @param resource The XML resource to inflate.
-     *
      * @return The view.
      */
     public static View inflate(ViewGroup parent, @LayoutRes int resource) {
@@ -110,7 +106,7 @@ public class ViewUtils {
 
     /**
      * @return a boolean value of {@code index}. If it does not exist, a boolean value of
-     *         {@code fallbackIndex}. If it still does not exist, {@code defaultValue}.
+     * {@code fallbackIndex}. If it still does not exist, {@code defaultValue}.
      */
     public static boolean getBoolean(@NonNull TypedArray a, @StyleableRes int index,
                                      @StyleableRes int fallbackIndex, boolean defaultValue) {

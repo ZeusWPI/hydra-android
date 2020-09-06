@@ -12,18 +12,7 @@ import java.util.Objects;
  */
 @SuppressWarnings("WeakerAccess")
 public final class EcologicalSandwich implements Parcelable {
-
-    public static final Creator<EcologicalSandwich> CREATOR = new Creator<EcologicalSandwich>() {
-        @Override
-        public EcologicalSandwich createFromParcel(Parcel source) {
-            return new EcologicalSandwich(source);
-        }
-
-        @Override
-        public EcologicalSandwich[] newArray(int size) {
-            return new EcologicalSandwich[size];
-        }
-    };
+    
     private String name;
     private boolean vegan;
     private List<String> ingredients;
@@ -98,4 +87,16 @@ public final class EcologicalSandwich implements Parcelable {
     public String toString() {
         return name;
     }
+
+    public static final Creator<EcologicalSandwich> CREATOR = new Creator<EcologicalSandwich>() {
+        @Override
+        public EcologicalSandwich createFromParcel(Parcel source) {
+            return new EcologicalSandwich(source);
+        }
+
+        @Override
+        public EcologicalSandwich[] newArray(int size) {
+            return new EcologicalSandwich[size];
+        }
+    };
 }

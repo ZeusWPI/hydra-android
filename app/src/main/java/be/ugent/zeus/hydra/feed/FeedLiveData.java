@@ -15,7 +15,7 @@ import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment;
+import be.ugent.zeus.hydra.association.AssociationStore;
 import be.ugent.zeus.hydra.common.ExtendedSparseArray;
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.database.Database;
@@ -40,13 +40,13 @@ import static be.ugent.zeus.hydra.feed.operations.OperationFactory.get;
 /**
  * The data source for the home feed. The home feed is a feed that mixes data from different sources. Additions or
  * deletions from the feed are represented by {@link FeedOperation}s.
- *
+ * <p>
  * This class supports two refresh modes: full and partial. The full method is the default and will refresh all
  * feed sources. This is the default method.
- *
+ * <p>
  * By passing the correct parameter, you can specify to only update the source for a specific card type. For this,
  * the feed data supports the constant {@link #REFRESH_HOMECARD_TYPE}.
- *
+ * <p>
  * You must pass this in a bundle to {@link #flagForRefresh(Bundle)}.
  *
  * @author Niko Strijbol
@@ -63,7 +63,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
     // For which settings the loader must refresh.
     private static final String[] watchedPreferences = {
             HomeFeedFragment.PREF_DISABLED_CARD_TYPES,
-            AssociationSelectionPreferenceFragment.PREF_ASSOCIATIONS_SHOWING,
+            AssociationStore.PREF_WHITELIST,
             RestoPreferenceFragment.PREF_RESTO_KEY,
             RestoPreferenceFragment.PREF_RESTO_NAME,
             HomeFeedFragment.PREF_DISABLED_CARD_HACK
@@ -96,7 +96,6 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
      *
      * @param allOperations A list of all possible operations.
      * @param args          The arguments to determine which requests will be executed.
-     *
      * @return The requests to be executed.
      */
     private static Iterable<FeedOperation> findOperations(ExtendedSparseArray<FeedOperation> allOperations, @NonNull Bundle args) {

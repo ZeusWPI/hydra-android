@@ -14,11 +14,15 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.robolectric.ParameterizedRobolectricTestRunner;
 
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertNotEmpty;
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertTextIs;
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Niko Strijbol

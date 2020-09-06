@@ -6,6 +6,7 @@ import android.util.SparseBooleanArray;
 import androidx.annotation.NonNull;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 
@@ -132,30 +133,24 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
      * Check if a entry with given position is checked or not.
      *
      * @param position The adapter position of the item.
-     *
      * @return The state of the item.
      */
     public boolean isChecked(int position) {
         return booleanArray.get(position, defaultValue);
     }
 
-    public Iterable<Pair<H, Boolean>> getItemsAndState() {
-        return () -> new Iterator<Pair<H, Boolean>>() {
-
-            private int current = 0;
-
-            @Override
-            public boolean hasNext() {
-                return current < getItemCount();
-            }
-
-            @Override
-            public Pair<H, Boolean> next() {
-                Pair<H, Boolean> value = new Pair<>(getItem(current), isChecked(current));
-                current++;
-                return value;
-            }
-        };
+    /**
+     * Get all items and their state. This method will take a snapshot of the state, meaning changes
+     * in the state are not reflected in the resulting list.
+     * 
+     * @return A list, where each item is a pair of the item and its state.
+     */
+    public List<Pair<H, Boolean>> getItemsAndState() {
+        List<Pair<H, Boolean>> itemsAndState = new ArrayList<>(getItemCount());
+        for (int i = 0; i < getItemCount(); i++) {
+            itemsAndState.add(new Pair<>(getItem(i), isChecked(i)));
+        }
+        return itemsAndState;
     }
 
     /**
@@ -221,7 +216,7 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
      * Adds a new callback. If the callback already exists, the behaviour is safe, but undefined. This means the
      * callback could be registered again and called twice, or the calls with an existing callback could be ignored.
      * The only guarantee is that there will be no exception and the callback will be called at least once.
-     *
+     * <p>
      * There is no guarantee in which order the callbacks will be called.
      *
      * @param callback The callback to add.
@@ -232,7 +227,7 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
 
     /**
      * Removes a callback. If the callback is not registered, this does nothing.
-     *
+     * <p>
      * If the callback is registered twice, the behaviour is also safe, but undefined (same as {@link #addCallback(Callback)}.
      * The method may remove all instance or might remove one instance.
      *

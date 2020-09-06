@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.association.event.list;
+package be.ugent.zeus.hydra.association.list;
 
 import android.content.Intent;
 import android.view.View;
@@ -8,6 +8,8 @@ import android.widget.TextView;
 import java.time.format.DateTimeFormatter;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.association.Association;
+import be.ugent.zeus.hydra.association.AssociationMap;
 import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.association.event.EventDetailsActivity;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
@@ -30,24 +32,27 @@ class EventViewHolder extends DataViewHolder<EventItem> {
     private final TextView association;
     private final MaterialCardView cardView;
     private final View divider;
+    private final AssociationMap map;
 
-    EventViewHolder(View v) {
+    EventViewHolder(View v, AssociationMap map) {
         super(v);
         title = v.findViewById(R.id.name);
         association = v.findViewById(R.id.association);
         start = v.findViewById(R.id.starttime);
         cardView = v.findViewById(R.id.card_view);
         divider = v.findViewById(R.id.item_event_divider);
+        this.map = map;
     }
 
     @Override
     public void populate(final EventItem eventItem) {
         Event event = eventItem.getItem();
+        Association assoc = map.get(event.getAssociation());
         title.setText(event.getTitle());
-        association.setText(event.getAssociation().getDisplayName());
+        association.setText(assoc.getName());
         start.setText(event.getLocalStart().format(HOUR_FORMATTER));
         cardView.setOnClickListener(v -> {
-            Intent intent = EventDetailsActivity.start(v.getContext(), event);
+            Intent intent = EventDetailsActivity.start(v.getContext(), event, assoc);
             v.getContext().startActivity(intent);
         });
 

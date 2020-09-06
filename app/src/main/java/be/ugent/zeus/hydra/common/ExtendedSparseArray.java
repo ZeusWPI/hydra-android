@@ -16,7 +16,7 @@ public class ExtendedSparseArray<E> extends SparseArray<E> implements Iterable<E
 
     /**
      * An iterator over the values of this array.
-     *
+     * <p>
      * The iterator is backed by this array; as such changes to the array while iterating may result in undefined
      * behaviour. The iterator is read-only: {@link Iterator#remove()} is not supported.
      *

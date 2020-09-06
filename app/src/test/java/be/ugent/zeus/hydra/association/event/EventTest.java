@@ -2,10 +2,7 @@ package be.ugent.zeus.hydra.association.event;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.common.ModelTest;
@@ -96,12 +93,6 @@ public class EventTest extends ModelTest<Event> {
     }
 
     @Test
-    public void shouldNotHavePreciesLocation_whenThereAreNoCoordinates() {
-        Event event = Utils.generate(Event.class, "latitude", "longitude");
-        assertFalse(event.hasPreciseLocation());
-    }
-
-    @Test
     public void shouldHavePreciesLocation_whenThereAreCoordinates() {
         Event event = Utils.generate(Event.class);
         assertTrue(event.hasPreciseLocation());
@@ -124,5 +115,10 @@ public class EventTest extends ModelTest<Event> {
     public void shouldHaveUrl_whenThereIsUrl() {
         Event event = Utils.generate(Event.class);
         assertTrue(event.hasUrl());
+    }
+
+    @Test
+    public void equalsAndHash() {
+        Utils.defaultVerifier(Event.class).withOnlyTheseFields("id").verify();
     }
 }

@@ -24,7 +24,6 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
  * @param <D>  The type of the items this adapter will contain. If multiple view types are needed, it is recommended
  *             to create a custom superclass of all the types.
  * @param <VH> The type of the view holder.
- *
  * @author Niko Strijbol
  */
 public abstract class DiffAdapter<D, VH extends DataViewHolder<D>> extends DataAdapter<D, VH> {

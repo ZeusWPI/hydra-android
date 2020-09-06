@@ -10,18 +10,15 @@ import androidx.annotation.Nullable;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 /**
  * Migrate the types of the dates.
- *
+ * <p>
  * This migration contains some methods, like {@link #legacyUnserialize(long)}, which are copied into this class,
  * to make sure the migration doesn't have any dependencies on old code.
- *
+ * <p>
  * Similarly, the new methods are also copied into this class. This prevents accidental incompatible changes to the code.
  *
  * @author Niko Strijbol
@@ -52,7 +49,6 @@ public class Migration_10_11 extends Migration {
      * Converts an instant to a string.
      *
      * @param instant The instant.
-     *
      * @return The string value.
      */
     @Nullable
@@ -68,7 +64,6 @@ public class Migration_10_11 extends Migration {
      * Converts a offset date time to a string in the format specified by {@link #OFFSET_FORMATTER}.
      *
      * @param dateTime The date time or {@code null}.
-     *
      * @return The string or {@code null} if the input was {@code null}.
      */
     @Nullable

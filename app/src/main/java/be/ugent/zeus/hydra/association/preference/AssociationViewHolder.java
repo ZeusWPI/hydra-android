@@ -13,7 +13,7 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 
 /**
  * Simple view holder.
- *
+ * <p>
  * Needs to be static because generics are stupid.
  */
 class AssociationViewHolder extends DataViewHolder<Pair<Association, Boolean>> {

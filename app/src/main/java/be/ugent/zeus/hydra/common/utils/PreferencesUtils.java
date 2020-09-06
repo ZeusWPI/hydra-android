@@ -39,7 +39,6 @@ public class PreferencesUtils {
      *
      * @param context The context to get the preferences from.
      * @param key     The preferences key.
-     *
      * @return The set.
      */
     @NonNull

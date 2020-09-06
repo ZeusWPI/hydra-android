@@ -16,10 +16,10 @@ import be.ugent.zeus.hydra.common.utils.ViewUtils;
 
 /**
  * Custom dialog to select a time in the preferences.
- *
+ * <p>
  * This dialogs uses {@link LocalTime}, and saves the preference as a time string, such as "10:20". The exact format
  * depends on {@link LocalTime#toString()}, but is ISO-8601.
- *
+ * <p>
  * The formatting of the actual picker depends on the locale.
  *
  * @author Rien Maertens
@@ -132,18 +132,7 @@ public class TimePreference extends DialogPreference {
     }
 
     private static class SavedState extends BaseSavedState {
-        public static final Parcelable.Creator<SavedState> CREATOR =
-                new Parcelable.Creator<SavedState>() {
-                    @Override
-                    public SavedState createFromParcel(Parcel in) {
-                        return new SavedState(in);
-                    }
 
-                    @Override
-                    public SavedState[] newArray(int size) {
-                        return new SavedState[size];
-                    }
-                };
         private LocalTime time;
 
         public SavedState(Parcel source) {
@@ -160,5 +149,18 @@ public class TimePreference extends DialogPreference {
             super.writeToParcel(dest, flags);
             dest.writeSerializable(time);
         }
+
+        public static final Parcelable.Creator<SavedState> CREATOR =
+                new Parcelable.Creator<SavedState>() {
+                    @Override
+                    public SavedState createFromParcel(Parcel in) {
+                        return new SavedState(in);
+                    }
+
+                    @Override
+                    public SavedState[] newArray(int size) {
+                        return new SavedState[size];
+                    }
+                };
     }
 }

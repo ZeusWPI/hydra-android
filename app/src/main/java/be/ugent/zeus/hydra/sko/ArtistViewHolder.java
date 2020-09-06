@@ -1,10 +1,7 @@
 package be.ugent.zeus.hydra.sko;
 
 import android.content.Intent;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.VisibleForTesting;
@@ -15,7 +12,7 @@ import com.squareup.picasso.Picasso;
 
 /**
  * View holder for an {@link Artist}.
- *
+ * <p>
  * This class implements the base class with {@link ArtistOrTitle}, since it would be a lot of work to allow us to
  * have heterogeneous view holders in the adapters for little gain.
  *

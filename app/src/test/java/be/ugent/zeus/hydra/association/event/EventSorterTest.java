@@ -7,7 +7,6 @@ import java.util.List;
 
 import be.ugent.zeus.hydra.common.network.InstanceProvider;
 import be.ugent.zeus.hydra.testing.Utils;
-import com.squareup.moshi.Types;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,8 +21,7 @@ public class EventSorterTest {
 
     @Before
     public void setUp() throws IOException {
-        data = Utils.readJson(InstanceProvider.getMoshi(), "all_activities.json",
-                Types.newParameterizedType(List.class, Event.class));
+        data = Utils.readJson(InstanceProvider.getMoshi(), "activiteiten.json", EventList.class).getPage().getEntries();
     }
 
     @Test

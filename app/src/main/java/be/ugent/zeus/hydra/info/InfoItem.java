@@ -16,18 +16,7 @@ import com.squareup.moshi.Json;
  */
 @SuppressWarnings("unused")
 public final class InfoItem implements Parcelable {
-
-    public static final Creator<InfoItem> CREATOR = new Creator<InfoItem>() {
-        @Override
-        public InfoItem createFromParcel(Parcel in) {
-            return new InfoItem(in);
-        }
-
-        @Override
-        public InfoItem[] newArray(int size) {
-            return new InfoItem[size];
-        }
-    };
+    
     private String title;
     private String image;
     private String html;
@@ -49,6 +38,18 @@ public final class InfoItem implements Parcelable {
         urlAndroid = in.readString();
         subContent = in.createTypedArrayList(CREATOR);
     }
+
+    public static final Creator<InfoItem> CREATOR = new Creator<InfoItem>() {
+        @Override
+        public InfoItem createFromParcel(Parcel in) {
+            return new InfoItem(in);
+        }
+
+        @Override
+        public InfoItem[] newArray(int size) {
+            return new InfoItem[size];
+        }
+    };
 
     public String getTitle() {
         return title;

@@ -15,18 +15,7 @@ import java.util.Objects;
  * @author Niko Strijbol
  */
 public final class RestoMenu implements Parcelable {
-
-    public static final Parcelable.Creator<RestoMenu> CREATOR = new Parcelable.Creator<RestoMenu>() {
-        @Override
-        public RestoMenu createFromParcel(Parcel source) {
-            return new RestoMenu(source);
-        }
-
-        @Override
-        public RestoMenu[] newArray(int size) {
-            return new RestoMenu[size];
-        }
-    };
+    
     private boolean open;
     private LocalDate date;
     private List<RestoMeal> meals;
@@ -156,4 +145,16 @@ public final class RestoMenu implements Parcelable {
         dest.writeStringList(this.vegetables);
         dest.writeString(this.message);
     }
+
+    public static final Parcelable.Creator<RestoMenu> CREATOR = new Parcelable.Creator<RestoMenu>() {
+        @Override
+        public RestoMenu createFromParcel(Parcel source) {
+            return new RestoMenu(source);
+        }
+
+        @Override
+        public RestoMenu[] newArray(int size) {
+            return new RestoMenu[size];
+        }
+    };
 }

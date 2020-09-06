@@ -1,9 +1,19 @@
-package be.ugent.zeus.hydra.association.event.list;
+package be.ugent.zeus.hydra.association.list;
+
+import android.content.Context;
+import android.util.Pair;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.util.List;
 import java.util.Objects;
 
+import be.ugent.zeus.hydra.association.AssociationListRequest;
+import be.ugent.zeus.hydra.association.AssociationMap;
 import be.ugent.zeus.hydra.association.event.Event;
+import be.ugent.zeus.hydra.association.event.RawEventRequest;
+import be.ugent.zeus.hydra.common.request.Request;
 
 /**
  * Data structure for a list of events. The contains an item, a header or a footer, but only one of the elements.
@@ -11,7 +21,7 @@ import be.ugent.zeus.hydra.association.event.Event;
  *
  * @author Niko Strijbol
  */
-final class EventItem {
+public final class EventItem implements Comparable<EventItem> {
 
     private final Event event;
     private final LocalDate header;
@@ -30,6 +40,12 @@ final class EventItem {
 
     EventItem(LocalDate header) {
         this(null, header);
+    }
+
+    public static Request<Pair<List<EventItem>, AssociationMap>> request(Context context, Filter filter) {
+        return RawEventRequest.create(context, filter)
+                .map(new EventListConverter())
+                .andThen(AssociationListRequest.create(context));
     }
 
     public boolean isHeader() {
@@ -78,5 +94,18 @@ final class EventItem {
 
     void markAsLastOfSection() {
         this.isLastOfSection = true;
+    }
+    
+    public OffsetDateTime getDate() {
+        if (isItem()) {
+            return getItem().getStart();
+        } else {
+            return getHeader().atStartOfDay(ZoneId.systemDefault()).toOffsetDateTime();
+        }
+    }
+
+    @Override
+    public int compareTo(EventItem o) {
+        return getDate().compareTo(o.getDate());
     }
 }

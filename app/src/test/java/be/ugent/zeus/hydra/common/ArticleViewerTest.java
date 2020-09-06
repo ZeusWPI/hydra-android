@@ -12,7 +12,9 @@ import org.robolectric.RobolectricTestRunner;
 
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * @author Niko Strijbol

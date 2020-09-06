@@ -13,18 +13,7 @@ import com.squareup.moshi.Json;
  */
 @SuppressWarnings("WeakerAccess")
 public final class RegularSandwich implements Parcelable {
-
-    public static final Parcelable.Creator<RegularSandwich> CREATOR = new Parcelable.Creator<RegularSandwich>() {
-        @Override
-        public RegularSandwich createFromParcel(Parcel source) {
-            return new RegularSandwich(source);
-        }
-
-        @Override
-        public RegularSandwich[] newArray(int size) {
-            return new RegularSandwich[size];
-        }
-    };
+    
     private String name;
     private List<String> ingredients;
     @Json(name = "price_small")
@@ -93,4 +82,16 @@ public final class RegularSandwich implements Parcelable {
     public String toString() {
         return name;
     }
+
+    public static final Parcelable.Creator<RegularSandwich> CREATOR = new Parcelable.Creator<RegularSandwich>() {
+        @Override
+        public RegularSandwich createFromParcel(Parcel source) {
+            return new RegularSandwich(source);
+        }
+
+        @Override
+        public RegularSandwich[] newArray(int size) {
+            return new RegularSandwich[size];
+        }
+    };
 }

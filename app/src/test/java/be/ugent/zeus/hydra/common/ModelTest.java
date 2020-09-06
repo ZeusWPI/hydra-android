@@ -9,9 +9,9 @@ import static be.ugent.zeus.hydra.testing.Assert.assertParcelable;
 
 /**
  * Generic test class for models.
- *
+ * <p>
  * You should initialize the {@link #clazz} field in the constructor or @Before method.
- *
+ * <p>
  * This contains tests for {@link android.os.Parcelable}.
  *
  * @author Niko Strijbol

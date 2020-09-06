@@ -17,24 +17,13 @@ import be.ugent.zeus.hydra.common.utils.DateUtils;
 
 /**
  * An SKO artist.
- *
+ * <p>
  * An artist is uniquely defined by his/her name, stage, start and stop time.
  *
  * @author Niko Strijbol
  */
 final class Artist implements Parcelable {
-
-    public static final Creator<Artist> CREATOR = new Creator<Artist>() {
-        @Override
-        public Artist createFromParcel(Parcel source) {
-            return new Artist(source);
-        }
-
-        @Override
-        public Artist[] newArray(int size) {
-            return new Artist[size];
-        }
-    };
+    
     private static final String LOCATION = "Sint-Pietersplein, Gent";
     private String name;
     private String title;
@@ -85,7 +74,7 @@ final class Artist implements Parcelable {
     /**
      * Get the start date, converted to the local time zone. The resulting DateTime is the time as it is used
      * in the current time zone.
-     *
+     * <p>
      * This value is calculated every time, so if you need it a lot, cache it in a local variable.
      *
      * @return The converted start date.
@@ -98,7 +87,7 @@ final class Artist implements Parcelable {
     /**
      * Get the end date, converted to the local time zone. The resulting DateTime is the time as it is used
      * in the current time zone.
-     *
+     * <p>
      * This value is calculated every time, so if you need it a lot, cache it in a local variable.
      *
      * @return The converted end date.
@@ -140,13 +129,12 @@ final class Artist implements Parcelable {
 
     /**
      * Get the display date. The resulting string is of the following format:
-     *
+     * <p>
      * dd/MM HH:mm tot [dd/MM] HH:mm
-     *
+     * <p>
      * The second date is only shown of it is not the same date as the first.
      *
      * @param context The context, to access localized string formatters.
-     *
      * @return The text to display.
      */
     @SuppressWarnings("WeakerAccess")
@@ -231,4 +219,16 @@ final class Artist implements Parcelable {
         dest.writeString(this.description);
         dest.writeInt(this.index);
     }
+
+    public static final Creator<Artist> CREATOR = new Creator<Artist>() {
+        @Override
+        public Artist createFromParcel(Parcel source) {
+            return new Artist(source);
+        }
+
+        @Override
+        public Artist[] newArray(int size) {
+            return new Artist[size];
+        }
+    };
 }

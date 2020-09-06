@@ -29,7 +29,7 @@ import androidx.core.view.ViewCompat;
 /**
  * An extension of LinearLayout that automatically switches to vertical
  * orientation when it can't fit its child views horizontally.
- *
+ * <p>
  * Modified from the Android source code.
  */
 public class ButtonBarLayout extends LinearLayout {

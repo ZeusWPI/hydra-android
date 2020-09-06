@@ -24,18 +24,7 @@ import com.squareup.moshi.Json;
  */
 @SuppressWarnings("unused")
 public final class Article implements Parcelable, ArticleViewer.Article {
-
-    public static final Creator<Article> CREATOR = new Creator<Article>() {
-        @Override
-        public Article createFromParcel(Parcel in) {
-            return new Article(in);
-        }
-
-        @Override
-        public Article[] newArray(int size) {
-            return new Article[size];
-        }
-    };
+    
     private static final Pattern IMAGE_REPLACEMENT = Pattern.compile("/regulier/", Pattern.LITERAL);
     private String title;
     private String link;
@@ -157,4 +146,16 @@ public final class Article implements Parcelable, ArticleViewer.Article {
     public int describeContents() {
         return 0;
     }
+
+    public static final Creator<Article> CREATOR = new Creator<Article>() {
+        @Override
+        public Article createFromParcel(Parcel in) {
+            return new Article(in);
+        }
+
+        @Override
+        public Article[] newArray(int size) {
+            return new Article[size];
+        }
+    };
 }

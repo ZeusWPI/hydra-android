@@ -7,7 +7,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 /**
  * Actually adjust the scheme to support Room.
- *
+ * <p>
  * The SQL for creating the tables is copied from the scheme exported by Room.
  *
  * @author Niko Strijbol

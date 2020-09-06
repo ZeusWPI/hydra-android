@@ -1,7 +1,4 @@
-package be.ugent.zeus.hydra.association.event.list;
-
-import android.os.Build;
-import androidx.annotation.RequiresApi;
+package be.ugent.zeus.hydra.association.list;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -11,10 +8,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.association.event.Event;
+import be.ugent.zeus.hydra.association.event.EventList;
 import be.ugent.zeus.hydra.common.network.InstanceProvider;
 import be.ugent.zeus.hydra.testing.Utils;
 import com.squareup.moshi.Moshi;
-import com.squareup.moshi.Types;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,7 +21,6 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Niko Strijbol
  */
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class EventListConverterTest {
 
     private List<Event> data;
@@ -32,8 +28,7 @@ public class EventListConverterTest {
     @Before
     public void setUp() throws IOException {
         Moshi moshi = InstanceProvider.getMoshi();
-        data = Utils.readJson(moshi, "all_activities.json",
-                Types.newParameterizedType(List.class, Event.class));
+        data = Utils.readJson(moshi, "activiteiten.json", EventList.class).getPage().getEntries();
     }
 
     @Test

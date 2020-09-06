@@ -55,17 +55,7 @@ public enum PreferenceEntry implements Parcelable {
             R.drawable.ic_info_outline,
             AboutFragment::new
     );
-    public static final Parcelable.Creator<PreferenceEntry> CREATOR = new Parcelable.Creator<PreferenceEntry>() {
-        @Override
-        public PreferenceEntry createFromParcel(Parcel in) {
-            return PreferenceEntry.values()[in.readInt()];
-        }
-
-        @Override
-        public PreferenceEntry[] newArray(int size) {
-            return new PreferenceEntry[size];
-        }
-    };
+    
     @StringRes
     private final int name;
     @StringRes
@@ -103,6 +93,18 @@ public enum PreferenceEntry implements Parcelable {
     public int describeContents() {
         return 0;
     }
+
+    public static final Parcelable.Creator<PreferenceEntry> CREATOR = new Parcelable.Creator<PreferenceEntry>() {
+        @Override
+        public PreferenceEntry createFromParcel(Parcel in) {
+            return PreferenceEntry.values()[in.readInt()];
+        }
+
+        @Override
+        public PreferenceEntry[] newArray(int size) {
+            return new PreferenceEntry[size];
+        }
+    };
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {

@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 
 /**
  * Provides the basic method for logging analytics events.
- *
+ * <p>
  * You should get an instance of the tracker from the {@link Reporting}. Normally, the implementation will track certain
  * things automatically. For example, Firebase automatically tracks:
  * <ul>

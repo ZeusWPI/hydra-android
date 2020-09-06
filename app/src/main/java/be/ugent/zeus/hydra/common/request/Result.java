@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.common.request;
 
+import android.util.Pair;
 import androidx.annotation.NonNull;
 
 import java.util.NoSuchElementException;
@@ -14,22 +15,22 @@ import java.util.function.Function;
  * This class represents an "inclusive or" type, sometimes referred to as an "outer join" type.
  * This means the class holds either a value, an error or both. To prevent wrong usage, a builder is provided, while the
  * constructor is private.
- *
+ * <p>
  * Accessing values when there are none, e.g. calling {@link #getData()} when there is no data, will result in an
  * exception. Note that implementing monad laws is not the goal of this class.
- *
+ * <p>
  * The class supports various methods for working with this, similar to {@link java.util.Optional}.
  *
  * <h1>Status</h1>
  * In addition to data, this class has support for indicating the status of the request result. The
  * status is either done or continuing.
- *
+ * <p>
  * Done means that the request is done. Except for external factors, no more results should be produced. This means the
  * UI could display the request as done.
- *
+ * <p>
  * Continuing means that this result represents a partial result, and you should expect the request to produce more
  * results.
- *
+ * <p>
  * This class is immutable. Instances of this class must be obtained from the {@link Builder} class.
  *
  * @author Niko Strijbol
@@ -69,7 +70,6 @@ public class Result<D> {
 
     /**
      * @return The data.
-     *
      * @throws NoSuchElementException If there is no data.
      */
     public D getData() {
@@ -81,7 +81,6 @@ public class Result<D> {
 
     /**
      * @return The exception.
-     *
      * @throws NoSuchElementException If there is no exception.
      */
     public RequestException getError() {
@@ -104,12 +103,11 @@ public class Result<D> {
 
     /**
      * Applies a function to the data of the result. The exception and status are not modified.
-     *
+     * <p>
      * The function to map the data will never receive a null value and must never produce a null value.
      *
      * @param function The function to apply.
      * @param <R>      The result type.
-     *
      * @return The result.
      */
     public <R> Result<R> map(Function<D, R> function) {
@@ -126,7 +124,6 @@ public class Result<D> {
      * is data present or not.
      *
      * @return The data.
-     *
      * @throws RequestException If the exception is present.
      */
     @SuppressWarnings("UnusedReturnValue")
@@ -141,7 +138,7 @@ public class Result<D> {
     /**
      * If a value is present, performs the given action with the value, otherwise performs the given empty-based
      * action.
-     *
+     * <p>
      * This means the {@code action} will be executed if data is available, regardless of the presence of errors.
      *
      * @param action      The action to be performed, if a value is present.
@@ -159,11 +156,18 @@ public class Result<D> {
      * Return the value if present, otherwise return {@code other}.
      *
      * @param other The value to be returned if there is no value present, maybe null.
-     *
      * @return The value, if present, otherwise {@code other}.
      */
     public D orElse(D other) {
         return data != null ? data : other;
+    }
+
+    public <T> Result<Pair<D, T>> andThen(Result<T> other) {
+        if (hasData()) {
+            return other.map(t -> new Pair<>(data, t));
+        } else {
+            return Result.Builder.fromException(throwable);
+        }
     }
 
     /**
@@ -178,7 +182,6 @@ public class Result<D> {
      * </ul>
      *
      * @param update The Result to merge with.
-     *
      * @return Updated result.
      */
     public Result<D> updateWith(Result<D> update) {
@@ -202,7 +205,7 @@ public class Result<D> {
 
     /**
      * A result is equal to another result if the state, data and error are the same.
-     *
+     * <p>
      * {@inheritDoc}
      */
     @Override
@@ -235,7 +238,6 @@ public class Result<D> {
          *
          * @param data The data. Cannot be null.
          * @param <D>  The type of the data.
-         *
          * @return The result.
          */
         public static <D> Result<D> fromData(@NonNull D data) {
@@ -247,7 +249,6 @@ public class Result<D> {
          *
          * @param e   The exception. Cannot be null.
          * @param <D> The type of the data if there would have been data.
-         *
          * @return The result.
          */
         public static <D> Result<D> fromException(@NonNull RequestException e) {

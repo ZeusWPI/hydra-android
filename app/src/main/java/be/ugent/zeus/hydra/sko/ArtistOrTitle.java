@@ -34,7 +34,6 @@ class ArtistOrTitle {
 
     /**
      * @return The artist.
-     *
      * @throws NullPointerException If the artist is {@code null}.
      */
     @NonNull
@@ -45,7 +44,6 @@ class ArtistOrTitle {
 
     /**
      * @return The title.
-     *
      * @throws NullPointerException If the title is {@code null}.
      */
     @NonNull

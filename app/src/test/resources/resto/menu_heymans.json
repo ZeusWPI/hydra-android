@@ -1,402 +1,402 @@
 [
-  {
-    "date": "2017-11-20",
-    "meals": [
-      {
-        "kind": "soup",
-        "name": "Paprikasoep",
-        "price": "\u20ac 0,50",
-        "type": "side"
-      },
-      {
-        "kind": "soup",
-        "name": "Bospaddestoelensoep",
-        "price": "\u20ac 2,50",
-        "type": "main"
-      },
-      {
-        "kind": "meat",
-        "name": "Gehaktbrood",
-        "price": "\u20ac 3,50",
-        "type": "main"
-      },
-      {
-        "kind": "fish",
-        "name": "Kabeljauw in saffraansaus MSC",
-        "price": "\u20ac 4,60",
-        "type": "main"
-      },
-      {
-        "kind": "vegetarian",
-        "name": "Groentekrustie",
-        "price": "\u20ac 3,80",
-        "type": "main"
-      }
-    ],
-    "open": true,
-    "vegetables": [
-      "Boterbonen",
-      "Seizoensgroenten"
-    ]
-  },
-  {
-    "date": "2017-11-21",
-    "meals": [
-      {
-        "kind": "soup",
-        "name": "Courgettesoep",
-        "price": "\u20ac 0,50",
-        "type": "side"
-      },
-      {
-        "kind": "soup",
-        "name": "Vissoep velout\u00e9",
-        "price": "\u20ac 2,50",
-        "type": "main"
-      },
-      {
-        "kind": "meat",
-        "name": "Kalkoengebraad",
-        "price": "\u20ac 3,30",
-        "type": "main"
-      },
-      {
-        "kind": "fish",
-        "name": "Alaska pollak gepaneerd MSC",
-        "price": "\u20ac 3,70",
-        "type": "main"
-      },
-      {
-        "kind": "vegetarian",
-        "name": "Kinowaburger",
-        "price": "\u20ac 3,80",
-        "type": "main"
-      }
-    ],
-    "open": true,
-    "vegetables": [
-      "Witloof",
-      "Stoemp van savooi"
-    ]
-  },
-  {
-    "date": "2017-11-22",
-    "meals": [
-      {
-        "kind": "soup",
-        "name": "Tomatensoep",
-        "price": "\u20ac 0,50",
-        "type": "side"
-      },
-      {
-        "kind": "soup",
-        "name": "Thaise soep met kip",
-        "price": "\u20ac 2,50",
-        "type": "main"
-      },
-      {
-        "kind": "meat",
-        "name": "Spaghetti bolognaise",
-        "price": "\u20ac 3,30",
-        "type": "main"
-      },
-      {
-        "kind": "meat",
-        "name": "Mimosaburger",
-        "price": "\u20ac 3,70",
-        "type": "main"
-      },
-      {
-        "kind": "vegetarian",
-        "name": "Taartje brie-appel",
-        "price": "\u20ac 4,00",
-        "type": "main"
-      }
-    ],
-    "open": true,
-    "vegetables": [
-      "Duo van courgetten",
-      "Bloemkool met kaassaus"
-    ]
-  },
-  {
-    "date": "2017-11-23",
-    "meals": [
-      {
-        "kind": "soup",
-        "name": "Waterkerssoep",
-        "price": "\u20ac 0,50",
-        "type": "side"
-      },
-      {
-        "kind": "soup",
-        "name": "Wortelsoep met gember",
-        "price": "\u20ac 2,50",
-        "type": "main"
-      },
-      {
-        "kind": "meat",
-        "name": "Kip Tikka Masala",
-        "price": "\u20ac 3,60",
-        "type": "main"
-      },
-      {
-        "kind": "vegetarian",
-        "name": "Lasagne mozzarella",
-        "price": "\u20ac 4,50",
-        "type": "main"
-      },
-      {
-        "kind": "vegetarian",
-        "name": "Fairtradeburger",
-        "price": "\u20ac 3,90",
-        "type": "main"
-      }
-    ],
-    "open": true,
-    "vegetables": [
-      "Broccoli",
-      "Prinsessengroenten"
-    ]
-  },
-  {
-    "date": "2017-11-24",
-    "meals": [
-      {
-        "kind": "soup",
-        "name": "Broccolisoep",
-        "price": "\u20ac 0,50",
-        "type": "side"
-      },
-      {
-        "kind": "soup",
-        "name": "Minestrone",
-        "price": "\u20ac 2,50",
-        "type": "main"
-      },
-      {
-        "kind": "meat",
-        "name": "Kipbil in jagersaus",
-        "price": "\u20ac 4,20",
-        "type": "main"
-      },
-      {
-        "kind": "fish",
-        "name": "Seacrunch van kabeljauw MSC",
-        "price": "\u20ac 3,60",
-        "type": "main"
-      },
-      {
-        "kind": "vegetarian",
-        "name": "Pasta met olijf en tomaat",
-        "price": "\u20ac 4,40",
-        "type": "main"
-      }
-    ],
-    "open": true,
-    "vegetables": [
-      "Koolrabi",
-      "Erwtjes en wortelen"
-    ]
-  },
-  {
-    "date": "2017-11-27",
-    "meals": [
-      {
-        "kind": "soup",
-        "name": "Tomatensoep",
-        "price": "\u20ac 0,50",
-        "type": "side"
-      },
-      {
-        "kind": "soup",
-        "name": "Pastinaaksoep",
-        "price": "\u20ac 2,50",
-        "type": "main"
-      },
-      {
-        "kind": "meat",
-        "name": "Ardeens gebraad",
-        "price": "\u20ac 3,70",
-        "type": "main"
-      },
-      {
-        "kind": "fish",
-        "name": "Haasje van koolvis MSC",
-        "price": "\u20ac 3,30",
-        "type": "main"
-      },
-      {
-        "kind": "vegetarian",
-        "name": "Veggie loempia",
-        "price": "\u20ac 3,60",
-        "type": "main"
-      }
-    ],
-    "open": true,
-    "vegetables": [
-      "Fijne boontjes met ui",
-      "Jonge groentjes"
-    ]
-  },
-  {
-    "date": "2017-11-28",
-    "meals": [
-      {
-        "kind": "soup",
-        "name": "Kippenroomsoep",
-        "price": "\u20ac 0,50",
-        "type": "side"
-      },
-      {
-        "kind": "soup",
-        "name": "Waterzooi",
-        "price": "\u20ac 2,50",
-        "type": "main"
-      },
-      {
-        "kind": "meat",
-        "name": "Gentse stoverij",
-        "price": "\u20ac 4,10",
-        "type": "main"
-      },
-      {
-        "kind": "fish",
-        "name": "Haasje van pangasius ASC",
-        "price": "\u20ac 2,90",
-        "type": "main"
-      },
-      {
-        "kind": "vegetarian",
-        "name": "Vol-au-veggie",
-        "price": "\u20ac 4,40",
-        "type": "main"
-      }
-    ],
-    "open": true,
-    "vegetables": [
-      "Witloof",
-      "Italiaanse groenten"
-    ]
-  },
-  {
-    "date": "2017-11-29",
-    "meals": [
-      {
-        "kind": "soup",
-        "name": "Kippenroomsoep",
-        "price": "\u20ac 0,50",
-        "type": "side"
-      },
-      {
-        "kind": "soup",
-        "name": "Tomaat-mascarpone soep",
-        "price": "\u20ac 2,50",
-        "type": "main"
-      },
-      {
-        "kind": "fish",
-        "name": "Kabeljauwsticks ASC",
-        "price": "\u20ac 3,70",
-        "type": "main"
-      },
-      {
-        "kind": "meat",
-        "name": "Spaghetti bolognaise",
-        "price": "\u20ac 3,30",
-        "type": "main"
-      },
-      {
-        "kind": "groenten",
-        "name": "Tomaat-mozzarella taartje",
-        "price": "\u20ac 4,10",
-        "type": "main"
-      }
-    ],
-    "open": true,
-    "vegetables": [
-      "Savooikool in roomsaus",
-      "Groenteratatouille"
-    ]
-  },
-  {
-    "date": "2017-11-30",
-    "meals": [
-      {
-        "kind": "soup",
-        "name": "Seldersoep",
-        "price": "\u20ac 0,50",
-        "type": "side"
-      },
-      {
-        "kind": "soup",
-        "name": "Hartige goulashsoep",
-        "price": "\u20ac 2,50",
-        "type": "main"
-      },
-      {
-        "kind": "fish",
-        "name": "Oostends vispannetje",
-        "price": "\u20ac 4,40",
-        "type": "main"
-      },
-      {
-        "kind": "vegetarian",
-        "name": "Veggie reepjes Strogranoff",
-        "price": "\u20ac 3,60",
-        "type": "main"
-      },
-      {
-        "kind": "vegetarian",
-        "name": "Couscous-bonenschotel",
-        "price": "\u20ac 4,00",
-        "type": "main"
-      }
-    ],
-    "open": true,
-    "vegetables": [
-      "Duo van wortelen",
-      "Spaanse groenten"
-    ]
-  },
-  {
-    "date": "2017-12-01",
-    "meals": [
-      {
-        "kind": "soup",
-        "name": "Minestrone",
-        "price": "\u20ac 0,50",
-        "type": "side"
-      },
-      {
-        "kind": "soup",
-        "name": "Broccoli-kruidenkaas soep",
-        "price": "\u20ac 2,50",
-        "type": "main"
-      },
-      {
-        "kind": "meat",
-        "name": "Kiptournedos",
-        "price": "\u20ac 4,20",
-        "type": "main"
-      },
-      {
-        "kind": "fish",
-        "name": "Cordon bleu van pladijs MSC",
-        "price": "\u20ac 4,00",
-        "type": "main"
-      },
-      {
-        "kind": "vegetarian",
-        "name": "Gevulde paprika",
-        "price": "\u20ac 3,70",
-        "type": "main"
-      }
-    ],
-    "open": true,
-    "vegetables": [
-      "Snijboontjes",
-      "Parijse julienne groenten"
-    ]
-  }
+    {
+        "date": "2017-11-20",
+        "meals": [
+            {
+                "kind": "soup",
+                "name": "Paprikasoep",
+                "price": "\u20ac 0,50",
+                "type": "side"
+            },
+            {
+                "kind": "soup",
+                "name": "Bospaddestoelensoep",
+                "price": "\u20ac 2,50",
+                "type": "main"
+            },
+            {
+                "kind": "meat",
+                "name": "Gehaktbrood",
+                "price": "\u20ac 3,50",
+                "type": "main"
+            },
+            {
+                "kind": "fish",
+                "name": "Kabeljauw in saffraansaus MSC",
+                "price": "\u20ac 4,60",
+                "type": "main"
+            },
+            {
+                "kind": "vegetarian",
+                "name": "Groentekrustie",
+                "price": "\u20ac 3,80",
+                "type": "main"
+            }
+        ],
+        "open": true,
+        "vegetables": [
+            "Boterbonen",
+            "Seizoensgroenten"
+        ]
+    },
+    {
+        "date": "2017-11-21",
+        "meals": [
+            {
+                "kind": "soup",
+                "name": "Courgettesoep",
+                "price": "\u20ac 0,50",
+                "type": "side"
+            },
+            {
+                "kind": "soup",
+                "name": "Vissoep velout\u00e9",
+                "price": "\u20ac 2,50",
+                "type": "main"
+            },
+            {
+                "kind": "meat",
+                "name": "Kalkoengebraad",
+                "price": "\u20ac 3,30",
+                "type": "main"
+            },
+            {
+                "kind": "fish",
+                "name": "Alaska pollak gepaneerd MSC",
+                "price": "\u20ac 3,70",
+                "type": "main"
+            },
+            {
+                "kind": "vegetarian",
+                "name": "Kinowaburger",
+                "price": "\u20ac 3,80",
+                "type": "main"
+            }
+        ],
+        "open": true,
+        "vegetables": [
+            "Witloof",
+            "Stoemp van savooi"
+        ]
+    },
+    {
+        "date": "2017-11-22",
+        "meals": [
+            {
+                "kind": "soup",
+                "name": "Tomatensoep",
+                "price": "\u20ac 0,50",
+                "type": "side"
+            },
+            {
+                "kind": "soup",
+                "name": "Thaise soep met kip",
+                "price": "\u20ac 2,50",
+                "type": "main"
+            },
+            {
+                "kind": "meat",
+                "name": "Spaghetti bolognaise",
+                "price": "\u20ac 3,30",
+                "type": "main"
+            },
+            {
+                "kind": "meat",
+                "name": "Mimosaburger",
+                "price": "\u20ac 3,70",
+                "type": "main"
+            },
+            {
+                "kind": "vegetarian",
+                "name": "Taartje brie-appel",
+                "price": "\u20ac 4,00",
+                "type": "main"
+            }
+        ],
+        "open": true,
+        "vegetables": [
+            "Duo van courgetten",
+            "Bloemkool met kaassaus"
+        ]
+    },
+    {
+        "date": "2017-11-23",
+        "meals": [
+            {
+                "kind": "soup",
+                "name": "Waterkerssoep",
+                "price": "\u20ac 0,50",
+                "type": "side"
+            },
+            {
+                "kind": "soup",
+                "name": "Wortelsoep met gember",
+                "price": "\u20ac 2,50",
+                "type": "main"
+            },
+            {
+                "kind": "meat",
+                "name": "Kip Tikka Masala",
+                "price": "\u20ac 3,60",
+                "type": "main"
+            },
+            {
+                "kind": "vegetarian",
+                "name": "Lasagne mozzarella",
+                "price": "\u20ac 4,50",
+                "type": "main"
+            },
+            {
+                "kind": "vegetarian",
+                "name": "Fairtradeburger",
+                "price": "\u20ac 3,90",
+                "type": "main"
+            }
+        ],
+        "open": true,
+        "vegetables": [
+            "Broccoli",
+            "Prinsessengroenten"
+        ]
+    },
+    {
+        "date": "2017-11-24",
+        "meals": [
+            {
+                "kind": "soup",
+                "name": "Broccolisoep",
+                "price": "\u20ac 0,50",
+                "type": "side"
+            },
+            {
+                "kind": "soup",
+                "name": "Minestrone",
+                "price": "\u20ac 2,50",
+                "type": "main"
+            },
+            {
+                "kind": "meat",
+                "name": "Kipbil in jagersaus",
+                "price": "\u20ac 4,20",
+                "type": "main"
+            },
+            {
+                "kind": "fish",
+                "name": "Seacrunch van kabeljauw MSC",
+                "price": "\u20ac 3,60",
+                "type": "main"
+            },
+            {
+                "kind": "vegetarian",
+                "name": "Pasta met olijf en tomaat",
+                "price": "\u20ac 4,40",
+                "type": "main"
+            }
+        ],
+        "open": true,
+        "vegetables": [
+            "Koolrabi",
+            "Erwtjes en wortelen"
+        ]
+    },
+    {
+        "date": "2017-11-27",
+        "meals": [
+            {
+                "kind": "soup",
+                "name": "Tomatensoep",
+                "price": "\u20ac 0,50",
+                "type": "side"
+            },
+            {
+                "kind": "soup",
+                "name": "Pastinaaksoep",
+                "price": "\u20ac 2,50",
+                "type": "main"
+            },
+            {
+                "kind": "meat",
+                "name": "Ardeens gebraad",
+                "price": "\u20ac 3,70",
+                "type": "main"
+            },
+            {
+                "kind": "fish",
+                "name": "Haasje van koolvis MSC",
+                "price": "\u20ac 3,30",
+                "type": "main"
+            },
+            {
+                "kind": "vegetarian",
+                "name": "Veggie loempia",
+                "price": "\u20ac 3,60",
+                "type": "main"
+            }
+        ],
+        "open": true,
+        "vegetables": [
+            "Fijne boontjes met ui",
+            "Jonge groentjes"
+        ]
+    },
+    {
+        "date": "2017-11-28",
+        "meals": [
+            {
+                "kind": "soup",
+                "name": "Kippenroomsoep",
+                "price": "\u20ac 0,50",
+                "type": "side"
+            },
+            {
+                "kind": "soup",
+                "name": "Waterzooi",
+                "price": "\u20ac 2,50",
+                "type": "main"
+            },
+            {
+                "kind": "meat",
+                "name": "Gentse stoverij",
+                "price": "\u20ac 4,10",
+                "type": "main"
+            },
+            {
+                "kind": "fish",
+                "name": "Haasje van pangasius ASC",
+                "price": "\u20ac 2,90",
+                "type": "main"
+            },
+            {
+                "kind": "vegetarian",
+                "name": "Vol-au-veggie",
+                "price": "\u20ac 4,40",
+                "type": "main"
+            }
+        ],
+        "open": true,
+        "vegetables": [
+            "Witloof",
+            "Italiaanse groenten"
+        ]
+    },
+    {
+        "date": "2017-11-29",
+        "meals": [
+            {
+                "kind": "soup",
+                "name": "Kippenroomsoep",
+                "price": "\u20ac 0,50",
+                "type": "side"
+            },
+            {
+                "kind": "soup",
+                "name": "Tomaat-mascarpone soep",
+                "price": "\u20ac 2,50",
+                "type": "main"
+            },
+            {
+                "kind": "fish",
+                "name": "Kabeljauwsticks ASC",
+                "price": "\u20ac 3,70",
+                "type": "main"
+            },
+            {
+                "kind": "meat",
+                "name": "Spaghetti bolognaise",
+                "price": "\u20ac 3,30",
+                "type": "main"
+            },
+            {
+                "kind": "groenten",
+                "name": "Tomaat-mozzarella taartje",
+                "price": "\u20ac 4,10",
+                "type": "main"
+            }
+        ],
+        "open": true,
+        "vegetables": [
+            "Savooikool in roomsaus",
+            "Groenteratatouille"
+        ]
+    },
+    {
+        "date": "2017-11-30",
+        "meals": [
+            {
+                "kind": "soup",
+                "name": "Seldersoep",
+                "price": "\u20ac 0,50",
+                "type": "side"
+            },
+            {
+                "kind": "soup",
+                "name": "Hartige goulashsoep",
+                "price": "\u20ac 2,50",
+                "type": "main"
+            },
+            {
+                "kind": "fish",
+                "name": "Oostends vispannetje",
+                "price": "\u20ac 4,40",
+                "type": "main"
+            },
+            {
+                "kind": "vegetarian",
+                "name": "Veggie reepjes Strogranoff",
+                "price": "\u20ac 3,60",
+                "type": "main"
+            },
+            {
+                "kind": "vegetarian",
+                "name": "Couscous-bonenschotel",
+                "price": "\u20ac 4,00",
+                "type": "main"
+            }
+        ],
+        "open": true,
+        "vegetables": [
+            "Duo van wortelen",
+            "Spaanse groenten"
+        ]
+    },
+    {
+        "date": "2017-12-01",
+        "meals": [
+            {
+                "kind": "soup",
+                "name": "Minestrone",
+                "price": "\u20ac 0,50",
+                "type": "side"
+            },
+            {
+                "kind": "soup",
+                "name": "Broccoli-kruidenkaas soep",
+                "price": "\u20ac 2,50",
+                "type": "main"
+            },
+            {
+                "kind": "meat",
+                "name": "Kiptournedos",
+                "price": "\u20ac 4,20",
+                "type": "main"
+            },
+            {
+                "kind": "fish",
+                "name": "Cordon bleu van pladijs MSC",
+                "price": "\u20ac 4,00",
+                "type": "main"
+            },
+            {
+                "kind": "vegetarian",
+                "name": "Gevulde paprika",
+                "price": "\u20ac 3,70",
+                "type": "main"
+            }
+        ],
+        "open": true,
+        "vegetables": [
+            "Snijboontjes",
+            "Parijse julienne groenten"
+        ]
+    }
 ]

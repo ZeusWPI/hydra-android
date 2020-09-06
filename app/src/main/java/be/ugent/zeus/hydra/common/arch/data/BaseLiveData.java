@@ -33,7 +33,7 @@ public abstract class BaseLiveData<R> extends LiveData<R> {
     /**
      * Flag this data for a refresh. If there are active observers, the data is reloaded immediately. If there
      * are no active observers, the data will be reloaded when the next active observer registers.
-     *
+     * <p>
      * If there are no active observers, the {@code args} are saved and will be used when reloading the data at a later
      * point. This method will discard any args from previous calls to this method.
      *

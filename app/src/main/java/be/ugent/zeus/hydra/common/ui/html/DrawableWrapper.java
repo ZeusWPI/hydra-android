@@ -27,7 +27,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
  * <p>
  * The wrapped {@link Drawable} <em>must</em> be fully released from any {@link View}
  * before wrapping, otherwise internal {@link Drawable.Callback} may be dropped.
- *
+ * <p>
  * This is a copy of the library class that was marked internal only.
  */
 class DrawableWrapper extends Drawable implements Drawable.Callback {

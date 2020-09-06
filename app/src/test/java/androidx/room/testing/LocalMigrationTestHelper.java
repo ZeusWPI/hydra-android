@@ -5,10 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 import androidx.arch.core.executor.ArchTaskExecutor;
-import androidx.room.DatabaseConfiguration;
-import androidx.room.Room;
-import androidx.room.RoomDatabase;
-import androidx.room.RoomOpenHelper;
+import androidx.room.*;
 import androidx.room.migration.Migration;
 import androidx.room.migration.bundle.*;
 import androidx.room.util.TableInfo;
@@ -16,10 +13,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.ref.WeakReference;
 import java.util.*;
 
@@ -28,7 +22,7 @@ import org.junit.runner.Description;
 
 /**
  * Enables testing migrations as unit tests (with Robolectric).
- *
+ * <p>
  * Copy of {@link MigrationTestHelper}.
  *
  * @author Niko Strijbol
@@ -144,9 +138,7 @@ public class LocalMigrationTestHelper extends TestWatcher {
      *
      * @param name    The name of the database.
      * @param version The version in which the database should be created.
-     *
      * @return A database connection which has the schema in the requested version.
-     *
      * @throws IOException If it cannot find the schema description in the assets folder.
      */
     @SuppressWarnings("SameParameterValue")
@@ -205,7 +197,6 @@ public class LocalMigrationTestHelper extends TestWatcher {
      *                              unknown
      *                              tables.
      * @param migrations            The list of available migrations.
-     *
      * @throws IOException           If it cannot find the schema for {@code toVersion}.
      * @throws IllegalStateException If the schema validation fails.
      */

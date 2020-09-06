@@ -72,7 +72,7 @@ public interface BaseEvents {
      * <li>{@link Params#itemName()}</li>
      * <li>{@link Params#itemCategory()}</li>
      * </ul>
-     *
+     * <p>
      * todo the difference between this and {@link #selectContent()}. This is more when something is shown to the user,
      *   the other when something is selected by the user (can be button, photo, image, etc.)
      *   Perhaps: when a visitor clicks on an article, we log SELECT_ITEM. When a visitor views an article,
@@ -82,7 +82,7 @@ public interface BaseEvents {
 
     /**
      * A custom event to report that the user has dismissed a card from the home feed.
-     *
+     * <p>
      * Params:
      * <ul>
      *     <li>{@link Params#dismissalType()}</li>

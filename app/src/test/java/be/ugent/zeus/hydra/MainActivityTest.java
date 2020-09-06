@@ -12,10 +12,7 @@ import be.ugent.zeus.hydra.onboarding.OnboardingActivity;
 import be.ugent.zeus.hydra.testing.NoNetworkInterceptor;
 import jonathanfinerty.once.Once;
 import okhttp3.OkHttpClient;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.LooperMode;
 

@@ -18,7 +18,7 @@ import org.hamcrest.core.IsEqual;
 
 /**
  * An improved version of SamePropertyValues from Hamcrest, but with support for custom matchers for custom types.
- *
+ * <p>
  * The intended use case is matching {@link ZonedDateTime}, which don't use the "equals" method to see
  * if they are logically the same object (they use {@link ZonedDateTime#isEqual(ChronoZonedDateTime)}).
  *

@@ -20,7 +20,7 @@ import com.google.android.material.textview.MaterialTextView;
 
 /**
  * Helper class to display meals.
- *
+ * <p>
  * This is an immutable class.
  *
  * @author Niko Strijbol
@@ -47,7 +47,6 @@ public class DisplayableMenu {
      * menu.
      *
      * @param id The ID of the drawable. Can be a vector.
-     *
      * @return The image view.
      */
     private static ImageView makeImageView(Context context, @DrawableRes int id) {
@@ -159,7 +158,6 @@ public class DisplayableMenu {
      *
      * @param text The text.
      * @param lp   The layout param.
-     *
      * @return The text view.
      */
     private TextView makeCenterTextView(Context context, String text, TableRow.LayoutParams lp) {

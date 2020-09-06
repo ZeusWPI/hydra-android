@@ -18,7 +18,6 @@ public class Utils {
      *
      * @param html   The HTML to strip.
      * @param getter The image getter. I suggest using {@link PicassoImageGetter} if you don't need anything special.
-     *
      * @return Stripped HTML.
      */
     public static Spanned fromHtml(String html, Html.ImageGetter getter) {

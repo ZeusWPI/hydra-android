@@ -1,10 +1,7 @@
 package be.ugent.zeus.hydra.common.utils;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
+import android.net.*;
 import android.os.Build;
 
 import org.junit.Test;

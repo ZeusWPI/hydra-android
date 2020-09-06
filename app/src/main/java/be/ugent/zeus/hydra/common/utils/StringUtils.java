@@ -13,7 +13,6 @@ public class StringUtils {
      * Ensure the first letter is capitalised, while not touching the rest.
      *
      * @param s The string to capitalise.
-     *
      * @return Capitalised string.
      */
     public static String capitaliseFirst(@NonNull String s) {

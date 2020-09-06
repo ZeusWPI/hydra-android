@@ -1,10 +1,13 @@
-package be.ugent.zeus.hydra.association.event.list;
+package be.ugent.zeus.hydra.association.list;
 
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
+import java.util.Objects;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.SearchableAdapter;
+import be.ugent.zeus.hydra.association.AssociationMap;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DiffAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.common.utils.ViewUtils;
 
@@ -14,12 +17,14 @@ import be.ugent.zeus.hydra.common.utils.ViewUtils;
  * @author ellen
  * @author Niko Strijbol
  */
-class EventAdapter extends SearchableAdapter<EventItem, DataViewHolder<EventItem>> {
+class EventAdapter extends DiffAdapter<EventItem, DataViewHolder<EventItem>> {
 
     private static final int HEADER_TYPE = 25;
 
-    EventAdapter() {
-        super(new EventSearchPredicate(), new EventSearchFilter());
+    private AssociationMap associationMap;
+
+    public void setAssociationMap(AssociationMap associationMap) {
+        this.associationMap = associationMap;
     }
 
     @NonNull
@@ -28,7 +33,8 @@ class EventAdapter extends SearchableAdapter<EventItem, DataViewHolder<EventItem
         if (viewType == HEADER_TYPE) {
             return new DateHeaderViewHolder(ViewUtils.inflate(parent, R.layout.item_event_date_header));
         } else {
-            return new EventViewHolder(ViewUtils.inflate(parent, R.layout.item_event_item));
+            Objects.requireNonNull(associationMap, "Association map must be set.");
+            return new EventViewHolder(ViewUtils.inflate(parent, R.layout.item_event_item), associationMap);
         }
     }
 

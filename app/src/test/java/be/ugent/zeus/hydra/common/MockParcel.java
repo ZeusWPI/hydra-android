@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 /**
  * Mock implementation for {@link Parcel}. This emulates saving/restoring from a parcel, to enable testing of the
  * implementations in models.
- *
+ * <p>
  * When a method is used that is not stubbed, an exception is thrown.
  *
  * @author Niko Strijbol
@@ -31,6 +31,7 @@ public class MockParcel {
     private final Parcel mockedParcel;
     private final List<Object> objects = new ArrayList<>();
     private int position;
+
     private MockParcel() {
         mockedParcel = mock(Parcel.class, invocation -> {
             throw new MockitoException("Method not mocked: " + invocation.getMethod().getName());
@@ -49,7 +50,6 @@ public class MockParcel {
      * Writes a parcelable to a parcel, and sets the position of the parcel so it is ready to read from.
      *
      * @param parcelable Object to write.
-     *
      * @return Parcel with position 0.
      */
     public static Parcel writeToParcelable(Parcelable parcelable) {

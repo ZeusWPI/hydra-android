@@ -12,7 +12,7 @@ import be.ugent.zeus.hydra.R;
 
 /**
  * Add spacing to elements for a staggered grid. This will add {@link #spacing} to the left and right of every element.
- *
+ * <p>
  * If the layout manager is not a {@link StaggeredGridLayoutManager} or {@link GridLayoutManager}, this will do nothing.
  *
  * @author Niko Strijbol
