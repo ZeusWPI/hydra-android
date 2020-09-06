@@ -15,7 +15,7 @@ import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment;
+import be.ugent.zeus.hydra.association.AssociationStore;
 import be.ugent.zeus.hydra.common.ExtendedSparseArray;
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.database.Database;
@@ -63,7 +63,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
     // For which settings the loader must refresh.
     private static final String[] watchedPreferences = {
             HomeFeedFragment.PREF_DISABLED_CARD_TYPES,
-            AssociationSelectionPreferenceFragment.PREF_ASSOCIATIONS_SHOWING,
+            AssociationStore.PREF_WHITELIST,
             RestoPreferenceFragment.PREF_RESTO_KEY,
             RestoPreferenceFragment.PREF_RESTO_NAME,
             HomeFeedFragment.PREF_DISABLED_CARD_HACK

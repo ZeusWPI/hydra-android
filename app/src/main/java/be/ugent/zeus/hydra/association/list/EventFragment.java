@@ -19,11 +19,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
@@ -35,15 +32,11 @@ import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 import be.ugent.zeus.hydra.common.ui.recyclerview.EmptyViewObserver;
 import be.ugent.zeus.hydra.common.utils.ColourUtils;
 import be.ugent.zeus.hydra.common.utils.DateUtils;
-import be.ugent.zeus.hydra.common.utils.PreferencesUtils;
-import be.ugent.zeus.hydra.preferences.PreferenceActivity;
-import be.ugent.zeus.hydra.preferences.PreferenceEntry;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
-import static be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment.PREF_ASSOCIATIONS_SHOWING;
 import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
 
 /**
@@ -145,11 +138,7 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
         swipeRefreshLayout.setColorSchemeColors(secondaryColour);
 
         // Set default associations from preferences.
-        Set<String> allowed = PreferencesUtils.getStringSet(requireContext(), PREF_ASSOCIATIONS_SHOWING).stream()
-                .map(String::toLowerCase)
-                .collect(Collectors.toSet());
-        filter.setWhitelist(allowed);
-
+        filter.filter.addStoredWhitelist(requireContext());
 
         viewModel = new ViewModelProvider(this).get(EventViewModel.class);
         viewModel.setParams(filter.getValue());
@@ -163,6 +152,7 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
                 List<Pair<Association, Boolean>> mapped = data.second.associations()
                         .sorted(Comparator.comparing(Association::getName))
                         .map(association -> new Pair<>(association, filter.isWhitelisted(association.getAbbreviation())))
+                        .sorted(Filter.selectionComparator())
                         .collect(Collectors.toList());
                 associationAdapter.setItemsAndState(mapped);
             }
@@ -170,11 +160,10 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
         viewModel.getRefreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
         swipeRefreshLayout.setOnRefreshListener(viewModel);
 
-        Button refresh = view.findViewById(R.id.events_no_data_button_refresh);
-        Button filters = view.findViewById(R.id.events_no_data_button_filters);
-
-        refresh.setOnClickListener(v -> viewModel.onRefresh());
-        filters.setOnClickListener(v -> PreferenceActivity.start(requireContext(), PreferenceEntry.ACTIVITIES));
+        view.<Button>findViewById(R.id.events_no_data_button_refresh)
+                .setOnClickListener(v -> viewModel.onRefresh());
+        view.<Button>findViewById(R.id.events_no_data_button_filters)
+                .setOnClickListener(v -> showSheet());
     }
 
     private void setupBottomSheet() {
@@ -204,12 +193,13 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
 
     private void doFiltering() {
         // Time stuff is set by the callback.
-        this.filter.setTerm(searchTerm.getEditText().getText().toString());
-        Set<String> disabled = StreamSupport.stream(associationAdapter.getItemsAndState().spliterator(), false)
+        this.filter.setTerm(Objects.requireNonNull(searchTerm.getEditText()).getText().toString());
+        Set<String> enabled = associationAdapter.getItemsAndState()
+                .stream()
                 .filter(associationBooleanPair -> associationBooleanPair.second)
                 .map(associationBooleanPair -> associationBooleanPair.first.getAbbreviation())
                 .collect(Collectors.toSet());
-        this.filter.setWhitelist(disabled);
+        this.filter.setWhitelist(enabled);
         this.viewModel.requestRefresh();
         hideSheet();
     }
@@ -235,7 +225,7 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
                 viewModel.onRefresh();
                 return true;
             case R.id.action_search:
-                behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                showSheet();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -263,6 +253,10 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
     private void hideSheet() {
         bottomSheet.clearFocus();
         behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+    }
+
+    private void showSheet() {
+        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
     @Override

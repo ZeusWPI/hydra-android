@@ -124,12 +124,15 @@
     <string name="event_detail_activity_title">Evenement</string>
     <string name="event_detail_description_title">Beschrijving</string>
     <string name="event_detail_no_description">Geen beschrijving.</string>
-    <string name="event_detail_more">Meer informatie</string>
     <string name="event_detail_no_location">Zonder locatie</string>
     <string name="event_detail_from">Van</string>
     <string name="event_detail_to">Tot</string>
-    <string name="event_detail_precise_location">Precieze locatie: (%1$f, %2$f)</string>
     <string name="event_detail_date_unknown">Onbekend</string>
+    <string name="event_filter_search">Zoekterm</string>
+    <string name="event_filter_after">Startend na…</string>
+    <string name="event_filter_before">Startend voor…</string>
+    <string name="event_filter_assoc">Enkel deze verenigingen</string>
+    <string name="event_modify_filter">Filters aanpassen</string>
 
     <string name="event_no_data">Er zijn geen evenementen gevonden. Probeer eens de filters aan te passen.</string>
 
@@ -325,4 +328,6 @@
     <string name="content_desc_website">Website</string>
     <string name="content_desc_facebook">Facebook</string>
     <string name="content_desc_youtube">YouTube</string>
+    <string name="content_desc_select_all">Alles selecteren</string>
+    <string name="content_desc_select_none">Niets selecteren</string>
 </resources>

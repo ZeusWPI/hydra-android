@@ -6,6 +6,7 @@ import android.util.SparseBooleanArray;
 import androidx.annotation.NonNull;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 
@@ -138,23 +139,18 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
         return booleanArray.get(position, defaultValue);
     }
 
-    public Iterable<Pair<H, Boolean>> getItemsAndState() {
-        return () -> new Iterator<Pair<H, Boolean>>() {
-
-            private int current = 0;
-
-            @Override
-            public boolean hasNext() {
-                return current < getItemCount();
-            }
-
-            @Override
-            public Pair<H, Boolean> next() {
-                Pair<H, Boolean> value = new Pair<>(getItem(current), isChecked(current));
-                current++;
-                return value;
-            }
-        };
+    /**
+     * Get all items and their state. This method will take a snapshot of the state, meaning changes
+     * in the state are not reflected in the resulting list.
+     * 
+     * @return A list, where each item is a pair of the item and its state.
+     */
+    public List<Pair<H, Boolean>> getItemsAndState() {
+        List<Pair<H, Boolean>> itemsAndState = new ArrayList<>(getItemCount());
+        for (int i = 0; i < getItemCount(); i++) {
+            itemsAndState.add(new Pair<>(getItem(i), isChecked(i)));
+        }
+        return itemsAndState;
     }
 
     /**

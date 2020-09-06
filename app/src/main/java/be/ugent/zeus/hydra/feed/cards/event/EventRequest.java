@@ -6,6 +6,8 @@ import android.util.Pair;
 import androidx.annotation.NonNull;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import be.ugent.zeus.hydra.association.AssociationListRequest;
@@ -15,6 +17,7 @@ import be.ugent.zeus.hydra.association.event.RawEventRequest;
 import be.ugent.zeus.hydra.association.list.Filter;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
+import be.ugent.zeus.hydra.common.utils.PreferencesUtils;
 import be.ugent.zeus.hydra.feed.HideableHomeFeedRequest;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDao;
@@ -30,8 +33,14 @@ public class EventRequest extends HideableHomeFeedRequest {
 
     public EventRequest(Context context, DismissalDao dismissalDao) {
         super(dismissalDao);
-        this.request = RawEventRequest.create(context, new Filter())
+        this.request = RawEventRequest.create(context, create(context))
                 .andThen(AssociationListRequest.create(context));
+    }
+    
+    private static Filter create(Context context) {
+        Filter filter = new Filter();
+        filter.addStoredWhitelist(context);
+        return filter;
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.util.Pair;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Locale;
 
@@ -28,7 +29,7 @@ class SearchableAssociationsAdapter extends MultiSelectSearchableAdapter<Associa
         return new AssociationViewHolder(ViewUtils.inflate(parent, R.layout.item_checkbox_string), this);
     }
 
-    Iterable<Pair<Association, Boolean>> getItemsAndState() {
+    Collection<Pair<Association, Boolean>> getItemsAndState() {
         return Collections.unmodifiableCollection(allData);
     }
 }

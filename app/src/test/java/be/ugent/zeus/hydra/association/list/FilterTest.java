@@ -4,16 +4,17 @@ import android.net.Uri;
 
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import be.ugent.zeus.hydra.common.network.Endpoints;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Niko Strijbol
@@ -25,7 +26,7 @@ public class FilterTest {
     public void urlGeneration() {
         OffsetDateTime now = OffsetDateTime.now();
         Filter.Live filter = new Filter.Live();
-        filter.setWhitelist(Arrays.asList("test", "hallo"));
+        filter.setWhitelist(new HashSet<>(Arrays.asList("test", "hallo")));
         filter.setTerm("search");
         filter.setAfter(now);
         filter.setBefore(now);

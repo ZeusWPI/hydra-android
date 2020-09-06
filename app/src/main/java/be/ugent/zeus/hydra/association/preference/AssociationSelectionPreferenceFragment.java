@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.association.preference;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -10,16 +9,19 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.association.Association;
-import be.ugent.zeus.hydra.association.AssociationMap;
+import be.ugent.zeus.hydra.association.*;
+import be.ugent.zeus.hydra.association.list.Filter;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
@@ -28,16 +30,12 @@ import com.google.android.material.snackbar.Snackbar;
 import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
 
 /**
- * Allow the user to select preferences.
+ * Display a list of associations for which the user wants to see information.
  *
  * @author Niko Strijbol
+ * @see AssociationStore The class responsible for the low level saving of these preferences.
  */
 public class AssociationSelectionPreferenceFragment extends Fragment {
-
-    /**
-     * Key for the preference that contains which associations should be shown.
-     */
-    public static final String PREF_ASSOCIATIONS_SHOWING = "pref_associations_showing_v3";
 
     private static final String TAG = "AssociationSelectPrefAc";
 
@@ -71,7 +69,7 @@ public class AssociationSelectionPreferenceFragment extends Fragment {
 
         AssociationsViewModel model = new ViewModelProvider(this).get(AssociationsViewModel.class);
         model.getData().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
-        model.getData().observe(getViewLifecycleOwner(), SuccessObserver.with(this::receiveData));
+        model.getData().observe(getViewLifecycleOwner(), SuccessObserver.with(adapter::submitData));
         model.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
     }
 
@@ -96,31 +94,18 @@ public class AssociationSelectionPreferenceFragment extends Fragment {
         }
     }
 
-    private void receiveData(@NonNull AssociationMap data) {
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        Set<String> enabled = preferences.getStringSet(PREF_ASSOCIATIONS_SHOWING, Collections.emptySet());
-        List<Pair<Association, Boolean>> values = data.associations()
-                .map(association -> new Pair<>(association, enabled.contains(association.getAbbreviation())))
-                .collect(Collectors.toList());
-
-        adapter.submitData(values);
-    }
-
     @Override
     public void onPause() {
         super.onPause();
 
-        //Save the values.
-        Set<String> enabled = new HashSet<>();
-        for (Pair<Association, Boolean> pair : adapter.getItemsAndState()) {
-            if (pair.second) {
-                enabled.add(pair.first.getAbbreviation());
-            }
-        }
+        // Save the values.
+        Set<String> whitelist = adapter.getItemsAndState()
+                .stream()
+                .filter(pair -> pair.second)
+                .map(pair -> pair.first.getAbbreviation())
+                .collect(Collectors.toSet());
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        preferences.edit().putStringSet(PREF_ASSOCIATIONS_SHOWING, enabled).apply();
+        AssociationStore.replace(requireContext(), whitelist);
     }
 
     private void onError(Throwable throwable) {

@@ -118,12 +118,15 @@
     <string name="event_detail_activity_title">Event</string>
     <string name="event_detail_description_title">Description</string>
     <string name="event_detail_no_description">No description.</string>
-    <string name="event_detail_more">More information</string>
     <string name="event_detail_no_location">Without location</string>
     <string name="event_detail_from">From</string>
     <string name="event_detail_to">To</string>
-    <string name="event_detail_precise_location">Precise location: (%1$f, %2$f)</string>
     <string name="event_detail_date_unknown">Unknown</string>
+    <string name="event_filter_search">Search term</string>
+    <string name="event_filter_after">Starting after…</string>
+    <string name="event_filter_before">Starting before…</string>
+    <string name="event_filter_assoc">Only these associations</string>
+    <string name="event_modify_filter">Modify filters</string>
 
     <string name="event_no_data">No events were found. Try changing the filters.</string>
 
@@ -319,4 +322,6 @@
     <string name="content_desc_website">Website</string>
     <string name="content_desc_facebook">Facebook</string>
     <string name="content_desc_youtube">YouTube</string>
+    <string name="content_desc_select_all">Select all</string>
+    <string name="content_desc_select_none">Select none</string>
 </resources>

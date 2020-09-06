@@ -2,15 +2,11 @@ package be.ugent.zeus.hydra.association.list;
 
 import android.content.Intent;
 import android.view.View;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import java.time.LocalDate;
-import java.util.stream.Stream;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.Association;
-import be.ugent.zeus.hydra.association.AssociationMap;
 import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.association.event.EventDetailsActivity;
 import org.junit.Test;
@@ -30,7 +26,7 @@ public class EventViewHolderTest {
 
     private static void testEvent(boolean isLast) {
         View view = inflate(R.layout.item_event_item);
-        EventViewHolder viewHolder = new EventViewHolder(view, new MemoryHolder());
+        EventViewHolder viewHolder = new EventViewHolder(view, new MemoryAssociationMap());
         EventItem item = new EventItem(generate(Event.class), isLast);
         Event event = item.getItem();
         viewHolder.populate(item);
@@ -60,7 +56,7 @@ public class EventViewHolderTest {
     @Test(expected = IllegalStateException.class)
     public void populateHeader() {
         View view = inflate(R.layout.item_event_item);
-        EventViewHolder viewHolder = new EventViewHolder(view, new MemoryHolder());
+        EventViewHolder viewHolder = new EventViewHolder(view, new MemoryAssociationMap());
         EventItem item = new EventItem(generate(LocalDate.class));
         viewHolder.populate(item);
     }
@@ -70,16 +66,4 @@ public class EventViewHolderTest {
         testEvent(true);
     }
 
-    private static class MemoryHolder implements AssociationMap {
-        @NonNull
-        @Override
-        public Association get(@Nullable String abbreviation) {
-            return Association.unknown(abbreviation);
-        }
-
-        @Override
-        public Stream<Association> associations() {
-            return Stream.empty();
-        }
-    }
 }

@@ -27,7 +27,7 @@
         android:layout_marginLeft="@dimen/activity_vertical_margin"
         android:layout_marginRight="@dimen/activity_vertical_margin"
         android:layout_marginBottom="@dimen/activity_horizontal_margin"
-        android:hint="Zoekterm">
+        android:hint="@string/event_filter_search">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -43,7 +43,7 @@
         android:layout_marginLeft="@dimen/activity_vertical_margin"
         android:layout_marginRight="@dimen/activity_vertical_margin"
         android:layout_marginBottom="@dimen/activity_horizontal_margin"
-        android:hint="Startend na...">
+        android:hint="@string/event_filter_after">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -59,7 +59,7 @@
         android:layout_marginLeft="@dimen/activity_vertical_margin"
         android:layout_marginRight="@dimen/activity_vertical_margin"
         android:layout_marginBottom="@dimen/activity_horizontal_margin"
-        android:hint="Eindigend voor...">
+        android:hint="@string/event_filter_before">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -81,19 +81,21 @@
             android:layout_weight="1"
             android:height="48dp"
             android:gravity="center_vertical"
-            android:text="Enkel deze verenigingen" />
+            android:text="@string/event_filter_assoc" />
 
         <ImageButton
             android:id="@+id/select_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_select_all" />
+            app:srcCompat="@drawable/ic_select_all"
+            android:contentDescription="@string/content_desc_select_all" />
 
         <ImageButton
             android:id="@+id/select_none"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_select_none" />
+            app:srcCompat="@drawable/ic_select_none"
+            android:contentDescription="@string/content_desc_select_none" />
 
     </LinearLayout>
 

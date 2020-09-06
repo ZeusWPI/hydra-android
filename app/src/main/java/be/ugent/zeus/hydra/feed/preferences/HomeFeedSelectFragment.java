@@ -79,7 +79,7 @@ public class HomeFeedSelectFragment extends Fragment {
 
         //Save the settings.
         //We save which cards we DON'T want, so we need to inverse it.
-        Iterable<Pair<Tuple, Boolean>> values = adapter.getItemsAndState();
+        List<Pair<Tuple, Boolean>> values = adapter.getItemsAndState();
         Set<String> disabled = new HashSet<>();
 
         for (Pair<Tuple, Boolean> value : values) {
