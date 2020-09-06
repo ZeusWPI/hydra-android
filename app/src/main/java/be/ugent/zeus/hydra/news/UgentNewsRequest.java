@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.common.network.JsonArrayRequest;
 import be.ugent.zeus.hydra.common.request.Result;
@@ -19,9 +20,12 @@ import be.ugent.zeus.hydra.common.request.Result;
  * @author feliciaan
  */
 public class UgentNewsRequest extends JsonArrayRequest<UgentNewsArticle> {
+    
+    private final Context context;
 
     public UgentNewsRequest(Context context) {
         super(context, UgentNewsArticle.class);
+        this.context = context.getApplicationContext();
     }
 
     @NonNull
@@ -36,7 +40,8 @@ public class UgentNewsRequest extends JsonArrayRequest<UgentNewsArticle> {
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.DSA_V3 + "recent_news.json";
+        String endpoint = context.getString(R.string.ugent_news_endpoint);
+        return Endpoints.UGENT + endpoint;
     }
 
     @Override
