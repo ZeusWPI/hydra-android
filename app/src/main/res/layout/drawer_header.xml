@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.MaterialToolbar
-        style="@style/Widget.MaterialComponents.Toolbar.Primary"
+        style="@style/Widget.MaterialComponents.Toolbar.Surface"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
 
@@ -20,8 +19,7 @@
             android:contentDescription="@string/content_desc_hydra_logo"
             android:scaleType="fitStart"
             app:srcCompat="@drawable/logo_hydra"
-            app:tint="@color/white"
-            tools:src="@drawable/logo_hydra" />
+            app:tint="?colorPrimary" />
 
     </com.google.android.material.appbar.MaterialToolbar>
 
