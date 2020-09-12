@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
-import android.content.Context;
 import android.os.StrictMode;
 import android.util.Log;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -11,7 +10,6 @@ import be.ugent.zeus.hydra.common.reporting.Manager;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.reporting.Tracker;
 import be.ugent.zeus.hydra.preferences.ThemeFragment;
-import com.jakewharton.threetenabp.AndroidThreeTen;
 import jonathanfinerty.once.Once;
 
 /**
@@ -24,19 +22,24 @@ public class HydraApplication extends Application {
 
     private static final String TAG = "HydraApplication";
 
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        onAttachBaseContextInitialize(base);
-    }
-
     /**
-     * This method allows us to override this in Robolectric.
+     * Used to enable {@link StrictMode} for debug builds.
      */
-    protected void onAttachBaseContextInitialize(Context base) {
-        if (BuildConfig.DEBUG) {
-            androidx.multidex.MultiDex.install(this);
+    private static void enableStrictModeInDebug() {
+        if (!BuildConfig.DEBUG || !BuildConfig.DEBUG_ENABLE_STRICT_MODE) {
+            return;
         }
+
+        Log.d(TAG, "Enabling strict mode...");
+
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .detectAll()
+                .penaltyLog()
+                .build());
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectAll()
+                .penaltyLog()
+                .build());
     }
 
     @Override
@@ -60,7 +63,6 @@ public class HydraApplication extends Application {
         AppCompatDelegate.setDefaultNightMode(ThemeFragment.getNightMode(this));
         trackTheme();
 
-        AndroidThreeTen.init(this);
         Once.initialise(this);
     }
 
@@ -81,25 +83,5 @@ public class HydraApplication extends Application {
                 tracker.setUserProperty("theme", "light");
                 break;
         }
-    }
-
-    /**
-     * Used to enable {@link StrictMode} for debug builds.
-     */
-    private static void enableStrictModeInDebug() {
-        if (!BuildConfig.DEBUG || !BuildConfig.DEBUG_ENABLE_STRICT_MODE) {
-            return;
-        }
-
-        Log.d(TAG, "Enabling strict mode...");
-
-        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-                .detectAll()
-                .penaltyLog()
-                .build());
-        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-                .detectAll()
-                .penaltyLog()
-                .build());
     }
 }

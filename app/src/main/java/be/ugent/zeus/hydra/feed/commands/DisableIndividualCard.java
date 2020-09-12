@@ -2,11 +2,11 @@ package be.ugent.zeus.hydra.feed.commands;
 
 import android.content.Context;
 
-import be.ugent.zeus.hydra.common.reporting.Reporting;
-import java9.util.function.Function;
+import java.util.function.Function;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.database.Database;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.dismissal.CardDismissal;
 import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDao;

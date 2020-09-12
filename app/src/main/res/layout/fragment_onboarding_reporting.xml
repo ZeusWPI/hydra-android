@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/checkbox_wrapper"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     tools:context=".onboarding.OnboardingActivity">
 
     <com.google.android.material.textview.MaterialTextView
-        android:paddingTop="@dimen/large_horizontal_padding"
-        android:paddingLeft="@dimen/vertical_padding"
-        android:paddingRight="@dimen/vertical_padding"
+        style="?textAppearanceHeadline4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/onboarding_reporting_title"
         android:gravity="center"
-        style="?textAppearanceHeadline4" />
+        android:paddingLeft="@dimen/vertical_padding"
+        android:paddingTop="@dimen/large_horizontal_padding"
+        android:paddingRight="@dimen/vertical_padding"
+        android:text="@string/onboarding_reporting_title" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:paddingLeft="@dimen/vertical_padding"
-        android:paddingRight="@dimen/vertical_padding"
+        style="?textAppearanceSubtitle1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        style="?textAppearanceSubtitle1"
+        android:paddingLeft="@dimen/vertical_padding"
+        android:paddingRight="@dimen/vertical_padding"
         android:text="@string/onboarding_reporting_desc" />
 
     <com.google.android.material.textview.MaterialTextView
+        style="@style/Hydra.Text.Onboarding.Subhead"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:height="48dp"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/vertical_padding"
         android:paddingRight="@dimen/vertical_padding"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Hydra.Text.Onboarding.Subhead"
         android:text="@string/onboarding_reporting_analytics_title" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:paddingLeft="@dimen/vertical_padding"
-        android:paddingRight="@dimen/vertical_padding"
+        style="?textAppearanceBody2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="?textAppearanceBody2"
+        android:paddingLeft="@dimen/vertical_padding"
+        android:paddingRight="@dimen/vertical_padding"
         android:text="@string/onboarding_reporting_analytics_desc" />
 
     <RadioGroup
-        android:paddingLeft="@dimen/vertical_padding"
-        android:paddingRight="@dimen/vertical_padding"
-        android:paddingTop="@dimen/content_spacing"
-        android:paddingBottom="@dimen/content_spacing"
         android:id="@+id/analyticsChooser"
-        android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/vertical_padding"
+        android:paddingTop="@dimen/content_spacing"
+        android:paddingRight="@dimen/vertical_padding"
+        android:paddingBottom="@dimen/content_spacing">
 
         <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/allowAnalytics"
@@ -71,55 +71,55 @@
     </RadioGroup>
 
     <com.google.android.material.textview.MaterialTextView
+        style="@style/Hydra.Text.Onboarding.Subhead"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:height="48dp"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/vertical_padding"
         android:paddingRight="@dimen/vertical_padding"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Hydra.Text.Onboarding.Subhead"
         android:text="@string/onboarding_reporting_crash_title" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:paddingLeft="@dimen/vertical_padding"
-        android:paddingRight="@dimen/vertical_padding"
+        style="?textAppearanceBody2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="?textAppearanceBody2"
+        android:paddingLeft="@dimen/vertical_padding"
+        android:paddingRight="@dimen/vertical_padding"
         android:text="@string/onboarding_reporting_crash_desc" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
-        android:paddingTop="@dimen/content_spacing"
-        android:paddingBottom="@dimen/content_spacing"
-        android:paddingLeft="@dimen/vertical_padding"
-        android:paddingRight="@dimen/vertical_padding"
         android:id="@+id/allowCrashReporting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:checked="true"
+        android:paddingLeft="@dimen/vertical_padding"
+        android:paddingTop="@dimen/content_spacing"
+        android:paddingRight="@dimen/vertical_padding"
+        android:paddingBottom="@dimen/content_spacing"
+        android:text="@string/onboarding_reporting_allow_crash"
         android:textColor="?colorOnSurface"
-        app:switchTextAppearance="?textAppearanceBody1"
-        android:text="@string/onboarding_reporting_allow_crash" />
+        app:switchTextAppearance="?textAppearanceBody1" />
 
     <com.google.android.material.textview.MaterialTextView
+        style="@style/Hydra.Text.Onboarding.Subhead"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:height="48dp"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/vertical_padding"
         android:paddingRight="@dimen/vertical_padding"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Hydra.Text.Onboarding.Subhead"
         android:text="@string/onboarding_reporting_privacy_policy_title" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/read_policy"
-        android:layout_marginLeft="@dimen/vertical_padding"
-        android:layout_marginRight="@dimen/vertical_padding"
+        style="?materialButtonOutlinedStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:strokeColor="?colorSecondary"
+        android:layout_marginLeft="@dimen/vertical_padding"
+        android:layout_marginRight="@dimen/vertical_padding"
+        android:text="@string/onboarding_reporting_privacy_policy_read"
         android:textColor="?colorSecondary"
-        style="?materialButtonOutlinedStyle"
-        android:text="@string/onboarding_reporting_privacy_policy_read" />
+        app:strokeColor="?colorSecondary" />
 
 </LinearLayout>

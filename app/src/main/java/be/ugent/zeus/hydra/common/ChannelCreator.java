@@ -5,7 +5,6 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
@@ -29,10 +28,10 @@ public class ChannelCreator {
     /**
      * Create a channel for the Urgent.fm player.
      */
-    @TargetApi(Build.VERSION_CODES.O)
+    @TargetApi(26)
     public static void createUrgentChannel(@NonNull Context context) {
         // Don't do anything on older versions.
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT < 26) {
             return;
         }
 

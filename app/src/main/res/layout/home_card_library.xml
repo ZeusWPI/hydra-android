@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.google.android.material.card.MaterialCardView xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/card_spacing"
-    app:contentPaddingBottom="@dimen/card_title_padding_bottom_no_content"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    app:contentPaddingBottom="@dimen/card_title_padding_bottom_no_content">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,16 +19,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:icon="@drawable/tabs_library"
-            app:title="@string/drawer_title_library"
-            app:menu="@menu/now_toolbar_single" />
+            app:menu="@menu/now_toolbar_single"
+            app:title="@string/drawer_title_library" />
 
         <LinearLayout
             android:id="@+id/library_list"
-            android:paddingLeft="@dimen/card_title_padding_vertical"
-            android:paddingRight="@dimen/card_title_padding_vertical"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/card_title_padding_vertical"
+            android:paddingRight="@dimen/card_title_padding_vertical">
 
         </LinearLayout>
 

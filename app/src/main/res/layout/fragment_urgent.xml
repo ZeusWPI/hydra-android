@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:animateLayoutChanges="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
         android:orientation="vertical"
         android:paddingTop="@dimen/activity_horizontal_margin">
 
         <ImageView
             android:id="@+id/albumImage"
-            android:layout_gravity="center_horizontal"
             android:layout_width="@dimen/media_control_image"
             android:layout_height="@dimen/media_control_image"
+            android:layout_gravity="center_horizontal"
             android:contentDescription="@string/urgent_album_art"
             app:srcCompat="@drawable/logo_urgent" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:paddingTop="@dimen/content_spacing"
-            android:paddingLeft="@dimen/activity_vertical_margin"
-            android:paddingRight="@dimen/activity_vertical_margin"
             android:id="@+id/artistText"
             style="?textAppearanceBody1"
-            android:textColor="?colorPrimary"
-            android:ellipsize="marquee"
-            tools:text="The End is the Beginning is the End (Soundtrack Version)"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal" />
+            android:ellipsize="marquee"
+            android:gravity="center_horizontal"
+            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:paddingTop="@dimen/content_spacing"
+            android:paddingRight="@dimen/activity_vertical_margin"
+            android:textColor="?colorPrimary"
+            tools:text="The End is the Beginning is the End (Soundtrack Version)" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:paddingLeft="@dimen/activity_vertical_margin"
-            android:paddingRight="@dimen/activity_vertical_margin"
             android:id="@+id/titleText"
             style="?textAppearanceBody2"
-            android:textColor="?colorPrimary"
-            android:textStyle="bold"
-            android:ellipsize="marquee"
-            android:text="@string/urgent_fm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ellipsize="marquee"
             android:gravity="center_horizontal"
-            android:paddingBottom="@dimen/content_spacing" />
+            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/content_spacing"
+            android:text="@string/urgent_fm"
+            android:textColor="?colorPrimary"
+            android:textStyle="bold" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -56,102 +56,102 @@
 
             <ProgressBar
                 android:id="@id/progress_bar"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <ImageButton
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="?android:attr/borderlessButtonStyle"
+                android:layout_gravity="center" />
+
+            <ImageButton
                 android:id="@+id/playPauseButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:contentDescription="@string/content_desc_urgent_play"
                 android:tint="?colorPrimary"
-                app:srcCompat="@drawable/ic_play_arrow_24dp"
-                android:contentDescription="@string/content_desc_urgent_play" />
+                app:srcCompat="@drawable/ic_play_arrow_24dp" />
 
         </FrameLayout>
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_marginLeft="@dimen/card_margin_small"
-            android:layout_marginRight="@dimen/card_margin_small"
             android:id="@+id/description_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/card_margin_small"
+            android:layout_marginRight="@dimen/card_margin_small"
             android:layout_marginBottom="@dimen/card_spacing"
+            app:contentPaddingBottom="@dimen/card_text_padding_bottom"
             app:contentPaddingLeft="@dimen/card_text_padding_vertical"
             app:contentPaddingRight="@dimen/card_text_padding_vertical"
-            app:contentPaddingBottom="@dimen/card_text_padding_bottom"
             app:contentPaddingTop="@dimen/card_spacing">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:visibility="gone"
-                    tools:visibility="visible"
                     android:id="@+id/description_title"
-                    android:height="48dp"
+                    style="@style/Hydra.Text.Subhead"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/Hydra.Text.Subhead"
+                    android:height="48dp"
+                    android:gravity="center_vertical"
+                    android:visibility="gone"
                     tools:text="Over het programma"
-                    android:gravity="center_vertical" />
+                    tools:visibility="visible" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:visibility="gone"
-                    tools:visibility="visible"
+                    android:id="@+id/programme_description"
+                    style="?textAppearanceBody1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/programme_description"
                     android:textIsSelectable="true"
-                    style="?textAppearanceBody1"
-                    tools:text="De beschrijving van het programma." />
+                    android:visibility="gone"
+                    tools:text="De beschrijving van het programma."
+                    tools:visibility="visible" />
 
                 <LinearLayout
-                    android:paddingTop="@dimen/vertical_padding"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:paddingTop="@dimen/vertical_padding">
 
                     <ImageButton
                         android:id="@+id/social_facebook"
                         android:layout_width="@dimen/urgent_social_icon_size"
                         android:layout_height="@dimen/urgent_social_icon_size"
+                        android:contentDescription="@string/content_desc_facebook"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/ic_social_facebook_inner"
                         android:tint="?colorPrimary"
-                        android:contentDescription="@string/content_desc_facebook" />
+                        app:srcCompat="@drawable/ic_social_facebook_inner" />
 
                     <ImageButton
                         android:id="@+id/social_instagram"
                         android:layout_width="@dimen/urgent_social_icon_size"
                         android:layout_height="@dimen/urgent_social_icon_size"
+                        android:contentDescription="@string/content_desc_instagram"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/ic_social_instagram"
                         android:tint="?colorPrimary"
-                        android:contentDescription="@string/content_desc_instagram" />
+                        app:srcCompat="@drawable/ic_social_instagram" />
 
                     <ImageButton
                         android:id="@+id/social_urgentfm"
                         android:layout_width="@dimen/urgent_social_icon_size"
                         android:layout_height="@dimen/urgent_social_icon_size"
+                        android:contentDescription="@string/content_desc_website"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/tabs_urgent"
                         android:tint="?colorPrimary"
-                        android:contentDescription="@string/content_desc_website" />
+                        app:srcCompat="@drawable/tabs_urgent" />
 
                     <ImageButton
                         android:id="@+id/social_youtube"
                         android:layout_width="@dimen/urgent_social_icon_size"
                         android:layout_height="@dimen/urgent_social_icon_size"
+                        android:contentDescription="@string/content_desc_youtube"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/ic_social_youtube"
                         android:tint="?colorPrimary"
-                        android:contentDescription="@string/content_desc_youtube" />
+                        app:srcCompat="@drawable/ic_social_youtube" />
 
                 </LinearLayout>
 

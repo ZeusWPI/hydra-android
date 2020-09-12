@@ -9,16 +9,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.preference.DialogPreference;
 
+import java.time.LocalTime;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.utils.ViewUtils;
-import org.threeten.bp.LocalTime;
 
 /**
  * Custom dialog to select a time in the preferences.
- *
+ * <p>
  * This dialogs uses {@link LocalTime}, and saves the preference as a time string, such as "10:20". The exact format
  * depends on {@link LocalTime#toString()}, but is ISO-8601.
- *
+ * <p>
  * The formatting of the actual picker depends on the locale.
  *
  * @author Rien Maertens
@@ -26,7 +27,7 @@ import org.threeten.bp.LocalTime;
  * @see <a href="https://github.com/Gericop/Android-Support-Preference-V7-Fix">Based on this library</a>
  * @see LocalTime#toString() The exact documentation on how the value is saved.
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
+@SuppressWarnings({"WeakerAccess"})
 public class TimePreference extends DialogPreference {
 
     public TimePreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -52,6 +53,7 @@ public class TimePreference extends DialogPreference {
                 android.R.attr.dialogPreferenceStyle));
     }
 
+    @SuppressWarnings({"unused", "RedundantSuppression"})
     public TimePreference(Context context) {
         this(context, null);
     }
@@ -91,18 +93,6 @@ public class TimePreference extends DialogPreference {
         }
     }
 
-    private static final class TimeSummaryProvider implements SummaryProvider<TimePreference> {
-        @Override
-        public CharSequence provideSummary(TimePreference preference) {
-            LocalTime time = preference.getTime();
-            if (time != null) {
-                return time.toString();
-            } else {
-                return "";
-            }
-        }
-    }
-
     @Override
     protected Parcelable onSaveInstanceState() {
         final Parcelable superState = super.onSaveInstanceState();
@@ -129,7 +119,20 @@ public class TimePreference extends DialogPreference {
         setTime(myState.time);
     }
 
+    private static final class TimeSummaryProvider implements SummaryProvider<TimePreference> {
+        @Override
+        public CharSequence provideSummary(TimePreference preference) {
+            LocalTime time = preference.getTime();
+            if (time != null) {
+                return time.toString();
+            } else {
+                return "";
+            }
+        }
+    }
+
     private static class SavedState extends BaseSavedState {
+
         private LocalTime time;
 
         public SavedState(Parcel source) {

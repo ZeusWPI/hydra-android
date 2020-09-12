@@ -4,22 +4,34 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.List;
+import java.util.Objects;
 
 import com.squareup.moshi.Json;
-import java9.util.Objects;
 
 /**
  * Created by feliciaan on 04/02/16.
  */
 @SuppressWarnings("WeakerAccess")
 public final class RegularSandwich implements Parcelable {
-
+    
     private String name;
     private List<String> ingredients;
     @Json(name = "price_small")
     private String priceSmall;
     @Json(name = "price_medium")
     private String priceMedium;
+
+    @SuppressWarnings("unused")
+    public RegularSandwich() {
+
+    }
+
+    public RegularSandwich(Parcel in) {
+        this.name = in.readString();
+        this.ingredients = in.createStringArrayList();
+        this.priceSmall = in.readString();
+        this.priceMedium = in.readString();
+    }
 
     public String getName() {
         return name;
@@ -50,30 +62,6 @@ public final class RegularSandwich implements Parcelable {
         dest.writeString(this.priceMedium);
     }
 
-    @SuppressWarnings("unused")
-    public RegularSandwich() {
-
-    }
-
-    public RegularSandwich(Parcel in) {
-        this.name = in.readString();
-        this.ingredients = in.createStringArrayList();
-        this.priceSmall = in.readString();
-        this.priceMedium = in.readString();
-    }
-
-    public static final Parcelable.Creator<RegularSandwich> CREATOR = new Parcelable.Creator<RegularSandwich>() {
-        @Override
-        public RegularSandwich createFromParcel(Parcel source) {
-            return new RegularSandwich(source);
-        }
-
-        @Override
-        public RegularSandwich[] newArray(int size) {
-            return new RegularSandwich[size];
-        }
-    };
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -94,4 +82,16 @@ public final class RegularSandwich implements Parcelable {
     public String toString() {
         return name;
     }
+
+    public static final Parcelable.Creator<RegularSandwich> CREATOR = new Parcelable.Creator<RegularSandwich>() {
+        @Override
+        public RegularSandwich createFromParcel(Parcel source) {
+            return new RegularSandwich(source);
+        }
+
+        @Override
+        public RegularSandwich[] newArray(int size) {
+            return new RegularSandwich[size];
+        }
+    };
 }

@@ -1,7 +1,5 @@
 package be.ugent.zeus.hydra;
 
-import android.content.Context;
-
 import be.ugent.zeus.hydra.common.reporting.Manager;
 import jonathanfinerty.once.Once;
 
@@ -19,11 +17,6 @@ public class TestApp extends HydraApplication {
         super.onCreate();
         // Manually set the theme on the context, since we use it's attributes but don't use an Activity.
         setTheme(R.style.Hydra_DayNight);
-    }
-
-    @Override
-    protected void onAttachBaseContextInitialize(Context base) {
-        // Do nothing.
     }
 
     @Override

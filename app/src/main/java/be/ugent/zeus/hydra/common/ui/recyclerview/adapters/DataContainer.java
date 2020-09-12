@@ -8,10 +8,7 @@ import androidx.annotation.Nullable;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * Manages the data for an adapter.
@@ -20,18 +17,19 @@ import java.util.concurrent.TimeUnit;
  */
 public class DataContainer<D> {
 
+    private static Executor backgroundExecutorSingleton;
     // Threading-related stuff.
     private final Executor backgroundExecutor = getDefaultBackgroundExecutor();
     private final Handler handler = new Handler(Looper.getMainLooper());
     private final Executor mainThreadExecutor = handler::post;
-
+    private final ListUpdateCallback callback;
     // Data stuff.
     @Nullable
     private List<D> internalData;
     @NonNull
     private List<D> readOnly = Collections.emptyList();
-
-    private final ListUpdateCallback callback;
+    // Max generation of currently scheduled runnable
+    private int maxScheduledGeneration;
 
     /**
      * @param callback The callback to which updates will be dispatched.
@@ -40,8 +38,23 @@ public class DataContainer<D> {
         this.callback = callback;
     }
 
-    // Max generation of currently scheduled runnable
-    private int maxScheduledGeneration;
+    /**
+     * Construct a default background executor.
+     * <p>
+     * The default executor has a fixed thread pool with 2 threads. This is both the suggested and maximal amount of
+     * threads. The thread pool has a bounded queue of size 1. The rejected policy is discarding the oldest first.
+     *
+     * @return The executor.
+     */
+    private static Executor getDefaultBackgroundExecutor() {
+        if (backgroundExecutorSingleton == null) {
+            backgroundExecutorSingleton = new ThreadPoolExecutor(2, 2,
+                    0, TimeUnit.MILLISECONDS,
+                    new ArrayBlockingQueue<>(1),
+                    new ThreadPoolExecutor.DiscardOldestPolicy());
+        }
+        return backgroundExecutorSingleton;
+    }
 
     /**
      * Submit an update to the data.
@@ -90,25 +103,5 @@ public class DataContainer<D> {
     @NonNull
     public List<D> getData() {
         return readOnly;
-    }
-
-    private static Executor backgroundExecutorSingleton;
-
-    /**
-     * Construct a default background executor.
-     * <p>
-     * The default executor has a fixed thread pool with 2 threads. This is both the suggested and maximal amount of
-     * threads. The thread pool has a bounded queue of size 1. The rejected policy is discarding the oldest first.
-     *
-     * @return The executor.
-     */
-    private static Executor getDefaultBackgroundExecutor() {
-        if (backgroundExecutorSingleton == null) {
-            backgroundExecutorSingleton = new ThreadPoolExecutor(2, 2,
-                    0, TimeUnit.MILLISECONDS,
-                    new ArrayBlockingQueue<>(1),
-                    new ThreadPoolExecutor.DiscardOldestPolicy());
-        }
-        return backgroundExecutorSingleton;
     }
 }

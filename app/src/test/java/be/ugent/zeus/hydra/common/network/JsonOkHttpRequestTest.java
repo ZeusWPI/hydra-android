@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.common.network;
 
 import android.content.Context;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -14,11 +13,7 @@ import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.request.Result;
-
-import okhttp3.Cache;
-import okhttp3.CacheControl;
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
+import okhttp3.*;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.After;
@@ -39,6 +34,17 @@ public class JsonOkHttpRequestTest {
 
     private MockWebServer server;
     private Context context;
+
+    private static MockResponse integerJsonResponse() {
+        return integerJsonResponse(1);
+    }
+
+    private static MockResponse integerJsonResponse(int i) {
+        return new MockResponse()
+                .addHeader("Cache-Control", "max-age=" + Integer.MAX_VALUE)
+                .addHeader("Content-Type", "application/json; charset=utf-8")
+                .setBody(String.valueOf(i));
+    }
 
     @Before
     public void setUp() {
@@ -378,17 +384,6 @@ public class JsonOkHttpRequestTest {
         result.getOrThrow();
     }
 
-    private static MockResponse integerJsonResponse() {
-        return integerJsonResponse(1);
-    }
-
-    private static MockResponse integerJsonResponse(int i) {
-        return new MockResponse()
-                .addHeader("Cache-Control", "max-age=" + Integer.MAX_VALUE)
-                .addHeader("Content-Type", "application/json; charset=utf-8")
-                .setBody(String.valueOf(i));
-    }
-
     private static class TestRequest extends JsonOkHttpRequest<Integer> {
 
         private final HttpUrl url;
@@ -411,8 +406,8 @@ public class JsonOkHttpRequestTest {
         }
 
         @Override
-        protected org.threeten.bp.Duration getCacheDuration() {
-            return org.threeten.bp.Duration.ofSeconds(cacheDuration.getSeconds());
+        protected Duration getCacheDuration() {
+            return Duration.ofSeconds(cacheDuration.getSeconds());
         }
     }
 

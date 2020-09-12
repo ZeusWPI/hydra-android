@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:tools="http://schemas.android.com/tools"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <Preference
         app:key="pref_about_version"
-        app:title="@string/pref_about_version_title"
+        app:persistent="false"
         app:summary="@string/pref_about_version_summary"
-        app:persistent="false" />
+        app:title="@string/pref_about_version_title" />
 
     <Preference
         app:key="pref_about_changelog"
-        app:title="@string/pref_about_changelog_title"
+        app:persistent="false"
         app:summary="@string/pref_about_changelog_summary"
-        app:persistent="false">
+        app:title="@string/pref_about_changelog_title">
         <intent
             android:action="android.intent.action.VIEW"
             android:data="https://github.com/ZeusWPI/hydra-android/releases" />
@@ -21,28 +21,28 @@
 
     <Preference
         app:key="pref_about_issues"
-        app:title="@string/pref_about_issues_title"
+        app:persistent="false"
         app:summary="@string/pref_about_issues_summary"
-        app:persistent="false">
+        app:title="@string/pref_about_issues_title">
         <intent
             android:action="android.intent.action.VIEW"
             android:data="https://github.com/ZeusWPI/hydra-android/issues" />
     </Preference>
 
     <Preference
+        app:allowDividerBelow="true"
         app:key="pref_about_licenses"
-        app:title="@string/pref_about_licenses_title"
-        app:summary="@string/pref_about_licenses_summary"
         app:persistent="false"
-        app:allowDividerBelow="true" />
+        app:summary="@string/pref_about_licenses_summary"
+        app:title="@string/pref_about_licenses_title" />
 
     <Preference
         app:allowDividerAbove="true"
         app:iconSpaceReserved="true"
         app:key="pref_about_creator_zeus"
-        app:title="@string/pref_about_creator_zeus"
         app:persistent="false"
         app:singleLineTitle="false"
+        app:title="@string/pref_about_creator_zeus"
         tools:ignore="UnusedAttribute">
         <intent
             android:action="android.intent.action.VIEW"
@@ -52,9 +52,9 @@
     <Preference
         app:iconSpaceReserved="true"
         app:key="pref_about_creator_dsa"
-        app:title="@string/pref_about_creator_dsa"
         app:persistent="false"
         app:singleLineTitle="false"
+        app:title="@string/pref_about_creator_dsa"
         tools:ignore="UnusedAttribute">
         <intent
             android:action="android.intent.action.VIEW"

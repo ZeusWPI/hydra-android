@@ -16,18 +16,17 @@ public class Utils {
     /**
      * Helper with older version support. If the html is null, an empty Spannable will be returned.
      *
-     * @param html The HTML to strip.
+     * @param html   The HTML to strip.
      * @param getter The image getter. I suggest using {@link PicassoImageGetter} if you don't need anything special.
-     *
      * @return Stripped HTML.
      */
     public static Spanned fromHtml(String html, Html.ImageGetter getter) {
 
-        if(html == null) {
+        if (html == null) {
             return new SpannableString("");
         }
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT < 24) {
             try {
                 //noinspection deprecation
                 return Html.fromHtml(html, getter, new HtmlTagHandler());

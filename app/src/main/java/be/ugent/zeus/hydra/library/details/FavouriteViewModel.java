@@ -14,8 +14,8 @@ import be.ugent.zeus.hydra.library.favourites.FavouritesRepository;
  */
 public class FavouriteViewModel extends AndroidViewModel {
 
-    private Library library;
     private final FavouritesRepository repository;
+    private Library library;
 
     public FavouriteViewModel(@NonNull Application application) {
         super(application);

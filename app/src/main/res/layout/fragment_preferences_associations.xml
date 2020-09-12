@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".association.preference.AssociationSelectionPreferenceFragment">
 
     <com.google.android.material.card.MaterialCardView
@@ -17,19 +17,19 @@
             android:orientation="vertical">
 
             <com.google.android.material.textview.MaterialTextView
-                android:paddingTop="@dimen/activity_horizontal_margin"
-                android:paddingLeft="@dimen/activity_vertical_margin"
-                android:paddingRight="@dimen/activity_vertical_margin"
+                style="?textAppearanceBody1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="?textAppearanceBody1"
+                android:paddingLeft="@dimen/activity_vertical_margin"
+                android:paddingTop="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_vertical_margin"
                 android:text="@string/event_pref_choose_associations_desc" />
 
             <androidx.appcompat.widget.SearchView
-                app:iconifiedByDefault="false"
                 android:id="@+id/search_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:iconifiedByDefault="false" />
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -39,12 +39,12 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:paddingTop="@dimen/content_spacing"
-            android:clipToPadding="false"
-            android:scrollbarStyle="outsideOverlay"
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="@dimen/content_spacing"
+            android:scrollbarStyle="outsideOverlay"
             app:fastScrollEnabled="true"
             app:fastScrollHorizontalThumbDrawable="@drawable/fast_scroll_thumb"
             app:fastScrollHorizontalTrackDrawable="@drawable/fast_scroll_track"

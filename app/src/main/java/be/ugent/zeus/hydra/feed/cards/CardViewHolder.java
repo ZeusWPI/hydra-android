@@ -2,10 +2,7 @@ package be.ugent.zeus.hydra.feed.cards;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.TextView;
 import androidx.annotation.CallSuper;
 
@@ -20,7 +17,7 @@ import be.ugent.zeus.hydra.feed.commands.DisableTypeCommand;
 
 /**
  * View holder for cards that are hideable, using the {@link NowToolbar}.
- *
+ * <p>
  * By default, swiping the card away is enabled.
  *
  * @author Niko Strijbol

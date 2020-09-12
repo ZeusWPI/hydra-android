@@ -1,82 +1,82 @@
 {
-  "formatVersion": 1,
-  "database": {
-    "version": 16,
-    "identityHash": "0dfdb937cb9a30f505938112bcd0affc",
-    "entities": [
-      {
-        "tableName": "feed_dismissals",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dismissal_date` TEXT NOT NULL, `card_type` INTEGER NOT NULL, `card_identifier` TEXT NOT NULL, PRIMARY KEY(`card_type`, `card_identifier`))",
-        "fields": [
-          {
-            "fieldPath": "dismissalDate",
-            "columnName": "dismissal_date",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "identifier.cardType",
-            "columnName": "card_type",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "identifier.identifier",
-            "columnName": "card_identifier",
-            "affinity": "TEXT",
-            "notNull": true
-          }
+    "formatVersion": 1,
+    "database": {
+        "version": 16,
+        "identityHash": "0dfdb937cb9a30f505938112bcd0affc",
+        "entities": [
+            {
+                "tableName": "feed_dismissals",
+                "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dismissal_date` TEXT NOT NULL, `card_type` INTEGER NOT NULL, `card_identifier` TEXT NOT NULL, PRIMARY KEY(`card_type`, `card_identifier`))",
+                "fields": [
+                    {
+                        "fieldPath": "dismissalDate",
+                        "columnName": "dismissal_date",
+                        "affinity": "TEXT",
+                        "notNull": true
+                    },
+                    {
+                        "fieldPath": "identifier.cardType",
+                        "columnName": "card_type",
+                        "affinity": "INTEGER",
+                        "notNull": true
+                    },
+                    {
+                        "fieldPath": "identifier.identifier",
+                        "columnName": "card_identifier",
+                        "affinity": "TEXT",
+                        "notNull": true
+                    }
+                ],
+                "primaryKey": {
+                    "columnNames": [
+                        "card_type",
+                        "card_identifier"
+                    ],
+                    "autoGenerate": false
+                },
+                "indices": [
+                    {
+                        "name": "index_feed_dismissals_card_type",
+                        "unique": false,
+                        "columnNames": [
+                            "card_type"
+                        ],
+                        "createSql": "CREATE  INDEX `index_feed_dismissals_card_type` ON `${TABLE_NAME}` (`card_type`)"
+                    }
+                ],
+                "foreignKeys": []
+            },
+            {
+                "tableName": "library_favourites",
+                "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `id` TEXT NOT NULL, PRIMARY KEY(`id`))",
+                "fields": [
+                    {
+                        "fieldPath": "name",
+                        "columnName": "name",
+                        "affinity": "TEXT",
+                        "notNull": true
+                    },
+                    {
+                        "fieldPath": "id",
+                        "columnName": "id",
+                        "affinity": "TEXT",
+                        "notNull": true
+                    }
+                ],
+                "primaryKey": {
+                    "columnNames": [
+                        "id"
+                    ],
+                    "autoGenerate": false
+                },
+                "indices": [],
+                "foreignKeys": []
+            }
         ],
-        "primaryKey": {
-          "columnNames": [
-            "card_type",
-            "card_identifier"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [
-          {
-            "name": "index_feed_dismissals_card_type",
-            "unique": false,
-            "columnNames": [
-              "card_type"
-            ],
-            "createSql": "CREATE  INDEX `index_feed_dismissals_card_type` ON `${TABLE_NAME}` (`card_type`)"
-          }
-        ],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "library_favourites",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `id` TEXT NOT NULL, PRIMARY KEY(`id`))",
-        "fields": [
-          {
-            "fieldPath": "name",
-            "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "TEXT",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "id"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [],
-        "foreignKeys": []
-      }
-    ],
-    "views": [],
-    "setupQueries": [
-      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0dfdb937cb9a30f505938112bcd0affc')"
-    ]
-  }
+        "views": [],
+        "setupQueries": [
+            "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+            "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0dfdb937cb9a30f505938112bcd0affc')"
+        ]
+    }
 }

@@ -5,8 +5,8 @@ import android.content.SharedPreferences;
 import android.widget.ImageView;
 import androidx.preference.PreferenceManager;
 
-import be.ugent.zeus.hydra.feed.preferences.HomeFragment;
 import be.ugent.zeus.hydra.common.utils.NetworkUtils;
+import be.ugent.zeus.hydra.feed.preferences.HomeFragment;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
@@ -34,15 +34,14 @@ public class PriorityUtils {
 
     /**
      * Lineair interpolation of the value x ∈ [a,b] to [FEED_SPECIAL_SHIFT,FEED_MAX_VALUE]. The formula used is:
-     *
+     * <p>
      * x' = (c - a) * FEED_MAX_VALUE / (b - a)
-     *
+     * <p>
      * If x is bigger than b, FEED_MAX_VALUE is returned. This is to help calculate a correct priority.
      *
      * @param x The value in the original range.
      * @param a Original range start.
      * @param b Original range end.
-     *
      * @return The interpolated value in [y,z].
      */
     public static int lerp(int x, int a, int b) {

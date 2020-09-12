@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.common.network;
 
 import android.content.Context;
-import android.os.Build;
 import androidx.annotation.VisibleForTesting;
 
 import java.io.File;
@@ -20,9 +19,9 @@ import okhttp3.OkHttpClient;
  */
 public final class InstanceProvider {
 
-    private static OkHttpClient client;
-
     private static final long CACHE_SIZE = 20 * 1024 * 1024; // 20 MiB
+    private static OkHttpClient client;
+    private static Moshi moshi;
 
     private InstanceProvider() {
     }
@@ -48,20 +47,12 @@ public final class InstanceProvider {
      * Get the OkHttpClient we use for requests.
      *
      * @param context A context.
-     *
      * @return The client.
      */
     public static synchronized OkHttpClient getClient(Context context) {
-
-        if (Build.VERSION.SDK_INT <= 20) {
-            CertificateProvider.installProvider(context);
-        }
-
         File cacheDir = new File(context.getCacheDir(), "http");
         return getClient(cacheDir);
     }
-
-    private static Moshi moshi;
 
     @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     public static synchronized Moshi getMoshi() {

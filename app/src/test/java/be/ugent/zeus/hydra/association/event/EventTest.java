@@ -1,20 +1,15 @@
 package be.ugent.zeus.hydra.association.event;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import java9.util.Lists;
-
 import be.ugent.zeus.hydra.common.ModelTest;
-import be.ugent.zeus.hydra.testing.Utils;
 import be.ugent.zeus.hydra.common.utils.DateUtils;
+import be.ugent.zeus.hydra.testing.Utils;
 import de.jaehrig.gettersetterverifier.GetterSetterVerifier;
 import org.junit.Test;
-import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.OffsetDateTime;
 
 import static org.junit.Assert.*;
 
@@ -71,7 +66,7 @@ public class EventTest extends ModelTest<Event> {
     public void shouldBeSortedOnStartDate() {
         List<Event> events = Utils.generate(Event.class, 10).collect(Collectors.toList());
         List<Event> expected = new ArrayList<>(events);
-        Lists.sort(expected, Comparator.comparing(Event::getStart));
+        expected.sort(Comparator.comparing(Event::getStart));
         List<Event> actual = new ArrayList<>(events);
         Collections.sort(actual);
         assertEquals(expected, actual);
@@ -98,12 +93,6 @@ public class EventTest extends ModelTest<Event> {
     }
 
     @Test
-    public void shouldNotHavePreciesLocation_whenThereAreNoCoordinates() {
-        Event event = Utils.generate(Event.class, "latitude", "longitude");
-        assertFalse(event.hasPreciseLocation());
-    }
-
-    @Test
     public void shouldHavePreciesLocation_whenThereAreCoordinates() {
         Event event = Utils.generate(Event.class);
         assertTrue(event.hasPreciseLocation());
@@ -126,5 +115,10 @@ public class EventTest extends ModelTest<Event> {
     public void shouldHaveUrl_whenThereIsUrl() {
         Event event = Utils.generate(Event.class);
         assertTrue(event.hasUrl());
+    }
+
+    @Test
+    public void equalsAndHash() {
+        Utils.defaultVerifier(Event.class).withOnlyTheseFields("id").verify();
     }
 }

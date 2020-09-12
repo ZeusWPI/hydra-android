@@ -1,35 +1,28 @@
 package androidx.room.testing;
 
 import android.app.Instrumentation;
-
-import androidx.arch.core.executor.ArchTaskExecutor;
-import androidx.sqlite.db.SupportSQLiteDatabase;
-import androidx.sqlite.db.SupportSQLiteOpenHelper;
-import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory;
-import androidx.room.DatabaseConfiguration;
-import androidx.room.Room;
-import androidx.room.RoomDatabase;
-import androidx.room.RoomOpenHelper;
-import androidx.room.migration.Migration;
-import androidx.room.migration.bundle.*;
-import androidx.room.util.TableInfo;
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
+import androidx.arch.core.executor.ArchTaskExecutor;
+import androidx.room.*;
+import androidx.room.migration.Migration;
+import androidx.room.migration.bundle.*;
+import androidx.room.util.TableInfo;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+import androidx.sqlite.db.SupportSQLiteOpenHelper;
+import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory;
+
+import java.io.*;
+import java.lang.ref.WeakReference;
+import java.util.*;
 
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.ref.WeakReference;
-import java.util.*;
-
 /**
  * Enables testing migrations as unit tests (with Robolectric).
- *
+ * <p>
  * Copy of {@link MigrationTestHelper}.
  *
  * @author Niko Strijbol
@@ -72,6 +65,64 @@ public class LocalMigrationTestHelper extends TestWatcher {
         }
         mAssetsFolder = assetsFolder;
         mOpenFactory = openFactory;
+    }
+
+    @SuppressWarnings("WeakerAccess") /* synthetic access */
+    static TableInfo toTableInfo(EntityBundle entityBundle) {
+        return new TableInfo(entityBundle.getTableName(), toColumnMap(entityBundle),
+                toForeignKeys(entityBundle.getForeignKeys()), toIndices(entityBundle.getIndices()));
+    }
+
+    private static Set<TableInfo.Index> toIndices(List<IndexBundle> indices) {
+        if (indices == null) {
+            return Collections.emptySet();
+        }
+        Set<TableInfo.Index> result = new HashSet<>();
+        for (IndexBundle bundle : indices) {
+            result.add(new TableInfo.Index(bundle.getName(), bundle.isUnique(),
+                    bundle.getColumnNames()));
+        }
+        return result;
+    }
+
+    private static Set<TableInfo.ForeignKey> toForeignKeys(
+            List<ForeignKeyBundle> bundles) {
+        if (bundles == null) {
+            return Collections.emptySet();
+        }
+        Set<TableInfo.ForeignKey> result = new HashSet<>(bundles.size());
+        for (ForeignKeyBundle bundle : bundles) {
+            result.add(new TableInfo.ForeignKey(bundle.getTable(),
+                    bundle.getOnDelete(), bundle.getOnUpdate(),
+                    bundle.getColumns(), bundle.getReferencedColumns()));
+        }
+        return result;
+    }
+
+    private static Map<String, TableInfo.Column> toColumnMap(EntityBundle entity) {
+        Map<String, TableInfo.Column> result = new HashMap<>();
+        for (FieldBundle bundle : entity.getFields()) {
+            TableInfo.Column column = toColumn(entity, bundle);
+            result.put(column.name, column);
+        }
+        return result;
+    }
+
+    private static TableInfo.Column toColumn(EntityBundle entity, FieldBundle field) {
+        return new TableInfo.Column(field.getColumnName(), field.getAffinity(),
+                field.isNonNull(), findPrimaryKeyPosition(entity, field));
+    }
+
+    private static int findPrimaryKeyPosition(EntityBundle entity, FieldBundle field) {
+        List<String> columnNames = entity.getPrimaryKey().getColumnNames();
+        int i = 0;
+        for (String columnName : columnNames) {
+            i++;
+            if (field.getColumnName().equalsIgnoreCase(columnName)) {
+                return i;
+            }
+        }
+        return 0;
     }
 
     @Override
@@ -262,64 +313,6 @@ public class LocalMigrationTestHelper extends TestWatcher {
     private SchemaBundle loadSchema(Context context, int version) throws IOException {
         InputStream input = context.getAssets().open(mAssetsFolder + "/" + version + ".json");
         return SchemaBundle.deserialize(input);
-    }
-
-    @SuppressWarnings("WeakerAccess") /* synthetic access */
-    static TableInfo toTableInfo(EntityBundle entityBundle) {
-        return new TableInfo(entityBundle.getTableName(), toColumnMap(entityBundle),
-                toForeignKeys(entityBundle.getForeignKeys()), toIndices(entityBundle.getIndices()));
-    }
-
-    private static Set<TableInfo.Index> toIndices(List<IndexBundle> indices) {
-        if (indices == null) {
-            return Collections.emptySet();
-        }
-        Set<TableInfo.Index> result = new HashSet<>();
-        for (IndexBundle bundle : indices) {
-            result.add(new TableInfo.Index(bundle.getName(), bundle.isUnique(),
-                    bundle.getColumnNames()));
-        }
-        return result;
-    }
-
-    private static Set<TableInfo.ForeignKey> toForeignKeys(
-            List<ForeignKeyBundle> bundles) {
-        if (bundles == null) {
-            return Collections.emptySet();
-        }
-        Set<TableInfo.ForeignKey> result = new HashSet<>(bundles.size());
-        for (ForeignKeyBundle bundle : bundles) {
-            result.add(new TableInfo.ForeignKey(bundle.getTable(),
-                    bundle.getOnDelete(), bundle.getOnUpdate(),
-                    bundle.getColumns(), bundle.getReferencedColumns()));
-        }
-        return result;
-    }
-
-    private static Map<String, TableInfo.Column> toColumnMap(EntityBundle entity) {
-        Map<String, TableInfo.Column> result = new HashMap<>();
-        for (FieldBundle bundle : entity.getFields()) {
-            TableInfo.Column column = toColumn(entity, bundle);
-            result.put(column.name, column);
-        }
-        return result;
-    }
-
-    private static TableInfo.Column toColumn(EntityBundle entity, FieldBundle field) {
-        return new TableInfo.Column(field.getColumnName(), field.getAffinity(),
-                field.isNonNull(), findPrimaryKeyPosition(entity, field));
-    }
-
-    private static int findPrimaryKeyPosition(EntityBundle entity, FieldBundle field) {
-        List<String> columnNames = entity.getPrimaryKey().getColumnNames();
-        int i = 0;
-        for (String columnName : columnNames) {
-            i++;
-            if (field.getColumnName().equalsIgnoreCase(columnName)) {
-                return i;
-            }
-        }
-        return 0;
     }
 
     static class MigratingDelegate extends MigrationTestHelper.RoomOpenHelperDelegate {

@@ -3,8 +3,7 @@ package be.ugent.zeus.hydra.resto.history;
 import android.content.Context;
 import androidx.annotation.NonNull;
 
-import org.threeten.bp.LocalDate;
-
+import java.time.LocalDate;
 import java.util.Locale;
 
 import be.ugent.zeus.hydra.common.network.Endpoints;
@@ -15,7 +14,7 @@ import be.ugent.zeus.hydra.resto.RestoMenu;
 
 /**
  * Request the menu for a single day.
- *
+ * <p>
  * If not properly initialised before use (call {@link #setChoice(RestoChoice)} and {@link #setDate(LocalDate)}, it
  * will throw {@link IllegalStateException}s when used.
  *

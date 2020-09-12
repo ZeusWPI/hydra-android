@@ -1,16 +1,16 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.viewholders;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
+import androidx.recyclerview.widget.RecyclerView;
+
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DataAdapter;
 
 /**
  * A generic view holder, intended as root of all other view holders.
- *
+ * <p>
  * This view holder is designed to be used with an {@link DataAdapter}.
  *
  * @param <D> The type of the data this view holder displays.
- *
  * @author Niko Strijbol
  */
 public abstract class DataViewHolder<D> extends RecyclerView.ViewHolder {

@@ -3,26 +3,25 @@ package be.ugent.zeus.hydra.common.network;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.JsonDataException;
-import com.squareup.moshi.Moshi;
-
-import org.threeten.bp.Duration;
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
+import androidx.annotation.WorkerThread;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.UnknownServiceException;
+import java.time.Duration;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.VisibleForTesting;
-import androidx.annotation.WorkerThread;
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.reporting.Tracker;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.JsonDataException;
+import com.squareup.moshi.Moshi;
 import okhttp3.CacheControl;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
@@ -34,9 +33,9 @@ import okhttp3.Response;
  * <h1>Caching</h1>
  * The caching implementation uses OkHttp's cache implementation. How long a response is cached is determined by
  * {@link #getCacheDuration()}. By default, requests are not cached.
- *
+ * <p>
  * Additionally, stale data is always used by default if needed.
- *
+ * <p>
  * To disable the cache, pass {@link BaseLiveData#REFRESH_COLD} as an argument to the request.
  *
  * <h1>Decode</h1>
@@ -62,7 +61,7 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
      * @param context The context.
      * @param token   The type token of the return type.
      */
-    JsonOkHttpRequest(Context context, Type token) {
+    JsonOkHttpRequest(@NonNull Context context, @NonNull Type token) {
         this.moshi = InstanceProvider.getMoshi();
         this.client = InstanceProvider.getClient(context);
         this.typeToken = token;
@@ -75,7 +74,7 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
      * @param context The context.
      * @param token   The class of the return type. If you need a generic list, use {@link JsonArrayRequest} instead.
      */
-    public JsonOkHttpRequest(Context context, Class<D> token) {
+    public JsonOkHttpRequest(@NonNull Context context, @NonNull Class<D> token) {
         this(context, (Type) token);
     }
 
@@ -142,10 +141,12 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
                 throw new NullPointerException("Unexpected null body on request response.");
             }
 
-            D result = adapter.fromJson(response.body().source());
+            D result = adapter.fromJson(Objects.requireNonNull(response.body()).source());
+
             if (result == null) {
                 throw new NullPointerException("Null is not a valid value.");
             }
+
             return new Result.Builder<D>()
                     .withData(result)
                     .build();

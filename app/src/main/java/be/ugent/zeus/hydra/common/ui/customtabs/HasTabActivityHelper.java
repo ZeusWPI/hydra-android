@@ -8,22 +8,22 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.browser.customtabs.*;
-import android.util.Log;
-
-import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.utils.ColourUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.utils.ColourUtils;
+
 /**
  * Helper for activities that use custom tabs.
- *
+ * <p>
  * Taken from https://github.com/hitherejoe/Tabby
  *
  * @author Niko Strijbol
@@ -48,6 +48,31 @@ class HasTabActivityHelper implements ActivityHelper {
     HasTabActivityHelper(Activity activity, @Nullable ConnectionCallback connectionCallback) {
         this.activity = new WeakReference<>(activity);
         this.connectionCallback = connectionCallback;
+    }
+
+    private static Set<String> getNativeAppPackage(Context context, Uri uri) {
+        PackageManager pm = context.getPackageManager();
+
+        //Get all Apps that resolve a generic url
+        Intent browserActivityIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.example.com"));
+        Set<String> genericResolvedList = extractPackageNames(pm.queryIntentActivities(browserActivityIntent, 0));
+
+        //Get all apps that resolve the specific Url
+        Intent specializedActivityIntent = new Intent(Intent.ACTION_VIEW, uri);
+        Set<String> resolvedSpecializedList = extractPackageNames(pm.queryIntentActivities(specializedActivityIntent, 0));
+
+        //Keep only the Urls that resolve the specific, but not the generic urls
+        resolvedSpecializedList.removeAll(genericResolvedList);
+
+        return resolvedSpecializedList;
+    }
+
+    private static Set<String> extractPackageNames(List<ResolveInfo> resolveInfos) {
+        Set<String> packageNameSet = new HashSet<>();
+        for (ResolveInfo ri : resolveInfos) {
+            packageNameSet.add(ri.activityInfo.packageName);
+        }
+        return packageNameSet;
     }
 
     @Override
@@ -85,7 +110,7 @@ class HasTabActivityHelper implements ActivityHelper {
             customTabsIntent.intent.setFlags(this.intentFlags);
             customTabsIntent.intent.setPackage(packageName);
             customTabsIntent.launchUrl(activity.get(), uri);
-       }
+        }
     }
 
     /**
@@ -182,30 +207,5 @@ class HasTabActivityHelper implements ActivityHelper {
 
         CustomTabsSession session = getSession();
         return session != null && session.mayLaunchUrl(uri, extras, otherLikelyBundles);
-    }
-
-    private static Set<String> getNativeAppPackage(Context context, Uri uri) {
-        PackageManager pm = context.getPackageManager();
-
-        //Get all Apps that resolve a generic url
-        Intent browserActivityIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.example.com"));
-        Set<String> genericResolvedList = extractPackageNames(pm.queryIntentActivities(browserActivityIntent, 0));
-
-        //Get all apps that resolve the specific Url
-        Intent specializedActivityIntent = new Intent(Intent.ACTION_VIEW, uri);
-        Set<String> resolvedSpecializedList = extractPackageNames(pm.queryIntentActivities(specializedActivityIntent, 0));
-
-        //Keep only the Urls that resolve the specific, but not the generic urls
-        resolvedSpecializedList.removeAll(genericResolvedList);
-
-        return resolvedSpecializedList;
-    }
-
-    private static Set<String> extractPackageNames(List<ResolveInfo> resolveInfos) {
-        Set<String> packageNameSet = new HashSet<>();
-        for (ResolveInfo ri : resolveInfos) {
-            packageNameSet.add(ri.activityInfo.packageName);
-        }
-        return packageNameSet;
     }
 }

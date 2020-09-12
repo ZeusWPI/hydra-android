@@ -10,13 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.ArticleViewer;
+import be.ugent.zeus.hydra.common.utils.DateUtils;
+import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.CardViewHolder;
-import be.ugent.zeus.hydra.schamper.Article;
-import be.ugent.zeus.hydra.common.ArticleViewer;
-import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
-import be.ugent.zeus.hydra.common.utils.DateUtils;
+import be.ugent.zeus.hydra.schamper.Article;
 
 /**
  * Home feed view holder for Schamper articles.

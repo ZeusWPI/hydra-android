@@ -6,15 +6,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.Transformations;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import java9.util.Comparators;
-import java9.util.Lists;
-import java9.util.function.Function;
-import java9.util.stream.Collectors;
-import java9.util.stream.StreamSupport;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
 import be.ugent.zeus.hydra.common.database.Database;
@@ -31,6 +25,35 @@ class LibraryLiveData extends RequestLiveData<List<Pair<Library, Boolean>>> impl
 
     LibraryLiveData(Context context) {
         super(context, makeRequest(context));
+    }
+
+    /**
+     * Construct the request we want to use. This method is static because we need to call it in the constructor.
+     *
+     * @param context The context.
+     * @return The request.
+     */
+    private static Request<List<Pair<Library, Boolean>>> makeRequest(Context context) {
+
+        FavouritesRepository repository = Database.get(context).getFavouritesRepository();
+
+        return new LibraryListRequest(context).map(libraryList -> {
+            Set<String> favourites = new HashSet<>(repository.getFavouriteIds());
+            // We sort favourites first and then faculty libraries and then by name.
+            return libraryList.getLibraries().stream()
+                    .map(library -> Pair.create(library, favourites.contains(library.getCode())))
+                    .sorted(Comparator.comparing(statusExtractor()).reversed()
+                            .thenComparing(Comparator.comparing(libraryExtractor().andThen(Library::isFacultyBib)).reversed())
+                            .thenComparing(libraryExtractor().andThen(Library::getName))).collect(Collectors.toList());
+        });
+    }
+
+    private static Function<Pair<Library, Boolean>, Boolean> statusExtractor() {
+        return libraryBooleanPair -> libraryBooleanPair.second;
+    }
+
+    private static Function<Pair<Library, Boolean>, Library> libraryExtractor() {
+        return libraryBooleanPair -> libraryBooleanPair.first;
     }
 
     @Override
@@ -58,41 +81,5 @@ class LibraryLiveData extends RequestLiveData<List<Pair<Library, Boolean>>> impl
     @Override
     public void onChanged(Integer integer) {
         loadData();
-    }
-
-    /**
-     * Construct the request we want to use. This method is static because we need to call it in the constructor.
-     *
-     * @param context The context.
-     *
-     * @return The request.
-     */
-    private static Request<List<Pair<Library, Boolean>>> makeRequest(Context context) {
-
-        FavouritesRepository repository = Database.get(context).getFavouritesRepository();
-
-        return new LibraryListRequest(context).map(libraryList -> {
-            Set<String> favourites = new HashSet<>(repository.getFavouriteIds());
-            List<Pair<Library, Boolean>> libraries = StreamSupport.stream(libraryList.getLibraries())
-                    .map(library -> Pair.create(library, favourites.contains(library.getCode())))
-                    .collect(Collectors.toList());
-            // We sort favourites first and then faculty libraries and then by name.
-            Lists.sort(libraries, Comparators.thenComparing(
-                    Comparators.reversed(Comparators.comparing(statusExtractor())),
-                    Comparators.thenComparing(
-                            Comparators.reversed(Comparators.comparing(libraryExtractor().andThen(Library::isFacultyBib))),
-                            Comparators.comparing(libraryExtractor().andThen(Library::getName))
-                    )));
-
-            return libraries;
-        });
-    }
-
-    private static Function<Pair<Library, Boolean>, Boolean> statusExtractor() {
-        return libraryBooleanPair -> libraryBooleanPair.second;
-    }
-
-    private static Function<Pair<Library, Boolean>, Library> libraryExtractor() {
-        return libraryBooleanPair -> libraryBooleanPair.first;
     }
 }

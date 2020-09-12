@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.common.network;
 
 import android.content.Context;
-
 import androidx.test.core.app.ApplicationProvider;
 
 import java.io.File;
@@ -39,6 +38,11 @@ public abstract class AbstractJsonRequestTest<D> {
     protected Moshi moshi;
     protected Context context;
 
+    protected static String readData(File file) throws IOException {
+        BufferedSource source = Okio.buffer(Okio.source(new FileInputStream(file)));
+        return source.readUtf8();
+    }
+
     @Before
     public void setUp() {
         InstanceProvider.reset();
@@ -60,11 +64,6 @@ public abstract class AbstractJsonRequestTest<D> {
     protected D getExpectedResult(String data) throws IOException {
         JsonAdapter<D> adapter = moshi.adapter(getRequest().getTypeToken());
         return adapter.fromJson(data);
-    }
-
-    protected static String readData(File file) throws IOException {
-        BufferedSource source = Okio.buffer(Okio.source(new FileInputStream(file)));
-        return source.readUtf8();
     }
 
     @Test

@@ -2,12 +2,13 @@ package be.ugent.zeus.hydra.resto.history;
 
 import android.app.Application;
 
+import java.time.LocalDate;
+
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.common.ui.RefreshViewModel;
 import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
-import org.threeten.bp.LocalDate;
 
 /**
  * @author Niko Strijbol

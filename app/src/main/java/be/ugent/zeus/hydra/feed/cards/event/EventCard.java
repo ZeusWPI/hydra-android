@@ -1,11 +1,16 @@
 package be.ugent.zeus.hydra.feed.cards.event;
 
+import android.util.Pair;
+
+import java.time.Duration;
+import java.time.ZonedDateTime;
+import java.util.Objects;
+
+import be.ugent.zeus.hydra.association.Association;
+import be.ugent.zeus.hydra.association.AssociationMap;
 import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
-import java9.util.Objects;
-import org.threeten.bp.Duration;
-import org.threeten.bp.ZonedDateTime;
 
 /**
  * Home card for {@link Event}.
@@ -16,9 +21,11 @@ import org.threeten.bp.ZonedDateTime;
 class EventCard extends Card {
 
     private final Event event;
+    private final AssociationMap map;
 
-    EventCard(Event event) {
+    EventCard(Event event, AssociationMap associationMap) {
         this.event = event;
+        this.map = associationMap;
     }
 
     @Override
@@ -38,8 +45,8 @@ class EventCard extends Card {
         return Card.Type.ACTIVITY;
     }
 
-    public Event getEvent() {
-        return event;
+    public Pair<Event, Association> getEvent() {
+        return new Pair<>(event, map.get(event.getAssociation()));
     }
 
     @Override

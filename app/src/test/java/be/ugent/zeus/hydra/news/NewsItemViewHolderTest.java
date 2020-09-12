@@ -2,23 +2,25 @@ package be.ugent.zeus.hydra.news;
 
 import android.net.Uri;
 import android.view.View;
+
+import java.time.OffsetDateTime;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.news.NewsItemViewHolder;
-import be.ugent.zeus.hydra.news.UgentNewsArticle;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.threeten.bp.OffsetDateTime;
 
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertNotEmpty;
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertTextIs;
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * @author Niko Strijbol

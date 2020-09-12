@@ -12,37 +12,37 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@id/app_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@id/app_bar_layout"
             android:animateLayoutChanges="true">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
+                style="?toolbarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                style="?toolbarStyle"
                 app:layout_scrollFlags="scroll|enterAlways|snap">
 
                 <Spinner
-                    android:visibility="gone"
                     android:id="@+id/spinner"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
                 <ProgressBar
-                    android:visibility="gone"
                     android:id="@+id/spinner_progress"
                     android:layout_width="24dp"
-                    android:layout_height="24dp" />
+                    android:layout_height="24dp"
+                    android:visibility="gone" />
             </com.google.android.material.appbar.MaterialToolbar>
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab_layout"
-                app:tabContentStart="@dimen/keyline_tab"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:tabContentStart="@dimen/keyline_tab"
                 app:tabMode="fixed" />
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -55,33 +55,43 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <include
-                android:visibility="gone"
+                android:id="@+id/progress_bar"
                 layout="@layout/x_progress_bar"
-                android:id="@+id/progress_bar" />
+                android:visibility="gone" />
         </FrameLayout>
 
         <!-- The menu is a shortcut, because it is only used by the RestoFragment for now. -->
         <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:visibility="gone"
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
             android:layout_height="@dimen/material_bottom_nav_bar_height"
-            app:elevation="@dimen/material_bottom_nav_bar_elevation"
             android:layout_gravity="bottom"
+            android:visibility="gone"
+            app:elevation="@dimen/material_bottom_nav_bar_elevation"
             app:itemHorizontalTranslationEnabled="false"
             app:labelVisibilityMode="labeled"
             app:menu="@menu/bottom_resto" />
+
+        <!-- Is used in the settings fragment for now -->
+        <FrameLayout
+            android:id="@+id/bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:behavior_hideable="true"
+            app:behavior_skipCollapsed="true"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <!-- The navigation drawer that comes from the left -->
     <!-- Note that `android:layout_gravity` needs to be set to 'start' -->
     <com.google.android.material.navigation.NavigationView
-        app:headerLayout="@layout/drawer_header"
         android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        app:headerLayout="@layout/drawer_header"
         app:menu="@menu/drawer_items" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

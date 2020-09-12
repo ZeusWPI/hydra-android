@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import androidx.annotation.Nullable;
 
 import be.ugent.zeus.hydra.R;
@@ -27,7 +26,6 @@ public class OverviewActivity extends BaseActivity<ActivitySkoMainBinding> {
      * Start the activity on the default tab.
      *
      * @param context The context.
-     *
      * @return The intent to start the activity.
      */
     public static Intent start(Context context) {

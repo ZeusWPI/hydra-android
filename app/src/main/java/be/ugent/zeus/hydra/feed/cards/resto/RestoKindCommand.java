@@ -20,11 +20,11 @@ class RestoKindCommand implements FeedCommand {
 
     /**
      * Map the menu items to their resulting view state, i.e. what should be shown after the menu item is pressed.
-     *
+     * <p>
      * For example, the {@link RestoCardViewHolder.KindMenu#HIDE_SOUP}
      * menu item id is mapped to {@link HomeFragment.FeedRestoKind#MAIN}, meaning when the hide soup menu is pressed,
      * the resulting menu type is one that only shows the main menu.
-     *
+     * <p>
      * It is important to note that one of the two must always be shown, e.g. soup and/or main dishes, but not none.
      */
     private static final SparseArray<String> MENU_TO_FORWARD = new SparseArray<>();
@@ -37,6 +37,7 @@ class RestoKindCommand implements FeedCommand {
      * Maps menu items to their message of completion, i.e. the message shown when the action has been performed.
      */
     private static final SparseIntArray MENU_TO_ITEM = new SparseIntArray();
+
     static {
         // When hiding soup, only main dishes remain.
         MENU_TO_FORWARD.append(HIDE_SOUP, HomeFragment.FeedRestoKind.MAIN);

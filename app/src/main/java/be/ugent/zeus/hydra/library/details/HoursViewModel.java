@@ -1,14 +1,13 @@
 package be.ugent.zeus.hydra.library.details;
 
 import android.app.Application;
-
 import androidx.annotation.NonNull;
+
+import java.util.List;
 
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 import be.ugent.zeus.hydra.library.Library;
-
-import java.util.List;
 
 /**
  * @author Niko Strijbol

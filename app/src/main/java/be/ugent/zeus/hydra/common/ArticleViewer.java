@@ -5,10 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 
-import be.ugent.zeus.hydra.common.reporting.BaseEvents;
-import be.ugent.zeus.hydra.common.reporting.Event;
-import be.ugent.zeus.hydra.common.reporting.Reporting;
-import be.ugent.zeus.hydra.common.reporting.Tracker;
+import be.ugent.zeus.hydra.common.reporting.*;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 
 /**

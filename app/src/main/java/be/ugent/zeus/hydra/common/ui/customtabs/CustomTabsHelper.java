@@ -9,7 +9,6 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
-
 import androidx.annotation.Nullable;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.browser.customtabs.CustomTabsService;
@@ -23,7 +22,7 @@ import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 
 /**
  * Helper for custom tabs.
- *
+ * <p>
  * Taken from https://github.com/hitherejoe/Tabby
  *
  * @author Niko Strijbol
@@ -44,7 +43,7 @@ public class CustomTabsHelper {
      * Goes through all apps that handle VIEW intents and have a warm up service. Picks
      * the one chosen by the user if there is one, otherwise makes a best effort to return a
      * valid package name.
-     *
+     * <p>
      * This is <strong>not</strong> threadsafe.
      *
      * @param context {@link Context} to use for accessing {@link PackageManager}.
@@ -103,7 +102,6 @@ public class CustomTabsHelper {
      * Used to check whether there is a specialized handler for a given intent.
      *
      * @param intent The intent to check with.
-     *
      * @return Whether there is a specialized handler for the given intent.
      */
     private static boolean hasSpecializedHandlerIntents(Context context, Intent intent) {
@@ -137,13 +135,12 @@ public class CustomTabsHelper {
      * it will open urls in a new browser window. When {@code nativeApp} is true, custom tabs will not be used when
      * an app is available that can handle a certain url. A normal intent will be launched then.
      *
-     * @param activity  The activity that calls the custom tab.
-     * @param callback  The callback.
-     *
+     * @param activity The activity that calls the custom tab.
+     * @param callback The callback.
      * @return The helper.
      */
     public static ActivityHelper initHelper(Activity activity, @Nullable ActivityHelper.ConnectionCallback callback) {
-        if(hasSupport(activity)) {
+        if (hasSupport(activity)) {
             return new HasTabActivityHelper(activity, callback);
         } else {
             return new NoTabActivityHelper(activity, callback);
@@ -154,7 +151,7 @@ public class CustomTabsHelper {
      * Open an URI in a Custom Tab if supported. Otherwise, an attempt is made to open a browser.
      *
      * @param context Context to use.
-     * @param uri The URI to open.
+     * @param uri     The URI to open.
      */
     public static void openUri(Context context, Uri uri) {
         if (hasSupport(context)) {

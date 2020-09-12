@@ -2,16 +2,17 @@ package be.ugent.zeus.hydra.common.ui.recyclerview;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import android.view.View;
+
 import be.ugent.zeus.hydra.R;
 
 /**
  * Add spacing to elements for a staggered grid. This will add {@link #spacing} to the left and right of every element.
- *
+ * <p>
  * If the layout manager is not a {@link StaggeredGridLayoutManager} or {@link GridLayoutManager}, this will do nothing.
  *
  * @author Niko Strijbol

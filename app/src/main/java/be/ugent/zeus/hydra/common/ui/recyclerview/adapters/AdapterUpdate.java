@@ -1,10 +1,10 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
-import java.util.List;
-
 import androidx.annotation.AnyThread;
 import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
+
+import java.util.List;
 
 /**
  * Represents a data update for an {@link DiffAdapter}.

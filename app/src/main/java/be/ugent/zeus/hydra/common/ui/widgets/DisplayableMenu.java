@@ -20,7 +20,7 @@ import com.google.android.material.textview.MaterialTextView;
 
 /**
  * Helper class to display meals.
- *
+ * <p>
  * This is an immutable class.
  *
  * @author Niko Strijbol
@@ -40,6 +40,49 @@ public class DisplayableMenu {
         this.menu = menu;
         this.selectable = selectable;
         normalStyle = ViewUtils.getAttr(context, R.attr.textAppearanceBody2);
+    }
+
+    /**
+     * Make an image view. This image view has attributes set that are useful in the context of displaying it in the
+     * menu.
+     *
+     * @param id The ID of the drawable. Can be a vector.
+     * @return The image view.
+     */
+    private static ImageView makeImageView(Context context, @DrawableRes int id) {
+        ImageView imageView = new ImageView(context);
+        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        imageView.setImageDrawable(AppCompatResources.getDrawable(context, id));
+        TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.MATCH_PARENT);
+        imageView.setLayoutParams(params);
+        return imageView;
+    }
+
+    @DrawableRes
+    public static int getDrawable(RestoMeal meal) {
+        //Set the correct image.
+        @DrawableRes int id;
+        if (meal.getKind() == null) {
+            return R.drawable.resto_meat;
+        }
+        switch (meal.getKind()) {
+            case "fish":
+                id = R.drawable.resto_fish;
+                break;
+            case "vegan":
+                id = R.drawable.resto_vegan;
+                break;
+            case "vegetarian":
+                id = R.drawable.resto_vegetarian;
+                break;
+            case "soup":
+                id = R.drawable.resto_soup;
+                break;
+            default:
+            case "meat":
+                id = R.drawable.resto_meat;
+        }
+        return id;
     }
 
     /**
@@ -111,28 +154,10 @@ public class DisplayableMenu {
     }
 
     /**
-     * Make an image view. This image view has attributes set that are useful in the context of displaying it in the
-     * menu.
-     *
-     * @param id The ID of the drawable. Can be a vector.
-     *
-     * @return The image view.
-     */
-    private static ImageView makeImageView(Context context, @DrawableRes int id) {
-        ImageView imageView = new ImageView(context);
-        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        imageView.setImageDrawable(AppCompatResources.getDrawable(context, id));
-        TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.MATCH_PARENT);
-        imageView.setLayoutParams(params);
-        return imageView;
-    }
-
-    /**
      * Make center text.
      *
      * @param text The text.
      * @param lp   The layout param.
-     *
      * @return The text view.
      */
     private TextView makeCenterTextView(Context context, String text, TableRow.LayoutParams lp) {
@@ -178,32 +203,5 @@ public class DisplayableMenu {
 
             parent.addView(tr);
         }
-    }
-
-    @DrawableRes
-    public static int getDrawable(RestoMeal meal) {
-        //Set the correct image.
-        @DrawableRes int id;
-        if (meal.getKind() == null) {
-            return R.drawable.resto_meat;
-        }
-        switch (meal.getKind()) {
-            case "fish":
-                id = R.drawable.resto_fish;
-                break;
-            case "vegan":
-                id = R.drawable.resto_vegan;
-                break;
-            case "vegetarian":
-                id = R.drawable.resto_vegetarian;
-                break;
-            case "soup":
-                id = R.drawable.resto_soup;
-                break;
-            default:
-            case "meat":
-                id = R.drawable.resto_meat;
-        }
-        return id;
     }
 }

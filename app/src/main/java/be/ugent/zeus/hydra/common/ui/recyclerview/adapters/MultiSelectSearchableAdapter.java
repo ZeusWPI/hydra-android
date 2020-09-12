@@ -1,18 +1,17 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
+import android.util.Pair;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
-import android.util.Pair;
-
-import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
-import java9.util.function.Function;
-import java9.util.function.Predicate;
-import java9.util.stream.Collectors;
-import java9.util.stream.StreamSupport;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 
 /**
  * Basic searchable adapter with basic multi-select support. Extending a {@link SearchableAdapter} to be multi-select
@@ -24,9 +23,8 @@ import java.util.List;
 public abstract class MultiSelectSearchableAdapter<D, VH extends DataViewHolder<Pair<D, Boolean>>> extends DataAdapter<Pair<D, Boolean>, VH> implements
         SearchView.OnQueryTextListener, android.widget.SearchView.OnQueryTextListener {
 
-    protected List<Pair<D, Boolean>> allData = Collections.emptyList();
-
     private final Function<String, Predicate<D>> searchPredicate;
+    protected List<Pair<D, Boolean>> allData = Collections.emptyList();
 
     protected MultiSelectSearchableAdapter(Function<String, Predicate<D>> searchPredicate) {
         this.searchPredicate = searchPredicate;
@@ -104,11 +102,11 @@ public abstract class MultiSelectSearchableAdapter<D, VH extends DataViewHolder<
                     return null;
                 }
 
-                allData = StreamSupport.stream(allData)
+                allData = allData.stream()
                         .map(p -> new Pair<>(p.first, checked))
                         .collect(Collectors.toList());
 
-                return StreamSupport.stream(existingData)
+                return existingData.stream()
                         .map(p -> new Pair<>(p.first, checked))
                         .collect(Collectors.toList());
             }
@@ -128,7 +126,7 @@ public abstract class MultiSelectSearchableAdapter<D, VH extends DataViewHolder<
     @Override
     public boolean onQueryTextChange(String newText) {
         Predicate<D> predicate = searchPredicate.apply(newText);
-        List<Pair<D, Boolean>> newData = StreamSupport.stream(allData)
+        List<Pair<D, Boolean>> newData = allData.stream()
                 .filter(dBooleanPair -> predicate.test(dBooleanPair.first))
                 .collect(Collectors.toList());
         dataContainer.submitUpdate(new DumbUpdate<>(newData));

@@ -2,19 +2,18 @@ package be.ugent.zeus.hydra.urgent.player;
 
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.annotation.NonNull;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
+import androidx.annotation.NonNull;
 
-import org.threeten.bp.Instant;
-import org.threeten.bp.temporal.ChronoUnit;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 /**
  * Connects a {@link Player} to a {@link MediaSessionCompat} with the callback, in one direction: it passes commands
  * from the media session to the player.
  *
  * @author Niko Strijbol
- *
  * @see SessionPlayerCallback for the reverse mapping.
  */
 class PlayerSessionCallback extends MediaSessionCompat.Callback {

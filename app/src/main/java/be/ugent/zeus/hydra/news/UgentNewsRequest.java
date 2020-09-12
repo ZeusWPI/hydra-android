@@ -4,14 +4,15 @@ import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 
+import java.time.Duration;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.common.network.JsonArrayRequest;
 import be.ugent.zeus.hydra.common.request.Result;
-import java9.util.Comparators;
-import org.threeten.bp.Duration;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Request to get UGent news.
@@ -19,16 +20,19 @@ import java.util.List;
  * @author feliciaan
  */
 public class UgentNewsRequest extends JsonArrayRequest<UgentNewsArticle> {
+    
+    private final Context context;
 
     public UgentNewsRequest(Context context) {
         super(context, UgentNewsArticle.class);
+        this.context = context.getApplicationContext();
     }
 
     @NonNull
     @Override
     public Result<List<UgentNewsArticle>> execute(@NonNull Bundle args) {
         return super.execute(args).map(ugentNewsItems -> {
-            Collections.sort(ugentNewsItems, Comparators.reversed(Comparators.comparing(UgentNewsArticle::getModified)));
+            Collections.sort(ugentNewsItems, Comparator.comparing(UgentNewsArticle::getModified).reversed());
             return ugentNewsItems;
         });
     }
@@ -36,7 +40,8 @@ public class UgentNewsRequest extends JsonArrayRequest<UgentNewsArticle> {
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.DSA_V3 + "recent_news.json";
+        String endpoint = context.getString(R.string.ugent_news_endpoint);
+        return Endpoints.UGENT + endpoint;
     }
 
     @Override

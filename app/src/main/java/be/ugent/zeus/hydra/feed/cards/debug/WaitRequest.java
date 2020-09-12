@@ -1,17 +1,15 @@
 package be.ugent.zeus.hydra.feed.cards.debug;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import android.util.Log;
+import androidx.annotation.NonNull;
 
-import be.ugent.zeus.hydra.feed.cards.Card;
+import java.util.stream.Stream;
+
 import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.HomeFeedRequest;
-import java9.util.stream.Stream;
-import java9.util.stream.StreamSupport;
-
-import java.util.Collections;
+import be.ugent.zeus.hydra.feed.cards.Card;
 
 import static be.ugent.zeus.hydra.feed.cards.Card.Type.DEBUG;
 
@@ -33,7 +31,7 @@ public class WaitRequest implements HomeFeedRequest {
         try {
             Log.i(TAG, "execute: sleep 5 seconds.");
             Thread.sleep(5000); //Sleep 5 seconds
-            return Result.Builder.fromData(StreamSupport.stream(Collections.emptyList()));
+            return Result.Builder.fromData(Stream.empty());
         } catch (InterruptedException e) {
             return Result.Builder.fromException(new RequestException(e));
         }

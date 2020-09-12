@@ -1,15 +1,15 @@
 package be.ugent.zeus.hydra.feed.cards.dismissal;
 
-import androidx.room.ColumnInfo;
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+
+import java.util.Objects;
 
 import be.ugent.zeus.hydra.feed.cards.Card;
 
-import java9.util.Objects;
-
 /**
  * Identifies a single card in the home feed.
- *
+ * <p>
  * A card is identified by a combination of the type and an identifier. The identifier is scoped to the type, meaning
  * an identifier can be used with multiple card types. It is not unique.
  *

@@ -2,9 +2,9 @@ package be.ugent.zeus.hydra.common.network;
 
 import android.content.Context;
 
-import com.squareup.moshi.Types;
-
 import java.util.List;
+
+import com.squareup.moshi.Types;
 
 /**
  * This is very small class whose only purpose is making the constructor more type safe.

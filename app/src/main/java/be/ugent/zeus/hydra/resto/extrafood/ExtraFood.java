@@ -1,8 +1,7 @@
 package be.ugent.zeus.hydra.resto.extrafood;
 
 import java.util.List;
-
-import java9.util.Objects;
+import java.util.Objects;
 
 /**
  * Contains all extra food items.
@@ -19,12 +18,24 @@ public final class ExtraFood {
         return breakfast;
     }
 
+    public void setBreakfast(List<Food> breakfast) {
+        this.breakfast = breakfast;
+    }
+
     List<Food> getDesserts() {
         return desserts;
     }
 
+    public void setDesserts(List<Food> desserts) {
+        this.desserts = desserts;
+    }
+
     List<Food> getDrinks() {
         return drinks;
+    }
+
+    public void setDrinks(List<Food> drinks) {
+        this.drinks = drinks;
     }
 
     @Override
@@ -40,17 +51,5 @@ public final class ExtraFood {
     @Override
     public int hashCode() {
         return Objects.hash(breakfast, desserts, drinks);
-    }
-
-    public void setDrinks(List<Food> drinks) {
-        this.drinks = drinks;
-    }
-
-    public void setDesserts(List<Food> desserts) {
-        this.desserts = desserts;
-    }
-
-    public void setBreakfast(List<Food> breakfast) {
-        this.breakfast = breakfast;
     }
 }

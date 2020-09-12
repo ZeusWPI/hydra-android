@@ -3,12 +3,9 @@ package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 import androidx.appcompat.widget.SearchView;
 
 import java.util.*;
-
-import java9.lang.Iterables;
-import java9.util.function.BiPredicate;
-import java9.util.function.Function;
-import java9.util.stream.Collectors;
-import java9.util.stream.StreamSupport;
+import java.util.function.BiPredicate;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 
@@ -22,13 +19,13 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
  * searchView.setOnSearchClickListener(v -> adapter.onOpen());
  * }
  * </pre>
- *
+ * <p>
  * This is a very generic class, supporting a lot of situations, including adapters with multiple
  * view types.
- *
+ * <p>
  * Currently searching is executed on the main thread. This imposes some limits, see the constructor description. This
  * is not guaranteed behaviour: searching may be executed in a different thread in the future.
- *
+ * <p>
  * Users of this class should call the {@link #onOpen()} method. Not doing so may result in unreliable behaviour related
  * to the listeners.
  *
@@ -37,13 +34,11 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 public abstract class SearchableAdapter<D, VH extends DataViewHolder<D>> extends DiffAdapter<D, VH> implements
         SearchView.OnQueryTextListener, SearchView.OnCloseListener, android.widget.SearchView.OnQueryTextListener, android.widget.SearchView.OnCloseListener {
 
-    private List<D> allData = Collections.emptyList();
     private final BiPredicate<D, String> searchPredicate;
     private final Function<List<D>, List<D>> filter;
-
-    private boolean isSearching;
-
     private final Set<SearchStateListener> listeners = Collections.newSetFromMap(new WeakHashMap<>());
+    private List<D> allData = Collections.emptyList();
+    private boolean isSearching;
 
     /**
      * @param searchPredicate The predicate used when searching. The predicate receives an item and the search query and
@@ -67,7 +62,6 @@ public abstract class SearchableAdapter<D, VH extends DataViewHolder<D>> extends
         this.filter = filter;
     }
 
-    @SuppressWarnings("unused")
     protected SearchableAdapter(Function<D, String> stringifier) {
         this((d, s) -> stringifier.apply(d).contains(s));
     }
@@ -86,10 +80,12 @@ public abstract class SearchableAdapter<D, VH extends DataViewHolder<D>> extends
     @Override
     public boolean onQueryTextChange(String newText) {
         if (!isSearching) {
-            Iterables.forEach(listeners, listener -> listener.onSearchStateChange(true));
+            for (SearchStateListener listener : listeners) {
+                listener.onSearchStateChange(true);
+            }
         }
         this.isSearching = true;
-        List<D> filtered = StreamSupport.stream(allData)
+        List<D> filtered = allData.stream()
                 .filter(s -> searchPredicate.test(s, newText.toLowerCase(Locale.getDefault())))
                 .collect(Collectors.toList());
         filtered = filter.apply(filtered);
@@ -100,7 +96,9 @@ public abstract class SearchableAdapter<D, VH extends DataViewHolder<D>> extends
     @Override
     public boolean onClose() {
         if (isSearching) {
-            Iterables.forEach(listeners, listener -> listener.onSearchStateChange(false));
+            for (SearchStateListener listener : listeners) {
+                listener.onSearchStateChange(false);
+            }
         }
         this.isSearching = false;
         return false;
@@ -111,9 +109,13 @@ public abstract class SearchableAdapter<D, VH extends DataViewHolder<D>> extends
      */
     public void onOpen() {
         if (!isSearching) {
-            Iterables.forEach(listeners, listener -> listener.onSearchStateChange(true));
+            for (SearchStateListener listener : listeners) {
+                listener.onSearchStateChange(true);
+            }
         }
         this.isSearching = true;
-        Iterables.forEach(listeners, listener -> listener.onSearchStateChange(isSearching));
+        for (SearchStateListener listener : listeners) {
+            listener.onSearchStateChange(isSearching);
+        }
     }
 }

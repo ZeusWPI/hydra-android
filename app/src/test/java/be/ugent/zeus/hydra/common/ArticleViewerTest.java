@@ -2,8 +2,8 @@ package be.ugent.zeus.hydra.common;
 
 import android.net.Uri;
 
-import be.ugent.zeus.hydra.news.UgentNewsArticle;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
+import be.ugent.zeus.hydra.news.UgentNewsArticle;
 import be.ugent.zeus.hydra.schamper.Article;
 import be.ugent.zeus.hydra.testing.RobolectricUtils;
 import org.junit.Test;
@@ -12,7 +12,9 @@ import org.robolectric.RobolectricTestRunner;
 
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * @author Niko Strijbol

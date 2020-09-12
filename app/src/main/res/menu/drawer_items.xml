@@ -28,7 +28,7 @@
         <item
             android:id="@+id/drawer_library"
             android:icon="@drawable/tabs_library"
-            android:title="@string/drawer_title_library"/>
+            android:title="@string/drawer_title_library" />
         <item
             android:id="@+id/drawer_news"
             android:icon="@drawable/tabs_news"

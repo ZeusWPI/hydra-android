@@ -5,10 +5,8 @@ import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
 
 import java.util.List;
-
-import java9.util.Objects;
-import java9.util.stream.Collectors;
-import java9.util.stream.StreamSupport;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.resto.RestoChoice;
@@ -58,10 +56,6 @@ public class SelectedResto {
         }
     }
 
-    public void setSelected(RestoChoice selected) {
-        this.selected = selected;
-    }
-
     public int getSelectedIndex() {
         return selectedIndex;
     }
@@ -70,8 +64,12 @@ public class SelectedResto {
         return selected;
     }
 
+    public void setSelected(RestoChoice selected) {
+        this.selected = selected;
+    }
+
     public List<Wrapper> getAsWrappers() {
-        return StreamSupport.stream(choices).map(Wrapper::new).collect(Collectors.toList());
+        return choices.stream().map(Wrapper::new).collect(Collectors.toList());
     }
 
     public static class Wrapper {

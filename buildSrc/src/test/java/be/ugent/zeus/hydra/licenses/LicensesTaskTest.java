@@ -56,21 +56,20 @@ public class LicensesTaskTest {
   private static final String BASE_DIR = "src/test/resources";
   private static final String LINE_BREAK = System.getProperty("line.separator");
   private LicensesTask licensesTask;
+  private File outputDir;
 
   @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
   @Before
   @SuppressWarnings("ResultOfMethodCallIgnored")
   public void setUp() throws IOException {
-    File outputDir = temporaryFolder.newFolder();
+    outputDir = temporaryFolder.newFolder();
     File outputLicenses = new File(outputDir, "testHtml");
     outputLicenses.createNewFile();
 
     Project project = ProjectBuilder.builder().withProjectDir(new File(BASE_DIR)).build();
     licensesTask = project.getTasks().create("generateLicenses", LicensesTask.class);
-
-    licensesTask.outputDir = outputDir;
-    licensesTask.html = outputLicenses;
+    licensesTask.setHtml(outputLicenses);
   }
 
   private void createLicenseZip(String name) throws IOException {
@@ -88,18 +87,11 @@ public class LicensesTaskTest {
   }
 
   @Test
-  public void testInitOutputDir() {
-    licensesTask.initOutputDir();
-
-    assertTrue(licensesTask.outputDir.exists());
-  }
-
-  @Test
   public void testInitLicenseFile() throws IOException {
     licensesTask.initLicenseFile();
 
-    assertTrue(licensesTask.html.exists());
-    assertEquals(0, Files.size(licensesTask.html.toPath()));
+    assertTrue(licensesTask.getHtml().exists());
+    assertEquals(0, Files.size(licensesTask.getHtml().toPath()));
   }
 
   @Test
@@ -211,7 +203,7 @@ public class LicensesTaskTest {
   @Test
   @SuppressWarnings("ResultOfMethodCallIgnored")
   public void testAddGooglePlayServiceLicenses() throws IOException {
-    File tempOutput = new File(licensesTask.outputDir, "dependencies/groupC");
+    File tempOutput = new File(outputDir, "dependencies/groupC");
     tempOutput.mkdirs();
     createLicenseZip(tempOutput.getPath() + "play-services-foo-license.aar");
     File artifact = new File(tempOutput.getPath() + "play-services-foo-license.aar");
@@ -228,12 +220,12 @@ public class LicensesTaskTest {
   @Test
   @SuppressWarnings("ResultOfMethodCallIgnored")
   public void testAddGooglePlayServiceLicenses_withoutDuplicate() throws IOException {
-    File groupC = new File(licensesTask.outputDir, "dependencies/groupC");
+    File groupC = new File(outputDir, "dependencies/groupC");
     groupC.mkdirs();
     createLicenseZip(groupC.getPath() + "/play-services-foo-license.aar");
     File artifactFoo = new File(groupC.getPath() + "/play-services-foo-license.aar");
 
-    File groupD = new File(licensesTask.outputDir, "dependencies/groupD");
+    File groupD = new File(outputDir, "dependencies/groupD");
     groupD.mkdirs();
     createLicenseZip(groupD.getPath() + "/play-services-bar-license.aar");
     File artifactBar = new File(groupD.getPath() + "/play-services-bar-license.aar");
@@ -261,7 +253,7 @@ public class LicensesTaskTest {
     licensesTask.licensesMap.put("license2", "terms2");
     licensesTask.writeMetadata();
 
-    String content = new String(Files.readAllBytes(licensesTask.html.toPath()), UTF_8);
+    String content = Files.readString(licensesTask.getHtml().toPath(), UTF_8);
     assertThat(content, containsString("license1"));
     assertThat(content, containsString("terms1"));
     assertThat(content, containsString("license2"));

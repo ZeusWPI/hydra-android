@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.resto.extrafood;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java9.util.Objects;
+import java.util.Objects;
 
 /**
  * Represents a food item. A food item is defined by the tuple ({@link #name}, {@link #price}). The {@link #equals(Object)} and
@@ -12,9 +12,14 @@ import java9.util.Objects;
  * @author Niko Strijbol
  */
 public final class Food implements Parcelable {
-
+    
     private String name;
     private String price;
+
+    protected Food(Parcel in) {
+        this.name = in.readString();
+        this.price = in.readString();
+    }
 
     public String getName() {
         return name;
@@ -46,7 +51,6 @@ public final class Food implements Parcelable {
         return Objects.hash(name, price);
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -56,11 +60,6 @@ public final class Food implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.name);
         dest.writeString(this.price);
-    }
-
-    protected Food(Parcel in) {
-        this.name = in.readString();
-        this.price = in.readString();
     }
 
     public static final Parcelable.Creator<Food> CREATOR = new Parcelable.Creator<Food>() {

@@ -1,7 +1,10 @@
 package be.ugent.zeus.hydra.resto.sandwich.regular;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectAdapter;
@@ -11,14 +14,15 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.robolectric.ParameterizedRobolectricTestRunner;
 
-import java.util.Arrays;
-import java.util.Collection;
-
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertNotEmpty;
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertTextIs;
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Niko Strijbol

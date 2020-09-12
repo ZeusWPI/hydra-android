@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/coordinator"
     tools:context=".feed.preferences.HomeFeedPrefActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/app_bar_layout">
+        android:layout_height="wrap_content">
 
         <include layout="@layout/x_toolbar_no_scroll" />
 
@@ -24,23 +24,23 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <com.google.android.material.textview.MaterialTextView
-            android:paddingTop="@dimen/content_spacing"
-            android:paddingLeft="@dimen/vertical_padding"
-            android:paddingRight="@dimen/vertical_padding"
-            android:paddingBottom="@dimen/content_spacing"
+            style="?textAppearanceBody1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="?textAppearanceBody1"
-            android:text="@string/feed_pref_card_types_description"/>
+            android:paddingLeft="@dimen/vertical_padding"
+            android:paddingTop="@dimen/content_spacing"
+            android:paddingRight="@dimen/vertical_padding"
+            android:paddingBottom="@dimen/content_spacing"
+            android:text="@string/feed_pref_card_types_description" />
 
         <View style="@style/Divider" />
 
         <androidx.fragment.app.FragmentContainerView
-            android:name="be.ugent.zeus.hydra.feed.preferences.HomeFeedSelectFragment"
-            android:paddingTop="@dimen/content_spacing"
             android:id="@+id/recycler_view_fragment"
+            android:name="be.ugent.zeus.hydra.feed.preferences.HomeFeedSelectFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/content_spacing" />
 
     </LinearLayout>
 

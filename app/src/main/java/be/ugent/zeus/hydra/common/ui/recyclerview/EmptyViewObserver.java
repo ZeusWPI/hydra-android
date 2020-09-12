@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Class that manages displaying and hiding the RecyclerView and the empty View.
- *
+ * <p>
  * If the adapter has no data, the View will displayed. If there is data, the RecyclerView will be displayed.
  *
  * @author Niko Strijbol

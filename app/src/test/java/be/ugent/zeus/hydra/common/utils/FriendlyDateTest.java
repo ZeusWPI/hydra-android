@@ -2,9 +2,12 @@ package be.ugent.zeus.hydra.common.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
-
 import androidx.test.core.app.ApplicationProvider;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.time.format.TextStyle;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Locale;
@@ -15,13 +18,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.ParameterizedRobolectricTestRunner;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.format.DateTimeFormatter;
-import org.threeten.bp.format.FormatStyle;
-import org.threeten.bp.format.TextStyle;
 
 import static be.ugent.zeus.hydra.common.utils.DateUtils.getDateFormatterForStyle;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
@@ -35,6 +36,10 @@ public class FriendlyDateTest extends DateTest {
 
     private final LocalDate now = LocalDate.now();
     private final DateTimeFormatter defaultFormatter = getDateFormatterForStyle(FormatStyle.MEDIUM);
+
+    public FriendlyDateTest(boolean supportsToday, boolean supportsTomorrow, boolean supportsOvermorrow) {
+        super(supportsToday, supportsTomorrow, supportsOvermorrow);
+    }
 
     @ParameterizedRobolectricTestRunner.Parameters
     public static Collection<Object[]> parameters() {
@@ -65,10 +70,6 @@ public class FriendlyDateTest extends DateTest {
         when(resources.getBoolean(R.bool.date_supports_tomorrow)).thenReturn(supportsTomorrow);
         when(resources.getBoolean(R.bool.date_supports_overmorrow)).thenReturn(supportsOvermorrow);
         locale = Locale.getDefault();
-    }
-
-    public FriendlyDateTest(boolean supportsToday, boolean supportsTomorrow, boolean supportsOvermorrow) {
-        super(supportsToday, supportsTomorrow, supportsOvermorrow);
     }
 
     @Test

@@ -4,18 +4,21 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.List;
-
-import java9.util.Objects;
+import java.util.Objects;
 
 /**
  * Created by feliciaan on 04/02/16.
  */
 public final class RestoMeta implements Parcelable {
-
+    
     public List<Resto> locations;
 
     @SuppressWarnings("unused") // Used by Moshi.
     public RestoMeta() {
+    }
+
+    private RestoMeta(Parcel in) {
+        this.locations = in.createTypedArrayList(Resto.CREATOR);
     }
 
     @Override
@@ -27,22 +30,6 @@ public final class RestoMeta implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeTypedList(this.locations);
     }
-
-    private RestoMeta(Parcel in) {
-        this.locations = in.createTypedArrayList(Resto.CREATOR);
-    }
-
-    public static final Parcelable.Creator<RestoMeta> CREATOR = new Parcelable.Creator<RestoMeta>() {
-        @Override
-        public RestoMeta createFromParcel(Parcel source) {
-            return new RestoMeta(source);
-        }
-
-        @Override
-        public RestoMeta[] newArray(int size) {
-            return new RestoMeta[size];
-        }
-    };
 
     @Override
     public boolean equals(Object o) {
@@ -56,4 +43,16 @@ public final class RestoMeta implements Parcelable {
     public int hashCode() {
         return Objects.hash(locations);
     }
+
+    public static final Parcelable.Creator<RestoMeta> CREATOR = new Parcelable.Creator<RestoMeta>() {
+        @Override
+        public RestoMeta createFromParcel(Parcel source) {
+            return new RestoMeta(source);
+        }
+
+        @Override
+        public RestoMeta[] newArray(int size) {
+            return new RestoMeta[size];
+        }
+    };
 }

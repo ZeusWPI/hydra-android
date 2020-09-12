@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_search"
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search"
+        android:orderInCategory="50"
         android:title="@string/action_search"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="always"
-        android:iconifiedByDefault="true"
-        android:orderInCategory="10" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_refresh"
         android:icon="@drawable/ic_refresh"
         android:orderInCategory="50"
-        app:showAsAction="ifRoom"
-        android:title="@string/action_refresh" />
+        android:title="@string/action_refresh"
+        app:showAsAction="ifRoom" />
 </menu>

@@ -1,13 +1,12 @@
 package be.ugent.zeus.hydra.common.reporting;
 
 import android.app.Activity;
-
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 
 /**
  * Provides the basic method for logging analytics events.
- *
+ * <p>
  * You should get an instance of the tracker from the {@link Reporting}. Normally, the implementation will track certain
  * things automatically. For example, Firebase automatically tracks:
  * <ul>

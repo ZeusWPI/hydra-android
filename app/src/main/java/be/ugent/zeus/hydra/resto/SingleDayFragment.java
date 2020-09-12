@@ -50,12 +50,12 @@ public class SingleDayFragment extends Fragment {
         return view;
     }
 
-    public void setData(RestoMenu data) {
-        this.data = data;
-    }
-
     public RestoMenu getData() {
         return data;
+    }
+
+    public void setData(RestoMenu data) {
+        this.data = data;
     }
 
     @Override

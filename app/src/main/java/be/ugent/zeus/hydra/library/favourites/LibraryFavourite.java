@@ -5,13 +5,13 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java9.util.Objects;
+import java.util.Objects;
 
 import be.ugent.zeus.hydra.library.Library;
 
 /**
  * A library that was marked as a favourite by the user.
- *
+ * <p>
  * This will save various things in the database besides the ID, mainly to be able to use the data without having to
  * get the whole list of libraries every time.
  *
@@ -39,6 +39,11 @@ public final class LibraryFavourite {
     }
 
     @NonNull
+    public static LibraryFavourite from(@NonNull Library library) {
+        return new LibraryFavourite(library.getName(), library.getCode());
+    }
+
+    @NonNull
     public String getCode() {
         return code;
     }
@@ -59,10 +64,5 @@ public final class LibraryFavourite {
     @Override
     public int hashCode() {
         return Objects.hash(code);
-    }
-
-    @NonNull
-    public static LibraryFavourite from(@NonNull Library library) {
-        return new LibraryFavourite(library.getName(), library.getCode());
     }
 }

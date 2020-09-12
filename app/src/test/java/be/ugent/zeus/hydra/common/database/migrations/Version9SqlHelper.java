@@ -15,22 +15,6 @@ public class Version9SqlHelper extends SQLiteOpenHelper {
         super(context, name, null, 9);
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        // Here we create the database as it was in version 9.
-        createTables(db);
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Not required in version 9.
-    }
-
-    @Override
-    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Not required in version 9.
-    }
-
     /**
      * Create all tables.
      */
@@ -82,5 +66,21 @@ public class Version9SqlHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS minerva_announcements");
         db.execSQL("DROP TABLE IF EXISTS minerva_agenda");
         db.execSQL("DROP TABLE IF EXISTS minerva_courses");
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        // Here we create the database as it was in version 9.
+        createTables(db);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // Not required in version 9.
+    }
+
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // Not required in version 9.
     }
 }

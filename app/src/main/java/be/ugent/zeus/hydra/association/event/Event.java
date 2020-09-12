@@ -2,17 +2,16 @@ package be.ugent.zeus.hydra.association.event;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import androidx.annotation.Nullable;
 
-import java9.util.Objects;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.util.Objects;
 
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.common.utils.DateUtils;
 import com.squareup.moshi.Json;
-import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.OffsetDateTime;
 
 /**
  * Event from an {@link Association}.
@@ -22,28 +21,72 @@ import org.threeten.bp.OffsetDateTime;
  */
 public final class Event implements Parcelable, Comparable<Event> {
 
+    private long id;
     private String title;
+    @Json(name = "start_time")
     private OffsetDateTime start;
-    @Nullable
+    @Json(name = "end_time")
     private OffsetDateTime end;
     private String location;
-    private double latitude;
-    private double longitude;
+    private String address;
     private String description;
+    @Json(name = "infolink")
     private String url;
-    private Association association;
-    @Json(name = "facebook_id")
-    private String facebookId;
+    private String association;
+    private boolean advertise;
 
-    @SuppressWarnings("unused")
     public Event() {
         // Moshi uses this!
     }
 
+    protected Event(Parcel in) {
+        id = in.readLong();
+        title = in.readString();
+        location = in.readString();
+        address = in.readString();
+        description = in.readString();
+        url = in.readString();
+        association = in.readString();
+        advertise = in.readInt() == 1;
+        start = end = DateTypeConverters.toOffsetDateTime(in.readString());
+        end = DateTypeConverters.toOffsetDateTime(in.readString());
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(title);
+        dest.writeString(location);
+        dest.writeString(address);
+        dest.writeString(description);
+        dest.writeString(url);
+        dest.writeString(association);
+        dest.writeInt(advertise ? 1 : 0);
+        dest.writeString(DateTypeConverters.fromOffsetDateTime(start));
+        dest.writeString(DateTypeConverters.fromOffsetDateTime(end));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Event> CREATOR = new Creator<Event>() {
+        @Override
+        public Event createFromParcel(Parcel in) {
+            return new Event(in);
+        }
+
+        @Override
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
+
     /**
      * Get the start date, converted to the local time zone. The resulting DateTime is the time as it is used
      * in the current time zone.
-     *
+     * <p>
      * This value is calculated every time, so if you need it a lot, cache it in a local variable.
      *
      * @return The converted start date.
@@ -55,7 +98,7 @@ public final class Event implements Parcelable, Comparable<Event> {
     /**
      * Get the end date, converted to the local time zone. The resulting DateTime is the time as it is used
      * in the current time zone.
-     *
+     * <p>
      * This value is calculated every time, so if you need it a lot, cache it in a local variable.
      *
      * @return The converted end date.
@@ -85,16 +128,12 @@ public final class Event implements Parcelable, Comparable<Event> {
         return location;
     }
 
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
+    public String getAddress() {
+        return address;
     }
 
     public boolean hasPreciseLocation() {
-        return getLatitude() != 0.0 && getLongitude() != 0.0;
+        return getAddress() != null;
     }
 
     public boolean hasLocation() {
@@ -113,92 +152,21 @@ public final class Event implements Parcelable, Comparable<Event> {
         return getUrl() != null && !getUrl().trim().isEmpty();
     }
 
-    public Association getAssociation() {
+    public String getAssociation() {
         return association;
-    }
-
-    public String getFacebookId() {
-        return facebookId;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.title);
-        dest.writeString(DateTypeConverters.fromOffsetDateTime(this.start));
-        dest.writeString(DateTypeConverters.fromOffsetDateTime(this.end));
-        dest.writeString(this.location);
-        dest.writeDouble(this.latitude);
-        dest.writeDouble(this.longitude);
-        dest.writeString(this.description);
-        dest.writeString(this.url);
-        dest.writeString(this.facebookId);
-        dest.writeParcelable(this.association, flags);
-    }
-
-    protected Event(Parcel in) {
-        this.title = in.readString();
-        this.start = DateTypeConverters.toOffsetDateTime(in.readString());
-        this.end = DateTypeConverters.toOffsetDateTime(in.readString());
-        this.location = in.readString();
-        this.latitude = in.readDouble();
-        this.longitude = in.readDouble();
-        this.description = in.readString();
-        this.url = in.readString();
-        this.facebookId = in.readString();
-        this.association = in.readParcelable(Association.class.getClassLoader());
-    }
-
-    public static final Creator<Event> CREATOR = new Creator<Event>() {
-        @Override
-        public Event createFromParcel(Parcel source) {
-            return new Event(source);
-        }
-
-        @Override
-        public Event[] newArray(int size) {
-            return new Event[size];
-        }
-    };
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Event event = (Event) o;
-        return Double.compare(event.latitude, latitude) == 0 &&
-                Double.compare(event.longitude, longitude) == 0 &&
-                Objects.equals(title, event.title) &&
-                Objects.equals(start, event.start) &&
-                Objects.equals(end, event.end) &&
-                Objects.equals(location, event.location) &&
-                Objects.equals(description, event.description) &&
-                Objects.equals(url, event.url) &&
-                Objects.equals(facebookId, event.facebookId) &&
-                Objects.equals(association, event.association);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(title, start, end, location, latitude, longitude, description, url, association, facebookId);
     }
 
     /**
      * Calculate an identifier for the event. Since it is calculated with external data, there is no guarantee this
      * will be unique, but it will be very likely.
-     *
+     * <p>
      * This is conceptually similar to the {@link #hashCode()}, but with a bigger chance of uniqueness, since we use
      * a string.
      *
      * @return The identifier.
      */
     public String getIdentifier() {
-        String endDate = end == null ? "" : end.toString();
-        return title + start.toString() + endDate + latitude + longitude + url + association.getName();
+        return title + start.toString() + end.toString() + location + url + association;
     }
 
     /**
@@ -207,5 +175,18 @@ public final class Event implements Parcelable, Comparable<Event> {
     @Override
     public int compareTo(Event o) {
         return start.compareTo(o.start);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return id == event.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

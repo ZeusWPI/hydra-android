@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?android:attr/selectableItemBackground"
     android:layout_marginBottom="@dimen/card_spacing"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,50 +23,50 @@
             app:title="@string/schamper_article_activity_title" />
 
         <LinearLayout
-            android:paddingLeft="@dimen/card_title_padding_vertical"
-            android:paddingRight="@dimen/card_title_padding_vertical"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/card_title_padding_vertical"
+            android:paddingRight="@dimen/card_title_padding_vertical">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
                 android:paddingBottom="@dimen/card_title_padding_bottom_no_content">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:id="@+id/title"
                     style="?textAppearanceHeadline6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     tools:text="Dit is een schamper artikel! Met een lange titel van meerdere lijnen!" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:id="@+id/date"
                     style="?textAppearanceBody2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     tools:text="Datum Gisteren" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:id="@+id/author"
                     style="?textAppearanceBody2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     tools:text="Auteur artikel" />
             </LinearLayout>
 
             <ImageView
-                android:layout_marginBottom="@dimen/card_title_padding_bottom"
+                android:id="@+id/image"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:id="@+id/image"
-                android:scaleType="fitCenter"
+                android:layout_marginBottom="@dimen/card_title_padding_bottom"
                 android:adjustViewBounds="true"
-                tools:src="@drawable/tabs_schamper"
-                android:contentDescription="@string/content_desc_schamper_image" />
+                android:contentDescription="@string/content_desc_schamper_image"
+                android:scaleType="fitCenter"
+                tools:src="@drawable/tabs_schamper" />
 
         </LinearLayout>
 

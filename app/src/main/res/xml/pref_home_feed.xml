@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <Preference
-        app:iconSpaceReserved="false"
-        app:summary="@string/feed_pref_card_types_summary"
-        app:title="@string/feed_pref_card_types_title"
-        app:persistent="false">
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:targetPackage="be.ugent.zeus.hydra"
-            android:targetClass="be.ugent.zeus.hydra.feed.preferences.HomeFeedPrefActivity" />
-    </Preference>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <Preference
         app:iconSpaceReserved="false"
         app:persistent="false"
+        app:summary="@string/feed_pref_card_types_summary"
+        app:title="@string/feed_pref_card_types_title">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="be.ugent.zeus.hydra.feed.preferences.HomeFeedPrefActivity"
+            android:targetPackage="be.ugent.zeus.hydra" />
+    </Preference>
+
+    <Preference
+        app:iconSpaceReserved="false"
         app:key="pref_home_feed_clickable"
-        app:title="@string/feed_pref_clear_cards_title"
-        app:summary="@string/feed_pref_clear_cards_summary" />
+        app:persistent="false"
+        app:summary="@string/feed_pref_clear_cards_summary"
+        app:title="@string/feed_pref_clear_cards_title" />
 
     <ListPreference
-        app:iconSpaceReserved="false"
-        app:key="pref_feed_resto_kinds"
-        app:title="@string/feed_pref_resto_kinds"
-        app:summary="%s"
+        app:defaultValue="all"
         app:entries="@array/pref_feed_resto_kind"
         app:entryValues="@array/pref_feed_resto_kind_values"
-        app:defaultValue="all" />
+        app:iconSpaceReserved="false"
+        app:key="pref_feed_resto_kinds"
+        app:summary="%s"
+        app:title="@string/feed_pref_resto_kinds" />
 
     <CheckBoxPreference
+        app:defaultValue="false"
         app:iconSpaceReserved="false"
         app:key="pref_home_feed_save_data"
         app:summary="@string/feed_pref_data_saving_summary"
-        app:title="@string/feed_pref_data_saving_title"
-        app:defaultValue="false" />
+        app:title="@string/feed_pref_data_saving_title" />
 </PreferenceScreen>

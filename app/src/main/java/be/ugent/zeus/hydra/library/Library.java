@@ -3,33 +3,31 @@ package be.ugent.zeus.hydra.library;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
-import android.text.TextUtils;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.common.converter.IntBoolean;
 import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 import com.squareup.moshi.Json;
-import java9.util.Objects;
-import java9.util.stream.Collectors;
-import java9.util.stream.StreamSupport;
 
 /**
  * Model for a library.
- *
+ * <p>
  * A library is uniquely defined by it's code. The equals/hashCode methods operate on this assumption.
  *
  * @author Niko Strijbol
  */
 @SuppressWarnings("WeakerAccess")
 public final class Library implements Parcelable {
-
+    
     private static final String FALLBACK_HEADER = "https://picsum.photos/800/450?image=1073";
     private static final String FALLBACK_HEADER_SMALL = "https://picsum.photos/400/225?image=1073";
-
     private String department;
     private String email;
     private List<String> address;
@@ -55,11 +53,32 @@ public final class Library implements Parcelable {
     private String campus;
     private String faculty;
     private String link;
-
     private boolean favourite;
 
     public Library() {
         // No-args constructor
+    }
+
+    protected Library(Parcel in) {
+        this.department = in.readString();
+        this.email = in.readString();
+        this.address = in.createStringArrayList();
+        this.name = in.readString();
+        this.code = in.readString();
+        this.telephone = in.createStringArrayList();
+        this.active = in.readByte() != 0;
+        this.thumbnail = in.readString();
+        this.image = in.readString();
+        this.latitude = in.readString();
+        this.longitude = in.readString();
+        this.comments = in.createStringArrayList();
+        this.contact = in.readString();
+        this.campus = in.readString();
+        this.faculty = in.readString();
+        this.link = in.readString();
+        this.favourite = in.readByte() != 0;
+        this.nameEnglish = in.readString();
+        this.nameDutch = in.readString();
     }
 
     public String getDepartment() {
@@ -85,6 +104,18 @@ public final class Library implements Parcelable {
         }
     }
 
+    public static final Creator<Library> CREATOR = new Creator<Library>() {
+        @Override
+        public Library createFromParcel(Parcel source) {
+            return new Library(source);
+        }
+
+        @Override
+        public Library[] newArray(int size) {
+            return new Library[size];
+        }
+    };
+
     @VisibleForTesting
     public void setTestName(String name) {
         this.name = name;
@@ -92,16 +123,18 @@ public final class Library implements Parcelable {
         this.nameDutch = name;
     }
 
+    public String getCode() {
+        return code;
+    }
+
     @VisibleForTesting
     public void setCode(String code) {
         this.code = code;
     }
 
-    public String getCode() {
-        return code;
+    public boolean isFacultyBib() {
+        return this.name.contains("Faculteitsbibliotheek");
     }
-
-    public boolean isFacultyBib() { return this.name.contains("Faculteitsbibliotheek"); }
 
     public List<String> getTelephone() {
         return telephone;
@@ -150,7 +183,8 @@ public final class Library implements Parcelable {
         if (comments == null) {
             return null;
         } else {
-            return StreamSupport.stream(comments).collect(Collectors.joining());
+            //noinspection SimplifyStreamApiCallChains
+            return comments.stream().collect(Collectors.joining());
         }
     }
 
@@ -161,7 +195,8 @@ public final class Library implements Parcelable {
         if (getTelephone() == null) {
             return null;
         } else {
-            return StreamSupport.stream(getTelephone()).collect(Collectors.joining("; "));
+            //noinspection SimplifyStreamApiCallChains
+            return getTelephone().stream().collect(Collectors.joining("; "));
         }
     }
 
@@ -201,7 +236,8 @@ public final class Library implements Parcelable {
         if (getAddress() == null) {
             return "";
         } else {
-            return StreamSupport.stream(getAddress()).collect(Collectors.joining("\n"));
+            //noinspection SimplifyStreamApiCallChains
+            return getAddress().stream().collect(Collectors.joining("\n"));
         }
     }
 
@@ -252,38 +288,4 @@ public final class Library implements Parcelable {
         dest.writeString(this.nameEnglish);
         dest.writeString(this.nameDutch);
     }
-
-    protected Library(Parcel in) {
-        this.department = in.readString();
-        this.email = in.readString();
-        this.address = in.createStringArrayList();
-        this.name = in.readString();
-        this.code = in.readString();
-        this.telephone = in.createStringArrayList();
-        this.active = in.readByte() != 0;
-        this.thumbnail = in.readString();
-        this.image = in.readString();
-        this.latitude = in.readString();
-        this.longitude = in.readString();
-        this.comments = in.createStringArrayList();
-        this.contact = in.readString();
-        this.campus = in.readString();
-        this.faculty = in.readString();
-        this.link = in.readString();
-        this.favourite = in.readByte() != 0;
-        this.nameEnglish = in.readString();
-        this.nameDutch = in.readString();
-    }
-
-    public static final Creator<Library> CREATOR = new Creator<Library>() {
-        @Override
-        public Library createFromParcel(Parcel source) {
-            return new Library(source);
-        }
-
-        @Override
-        public Library[] newArray(int size) {
-            return new Library[size];
-        }
-    };
 }

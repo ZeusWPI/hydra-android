@@ -2,48 +2,47 @@
 
 <!-- Cannot have ID due to bug in AS -->
 <!-- android:id="@+id/card_description_wrapper" -->
-<merge
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:gravity="center_vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/now_toolbar_icon"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:padding="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_gravity="center_vertical"
-        tools:src="@drawable/tabs_resto"
-        tools:ignore="MissingPrefix"
+        android:layout_marginLeft="8dp"
         android:contentDescription="@string/content_desc_resto"
-        app:tint="@color/hydra_color_primary_variant_light" />
+        android:padding="8dp"
+        app:tint="@color/hydra_color_primary_variant_light"
+        tools:ignore="MissingPrefix"
+        tools:src="@drawable/tabs_resto" />
 
     <TextView
         android:id="@+id/now_toolbar_title"
+        style="?textAppearanceCaption"
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:gravity="center_vertical"
+        android:paddingLeft="8dp"
         android:paddingTop="@dimen/card_title_padding_top"
         android:paddingBottom="@dimen/card_title_padding_top"
-        style="?textAppearanceCaption"
-        android:paddingLeft="8dp"
         tools:text="Menu voor de toekomst!" />
 
     <ImageView
+        android:id="@+id/now_toolbar_menu"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:padding="8dp"
-        android:layout_marginRight="8dp"
         android:layout_gravity="center_vertical"
-        app:srcCompat="@drawable/ic_more_vert"
-        android:id="@+id/now_toolbar_menu"
+        android:layout_marginRight="8dp"
         android:contentDescription="@string/content_desc_more"
+        android:padding="8dp"
+        app:srcCompat="@drawable/ic_more_vert"
         app:tint="?colorOnSurface" />
 
 </merge>

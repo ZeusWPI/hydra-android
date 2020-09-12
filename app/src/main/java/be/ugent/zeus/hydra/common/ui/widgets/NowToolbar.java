@@ -2,23 +2,20 @@ package be.ugent.zeus.hydra.common.ui.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.util.AttributeSet;
+import android.widget.*;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.MenuRes;
-import android.util.AttributeSet;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupMenu;
-import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.feed.cards.MenuHandler;
 
 /**
  * A custom view to encapsulate the Google Now-like bar above the cards on the home tab.
- *
+ * <p>
  * While this view is fairly generic, the default values are set to be useful for us, such as the tint and menu content.
  * If you want to use this elsewhere, you'll need to adjust some things.
- *
+ * <p>
  * At present, only one constructor is correctly implemented, if you use it with others, you'll need to implement
  * the correct constructor.
  *

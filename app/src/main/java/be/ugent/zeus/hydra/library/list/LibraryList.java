@@ -4,8 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.List;
-
-import java9.util.Objects;
+import java.util.Objects;
 
 import be.ugent.zeus.hydra.library.Library;
 import com.squareup.moshi.Json;
@@ -17,11 +16,31 @@ import com.squareup.moshi.Json;
  */
 public final class LibraryList implements Parcelable {
 
+    public static final Parcelable.Creator<LibraryList> CREATOR = new Parcelable.Creator<LibraryList>() {
+        @Override
+        public LibraryList createFromParcel(Parcel source) {
+            return new LibraryList(source);
+        }
+
+        @Override
+        public LibraryList[] newArray(int size) {
+            return new LibraryList[size];
+        }
+    };
     private String name;
     @Json(name = "libraries_total")
     private int totalLibraries;
-
     private List<Library> libraries;
+
+    @SuppressWarnings("unused") // Used by Moshi.
+    public LibraryList() {
+    }
+
+    private LibraryList(Parcel in) {
+        this.name = in.readString();
+        this.libraries = in.createTypedArrayList(Library.CREATOR);
+        this.totalLibraries = in.readInt();
+    }
 
     public String getName() {
         return name;
@@ -62,26 +81,4 @@ public final class LibraryList implements Parcelable {
         dest.writeTypedList(this.libraries);
         dest.writeInt(totalLibraries);
     }
-
-    @SuppressWarnings("unused") // Used by Moshi.
-    public LibraryList() {
-    }
-
-    private LibraryList(Parcel in) {
-        this.name = in.readString();
-        this.libraries = in.createTypedArrayList(Library.CREATOR);
-        this.totalLibraries = in.readInt();
-    }
-
-    public static final Parcelable.Creator<LibraryList> CREATOR = new Parcelable.Creator<LibraryList>() {
-        @Override
-        public LibraryList createFromParcel(Parcel source) {
-            return new LibraryList(source);
-        }
-
-        @Override
-        public LibraryList[] newArray(int size) {
-            return new LibraryList[size];
-        }
-    };
 }

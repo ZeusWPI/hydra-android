@@ -2,70 +2,66 @@ package be.ugent.zeus.hydra.association;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import java.util.Locale;
-
-import be.ugent.zeus.hydra.common.network.Endpoints;
-import com.squareup.moshi.Json;
-import java9.util.Objects;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Represents an association registered with the DSA.
  *
- * An association is identified by it's internal name. If the internal name is the same, the association is the same.
- * Both the hash and equals method are implemented for this class.
- *
  * @author feliciaan
  * @author Niko Strijbol
  */
-@SuppressWarnings("unused")
 public final class Association implements Parcelable {
-
-    private static final String IMAGE_LINK = Endpoints.ZEUS_V2 + "association/logo/%s.png";
-
-    @Json(name = "internal_name")
-    private String internalName;
-    @Json(name = "full_name")
-    private String fullName;
-    @Json(name = "display_name")
-    private String displayName;
-    @Json(name = "parent_association")
-    private String parentAssociation;
+    
+    private String abbreviation;
+    private String name;
+    private List<String> path;
+    @Nullable
+    private String description;
+    private String email;
+    @Nullable
+    private String logo;
+    @Nullable
+    private String website;
 
     public Association() {
         // Moshi uses this!
     }
 
-    /**
-     * @return A name for this association. If a full name is available, that is returned. If not, the display name is.
-     */
-    public String getName() {
-        if (fullName != null) {
-            return fullName;
-        }
-        return displayName;
+    protected Association(Parcel in) {
+        abbreviation = in.readString();
+        name = in.readString();
+        path = in.createStringArrayList();
+        description = in.readString();
+        email = in.readString();
+        logo = in.readString();
+        website = in.readString();
     }
 
-    @NonNull
-    public String getInternalName() {
-        return internalName;
+    public static Association unknown(String name) {
+        Association association = new Association();
+        association.abbreviation = "unknown";
+        association.name = name;
+        association.description = "Onbekende vereniging";
+        return association;
     }
 
-    public String getFullName() {
-        return fullName;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(abbreviation);
+        dest.writeString(name);
+        dest.writeStringList(path);
+        dest.writeString(description);
+        dest.writeString(email);
+        dest.writeString(logo);
+        dest.writeString(website);
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public String getParentAssociation() {
-        return parentAssociation;
-    }
-
-    public String getImageLink() {
-        return String.format(IMAGE_LINK, internalName.toLowerCase(Locale.ROOT));
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Association> CREATOR = new Creator<Association>() {
@@ -80,24 +76,30 @@ public final class Association implements Parcelable {
         }
     };
 
-    @Override
-    public int describeContents() {
-        return 0;
+    @Nullable
+    public String getDescription() {
+        return description;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(internalName);
-        dest.writeString(fullName);
-        dest.writeString(displayName);
-        dest.writeString(parentAssociation);
+    @Nullable
+    public String getWebsite() {
+        return website;
     }
 
-    protected Association(Parcel in) {
-        internalName = in.readString();
-        fullName = in.readString();
-        displayName = in.readString();
-        parentAssociation = in.readString();
+    /**
+     * @return A name for this association. If a full name is available, that is returned. If not, the display name is.
+     */
+    public String getName() {
+        return name;
+    }
+
+    public String getAbbreviation() {
+        return abbreviation;
+    }
+
+    @Nullable
+    public String getImageLink() {
+        return logo;
     }
 
     @Override
@@ -105,11 +107,11 @@ public final class Association implements Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Association that = (Association) o;
-        return Objects.equals(internalName, that.internalName);
+        return Objects.equals(abbreviation, that.abbreviation);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(internalName);
+        return Objects.hash(abbreviation);
     }
 }

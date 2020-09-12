@@ -1,13 +1,13 @@
 package be.ugent.zeus.hydra.common.database.migrations;
 
-import androidx.sqlite.db.SupportSQLiteDatabase;
-import androidx.room.migration.Migration;
-import androidx.annotation.NonNull;
 import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 /**
  * Actually adjust the scheme to support Room.
- *
+ * <p>
  * The SQL for creating the tables is copied from the scheme exported by Room.
  *
  * @author Niko Strijbol

@@ -5,15 +5,11 @@ import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 import androidx.recyclerview.widget.DiffUtil;
 
-import java9.util.Objects;
-
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Generic update for updated data.
- *
+ * <p>
  * This class supports both adding data for the first time, updating data and removing all data.
  *
  * @author Niko Strijbol
@@ -23,10 +19,9 @@ class DiffUpdate<D> implements AdapterUpdate<D> {
     private final DiffUtil.ItemCallback<D> callback;
 
     private final List<D> newData;
-
+    private final Set<Empty> status = EnumSet.noneOf(Empty.class);
     private DiffUtil.DiffResult result;
     private int existingDataSize = -1;
-    private final Set<Empty> status = EnumSet.noneOf(Empty.class);
 
     DiffUpdate(@Nullable List<D> newData) {
         this(new EqualsItemCallback<>(), newData);

@@ -1,9 +1,9 @@
 package be.ugent.zeus.hydra.common.database.migrations;
 
-import androidx.sqlite.db.SupportSQLiteDatabase;
-import androidx.room.migration.Migration;
-import androidx.annotation.NonNull;
 import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import be.ugent.zeus.hydra.feed.cards.dismissal.CardDismissal;
 

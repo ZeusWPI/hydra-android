@@ -1,46 +1,46 @@
 {
-  "date": "2017-11-14",
-  "meals": [
-    {
-      "kind": "soup",
-      "name": "Uiensoep",
-      "price": "\u20ac 0,50",
-      "type": "side"
-    },
-    {
-      "kind": "soup",
-      "name": "Tomaat-mascarpone soep",
-      "price": "\u20ac 2,50",
-      "type": "main"
-    },
-    {
-      "kind": "meat",
-      "name": "Konijnenburger",
-      "price": "\u20ac 3,80",
-      "type": "main"
-    },
-    {
-      "kind": "fish",
-      "name": "Haasje van kabeljauw MSC",
-      "price": "\u20ac 3,60",
-      "type": "main"
-    },
-    {
-      "kind": "meat",
-      "name": "Swiss steak",
-      "price": "\u20ac 3,60",
-      "type": "main"
-    },
-    {
-      "kind": "vegetarian",
-      "name": "Kaasburger met bloemkool",
-      "price": "\u20ac 3,50",
-      "type": "main"
-    }
-  ],
-  "open": true,
-  "vegetables": [
-    "Bladspinazie",
-    "Duo van wortel en knolselder"
-  ]
+    "date": "2017-11-14",
+    "meals": [
+        {
+            "kind": "soup",
+            "name": "Uiensoep",
+            "price": "\u20ac 0,50",
+            "type": "side"
+        },
+        {
+            "kind": "soup",
+            "name": "Tomaat-mascarpone soep",
+            "price": "\u20ac 2,50",
+            "type": "main"
+        },
+        {
+            "kind": "meat",
+            "name": "Konijnenburger",
+            "price": "\u20ac 3,80",
+            "type": "main"
+        },
+        {
+            "kind": "fish",
+            "name": "Haasje van kabeljauw MSC",
+            "price": "\u20ac 3,60",
+            "type": "main"
+        },
+        {
+            "kind": "meat",
+            "name": "Swiss steak",
+            "price": "\u20ac 3,60",
+            "type": "main"
+        },
+        {
+            "kind": "vegetarian",
+            "name": "Kaasburger met bloemkool",
+            "price": "\u20ac 3,50",
+            "type": "main"
+        }
+    ],
+    "open": true,
+    "vegetables": [
+        "Bladspinazie",
+        "Duo van wortel en knolselder"
+    ]
 }

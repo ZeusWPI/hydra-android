@@ -17,7 +17,7 @@
             <flag name="all" value="7" />           <!-- 11 -->
         </attr>
         <attr name="showTitles" format="boolean" />
-        <attr name="selectable" format="boolean"/>
+        <attr name="selectable" format="boolean" />
         <attr name="messagePaddingTop" format="boolean" />
     </declare-styleable>
 
@@ -32,7 +32,7 @@
      -->
     <attr name="colorPrimarySecondary" format="reference" />
 
-    <attr name="alphaEmphasisHigh" format="float"/>
-    <attr name="alphaEmphasisMedium" format="float"/>
-    <attr name="alphaEmphasisDisabled" format="float"/>
+    <attr name="alphaEmphasisHigh" format="float" />
+    <attr name="alphaEmphasisMedium" format="float" />
+    <attr name="alphaEmphasisDisabled" format="float" />
 </resources>

@@ -2,6 +2,10 @@ package be.ugent.zeus.hydra.common.utils;
 
 import android.content.Context;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.time.format.TextStyle;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -10,17 +14,15 @@ import be.ugent.zeus.hydra.testing.DateTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.ParameterizedRobolectricTestRunner;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.format.DateTimeFormatter;
-import org.threeten.bp.format.FormatStyle;
-import org.threeten.bp.format.TextStyle;
 
 import static be.ugent.zeus.hydra.common.utils.DateUtils.getDateFormatterForStyle;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for the {@link DateUtils#getFriendlyDate(Context, LocalDate, FormatStyle)} and {@link DateUtils#willBeFriendly(LocalDate)}.
- *
+ * <p>
  * The second method is not tested separately to reduce code duplication, since the logic is exactly the same.
  *
  * @author Niko Strijbol
@@ -32,6 +34,12 @@ public class FullFriendlyDateTest extends DateTest {
     private final LocalDate now = LocalDate.now();
     private final DateTimeFormatter defaultFormatter;
 
+
+    public FullFriendlyDateTest(FormatStyle style, boolean supportsToday, boolean supportsTomorrow, boolean supportsOvermorrow) {
+        super(supportsToday, supportsTomorrow, supportsOvermorrow);
+        this.style = style;
+        defaultFormatter = getDateFormatterForStyle(style);
+    }
 
     @ParameterizedRobolectricTestRunner.Parameters
     public static Collection<Object[]> parameters() {
@@ -50,12 +58,6 @@ public class FullFriendlyDateTest extends DateTest {
                 {FormatStyle.SHORT, true, true, true}
         };
         return Arrays.asList(objects);
-    }
-
-    public FullFriendlyDateTest(FormatStyle style, boolean supportsToday, boolean supportsTomorrow, boolean supportsOvermorrow) {
-        super(supportsToday, supportsTomorrow, supportsOvermorrow);
-        this.style = style;
-        defaultFormatter = getDateFormatterForStyle(style);
     }
 
     @Test

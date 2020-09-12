@@ -4,10 +4,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 
 import java.util.List;
-
-import java9.util.stream.Collectors;
-import java9.util.stream.Stream;
-import java9.util.stream.StreamSupport;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.HomeFeedRequest;
@@ -29,11 +27,10 @@ class RequestOperation implements FeedOperation {
     /**
      * This methods removes all card instances of this operation's card type, performs the request and adds the results
      * back to the list.
-     *
+     * <p>
      * This means that while the cards may be logically equal, they will not be the same instance.
      *
      * @param current The current cards.
-     *
      * @return The updates cards.
      */
     @NonNull
@@ -41,7 +38,7 @@ class RequestOperation implements FeedOperation {
     public Result<List<Card>> transform(Bundle args, final List<Card> current) {
 
         // Filter existing cards away.
-        Stream<Card> temp = StreamSupport.stream(current)
+        Stream<Card> temp = current.stream()
                 .filter(c -> c.getCardType() != request.getCardType());
 
         return request.execute(args).map(homeCardStream ->

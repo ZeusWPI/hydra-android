@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/schamper_card_view"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/schamper_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/card_spacing"
@@ -18,60 +18,60 @@
             android:id="@+id/card_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxHeight="400dp"
             android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:contentDescription="@string/content_desc_schamper_article"/>
+            android:contentDescription="@string/content_desc_schamper_article"
+            android:maxHeight="400dp"
+            android:scaleType="centerCrop" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:paddingLeft="@dimen/card_title_padding_vertical"
-            android:paddingRight="@dimen/card_title_padding_vertical"
+            android:id="@+id/title"
+            style="?textAppearanceHeadline5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/title"
+            android:paddingLeft="@dimen/card_title_padding_vertical"
             android:paddingTop="@dimen/material_card_title_block_large_padding_top"
-            style="?textAppearanceHeadline5"
+            android:paddingRight="@dimen/card_title_padding_vertical"
             tools:text="Dit is een schamper artikel! Met een lange titel van meerdere lijnen!" />
 
         <LinearLayout
-            android:paddingTop="@dimen/material_card_title_block_large_subtitle_margin_top"
-            android:paddingLeft="@dimen/card_title_padding_vertical"
-            android:paddingRight="@dimen/card_title_padding_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="bottom"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/card_title_padding_vertical"
+            android:paddingTop="@dimen/material_card_title_block_large_subtitle_margin_top"
+            android:paddingRight="@dimen/card_title_padding_vertical"
             android:paddingBottom="@dimen/card_title_padding_bottom_no_content">
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:id="@+id/author"
                     style="?textAppearanceSubtitle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     tools:text="Auteur artikel" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:id="@+id/date"
                     style="?textAppearanceSubtitle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     tools:text="Datum Gisteren" />
 
             </LinearLayout>
 
             <com.google.android.material.textview.MaterialTextView
-                android:layout_gravity="center_vertical"
                 android:id="@+id/schamper_category"
+                style="?textAppearanceButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="?textAppearanceButton"
-                android:text="@string/schamper_category_none"/>
+                android:layout_gravity="center_vertical"
+                android:text="@string/schamper_category_none" />
 
         </LinearLayout>
 

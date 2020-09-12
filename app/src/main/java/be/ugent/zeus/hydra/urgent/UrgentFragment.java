@@ -16,10 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,8 +25,8 @@ import androidx.fragment.app.Fragment;
 import java.util.List;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.urgent.player.UrgentTrackProvider;
 import be.ugent.zeus.hydra.common.utils.NetworkUtils;
+import be.ugent.zeus.hydra.urgent.player.UrgentTrackProvider;
 
 /**
  * Fragment that displays the Urgent.fm player, meaning controls and track information. Note that while we implement
@@ -61,43 +58,6 @@ public class UrgentFragment extends Fragment {
     private View progressBar;
 
     private MediaBrowserCompat mediaBrowser;
-    private boolean shouldUpdateButton = false;
-
-    // Receive callbacks from the MediaController. Here we update our state such as which queue
-    // is being shown, the current title and description and the PlaybackState.
-    private final MediaControllerCompat.Callback mediaControllerCallback = new MediaControllerCompat.Callback() {
-        @Override
-        public void onPlaybackStateChanged(@NonNull PlaybackStateCompat state) {
-            Log.d(TAG, "onPlaybackStateChanged: state is " + state.toString());
-            configureButtons();
-        }
-
-        @Override
-        public void onMetadataChanged(MediaMetadataCompat metadata) {
-            if (metadata == null) {
-                return;
-            }
-            Log.d(TAG, "Received metadata state change to mediaId=" +
-                    metadata.getDescription().getMediaId() +
-                    " song=" + metadata.getDescription().getTitle());
-            readMetadata(metadata);
-        }
-    };
-
-    private final MediaBrowserCompat.SubscriptionCallback subscriptionCallback =
-            new MediaBrowserCompat.SubscriptionCallback() {
-                @Override
-                public void onChildrenLoaded(@NonNull String parentId, @NonNull List<MediaBrowserCompat.MediaItem> children) {
-                    initMediaControls();
-                    configureButtons();
-                }
-
-                @Override
-                public void onError(@NonNull String id) {
-                    Toast.makeText(requireContext(), "Error", Toast.LENGTH_LONG).show();
-                }
-            };
-
     private final MediaBrowserCompat.ConnectionCallback connectionCallback =
             new MediaBrowserCompat.ConnectionCallback() {
                 @Override
@@ -124,6 +84,40 @@ public class UrgentFragment extends Fragment {
                 public void onConnectionSuspended() {
                     Log.d(TAG, "onConnectionSuspended");
                     disconnect();
+                }
+            };
+    private boolean shouldUpdateButton = false;
+    // Receive callbacks from the MediaController. Here we update our state such as which queue
+    // is being shown, the current title and description and the PlaybackState.
+    private final MediaControllerCompat.Callback mediaControllerCallback = new MediaControllerCompat.Callback() {
+        @Override
+        public void onPlaybackStateChanged(@NonNull PlaybackStateCompat state) {
+            Log.d(TAG, "onPlaybackStateChanged: state is " + state.toString());
+            configureButtons();
+        }
+
+        @Override
+        public void onMetadataChanged(MediaMetadataCompat metadata) {
+            if (metadata == null) {
+                return;
+            }
+            Log.d(TAG, "Received metadata state change to mediaId=" +
+                    metadata.getDescription().getMediaId() +
+                    " song=" + metadata.getDescription().getTitle());
+            readMetadata(metadata);
+        }
+    };
+    private final MediaBrowserCompat.SubscriptionCallback subscriptionCallback =
+            new MediaBrowserCompat.SubscriptionCallback() {
+                @Override
+                public void onChildrenLoaded(@NonNull String parentId, @NonNull List<MediaBrowserCompat.MediaItem> children) {
+                    initMediaControls();
+                    configureButtons();
+                }
+
+                @Override
+                public void onError(@NonNull String id) {
+                    Toast.makeText(requireContext(), "Error", Toast.LENGTH_LONG).show();
                 }
             };
 

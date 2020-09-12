@@ -1,13 +1,10 @@
 package be.ugent.zeus.hydra.common.ui;
 
 import android.app.Application;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.MutableLiveData;
 import android.os.Bundle;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.util.Log;
+import androidx.lifecycle.*;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.request.Result;

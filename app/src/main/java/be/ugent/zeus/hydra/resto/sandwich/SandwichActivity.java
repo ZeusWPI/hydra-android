@@ -15,7 +15,7 @@ import be.ugent.zeus.hydra.resto.extrafood.FoodFragment;
 /**
  * Activity for the sandwiches.
  */
-public class SandwichActivity extends BaseActivity<ActivityExtraFoodBinding>{
+public class SandwichActivity extends BaseActivity<ActivityExtraFoodBinding> {
 
     public static final String URL = "https://www.ugent.be/student/nl/meer-dan-studeren/resto/broodjes";
 

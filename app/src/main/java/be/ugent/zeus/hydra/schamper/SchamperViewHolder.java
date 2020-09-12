@@ -1,16 +1,16 @@
 package be.ugent.zeus.hydra.schamper;
 
 import android.graphics.Color;
-import androidx.annotation.ColorInt;
-import androidx.cardview.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.annotation.ColorInt;
+import androidx.cardview.widget.CardView;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.ArticleViewer;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
-import be.ugent.zeus.hydra.common.ArticleViewer;
 import be.ugent.zeus.hydra.common.utils.ColourUtils;
 import be.ugent.zeus.hydra.common.utils.DateUtils;
 import be.ugent.zeus.hydra.common.utils.NetworkUtils;
@@ -32,11 +32,16 @@ class SchamperViewHolder extends DataViewHolder<Article> {
 
     private final ActivityHelper helper;
 
-    @ColorInt private final int initialTitleColour;
-    @ColorInt private final int initialDateColour;
-    @ColorInt private final int initialAuthorColour;
-    @ColorInt private final int initialCategoryColour;
-    @ColorInt private final int initialCardViewColour;
+    @ColorInt
+    private final int initialTitleColour;
+    @ColorInt
+    private final int initialDateColour;
+    @ColorInt
+    private final int initialAuthorColour;
+    @ColorInt
+    private final int initialCategoryColour;
+    @ColorInt
+    private final int initialCardViewColour;
 
     SchamperViewHolder(View itemView, ActivityHelper helper) {
         super(itemView);

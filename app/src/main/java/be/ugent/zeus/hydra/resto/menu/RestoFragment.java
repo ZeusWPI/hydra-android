@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,7 +37,6 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
-import org.threeten.bp.LocalDate;
 
 import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
 
@@ -51,10 +51,8 @@ public class RestoFragment extends Fragment implements
         BottomNavigationView.OnNavigationItemSelectedListener,
         MainActivity.ScheduledRemovalListener {
 
-    private static final String TAG = "RestoFragment";
-
     public static final String ARG_DATE = "start_date";
-
+    private static final String TAG = "RestoFragment";
     private static final String ARG_POSITION = "arg_pos";
 
     private static final String URL = "https://www.ugent.be/student/nl/meer-dan-studeren/resto";

@@ -4,6 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,23 +14,18 @@ import be.ugent.zeus.hydra.common.ArticleViewer;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.common.utils.DateUtils;
 import com.squareup.moshi.Json;
-import java9.util.Objects;
-import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.OffsetDateTime;
 
 /**
  * A Schamper article.
  *
- * @see <a href="https://schamper.ugent.be">The Schamper website</a>
- *
  * @author Niko Strijbol
  * @author Feliciaan
+ * @see <a href="https://schamper.ugent.be">The Schamper website</a>
  */
 @SuppressWarnings("unused")
 public final class Article implements Parcelable, ArticleViewer.Article {
-
+    
     private static final Pattern IMAGE_REPLACEMENT = Pattern.compile("/regulier/", Pattern.LITERAL);
-
     private String title;
     private String link;
     @Json(name = "pub_date")
@@ -41,6 +39,22 @@ public final class Article implements Parcelable, ArticleViewer.Article {
     private String categoryColour;
 
     public Article() {
+    }
+
+    private Article(Parcel in) {
+        title = in.readString();
+        link = in.readString();
+        pubDate = DateTypeConverters.toOffsetDateTime(in.readString());
+        author = in.readString();
+        body = in.readString();
+        image = in.readString();
+        category = in.readString();
+        intro = in.readString();
+        categoryColour = in.readString();
+    }
+
+    static String getLargeImage(String url) {
+        return IMAGE_REPLACEMENT.matcher(url).replaceAll(Matcher.quoteReplacement("/preview/"));
     }
 
     @Override
@@ -90,15 +104,11 @@ public final class Article implements Parcelable, ArticleViewer.Article {
     }
 
     public String getLargeImage() {
-        if(getImage() != null) {
+        if (getImage() != null) {
             return getLargeImage(getImage());
         } else {
             return null;
         }
-    }
-
-    static String getLargeImage(String url) {
-        return IMAGE_REPLACEMENT.matcher(url).replaceAll(Matcher.quoteReplacement("/preview/"));
     }
 
     @Override
@@ -117,18 +127,6 @@ public final class Article implements Parcelable, ArticleViewer.Article {
     @Override
     public int hashCode() {
         return Objects.hash(link, pubDate);
-    }
-
-    private Article(Parcel in) {
-        title = in.readString();
-        link = in.readString();
-        pubDate = DateTypeConverters.toOffsetDateTime(in.readString());
-        author = in.readString();
-        body = in.readString();
-        image = in.readString();
-        category = in.readString();
-        intro = in.readString();
-        categoryColour = in.readString();
     }
 
     @Override

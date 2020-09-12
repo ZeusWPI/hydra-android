@@ -4,10 +4,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 
 import java.util.List;
-
-import java9.util.function.Predicate;
-import java9.util.stream.Collectors;
-import java9.util.stream.StreamSupport;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.cards.Card;
@@ -35,7 +33,7 @@ class RemoveOperation implements FeedOperation {
     @NonNull
     @Override
     public Result<List<Card>> transform(Bundle args, List<Card> current) {
-        return Result.Builder.fromData(StreamSupport.stream(current).filter(predicate.negate()).collect(Collectors.toList()));
+        return Result.Builder.fromData(current.stream().filter(predicate.negate()).collect(Collectors.toList()));
     }
 
     @Override

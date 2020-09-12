@@ -2,10 +2,11 @@ package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
-import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.RecycleViewHolder;
 
 import java.util.List;
+
+import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
+import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.RecycleViewHolder;
 
 /**
  * Defines the basic adapter methods to work with {@link DataViewHolder}.
@@ -34,7 +35,6 @@ public abstract class DataAdapter<D, VH extends DataViewHolder<D>> extends Recyc
      * Get the item that is currently at {@code position}.
      *
      * @param position The position of the item in the adapter's data set.
-     *
      * @return The item.
      */
     public D getItem(int position) {

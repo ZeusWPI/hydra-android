@@ -10,8 +10,8 @@ import androidx.annotation.VisibleForTesting;
  */
 public final class Reporting {
 
-    private static Tracker tracker;
     private final static Object lock = new Object();
+    private static Tracker tracker;
 
     /**
      * Get the default tracker.

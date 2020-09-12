@@ -4,8 +4,6 @@ import java.util.List;
 
 import be.ugent.zeus.hydra.common.network.AbstractJsonRequestTest;
 import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
-import be.ugent.zeus.hydra.schamper.Article;
-import be.ugent.zeus.hydra.schamper.SchamperArticlesRequest;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 

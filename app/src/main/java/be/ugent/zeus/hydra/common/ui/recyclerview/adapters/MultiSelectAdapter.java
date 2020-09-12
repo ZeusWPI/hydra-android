@@ -1,33 +1,33 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
-import androidx.annotation.NonNull;
 import android.util.Log;
 import android.util.Pair;
 import android.util.SparseBooleanArray;
-
-import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
-import java9.lang.Iterables;
+import androidx.annotation.NonNull;
 
 import java.util.*;
+import java.util.stream.Stream;
+
+import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 
 /**
  * Adapter with items that are checkable. An item is considered checked if the state is {@code true}.
  *
  * @author Niko Strijbol
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
+@SuppressWarnings("WeakerAccess")
 public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolder<H>> {
 
+    private static final String TAG = "MultiSelectAdapter";
     /**
      * This keeps track of which elements are selected and which are not.
      */
     protected final SparseBooleanArray booleanArray = new SparseBooleanArray();
+    private final Collection<Callback<H>> callbacks = new HashSet<>();
     /**
      * The default value for the selection.
      */
     private boolean defaultValue = false;
-
-    private final Collection<Callback<H>> callbacks = new HashSet<>();
 
     /**
      * @return The default state.
@@ -40,7 +40,9 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
     public void clear() {
         booleanArray.clear();
         super.clear();
-        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectAdapter.this));
+        for (Callback<H> c : callbacks) {
+            c.onStateChanged(MultiSelectAdapter.this);
+        }
     }
 
     /**
@@ -52,15 +54,17 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
     public void submitData(List<H> values, boolean initial) {
         this.defaultValue = initial;
         this.submitData(values);
-        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectAdapter.this));
+        for (Callback<H> c : callbacks) {
+            c.onStateChanged(MultiSelectAdapter.this);
+        }
     }
 
     /**
      * Set the values to use.
      *
-     * @param values  The values.
+     * @param values      The values.
      * @param nonInitials The indices of the items of {@code values} that should not receive the default value.
-     * @param initial The initial value.
+     * @param initial     The initial value.
      */
     public void submitData(List<H> values, Set<Integer> nonInitials, boolean initial) {
         this.defaultValue = initial;
@@ -70,7 +74,9 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
             notifyItemChanged(index);
         }
 
-        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectAdapter.this));
+        for (Callback<H> c : callbacks) {
+            c.onStateChanged(MultiSelectAdapter.this);
+        }
     }
 
     /**
@@ -84,8 +90,6 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
         super.submitData(items);
     }
 
-    private static final String TAG = "MultiSelectAdapter";
-
     /**
      * Change the boolean value at the given position to the reverse value. This operation DOES NOT trigger a change in
      * the recycler view data, so the methods for changed items is not called. The rationale behind this is that this
@@ -94,7 +98,7 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
      * @param position The position.
      */
     public void setChecked(int position) {
-        Log.d(TAG, "setChecked: " + position +  ", current is: " + isChecked(position));
+        Log.d(TAG, "setChecked: " + position + ", current is: " + isChecked(position));
         if (!isChecked(position) == getDefaultValue()) {
             booleanArray.delete(position);
             Log.d(TAG, "setChecked: setting to " + getDefaultValue());
@@ -102,7 +106,9 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
             Log.d(TAG, "setChecked: setting to " + !getDefaultValue());
             booleanArray.put(position, !getDefaultValue());
         }
-        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectAdapter.this));
+        for (Callback<H> c : callbacks) {
+            c.onStateChanged(MultiSelectAdapter.this);
+        }
     }
 
     /**
@@ -117,7 +123,9 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
          */
         this.defaultValue = checked;
         this.booleanArray.clear();
-        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectAdapter.this));
+        for (Callback<H> c : callbacks) {
+            c.onStateChanged(MultiSelectAdapter.this);
+        }
         notifyDataSetChanged();
     }
 
@@ -125,30 +133,24 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
      * Check if a entry with given position is checked or not.
      *
      * @param position The adapter position of the item.
-     *
      * @return The state of the item.
      */
     public boolean isChecked(int position) {
         return booleanArray.get(position, defaultValue);
     }
 
-    public Iterable<Pair<H, Boolean>> getItemsAndState() {
-        return () -> new Iterator<Pair<H, Boolean>>() {
-
-            private int current = 0;
-
-            @Override
-            public boolean hasNext() {
-                return current < getItemCount();
-            }
-
-            @Override
-            public Pair<H, Boolean> next() {
-                Pair<H, Boolean> value = new Pair<>(getItem(current), isChecked(current));
-                current++;
-                return value;
-            }
-        };
+    /**
+     * Get all items and their state. This method will take a snapshot of the state, meaning changes
+     * in the state are not reflected in the resulting list.
+     * 
+     * @return A list, where each item is a pair of the item and its state.
+     */
+    public List<Pair<H, Boolean>> getItemsAndState() {
+        List<Pair<H, Boolean>> itemsAndState = new ArrayList<>(getItemCount());
+        for (int i = 0; i < getItemCount(); i++) {
+            itemsAndState.add(new Pair<>(getItem(i), isChecked(i)));
+        }
+        return itemsAndState;
     }
 
     /**
@@ -170,7 +172,9 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
                 booleanArray.append(i, value.second);
             }
         }
-        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectAdapter.this));
+        for (Callback<H> c : callbacks) {
+            c.onStateChanged(MultiSelectAdapter.this);
+        }
     }
 
     /**
@@ -208,23 +212,11 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
         return Collections.unmodifiableCollection(list);
     }
 
-    @FunctionalInterface
-    public interface Callback<H> {
-
-        /**
-         * Is called when the state changes. There is no guarantee when this will be called: when multiple items
-         * are changed, it might be called for each item, or only once.
-         *
-         * @param adapter Can be used by the client to query things.
-         */
-        void onStateChanged(MultiSelectAdapter<H> adapter);
-    }
-
     /**
      * Adds a new callback. If the callback already exists, the behaviour is safe, but undefined. This means the
      * callback could be registered again and called twice, or the calls with an existing callback could be ignored.
      * The only guarantee is that there will be no exception and the callback will be called at least once.
-     *
+     * <p>
      * There is no guarantee in which order the callbacks will be called.
      *
      * @param callback The callback to add.
@@ -235,7 +227,7 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
 
     /**
      * Removes a callback. If the callback is not registered, this does nothing.
-     *
+     * <p>
      * If the callback is registered twice, the behaviour is also safe, but undefined (same as {@link #addCallback(Callback)}.
      * The method may remove all instance or might remove one instance.
      *
@@ -243,5 +235,17 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
      */
     public void removeCallback(@NonNull Callback<H> callback) {
         this.callbacks.remove(callback);
+    }
+
+    @FunctionalInterface
+    public interface Callback<H> {
+
+        /**
+         * Is called when the state changes. There is no guarantee when this will be called: when multiple items
+         * are changed, it might be called for each item, or only once.
+         *
+         * @param adapter Can be used by the client to query things.
+         */
+        void onStateChanged(MultiSelectAdapter<H> adapter);
     }
 }

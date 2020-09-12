@@ -1,11 +1,12 @@
 package be.ugent.zeus.hydra.feed.cards.news;
 
-import be.ugent.zeus.hydra.news.UgentNewsArticle;
+import java.time.Duration;
+import java.time.OffsetDateTime;
+import java.util.Objects;
+
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
-import java9.util.Objects;
-import org.threeten.bp.Duration;
-import org.threeten.bp.OffsetDateTime;
+import be.ugent.zeus.hydra.news.UgentNewsArticle;
 
 /**
  * Home card for {@link UgentNewsArticle}.

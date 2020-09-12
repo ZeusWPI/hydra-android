@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".resto.history.HistoryActivity"
-    tools:menu="@menu/menu_resto"
-    android:id="@+id/coordinator">
+    tools:menu="@menu/menu_resto">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/app_bar_layout">
+        android:layout_height="wrap_content">
 
         <include layout="@layout/x_toolbar_no_scroll" />
 
@@ -24,24 +24,24 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <FrameLayout
-            android:paddingTop="@dimen/activity_horizontal_margin"
-            android:paddingBottom="@dimen/bottom_toolbar_height"
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/activity_horizontal_margin"
+            android:paddingBottom="@dimen/bottom_toolbar_height">
 
             <include
-                layout="@layout/x_progress_bar"
-                android:id="@+id/progress_bar" />
+                android:id="@+id/progress_bar"
+                layout="@layout/x_progress_bar" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:paddingLeft="@dimen/vertical_padding"
-                android:paddingRight="@dimen/vertical_padding"
-                android:visibility="gone"
                 android:id="@+id/error_view"
                 style="?textAppearanceBody2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/vertical_padding"
+                android:paddingRight="@dimen/vertical_padding"
+                android:visibility="gone" />
 
         </FrameLayout>
 
@@ -49,14 +49,14 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/bottom_toolbar"
-        android:paddingRight="88dp"
-        android:paddingEnd="88dp"
+        style="?toolbarStyle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_toolbar_height"
-        android:layout_gravity="bottom"
         android:layout_below="@id/scroll"
+        android:layout_gravity="bottom"
         android:ellipsize="marquee"
-        style="?toolbarStyle">
+        android:paddingEnd="88dp"
+        android:paddingRight="88dp">
 
         <Spinner
             android:id="@+id/resto_spinner"
@@ -79,16 +79,16 @@
      -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
-        app:fabSize="normal"
-        app:srcCompat="@drawable/ic_calendar_clock"
-        android:tint="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_anchor="@id/bottom_toolbar"
-        android:layout_marginRight="6dp"
         android:layout_marginEnd="6dp"
-        app:layout_anchorGravity="top|right"
+        android:layout_marginRight="6dp"
+        android:tint="@color/white"
         app:elevation="@dimen/material_elevation_fab_resting"
+        app:fabSize="normal"
+        app:layout_anchor="@id/bottom_toolbar"
+        app:layout_anchorGravity="top|right"
+        app:srcCompat="@drawable/ic_calendar_clock"
         app:useCompatPadding="true" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

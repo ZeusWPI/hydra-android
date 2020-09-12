@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -26,6 +25,8 @@ public class PreferenceActivity extends BaseActivity<ActivityPreferencesBinding>
     public final static String ARG_FRAGMENT = "be.ugent.zeus.hydra.preferences.id";
 
     private static final int settingsTitle = R.string.action_view_settings;
+    @Nullable
+    private PreferenceEntry entry;
 
     public static void start(@NonNull Context context, @Nullable PreferenceEntry entry) {
         Intent intent = new Intent(context, PreferenceActivity.class);
@@ -34,9 +35,6 @@ public class PreferenceActivity extends BaseActivity<ActivityPreferencesBinding>
         }
         context.startActivity(intent);
     }
-
-    @Nullable
-    private PreferenceEntry entry;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

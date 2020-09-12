@@ -1,11 +1,7 @@
 package be.ugent.zeus.hydra.common.reporting;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
 import androidx.annotation.VisibleForTesting;
-import androidx.preference.PreferenceManager;
-import be.ugent.zeus.hydra.BuildConfig;
 
 /**
  * Produces the default tracker.
@@ -14,8 +10,8 @@ import be.ugent.zeus.hydra.BuildConfig;
  */
 public final class Reporting {
 
-    private static Tracker tracker;
     private final static Object lock = new Object();
+    private static Tracker tracker;
 
     /**
      * Get the default tracker.

@@ -1,12 +1,12 @@
 package be.ugent.zeus.hydra.common.arch.data;
 
-import java9.util.Optional;
+import java.util.Optional;
 
 /**
  * An event represents an one-off user action.
- *
+ * <p>
  * Typical use-cases are showing snack bars, toasts, etc.
- *
+ * <p>
  * Classes that listen to this will probably want to use the {@link be.ugent.zeus.hydra.common.arch.observers.EventObserver}.
  *
  * @author Niko Strijbol
