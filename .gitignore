@@ -92,3 +92,4 @@ app/src/main/assets/open_source_licenses.html
 app/custom-config.properties
 com.crashlytics.settings.json
 session_analytics.tap
+*.keystore

@@ -1,12 +1,7 @@
 name: CI
 
 # We run the tests on master, development and for PR's.
-on:
-  push:
-    branches:
-      - master
-      - development
-  pull_request:
+on: [push]
 
 jobs:
   test:
@@ -16,39 +11,87 @@ jobs:
       matrix:
         command: [testOpenDebug, testOpenRelease, testStoreDebug, testStoreRelease]
     steps:
-      - uses: actions/checkout@v1
-      - name: Set up JDK
+      - uses: actions/checkout@v2
+      - name: Set up JDK 13
         uses: actions/setup-java@v1
         with:
           java-version: 13
-      - name: Cache Gradle files
-        uses: actions/cache@v1
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
         with:
           path: ~/.gradle/caches
           key: ${{ matrix.command }}-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: |
-            ${{ matrix.command }}-${{ runner.os }}-gradle-
+          restore-keys: ${{ matrix.command }}-${{ runner.os }}-gradle
       - name: Test with Gradle
-        uses: eskatos/gradle-command-action@v1
-        with:
-          arguments: ${{ matrix.command }}
+        run: ./gradlew ${{ matrix.command }}
   lint:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Set up JDK
+      - uses: actions/checkout@v2
+      - name: Set up JDK 13
         uses: actions/setup-java@v1
         with:
           java-version: 13
-      - name: Cache Gradle files
-        uses: actions/cache@v1
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
         with:
           path: ~/.gradle/caches
           key: lint-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: |
-            lint-${{ runner.os }}-gradle-
-      - name: Lint with Gradle
-        uses: eskatos/gradle-command-action@v1
+          restore-keys: lint-${{ runner.os }}-gradle
+      - name: Test with Gradle
+        run: ./gradlew ${{ matrix.command }}
+  build:
+    needs: test
+    name: Build app
+    runs-on: ubuntu-latest
+    # Only run on master
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 13
+        uses: actions/setup-java@v1
         with:
-          arguments: lint
+          java-version: 13
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: build-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: build-${{ runner.os }}-gradle
+      - name: Set up secrets.properties
+        run: echo "$SECRETS_PROPERTIES" | base64 --decode > app/secrets.properties
+        env:
+          SECRETS_PROPERTIES: ${{ secrets.SECRETS_PROPERTIES }}
+      - name: Set up signging key
+        run: echo "$UPLOAD_KEY_BASE64" | base64 --decode > app/upload.keystore
+        env:
+          UPLOAD_KEY_BASE64: ${{ secrets.UPLOAD_KEY_BASE64 }}
+      - name: Build APK
+        run: ./gradlew assembleRelease
+      - name: Upload store APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: hydra-store.apk
+          path: app/build/outputs/apk/store/release/app-store-release.apk
+          if-no-files-found: error
+      - name: Upload foss APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: hydra-foss.apk
+          path: app/build/outputs/apk/open/release/app-open-release.apk
+          if-no-files-found: error
+      - name: Build App Bundle
+        run: ./gradlew bundleRelease
+      - name: Upload store bundle
+        uses: actions/upload-artifact@v2
+        with:
+          name: hydra-store.aab
+          path: app/build/outputs/bundle/storeRelease/app-store-release.aab
+          if-no-files-found: error
+      - name: Upload foss bundle
+        uses: actions/upload-artifact@v2
+        with:
+          name: hydra-foss.aab
+          path: app/build/outputs/bundle/openRelease/app-open-release.aab
+          if-no-files-found: error
