@@ -4,16 +4,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <be.ugent.zeus.hydra.common.ui.widgets.MenuTable
-        android:id="@+id/menu_table"
+    
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/activity_vertical_margin"
-        android:paddingRight="@dimen/activity_vertical_margin"
-        app:messagePaddingTop="true"
-        app:selectable="true"
-        app:showKind="all"
-        app:showTitles="true" />
+        android:orientation="vertical">
+        
+        <be.ugent.zeus.hydra.common.ui.widgets.MenuTable
+            android:id="@+id/menu_table"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_vertical_margin"
+            app:messagePaddingTop="true"
+            app:selectable="true"
+            app:showKind="all"
+            app:showTitles="true" />
+
+        <TextView
+            android:paddingTop="@dimen/activity_horizontal_margin"
+            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_vertical_margin"
+            style="?textAppearanceBody2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/resto_order_online" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:id="@+id/orderButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/resto_order_now" />
+    </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
