@@ -15,7 +15,8 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.reporting.BaseEvents;
 import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
-import be.ugent.zeus.hydra.common.ui.widgets.MenuTable;
+import be.ugent.zeus.hydra.common.utils.NetworkUtils;
+import be.ugent.zeus.hydra.databinding.FragmentMenuBinding;
 
 /**
  * Displays the resto menu for one day. This is mostly used in the view pager.
@@ -25,8 +26,10 @@ import be.ugent.zeus.hydra.common.ui.widgets.MenuTable;
 public class SingleDayFragment extends Fragment {
 
     private static final String ARG_DATA_MENU = "resto_menu";
+    private static final String URL = "https://studentenrestaurants.ugent.be/";
 
     private RestoMenu data;
+    private FragmentMenuBinding binding;
 
     public static SingleDayFragment newInstance(RestoMenu menu) {
         SingleDayFragment fragment = new SingleDayFragment();
@@ -44,10 +47,24 @@ public class SingleDayFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_menu, container, false);
-        MenuTable table = view.findViewById(R.id.menu_table);
-        table.setMenu(data);
-        return view;
+        binding = FragmentMenuBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        binding.menuTable.setMenu(data);
+        binding.orderButton.setOnClickListener(v -> {
+            String url = URL + v.getContext().getString(R.string.value_info_endpoint);
+            NetworkUtils.maybeLaunchBrowser(v.getContext(), url);
+        });
     }
 
     public RestoMenu getData() {
