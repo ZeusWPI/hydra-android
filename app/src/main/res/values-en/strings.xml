@@ -149,6 +149,7 @@
     <string name="resto_extra_food_price">€ %s</string>
 
     <string name="resto_main_view_sandwiches">Sandwiches</string>
+    <string name="resto_main_view_salad">Salad</string>
     <string name="resto_main_view_locations">Locations</string>
     <string name="resto_main_view_sandwiches_regular">Normal</string>
     <string name="resto_main_view_sandwiches_ecological">Ecological</string>
@@ -158,6 +159,9 @@
     <string name="resto_sandwich_price_medium">Large: € %s</string>
     <string name="resto_sandwich_price_small">Small: € %s</string>
     <string name="resto_sandwich_ingredients">Ingredients: %s.</string>
+
+    <string name="resto_salad_title">Salad bowls</string>
+    <string name="resto_salad_price">€ %s</string>
 
     <string name="resto_location_activity_title">Restos</string>
     <string name="resto_location_action_center">Go to restos</string>

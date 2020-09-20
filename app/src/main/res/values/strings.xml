@@ -155,6 +155,7 @@
     <string name="resto_extra_food_price">€ %s</string>
 
     <string name="resto_main_view_sandwiches">Broodjes</string>
+    <string name="resto_main_view_salad">Salade</string>
     <string name="resto_main_view_sandwiches_regular">Gewoon</string>
     <string name="resto_main_view_sandwiches_ecological">Ecologisch</string>
     <string name="resto_main_view_locations">Locaties</string>
@@ -164,6 +165,9 @@
     <string name="resto_sandwich_price_medium">Groot: € %s</string>
     <string name="resto_sandwich_price_small">Klein: € %s</string>
     <string name="resto_sandwich_ingredients">Ingrediënten: %s.</string>
+
+    <string name="resto_salad_title">Salad bowls</string>
+    <string name="resto_salad_price">€ %s</string>
 
     <string name="resto_location_activity_title">Resto\'s</string>
     <string name="resto_location_action_center">Ga naar resto\'s</string>

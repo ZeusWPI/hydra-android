@@ -76,6 +76,12 @@
             android:label="@string/resto_extra_title"
             android:parentActivityName=".MainActivity" />
 
+        <!-- Show salad bowls food items -->
+        <activity
+            android:name=".resto.salad.SaladActivity"
+            android:label="@string/resto_salad_title"
+            android:parentActivityName=".MainActivity" />
+
         <!-- Details about association events. -->
         <activity
             android:name=".association.event.EventDetailsActivity"

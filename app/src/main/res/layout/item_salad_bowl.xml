@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:gravity="top"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/list_two_line_padding_vertical"
+    android:paddingTop="@dimen/list_two_line_padding_horizontal"
+    android:paddingRight="@dimen/list_two_line_padding_vertical"
+    android:paddingBottom="@dimen/list_two_line_padding_horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/name"
+            style="?textAppearanceBody1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            tools:text="Naam van het broodje" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/price"
+            style="?textAppearanceBody1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            tools:text="Prijs" />
+    </LinearLayout>
+
+    <net.cachapa.expandablelayout.ExpandableLayout
+        android:id="@+id/expandable_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/description"
+            style="?textAppearanceBody2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            tools:text="Heel veel ingrediënten hier." />
+
+    </net.cachapa.expandablelayout.ExpandableLayout>
+
+</LinearLayout>

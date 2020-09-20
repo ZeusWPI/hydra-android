@@ -32,6 +32,7 @@ import be.ugent.zeus.hydra.resto.history.HistoryActivity;
 import be.ugent.zeus.hydra.resto.meta.RestoLocationActivity;
 import be.ugent.zeus.hydra.resto.meta.selectable.SelectableMetaViewModel;
 import be.ugent.zeus.hydra.resto.meta.selectable.SelectedResto;
+import be.ugent.zeus.hydra.resto.salad.SaladActivity;
 import be.ugent.zeus.hydra.resto.sandwich.SandwichActivity;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -295,6 +296,9 @@ public class RestoFragment extends Fragment implements
         switch (item.getItemId()) {
             case R.id.resto_bottom_sandwich:
                 startActivity(new Intent(getContext(), SandwichActivity.class));
+                return false;
+            case R.id.resto_bottom_salad:
+                startActivity(new Intent(getContext(), SaladActivity.class));
                 return false;
             case R.id.resto_bottom_locations:
                 startActivity(new Intent(getContext(), RestoLocationActivity.class));
