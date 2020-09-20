@@ -135,6 +135,16 @@ public class DisplayableMenu {
     }
 
     /**
+     * Add the views responsible for displaying the cold dishes to the {@code parent} view.
+     *
+     * @param parent The view to which the child views will be added. This will be done by calling {@link
+     *               ViewGroup#addView(View)}. This is also the view to get a context from.
+     */
+    void addColdViews(ViewGroup parent) {
+        addMealViews(parent, menu.getColdDishes());
+    }
+
+    /**
      * @return True if this menu has main dishes.
      */
     boolean hasMainDishes() {
@@ -151,6 +161,10 @@ public class DisplayableMenu {
 
     boolean hasVegetables() {
         return !menu.getVegetables().isEmpty();
+    }
+    
+    boolean hasColdDishes() {
+        return !menu.getColdDishes().isEmpty();
     }
 
     /**

@@ -14,6 +14,7 @@ import java.util.Objects;
 public final class RestoMeal implements Parcelable {
     public static String MENU_TYPE_MAIN = "main";
     public static String MENU_TYPE_SIDE = "side";
+    public static String MENU_TYPE_COLD = "cold";
     
     private String name;
     private String price;

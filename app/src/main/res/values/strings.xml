@@ -169,10 +169,13 @@
     <string name="resto_location_action_center">Ga naar resto\'s</string>
 
     <string name="resto_menu_main_dish">Hoofdgerechten</string>
+    <string name="resto_menu_cold_dish">Koude gerechten (zelf op te warmen)</string>
     <string name="resto_menu_soup">Soep</string>
     <string name="resto_menu_vegetables">Groenten</string>
-    <string name="resto_menu_not_available">De resto is waarschijnlijk gesloten. Controleer voor de zekerheid ook
-        <a href="https://www.ugent.be/student/nl/meer-dan-studeren/resto">de website</a>.</string>
+    <string name="resto_menu_not_available">
+        De resto is waarschijnlijk gesloten. Controleer voor de zekerheid
+        <a href="https://www.ugent.be/student/nl/meer-dan-studeren/resto">de website</a>.
+    </string>
 
     <string name="resto_spinner_loading">Laden…</string>
 

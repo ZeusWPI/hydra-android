@@ -163,11 +163,13 @@
     <string name="resto_location_action_center">Go to restos</string>
 
     <string name="resto_menu_main_dish">Main courses</string>
+    <string name="resto_menu_cold_dish">Cold dishes (heat up yourself)</string>
     <string name="resto_menu_soup">Soup</string>
     <string name="resto_menu_vegetables">Vegetables</string>
     <string name="resto_menu_not_available">
         De resto is probably closed. Check <a href="https://www.ugent.be/student/nl/meer-dan-studeren/resto">the website</a>
-        to make sure.</string>
+        to make sure.
+    </string>
 
     <string name="resto_spinner_loading">Loading…</string>
 
