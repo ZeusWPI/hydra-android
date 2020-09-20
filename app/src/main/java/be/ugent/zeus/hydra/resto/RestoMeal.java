@@ -5,8 +5,6 @@ import android.os.Parcelable;
 
 import java.util.Objects;
 
-import com.squareup.moshi.Json;
-
 /**
  * Represents a meal.
  *
@@ -14,22 +12,15 @@ import com.squareup.moshi.Json;
  * @author Mitch
  */
 public final class RestoMeal implements Parcelable {
+    public static String MENU_TYPE_MAIN = "main";
+    public static String MENU_TYPE_SIDE = "side";
     
     private String name;
     private String price;
-    private MealType type;
+    private String type;
     private String kind;
 
-    public RestoMeal() {
-    }
-
-    private RestoMeal(Parcel in) {
-        this.name = in.readString();
-        this.price = in.readString();
-        int tmpType = in.readInt();
-        this.type = tmpType == -1 ? null : MealType.values()[tmpType];
-        this.kind = in.readString();
-    }
+    public RestoMeal() {}
 
     public String getName() {
         return name;
@@ -55,11 +46,11 @@ public final class RestoMeal implements Parcelable {
         this.kind = kind;
     }
 
-    public MealType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(MealType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -72,32 +63,15 @@ public final class RestoMeal implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.name);
         dest.writeString(this.price);
-        dest.writeInt(this.type == null ? -1 : this.type.ordinal());
+        dest.writeString(this.type);
         dest.writeString(this.kind);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RestoMeal restoMeal = (RestoMeal) o;
-        return Objects.equals(name, restoMeal.name) &&
-                Objects.equals(price, restoMeal.price) &&
-                type == restoMeal.type &&
-                Objects.equals(kind, restoMeal.kind);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, price, type, kind);
-    }
-
-    // TODO: replace by string to make extensible, as required per the API docs
-    public enum MealType {
-        @Json(name = "main")
-        MAIN,
-        @Json(name = "side")
-        SIDE
+    private RestoMeal(Parcel in) {
+        this.name = in.readString();
+        this.price = in.readString();
+        this.type = in.readString();
+        this.kind = in.readString();
     }
 
     public static final Parcelable.Creator<RestoMeal> CREATOR = new Parcelable.Creator<RestoMeal>() {
@@ -111,4 +85,20 @@ public final class RestoMeal implements Parcelable {
             return new RestoMeal[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RestoMeal restoMeal = (RestoMeal) o;
+        return Objects.equals(name, restoMeal.name) &&
+                Objects.equals(price, restoMeal.price) &&
+                Objects.equals(type, restoMeal.type) &&
+                Objects.equals(kind, restoMeal.kind);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, price, type, kind);
+    }
 }
