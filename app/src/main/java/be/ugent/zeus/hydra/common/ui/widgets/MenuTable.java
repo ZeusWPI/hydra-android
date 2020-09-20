@@ -170,8 +170,6 @@ public class MenuTable extends TableLayout {
         setColumnShrinkable(1, true);
 
         // If there is no message and it is closed.
-
-
         if (menu.hasMessage()) {
             createText(menu.menu.getMessage(), false, true);
             if (menu.menu.isClosed()) {
@@ -195,7 +193,7 @@ public class MenuTable extends TableLayout {
             }
             if (menu.hasColdDishes()) {
                 if (showTitles) {
-                    createTitle(getContext().getString(R.string.resto_menu_main_dish));
+                    createTitle(getContext().getString(R.string.resto_menu_cold_dish));
                 }
                 menu.addColdViews(this);
             }
