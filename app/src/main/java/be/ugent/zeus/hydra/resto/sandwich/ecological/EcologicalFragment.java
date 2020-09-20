@@ -56,7 +56,7 @@ public class EcologicalFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_resto_sandwich, container, false);
+        return inflater.inflate(R.layout.fragment_resto_sandwich, container, false);
     }
 
     @Override

@@ -11,14 +11,14 @@ import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
 import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import com.google.android.material.textview.MaterialTextView;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import static be.ugent.zeus.hydra.common.utils.PreferencesUtils.isSetIn;
 
@@ -170,8 +170,6 @@ public class MenuTable extends TableLayout {
         setColumnShrinkable(1, true);
 
         // If there is no message and it is closed.
-
-
         if (menu.hasMessage()) {
             createText(menu.menu.getMessage(), false, true);
             if (menu.menu.isClosed()) {
@@ -186,11 +184,19 @@ public class MenuTable extends TableLayout {
             return;
         }
 
-        if (isSetIn(displayedKinds, DisplayKind.MAIN) && menu.hasMainDishes()) {
-            if (showTitles) {
-                createTitle(getContext().getString(R.string.resto_menu_main_dish));
+        if (isSetIn(displayedKinds, DisplayKind.MAIN)) {
+            if (menu.hasMainDishes()) {
+                if (showTitles) {
+                    createTitle(getContext().getString(R.string.resto_menu_main_dish));
+                }
+                menu.addMainViews(this);
             }
-            menu.addMainViews(this);
+            if (menu.hasColdDishes()) {
+                if (showTitles) {
+                    createTitle(getContext().getString(R.string.resto_menu_cold_dish));
+                }
+                menu.addColdViews(this);
+            }
         }
 
         if (isSetIn(displayedKinds, DisplayKind.SOUP) && menu.hasSoup()) {

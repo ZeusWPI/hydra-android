@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.resto;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import androidx.annotation.NonNull;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public final class RestoMenu implements Parcelable {
     private LocalDate date;
     private List<RestoMeal> meals;
     private transient List<RestoMeal> mainDishes;
+    private transient List<RestoMeal> coldDishes;
     private transient List<RestoMeal> soups;
     private List<String> vegetables;
     private String message;
@@ -41,12 +43,17 @@ public final class RestoMenu implements Parcelable {
     private void fillCategories() {
         soups = new ArrayList<>();
         mainDishes = new ArrayList<>();
+        coldDishes = new ArrayList<>();
 
         for (RestoMeal meal : meals) {
             if (meal.getKind() != null && meal.getKind().equals("soup")) {
                 soups.add(meal);
             } else {
-                mainDishes.add(meal);
+                if (RestoMeal.MENU_TYPE_COLD.equals(meal.getType())) {
+                    coldDishes.add(meal);
+                } else {
+                    mainDishes.add(meal);
+                }
             }
         }
     }
@@ -101,6 +108,7 @@ public final class RestoMenu implements Parcelable {
         this.message = message;
     }
 
+    @NonNull
     public List<RestoMeal> getSoups() {
         if (soups == null) {
             fillCategories();
@@ -108,11 +116,20 @@ public final class RestoMenu implements Parcelable {
         return soups;
     }
 
+    @NonNull
     public List<RestoMeal> getMainDishes() {
         if (mainDishes == null) {
             fillCategories();
         }
         return mainDishes;
+    }
+    
+    @NonNull
+    public List<RestoMeal> getColdDishes() {
+        if (coldDishes == null) {
+            fillCategories();
+        }
+        return coldDishes;
     }
 
     @Override
