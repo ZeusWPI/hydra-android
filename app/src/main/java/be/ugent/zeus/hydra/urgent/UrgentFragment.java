@@ -5,7 +5,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaDescriptionCompat;
 import android.support.v4.media.MediaMetadataCompat;
@@ -63,16 +62,12 @@ public class UrgentFragment extends Fragment {
                 @Override
                 public void onConnected() {
                     mediaBrowser.subscribe(mediaBrowser.getRoot(), subscriptionCallback);
-                    try {
-                        MediaControllerCompat mediaController =
-                                new MediaControllerCompat(requireActivity(), mediaBrowser.getSessionToken());
-                        MediaControllerCompat.setMediaController(requireActivity(), mediaController);
+                    MediaControllerCompat mediaController =
+                            new MediaControllerCompat(requireActivity(), mediaBrowser.getSessionToken());
+                    MediaControllerCompat.setMediaController(requireActivity(), mediaController);
 
-                        // Register a Callback to stay in sync
-                        mediaController.registerCallback(mediaControllerCallback);
-                    } catch (RemoteException e) {
-                        Log.e(TAG, "Failed to connect to MediaController", e);
-                    }
+                    // Register a Callback to stay in sync
+                    mediaController.registerCallback(mediaControllerCallback);
                 }
 
                 @Override
