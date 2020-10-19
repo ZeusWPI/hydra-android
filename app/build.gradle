@@ -180,7 +180,7 @@ dependencies {
 
     if (props.getProperty("hydra.debug.leaks").toBoolean()) {
         logger.info("Leak tracking enabled...")
-        debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
+        debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.5'
     }
 
     testImplementation 'junit:junit:4.13'
