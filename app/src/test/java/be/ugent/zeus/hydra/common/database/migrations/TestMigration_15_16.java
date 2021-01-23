@@ -20,7 +20,6 @@ import static org.mockito.Mockito.when;
 /**
  * @author Niko Strijbol
  */
-@Ignore("Enable once Robolectric updates SQL")
 @RunWith(RobolectricTestRunner.class)
 public class TestMigration_15_16 {
 
