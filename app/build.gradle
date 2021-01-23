@@ -243,11 +243,3 @@ def loadProperties() {
 
     return actualKeys
 }
-
-// Travis uses plain console mode, which does not output test status by default, causing time-outs.
-tasks.withType(Test) {
-    testLogging {
-        events "passed", "skipped", "failed"
-        exceptionFormat "full"
-    }
-}
