@@ -6,7 +6,6 @@ buildscript {
         google()
         // For the license plugin
         mavenCentral()
-        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.3'
@@ -21,8 +20,6 @@ allprojects {
         google()
         // Other libraries
         mavenCentral()
-        // Fallback for libraries not in Maven
-        jcenter()
         // Some custom libraries
         maven { url 'https://jitpack.io' }
     }
