@@ -17,7 +17,7 @@ import be.ugent.zeus.hydra.common.utils.DateUtils;
  * @author Niko Strijbol
  * @author feliciaan
  */
-class NewsItemViewHolder extends DataViewHolder<UgentNewsArticle> {
+class NewsItemViewHolder extends DataViewHolder<NewsArticle> {
 
     private final TextView info;
     private final TextView title;
@@ -33,31 +33,25 @@ class NewsItemViewHolder extends DataViewHolder<UgentNewsArticle> {
     }
 
     @Override
-    public void populate(final UgentNewsArticle newsItem) {
-
+    public void populate(final NewsArticle newsItem) {
         title.setText(newsItem.getTitle());
 
-        String author = newsItem.getCreators().isEmpty() ? "" : newsItem.getCreators().iterator().next();
-
         CharSequence dateString;
-        if (newsItem.getCreated().toLocalDate().isEqual(newsItem.getModified().toLocalDate())) {
-            dateString = DateUtils.relativeDateTimeString(newsItem.getCreated(), itemView.getContext());
+        if (newsItem.getPublished().toLocalDate().isEqual(newsItem.getUpdated().toLocalDate())) {
+            dateString = DateUtils.relativeDateTimeString(newsItem.getPublished(), itemView.getContext());
         } else {
             dateString = itemView.getContext().getString(R.string.article_date_changed,
-                    DateUtils.relativeDateTimeString(newsItem.getCreated(), itemView.getContext(), true),
-                    DateUtils.relativeDateTimeString(newsItem.getModified(), itemView.getContext(), true)
+                    DateUtils.relativeDateTimeString(newsItem.getPublished(), itemView.getContext(), true),
+                    DateUtils.relativeDateTimeString(newsItem.getUpdated(), itemView.getContext(), true)
             );
         }
 
-        String infoText = itemView.getContext().getString(R.string.deprecated_dot_separated,
-                dateString,
-                author);
-        info.setText(infoText);
+        info.setText(dateString);
 
-        if (!TextUtils.isEmpty(newsItem.getDescription())) {
-            excerpt.setText(Utils.fromHtml(newsItem.getDescription()).toString().trim());
+        if (TextUtils.isEmpty(newsItem.getSummary())) {
+            excerpt.setText(Utils.fromHtml(newsItem.getContent()).toString().trim());
         } else {
-            excerpt.setText(Utils.fromHtml(newsItem.getText()).toString().trim());
+            excerpt.setText(newsItem.getSummary());
         }
 
         itemView.setOnClickListener(v -> ArticleViewer.viewArticle(v.getContext(), newsItem, helper));

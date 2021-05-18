@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.common;
 import android.net.Uri;
 
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
-import be.ugent.zeus.hydra.news.UgentNewsArticle;
+import be.ugent.zeus.hydra.news.NewsArticle;
 import be.ugent.zeus.hydra.schamper.Article;
 import be.ugent.zeus.hydra.testing.RobolectricUtils;
 import org.junit.Test;
@@ -25,7 +25,7 @@ public class ArticleViewerTest {
     @Test
     public void viewArticleCustomTabsUGent() {
         ActivityHelper helper = mock(ActivityHelper.class);
-        UgentNewsArticle newsItem = generate(UgentNewsArticle.class);
+        NewsArticle newsItem = generate(NewsArticle.class);
         ArticleViewer.viewArticle(RobolectricUtils.getActivityContext(), newsItem, helper);
         verify(helper, times(1)).openCustomTab(any(Uri.class));
     }

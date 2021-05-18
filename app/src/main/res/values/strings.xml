@@ -343,5 +343,5 @@
     <string name="content_desc_select_all">Alles selecteren</string>
     <string name="content_desc_select_none">Niets selecteren</string>
 
-    <string name="ugent_news_endpoint">nl/actueel/overzicht/@@rss2json</string>
+    <string name="ugent_news_endpoint">news/nl.json</string>
 </resources>
