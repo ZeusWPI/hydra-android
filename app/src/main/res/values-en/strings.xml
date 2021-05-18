@@ -336,5 +336,5 @@
     <string name="content_desc_select_all">Select all</string>
     <string name="content_desc_select_none">Select none</string>
 
-    <string name="ugent_news_endpoint">en/news-events/overview/@@rss2json</string>
+    <string name="ugent_news_endpoint">en.json</string>
 </resources>

@@ -37,8 +37,6 @@
             style="?textAppearanceBody2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="3"
             android:paddingBottom="@dimen/card_text_padding_bottom_no_content"
             tools:text="Heel mooie text over het artikel!" />
 

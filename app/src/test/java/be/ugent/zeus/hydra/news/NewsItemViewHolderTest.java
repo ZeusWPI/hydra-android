@@ -39,7 +39,7 @@ public class NewsItemViewHolderTest {
     public void populate() {
         View view = inflate(R.layout.item_news);
         NewsItemViewHolder viewHolder = new NewsItemViewHolder(view, helper);
-        UgentNewsArticle newsItem = generate(UgentNewsArticle.class);
+        NewsArticle newsItem = generate(NewsArticle.class);
         viewHolder.populate(newsItem);
 
         assertTextIs(newsItem.getTitle(), view.findViewById(R.id.name));
@@ -56,8 +56,8 @@ public class NewsItemViewHolderTest {
     public void populateVariant() {
         View view = inflate(R.layout.item_news);
         NewsItemViewHolder viewHolder = new NewsItemViewHolder(view, helper);
-        UgentNewsArticle newsItem = generate(UgentNewsArticle.class, "description");
-        newsItem.setModified(OffsetDateTime.now().plusDays(10));
+        NewsArticle newsItem = generate(NewsArticle.class, "summary");
+        newsItem.setUpdated(OffsetDateTime.now().plusDays(10));
         viewHolder.populate(newsItem);
 
         assertTextIs(newsItem.getTitle(), view.findViewById(R.id.name));

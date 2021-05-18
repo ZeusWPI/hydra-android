@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
@@ -65,6 +66,7 @@ class FirebaseTracker implements Tracker {
     public void allowCrashReporting(boolean allowed) {
         isCrashReportingAllowed = allowed;
         if (allowed) {
+            FirebaseApp.initializeApp(this.applicationContext);
             FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true);
         }
     }

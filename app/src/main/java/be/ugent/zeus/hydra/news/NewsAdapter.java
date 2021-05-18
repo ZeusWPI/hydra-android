@@ -12,7 +12,7 @@ import be.ugent.zeus.hydra.common.utils.ViewUtils;
  * @author Niko Strijbol
  * @author ellen
  */
-class NewsAdapter extends DiffAdapter<UgentNewsArticle, NewsItemViewHolder> {
+class NewsAdapter extends DiffAdapter<NewsArticle, NewsItemViewHolder> {
 
     private final ActivityHelper helper;
 

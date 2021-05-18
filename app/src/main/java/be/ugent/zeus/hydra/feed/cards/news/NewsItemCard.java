@@ -6,10 +6,10 @@ import java.util.Objects;
 
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
-import be.ugent.zeus.hydra.news.UgentNewsArticle;
+import be.ugent.zeus.hydra.news.NewsArticle;
 
 /**
- * Home card for {@link UgentNewsArticle}.
+ * Home card for {@link be.ugent.zeus.hydra.news.NewsArticle}.
  *
  * @author Niko Strijbol
  * @author feliciaan
@@ -18,22 +18,22 @@ class NewsItemCard extends Card {
 
     private static final int TWO_WEEKS_HOURS = 14 * 24;
 
-    private final UgentNewsArticle newsItem;
+    private final NewsArticle newsItem;
 
-    NewsItemCard(UgentNewsArticle newsItem) {
+    NewsItemCard(NewsArticle newsItem) {
         this.newsItem = newsItem;
     }
 
     @Override
     public int getPriority() {
-        OffsetDateTime date = getNewsItem().getModified();
+        OffsetDateTime date = getNewsItem().getUpdated();
         Duration duration = Duration.between(date, OffsetDateTime.now());
         return PriorityUtils.lerp((int) duration.toHours(), 0, TWO_WEEKS_HOURS);
     }
 
     @Override
     public String getIdentifier() {
-        return newsItem.getIdentifier();
+        return newsItem.getId();
     }
 
     @Override
@@ -42,7 +42,7 @@ class NewsItemCard extends Card {
     }
 
     @SuppressWarnings("WeakerAccess")
-    public UgentNewsArticle getNewsItem() {
+    public NewsArticle getNewsItem() {
         return newsItem;
     }
 
