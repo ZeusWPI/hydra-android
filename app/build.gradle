@@ -2,6 +2,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'be.ugent.zeus.hydra.licenses'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-parcelize'
 
 // Read our properties, see bottom for details.
 def props = loadProperties()
@@ -147,11 +150,13 @@ android {
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
-    implementation 'androidx.core:core:1.3.2'
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.0"
+
     implementation 'androidx.media:media:1.3.0'
-    implementation 'androidx.fragment:fragment:1.3.3'
+    implementation 'androidx.fragment:fragment-ktx:1.3.3'
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.preference:preference:1.1.1'
+    implementation 'androidx.preference:preference-ktx:1.1.1'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
@@ -160,9 +165,10 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation "androidx.lifecycle:lifecycle-common-java8:2.3.1"
     implementation 'androidx.room:room-runtime:2.3.0'
-    annotationProcessor 'androidx.room:room-compiler:2.3.0'
+    kapt 'androidx.room:room-compiler:2.3.0'
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
     implementation 'com.squareup.moshi:moshi:1.12.0'
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:1.12.0"
     implementation 'com.squareup.picasso:picasso:2.8'
     implementation 'com.github.cachapa:ExpandableLayout:2.9.2'
     implementation 'com.github.niknetniko:material-intro:9903deb6c4'
