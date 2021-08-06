@@ -41,7 +41,6 @@ import org.gradle.api.artifacts.ResolvedConfiguration;
 import org.gradle.api.artifacts.ResolvedDependency;
 import org.gradle.api.artifacts.ResolvedModuleVersion;
 import org.gradle.testfixtures.ProjectBuilder;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -275,7 +274,6 @@ public class DependencyTaskTest {
     verify(libraryResolvedDependency, never()).getAllModuleArtifacts();
   }
 
-  @NotNull
   private ResolvedConfiguration mockResolvedConfiguration(Set<ResolvedArtifact> artifactSet) {
     ResolvedDependency resolvedDependency = mock(ResolvedDependency.class);
     when(resolvedDependency.getAllModuleArtifacts()).thenReturn(artifactSet);
@@ -283,7 +281,6 @@ public class DependencyTaskTest {
     return mockResolvedConfigurationFromDependencySet(resolvedDependencySet);
   }
 
-  @NotNull
   private ResolvedConfiguration mockResolvedConfigurationFromDependencySet(
           Set<ResolvedDependency> resolvedDependencySet) {
 
