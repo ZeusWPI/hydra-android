@@ -27,7 +27,7 @@ class OssLicensesPlugin implements Plugin<Project> {
         def getDependencies = project.tasks.create("get${variant.capitalize()}Dependencies", DependencyTask)
         def dependencyOutput = new File(project.buildDir, "generated/third_party_licenses")
         def generatedJson = new File(dependencyOutput, "dependencies.json")
-        getDependencies.setOutputFile(generatedJson)
+        getDependencies.outputFile = generatedJson
         getDependencies.configurations = project.getConfigurations()
         getDependencies.setVariant(variant)
 
