@@ -57,3 +57,8 @@ The `store` variant is the main variant, and used for the Play Store and is the 
  * [Megaphone](http://www.flaticon.com/free-icon/megaphone_3911) by Daniel Bruce from [flaticon](http://www.flaticon.com)
  
  Google Play and the Google Play logo are trademarks of Google Inc.
+
+
+## License
+
+Most code is licensed under the MIT license, unless otherwise noted.
