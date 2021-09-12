@@ -197,7 +197,7 @@ dependencies {
     storeImplementation 'com.google.firebase:firebase-crashlytics:18.2.0'
 
     // Dependencies for open version.
-    openImplementation 'org.osmdroid:osmdroid-android:6.1.10'
+    openImplementation 'org.osmdroid:osmdroid-android:6.1.11'
 
     if (props.getProperty("hydra.debug.leaks").toBoolean()) {
         logger.info("Leak tracking enabled...")
