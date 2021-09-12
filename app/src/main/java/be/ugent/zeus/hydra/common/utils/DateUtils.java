@@ -97,7 +97,7 @@ public class DateUtils {
         } else if (daysBetween == 2 && context.getResources().getBoolean(R.bool.date_supports_overmorrow)) {
             return context.getString(R.string.date_overmorrow);
         } else if (0 <= daysBetween && daysBetween < ONE_WEEK_DAYS) {
-            return date.getDayOfWeek().getDisplayName(TextStyle.FULL_STANDALONE, locale);
+            return date.getDayOfWeek().getDisplayName(TextStyle.FULL, locale);
         } else if (0 <= daysBetween && daysBetween < TWO_WEEKS_DAYS) {
             return context.getString(R.string.date_next_x, date.getDayOfWeek().getDisplayName(TextStyle.FULL, locale));
         } else {
