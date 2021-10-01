@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2021 The Hydra authors
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        app:iconSpaceReserved="false"
+        app:persistent="false"
+        app:summary="@string/feed_pref_card_types_summary"
+        app:title="@string/feed_pref_card_types_title">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="be.ugent.zeus.hydra.feed.preferences.HomeFeedPrefActivity"
+            android:targetPackage="be.ugent.zeus.hydra.open" />
+    </Preference>
+
+    <Preference
+        app:iconSpaceReserved="false"
+        app:key="pref_home_feed_clickable"
+        app:persistent="false"
+        app:summary="@string/feed_pref_clear_cards_summary"
+        app:title="@string/feed_pref_clear_cards_title" />
+
+    <ListPreference
+        app:defaultValue="all"
+        app:entries="@array/pref_feed_resto_kind"
+        app:entryValues="@array/pref_feed_resto_kind_values"
+        app:iconSpaceReserved="false"
+        app:key="pref_feed_resto_kinds"
+        app:summary="%s"
+        app:title="@string/feed_pref_resto_kinds" />
+
+    <CheckBoxPreference
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="pref_home_feed_save_data"
+        app:summary="@string/feed_pref_data_saving_summary"
+        app:title="@string/feed_pref_data_saving_title" />
+</PreferenceScreen>
