@@ -44,7 +44,7 @@ import static org.junit.Assert.assertEquals;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Ignore
+@Ignore("Gives weird errors")
 public class EventCardViewHolderTest extends AbstractFeedViewHolderTest {
 
     @Test
