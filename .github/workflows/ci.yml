@@ -39,8 +39,8 @@ jobs:
           path: ~/.gradle/caches
           key: lint-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: lint-${{ runner.os }}-gradle
-      - name: Test with Gradle
-        run: ./gradlew ${{ matrix.command }}
+      - name: Lint with Gradle
+        run: ./gradlew lint
   build:
     needs: test
     name: Build app
