@@ -76,9 +76,6 @@ public class LibraryListFragment extends Fragment {
 
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(ColourUtils.resolveColour(requireContext(), R.attr.colorSecondary));
-        // Disable drag to refresh, since it interferes with the fast scroller.
-        // TODO: find a way to fix this without disable this.
-        swipeRefreshLayout.setEnabled(false);
 
         viewModel = new ViewModelProvider(this).get(LibraryViewModel.class);
         adapter = new LibraryListAdapter(viewModel);
