@@ -138,6 +138,8 @@ public class RestoLocationActivity extends BaseActivity<ActivityRestoLocationBin
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
         if (requestCode == MY_LOCATION_REQUEST_CODE) {
             if (permissions.length == 1 && permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION) && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 enableLocation();
