@@ -317,7 +317,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
      * @param menuItem         The item to display.
      * @param navigationSource Where the navigation originates from.
      */
-    private void selectDrawerItem(MenuItem menuItem, @NavigationSource int navigationSource) {
+    private void selectDrawerItem(@NonNull MenuItem menuItem, @NavigationSource int navigationSource) {
 
         // First check if it are settings, then we don't update anything.
         if (menuItem.getItemId() == R.id.drawer_pref) {
@@ -342,37 +342,29 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment;
-        switch (menuItem.getItemId()) {
-            case R.id.drawer_feed:
-                fragment = new HomeFeedFragment();
-                break;
-            case R.id.drawer_schamper:
-                fragment = new SchamperFragment();
-                break;
-            case R.id.drawer_resto:
-                reportShortcutUsed(SHORTCUT_RESTO);
-                fragment = new RestoFragment();
-                break;
-            case R.id.drawer_events:
-                reportShortcutUsed(SHORTCUT_EVENTS);
-                fragment = new EventFragment();
-                break;
-            case R.id.drawer_news:
-                fragment = new NewsFragment();
-                break;
-            case R.id.drawer_info:
-                fragment = new InfoFragment();
-                break;
-            case R.id.drawer_urgent:
-                reportShortcutUsed(SHORTCUT_URGENT);
-                fragment = new UrgentFragment();
-                break;
-            case R.id.drawer_library:
-                reportShortcutUsed(SHORTCUT_LIBRARIES);
-                fragment = new LibraryListFragment();
-                break;
-            default:
-                throw new IllegalStateException("Unknown menu id for navigation drawer");
+        int itemId = menuItem.getItemId();
+        if (itemId == R.id.drawer_feed) {
+            fragment = new HomeFeedFragment();
+        } else if (itemId == R.id.drawer_schamper) {
+            fragment = new SchamperFragment();
+        } else if (itemId == R.id.drawer_resto) {
+            reportShortcutUsed(SHORTCUT_RESTO);
+            fragment = new RestoFragment();
+        } else if (itemId == R.id.drawer_events) {
+            reportShortcutUsed(SHORTCUT_EVENTS);
+            fragment = new EventFragment();
+        } else if (itemId == R.id.drawer_news) {
+            fragment = new NewsFragment();
+        } else if (itemId == R.id.drawer_info) {
+            fragment = new InfoFragment();
+        } else if (itemId == R.id.drawer_urgent) {
+            reportShortcutUsed(SHORTCUT_URGENT);
+            fragment = new UrgentFragment();
+        } else if (itemId == R.id.drawer_library) {
+            reportShortcutUsed(SHORTCUT_LIBRARIES);
+            fragment = new LibraryListFragment();
+        } else {
+            throw new IllegalStateException("Unknown menu id for navigation drawer");
         }
 
         // Set the ID.

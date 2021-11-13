@@ -244,33 +244,32 @@ public class RestoFragment extends Fragment implements
     }
 
     @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_resto, menu);
         requireBaseActivity(this).tintToolbarIcons(menu, R.id.action_history);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_refresh:
-                Toast toast = Toast.makeText(getContext(), R.string.resto_extra_refresh_started, Toast.LENGTH_SHORT);
-                toast.show();
-                metaViewModel.onRefresh();
-                menuViewModel.onRefresh();
-                return true;
-            case R.id.resto_show_website:
-                NetworkUtils.maybeLaunchBrowser(getContext(), URL);
-                return true;
-            case R.id.action_history:
-                startActivity(new Intent(getContext(), HistoryActivity.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_refresh) {
+            Toast toast = Toast.makeText(getContext(), R.string.resto_extra_refresh_started, Toast.LENGTH_SHORT);
+            toast.show();
+            metaViewModel.onRefresh();
+            menuViewModel.onRefresh();
+            return true;
+        } else if (itemId == R.id.resto_show_website) {
+            NetworkUtils.maybeLaunchBrowser(getContext(), URL);
+            return true;
+        } else if (itemId == R.id.action_history) {
+            startActivity(new Intent(getContext(), HistoryActivity.class));
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemSelected(@NonNull AdapterView<?> parent, View view, int position, long id) {
 
         // Get the item we selected.
         SelectedResto.Wrapper wrapper = (SelectedResto.Wrapper) parent.getItemAtPosition(position);
@@ -307,7 +306,7 @@ public class RestoFragment extends Fragment implements
     }
 
     @Override
-    public void fillArguments(Intent activityIntent, Bundle bundle) {
+    public void fillArguments(@NonNull Intent activityIntent, Bundle bundle) {
         if (activityIntent.hasExtra(ARG_DATE)) {
             bundle.putSerializable(ARG_DATE, activityIntent.getSerializableExtra(ARG_DATE));
         }
@@ -315,22 +314,21 @@ public class RestoFragment extends Fragment implements
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.resto_bottom_sandwich:
-                startActivity(new Intent(getContext(), SandwichActivity.class));
-                return false;
-            case R.id.resto_bottom_salad:
-                startActivity(new Intent(getContext(), SaladActivity.class));
-                return false;
-            case R.id.resto_bottom_locations:
-                startActivity(new Intent(getContext(), RestoLocationActivity.class));
-                return false;
-            case R.id.resto_bottom_extra:
-                startActivity(new Intent(getContext(), ExtraFoodActivity.class));
-                return false;
-            default:
-                return false;
+        int itemId = item.getItemId();
+        if (itemId == R.id.resto_bottom_sandwich) {
+            startActivity(new Intent(getContext(), SandwichActivity.class));
+            return false;
+        } else if (itemId == R.id.resto_bottom_salad) {
+            startActivity(new Intent(getContext(), SaladActivity.class));
+            return false;
+        } else if (itemId == R.id.resto_bottom_locations) {
+            startActivity(new Intent(getContext(), RestoLocationActivity.class));
+            return false;
+        } else if (itemId == R.id.resto_bottom_extra) {
+            startActivity(new Intent(getContext(), ExtraFoodActivity.class));
+            return false;
         }
+        return false;
     }
 
     @Override

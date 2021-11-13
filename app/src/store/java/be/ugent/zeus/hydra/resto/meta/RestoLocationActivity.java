@@ -109,16 +109,15 @@ public class RestoLocationActivity extends BaseActivity<ActivityRestoLocationBin
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.resto_refresh:
-                viewModel.onRefresh();
-                return true;
-            case R.id.resto_center:
-                centerDefault();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        int itemId = item.getItemId();
+        if (itemId == R.id.resto_refresh) {
+            viewModel.onRefresh();
+            return true;
+        } else if (itemId == R.id.resto_center) {
+            centerDefault();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @SuppressLint("MissingPermission")

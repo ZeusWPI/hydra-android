@@ -100,17 +100,16 @@ public class LibraryListFragment extends Fragment {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.library_visit_catalogue:
-                NetworkUtils.maybeLaunchBrowser(getContext(), LIB_URL);
-                return true;
-            case R.id.action_refresh:
-                viewModel.onRefresh();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.library_visit_catalogue) {
+            NetworkUtils.maybeLaunchBrowser(getContext(), LIB_URL);
+            return true;
+        } else if (itemId == R.id.action_refresh) {
+            viewModel.onRefresh();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void onError(Throwable throwable) {

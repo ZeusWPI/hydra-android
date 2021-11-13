@@ -107,20 +107,19 @@ public class RestoLocationActivity extends BaseActivity<ActivityRestoLocationBin
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.resto_refresh:
-                viewModel.onRefresh();
-                return true;
-            case R.id.resto_center:
-                if (this.myLocation != null) {
-                    IMapController mapController = binding.map.getController();
-                    mapController.setCenter(myLocation.getMyLocation());
-                }
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.resto_refresh) {
+            viewModel.onRefresh();
+            return true;
+        } else if (itemId == R.id.resto_center) {
+            if (this.myLocation != null) {
+                IMapController mapController = binding.map.getController();
+                mapController.setCenter(myLocation.getMyLocation());
+            }
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void addData() {

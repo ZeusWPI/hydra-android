@@ -97,14 +97,7 @@ public class ReportingFragment extends SlideFragment {
 
     private boolean allowsAnalytics() {
         int id = analyticsChooser.getCheckedRadioButtonId();
-        switch (id) {
-            case R.id.allowAnalytics:
-                return true;
-            case -1: // Nothing is selected.
-            case R.id.disallowAnalytics:
-            default:
-                return false;
-        }
+        return id == R.id.allowAnalytics;
     }
 
     private boolean allowsCrashReporting() {

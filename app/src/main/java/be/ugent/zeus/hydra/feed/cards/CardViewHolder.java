@@ -90,16 +90,15 @@ public abstract class CardViewHolder extends DataViewHolder<Card> implements Swi
             return false;
         }
         HomeFeedAdapter.AdapterCompanion companion = adapter.getCompanion();
-        switch (item.getItemId()) {
-            case R.id.menu_hide_type:
-                companion.executeCommand(new DisableTypeCommand(card.getCardType()));
-                return true;
-            case R.id.menu_hide_card:
-                companion.executeCommand(new DisableIndividualCard(card));
-                return true;
-            default:
-                return false;
+        int itemId = item.getItemId();
+        if (itemId == R.id.menu_hide_type) {
+            companion.executeCommand(new DisableTypeCommand(card.getCardType()));
+            return true;
+        } else if (itemId == R.id.menu_hide_card) {
+            companion.executeCommand(new DisableIndividualCard(card));
+            return true;
         }
+        return false;
     }
 
     @Override
