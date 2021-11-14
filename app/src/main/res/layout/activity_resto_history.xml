@@ -111,6 +111,7 @@
         app:layout_anchor="@id/bottom_toolbar"
         app:layout_anchorGravity="top|right"
         app:srcCompat="@drawable/ic_calendar_clock"
-        app:useCompatPadding="true" />
+        app:useCompatPadding="true"
+        android:contentDescription="@string/content_desc_resto_history_fab" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

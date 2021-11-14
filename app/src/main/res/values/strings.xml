@@ -361,6 +361,7 @@
     <string name="content_desc_youtube">YouTube</string>
     <string name="content_desc_select_all">Alles selecteren</string>
     <string name="content_desc_select_none">Niets selecteren</string>
+    <string name="content_desc_resto_history_fab">Naar andere datum gaan</string>
 
     <string name="ugent_news_endpoint">news/nl.json</string>
 </resources>

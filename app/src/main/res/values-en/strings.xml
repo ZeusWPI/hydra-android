@@ -354,6 +354,7 @@
     <string name="content_desc_youtube">YouTube</string>
     <string name="content_desc_select_all">Select all</string>
     <string name="content_desc_select_none">Select none</string>
+    <string name="content_desc_resto_history_fab">Go to other date</string>
 
     <string name="ugent_news_endpoint">en.json</string>
 </resources>
