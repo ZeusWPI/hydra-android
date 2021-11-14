@@ -59,6 +59,7 @@
 
         <!-- Main activity -->
         <activity
+            android:exported="true"
             android:name=".MainActivity"
             android:launchMode="singleTop">
             <intent-filter>
@@ -73,6 +74,7 @@
 
         <!-- Generic preference activity, which can load a preference fragment. -->
         <activity
+            android:exported="true"
             android:name=".preferences.PreferenceActivity"
             android:parentActivityName=".MainActivity">
             <intent-filter>
@@ -176,7 +178,7 @@
             </intent-filter>
         </service>
 
-        <receiver android:name="androidx.media.session.MediaButtonReceiver">
+        <receiver android:name="androidx.media.session.MediaButtonReceiver" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>

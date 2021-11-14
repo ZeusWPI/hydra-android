@@ -22,6 +22,7 @@
 
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.util.Pair;
 import android.util.SparseBooleanArray;
@@ -138,6 +139,7 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
      *
      * @param checked The value.
      */
+    @SuppressLint("NotifyDataSetChanged")
     public void setAllChecked(boolean checked) {
         /*
         Since we are setting every element to the same state, it is more efficient to change the default
