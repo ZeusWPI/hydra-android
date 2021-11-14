@@ -23,12 +23,11 @@
 package be.ugent.zeus.hydra.common.ui.customtabs;
 
 import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
+import android.content.*;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import androidx.annotation.NonNull;
@@ -72,23 +71,6 @@ class HasTabActivityHelper implements ActivityHelper {
         this.connectionCallback = connectionCallback;
     }
 
-    private static Set<String> getNativeAppPackage(Context context, Uri uri) {
-        PackageManager pm = context.getPackageManager();
-
-        //Get all Apps that resolve a generic url
-        Intent browserActivityIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.example.com"));
-        Set<String> genericResolvedList = extractPackageNames(pm.queryIntentActivities(browserActivityIntent, 0));
-
-        //Get all apps that resolve the specific Url
-        Intent specializedActivityIntent = new Intent(Intent.ACTION_VIEW, uri);
-        Set<String> resolvedSpecializedList = extractPackageNames(pm.queryIntentActivities(specializedActivityIntent, 0));
-
-        //Keep only the Urls that resolve the specific, but not the generic urls
-        resolvedSpecializedList.removeAll(genericResolvedList);
-
-        return resolvedSpecializedList;
-    }
-
     private static Set<String> extractPackageNames(List<ResolveInfo> resolveInfos) {
         Set<String> packageNameSet = new HashSet<>();
         for (ResolveInfo ri : resolveInfos) {
@@ -112,20 +94,19 @@ class HasTabActivityHelper implements ActivityHelper {
 
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(customTabsSession);
         //Set the theme color
-        builder.setToolbarColor(ColourUtils.resolveColour(activity.get(), R.attr.colorPrimarySurface));
+        CustomTabColorSchemeParams colorSchemeParams = new CustomTabColorSchemeParams.Builder()
+                .setToolbarColor(ColourUtils.resolveColour(activity.get(), R.attr.colorPrimarySurface))
+                .build();
+        builder.setDefaultColorSchemeParams(colorSchemeParams);
 
-        Set<String> nat = getNativeAppPackage(activity.get(), uri);
-        if (!nat.isEmpty()) {
-            Log.d(TAG, "Using normal intent because of native app, i.e. " + nat.iterator().next());
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, uri);
-            browserIntent.setFlags(this.intentFlags);
-            activity.get().startActivity(browserIntent);
-        } else {
+        boolean nativeLaunch = attemptNativeLaunch(activity.get(), uri);
+        if (!nativeLaunch) {
+            Log.d(TAG, "No native app was found, attempting custom tab.");
             String packageName = CustomTabsHelper.getPackageNameToUse(activity.get());
             Log.d(TAG, "No native app or native apps disabled, launching custom tab using " + packageName);
             //Add sharing if needed
             if (showShareMenu) {
-                builder.addDefaultShareMenuItem();
+                builder.setShareState(CustomTabsIntent.SHARE_STATE_ON);
             }
             //Get the intent
             CustomTabsIntent customTabsIntent = builder.build();
@@ -133,6 +114,52 @@ class HasTabActivityHelper implements ActivityHelper {
             customTabsIntent.intent.setPackage(packageName);
             customTabsIntent.launchUrl(activity.get(), uri);
         }
+    }
+
+    private boolean attemptNativeLaunch(Context context, Uri uri) {
+        if (Build.VERSION.SDK_INT >= 30) {
+            Intent nativeAppIntent = new Intent(Intent.ACTION_VIEW, uri)
+                    .addCategory(Intent.CATEGORY_BROWSABLE)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                            Intent.FLAG_ACTIVITY_REQUIRE_NON_BROWSER);
+            try {
+                context.startActivity(nativeAppIntent);
+                return true;
+            } catch (ActivityNotFoundException ex) {
+                return false;
+            }
+        } else {
+            PackageManager pm = context.getPackageManager();
+
+            // Get all Apps that resolve a generic url
+            Intent browserActivityIntent = new Intent()
+                    .setAction(Intent.ACTION_VIEW)
+                    .addCategory(Intent.CATEGORY_BROWSABLE)
+                    .setData(Uri.fromParts("http", "", null));
+            Set<String> genericResolvedList = extractPackageNames(
+                    pm.queryIntentActivities(browserActivityIntent, 0));
+
+            // Get all apps that resolve the specific Url
+            Intent specializedActivityIntent = new Intent(Intent.ACTION_VIEW, uri)
+                    .addCategory(Intent.CATEGORY_BROWSABLE);
+            Set<String> resolvedSpecializedList = extractPackageNames(
+                    pm.queryIntentActivities(specializedActivityIntent, 0));
+
+            // Keep only the Urls that resolve the specific, but not the generic
+            // urls.
+            resolvedSpecializedList.removeAll(genericResolvedList);
+
+            // If the list is empty, no native app handlers were found.
+            if (resolvedSpecializedList.isEmpty()) {
+                return false;
+            }
+
+            // We found native handlers. Launch the Intent.
+            specializedActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(specializedActivityIntent);
+            return true;
+        }
+
     }
 
     /**
