@@ -93,3 +93,4 @@ app/custom-config.properties
 com.crashlytics.settings.json
 session_analytics.tap
 *.keystore
+/buildSrc/src/test/resources/userHome/caches/journal-1/file-access.properties
