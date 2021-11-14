@@ -79,9 +79,6 @@
     <string name="date_overmorrow">overmorgen</string>
     <string name="date_next_x">volgende %s</string>
 
-    <!-- TODO: remove this and replace by a custom string for each use -->
-    <string name="deprecated_dot_separated">%1$s • %2$s</string>
-
     <!-- General preferences -->
     <string name="pref_overview_resto_title">Resto</string>
     <string name="pref_overview_resto_desc">Instellingen voor de studentenrestaurants</string>
