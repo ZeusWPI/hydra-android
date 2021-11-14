@@ -16,6 +16,7 @@
  */
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
+import android.annotation.SuppressLint;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -57,8 +58,9 @@ class AdapterListUpdateCallback implements ListUpdateCallback {
     public void onChanged(int position, int count, Object payload) {
         adapter.notifyItemRangeChanged(position, count, payload);
     }
-
+    
     @Override
+    @SuppressLint("NotifyDataSetChanged")
     public void onDataSetChanged() {
         adapter.notifyDataSetChanged();
     }

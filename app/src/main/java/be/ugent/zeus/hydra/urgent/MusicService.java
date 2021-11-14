@@ -22,6 +22,7 @@
 
 package be.ugent.zeus.hydra.urgent;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -132,6 +133,7 @@ public class MusicService extends MediaBrowserServiceCompat implements
         // Add the activity intent to the session.
         Intent startThis = new Intent(this, MainActivity.class);
         startThis.putExtra(MainActivity.ARG_TAB, R.id.drawer_urgent);
+        @SuppressLint("UnspecifiedImmutableFlag") // TODO fix once we target Android 12
         PendingIntent pi = PendingIntent.getActivity(this, REQUEST_CODE, startThis, PendingIntent.FLAG_UPDATE_CURRENT);
         mediaSession.setSessionActivity(pi);
     }
