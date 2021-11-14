@@ -241,17 +241,16 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_refresh:
-                viewModel.onRefresh();
-                return true;
-            case R.id.action_search:
-                showSheet();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_refresh) {
+            viewModel.onRefresh();
+            return true;
+        } else if (itemId == R.id.action_search) {
+            showSheet();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

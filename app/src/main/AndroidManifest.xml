@@ -34,6 +34,13 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
+    <queries>
+        <intent>
+            <!-- Custom tabs queries -->
+            <action android:name="android.support.customtabs.action.CustomTabsService" />
+        </intent>
+    </queries>
+
     <!-- Some ignored warnings:
         - AllowBackup: the default backup is sufficient
         - UnusedAttribute: networkSecurityConfig is only for newer APIs
@@ -175,5 +182,4 @@
             </intent-filter>
         </receiver>
     </application>
-
 </manifest>

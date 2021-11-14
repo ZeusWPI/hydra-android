@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:contentDescription="@string/content_desc_urgent_play"
-                android:tint="?colorPrimary"
+                app:tint="?colorPrimary"
                 app:srcCompat="@drawable/ic_play_arrow_24dp" />
 
         </FrameLayout>
@@ -145,7 +145,7 @@
                         android:layout_height="@dimen/urgent_social_icon_size"
                         android:contentDescription="@string/content_desc_facebook"
                         android:scaleType="fitCenter"
-                        android:tint="?colorPrimary"
+                        app:tint="?colorPrimary"
                         app:srcCompat="@drawable/ic_social_facebook_inner" />
 
                     <ImageButton
@@ -154,7 +154,7 @@
                         android:layout_height="@dimen/urgent_social_icon_size"
                         android:contentDescription="@string/content_desc_instagram"
                         android:scaleType="fitCenter"
-                        android:tint="?colorPrimary"
+                        app:tint="?colorPrimary"
                         app:srcCompat="@drawable/ic_social_instagram" />
 
                     <ImageButton
@@ -163,7 +163,7 @@
                         android:layout_height="@dimen/urgent_social_icon_size"
                         android:contentDescription="@string/content_desc_website"
                         android:scaleType="fitCenter"
-                        android:tint="?colorPrimary"
+                        app:tint="?colorPrimary"
                         app:srcCompat="@drawable/tabs_urgent" />
 
                     <ImageButton
@@ -172,7 +172,7 @@
                         android:layout_height="@dimen/urgent_social_icon_size"
                         android:contentDescription="@string/content_desc_youtube"
                         android:scaleType="fitCenter"
-                        android:tint="?colorPrimary"
+                        app:tint="?colorPrimary"
                         app:srcCompat="@drawable/ic_social_youtube" />
 
                 </LinearLayout>

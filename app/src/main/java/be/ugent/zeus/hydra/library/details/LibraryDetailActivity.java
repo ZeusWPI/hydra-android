@@ -243,26 +243,25 @@ public class LibraryDetailActivity extends BaseActivity<ActivityLibraryDetailsBi
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.library_location:
-                NetworkUtils.maybeLaunchIntent(this, mapsIntent());
-                return true;
-            case R.id.library_email:
-                Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
-                sendIntent.setData(Uri.parse("mailto:"));
-                sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{library.getEmail()});
-                sendIntent.putExtra(Intent.EXTRA_SUBJECT, library.getName());
-                NetworkUtils.maybeLaunchIntent(this, sendIntent);
-                return true;
-            case R.id.library_url:
-                if (library.getLink() != null) {
-                    NetworkUtils.maybeLaunchBrowser(this, library.getLink());
-                }
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.library_location) {
+            NetworkUtils.maybeLaunchIntent(this, mapsIntent());
+            return true;
+        } else if (itemId == R.id.library_email) {
+            Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
+            sendIntent.setData(Uri.parse("mailto:"));
+            sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{library.getEmail()});
+            sendIntent.putExtra(Intent.EXTRA_SUBJECT, library.getName());
+            NetworkUtils.maybeLaunchIntent(this, sendIntent);
+            return true;
+        } else if (itemId == R.id.library_url) {
+            if (library.getLink() != null) {
+                NetworkUtils.maybeLaunchBrowser(this, library.getLink());
+            }
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     /**

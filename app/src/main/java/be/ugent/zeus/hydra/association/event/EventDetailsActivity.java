@@ -33,6 +33,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.text.util.LinkifyCompat;
 
@@ -133,23 +134,24 @@ public class EventDetailsActivity extends BaseActivity<ActivityEventDetailBindin
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
             //Up button
-            case android.R.id.home:
-                supportFinishAfterTransition();
-                return true;
-            case R.id.event_link:
-                NetworkUtils.maybeLaunchBrowser(this, event.getUrl());
-                return true;
-            case R.id.event_location:
-                NetworkUtils.maybeLaunchIntent(this, getLocationIntent());
-                return true;
-            case R.id.menu_event_add_to_calendar:
-                addToCalendar();
-            default:
-                return super.onOptionsItemSelected(item);
+            supportFinishAfterTransition();
+            return true;
+        } else if (itemId == R.id.event_link) {
+            NetworkUtils.maybeLaunchBrowser(this, event.getUrl());
+            return true;
+        } else if (itemId == R.id.event_location) {
+            NetworkUtils.maybeLaunchIntent(this, getLocationIntent());
+            return true;
+        } else if (itemId == R.id.menu_event_add_to_calendar) {
+            addToCalendar();
+
+            return super.onOptionsItemSelected(item);
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -109,16 +109,15 @@ public class RestoLocationActivity extends BaseActivity<ActivityRestoLocationBin
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.resto_refresh:
-                viewModel.onRefresh();
-                return true;
-            case R.id.resto_center:
-                centerDefault();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        int itemId = item.getItemId();
+        if (itemId == R.id.resto_refresh) {
+            viewModel.onRefresh();
+            return true;
+        } else if (itemId == R.id.resto_center) {
+            centerDefault();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @SuppressLint("MissingPermission")
@@ -155,7 +154,8 @@ public class RestoLocationActivity extends BaseActivity<ActivityRestoLocationBin
     @Override
     @SuppressWarnings("MissingPermission")
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        
         //The map should never be null, but check anyway
         if (map == null) {
             return;

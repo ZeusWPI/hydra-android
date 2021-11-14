@@ -32,6 +32,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 import androidx.annotation.Nullable;
+import androidx.browser.customtabs.CustomTabColorSchemeParams;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.browser.customtabs.CustomTabsService;
 
@@ -44,8 +45,6 @@ import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 
 /**
  * Helper for custom tabs.
- * <p>
- * Taken from https://github.com/hitherejoe/Tabby
  *
  * @author Niko Strijbol
  */
@@ -178,7 +177,10 @@ public class CustomTabsHelper {
     public static void openUri(Context context, Uri uri) {
         if (hasSupport(context)) {
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            builder.setToolbarColor(ColourUtils.resolveColour(context, R.attr.colorPrimarySurface));
+            CustomTabColorSchemeParams colorSchemeParams = new CustomTabColorSchemeParams.Builder()
+                    .setToolbarColor(ColourUtils.resolveColour(context, R.attr.colorPrimarySurface))
+                    .build();
+            builder.setDefaultColorSchemeParams(colorSchemeParams);
             CustomTabsIntent customTabsIntent = builder.build();
             customTabsIntent.launchUrl(context, uri);
         } else {

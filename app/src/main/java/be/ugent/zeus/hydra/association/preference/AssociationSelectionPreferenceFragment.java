@@ -24,7 +24,6 @@ package be.ugent.zeus.hydra.association.preference;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Pair;
 import android.view.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,16 +33,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Comparator;
-import java.util.List;
 import java.util.Set;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.association.*;
-import be.ugent.zeus.hydra.association.list.Filter;
+import be.ugent.zeus.hydra.association.AssociationStore;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
@@ -103,17 +97,16 @@ public class AssociationSelectionPreferenceFragment extends Fragment {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_select_all:
-                adapter.setAllChecked(true);
-                return true;
-            case R.id.action_select_none:
-                adapter.setAllChecked(false);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_select_all) {
+            adapter.setAllChecked(true);
+            return true;
+        } else if (itemId == R.id.action_select_none) {
+            adapter.setAllChecked(false);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

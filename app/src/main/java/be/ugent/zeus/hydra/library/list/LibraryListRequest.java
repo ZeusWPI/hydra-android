@@ -45,7 +45,7 @@ class LibraryListRequest extends JsonOkHttpRequest<LibraryList> {
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.LIBRARY + "library_groups/all.json";
+        return Endpoints.LIBRARY + "library_groups/main.json";
     }
 
     @Override

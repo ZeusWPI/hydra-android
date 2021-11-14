@@ -64,7 +64,7 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 @LooperMode(LooperMode.Mode.PAUSED)
 @Config(application = TestApp.class)
-@Ignore
+@Ignore("Gives weird errors")
 public class DismissalDaoTest {
 
     private Database database;

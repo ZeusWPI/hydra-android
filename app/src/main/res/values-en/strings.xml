@@ -73,9 +73,6 @@
     <string name="date_overmorrow">overmorrow</string>
     <string name="date_next_x">next %s</string>
 
-    <!-- TODO: remove this and replace by a custom string for each use -->
-    <string name="deprecated_dot_separated">%1$s • %2$s</string>
-
     <!-- General preferences -->
     <string name="pref_overview_resto_title">Resto</string>
     <string name="pref_overview_resto_desc">Settings for the student restaurants</string>
@@ -357,6 +354,7 @@
     <string name="content_desc_youtube">YouTube</string>
     <string name="content_desc_select_all">Select all</string>
     <string name="content_desc_select_none">Select none</string>
+    <string name="content_desc_resto_history_fab">Go to other date</string>
 
     <string name="ugent_news_endpoint">en.json</string>
 </resources>
