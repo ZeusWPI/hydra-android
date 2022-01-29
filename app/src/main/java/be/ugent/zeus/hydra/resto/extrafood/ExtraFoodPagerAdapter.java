@@ -22,39 +22,41 @@
 
 package be.ugent.zeus.hydra.resto.extrafood;
 
-import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.AdapterOutOfBoundsException;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * This provides the tabs in a minerva course.
  *
  * @author Niko Strijbol
  */
-class ExtraFoodPagerAdapter extends FragmentPagerAdapter {
+class ExtraFoodPagerAdapter extends FragmentStateAdapter implements TabLayoutMediator.TabConfigurationStrategy {
 
-    private final Context context;
-
-    ExtraFoodPagerAdapter(FragmentManager fm, Context context) {
-        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        this.context = context.getApplicationContext();
+    ExtraFoodPagerAdapter(FragmentActivity owner) {
+        super(owner);
     }
 
     @NonNull
     @Override
-    public Fragment getItem(int position) {
+    public Fragment createFragment(int position) {
         return FoodFragment.newInstance(position);
     }
 
-    @NonNull
     @Override
-    public CharSequence getPageTitle(int position) {
+    public int getItemCount() {
+        return 3;
+    }
+
+    @Override
+    public void onConfigureTab(@NonNull @NotNull TabLayout.Tab tab, int position) {
         @StringRes int string;
         switch (position) {
             case 0:
@@ -67,17 +69,9 @@ class ExtraFoodPagerAdapter extends FragmentPagerAdapter {
                 string = R.string.resto_extra_drinks;
                 break;
             default:
-                throw new AdapterOutOfBoundsException(position, getCount());
+                throw new AdapterOutOfBoundsException(position, getItemCount());
         }
 
-        return context.getString(string);
-    }
-
-    /**
-     * Return the number of views available.
-     */
-    @Override
-    public int getCount() {
-        return 3;
+        tab.setText(string);
     }
 }

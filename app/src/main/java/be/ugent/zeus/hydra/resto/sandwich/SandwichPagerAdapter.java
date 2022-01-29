@@ -26,44 +26,49 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.AdapterOutOfBoundsException;
 import be.ugent.zeus.hydra.resto.sandwich.ecological.EcologicalFragment;
 import be.ugent.zeus.hydra.resto.sandwich.regular.RegularFragment;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 /**
  * This provides the tabs in the sandwich overview.
  *
  * @author Niko Strijbol
  */
-class SandwichPagerAdapter extends FragmentPagerAdapter {
+class SandwichPagerAdapter extends FragmentStateAdapter implements TabLayoutMediator.TabConfigurationStrategy {
 
-    private final Context context;
-
-    SandwichPagerAdapter(FragmentManager fm, Context context) {
-        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        this.context = context.getApplicationContext();
+    SandwichPagerAdapter(FragmentActivity owner) {
+        super(owner);
     }
 
-    @Override
     @NonNull
-    public Fragment getItem(int position) {
+    @Override
+    public Fragment createFragment(int position) {
         switch (position) {
             case 0:
                 return new RegularFragment();
             case 1:
                 return new EcologicalFragment();
             default:
-                throw new AdapterOutOfBoundsException(position, getCount());
+                throw new AdapterOutOfBoundsException(position, getItemCount());
         }
     }
 
     @Override
-    @NonNull
-    public CharSequence getPageTitle(int position) {
+    public int getItemCount() {
+        return 2;
+    }
+
+    @Override
+    public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
         @StringRes int string;
         switch (position) {
             case 0:
@@ -73,17 +78,8 @@ class SandwichPagerAdapter extends FragmentPagerAdapter {
                 string = R.string.resto_main_view_sandwiches_ecological;
                 break;
             default:
-                throw new AdapterOutOfBoundsException(position, getCount());
+                throw new AdapterOutOfBoundsException(position, getItemCount());
         }
-
-        return context.getString(string);
-    }
-
-    /**
-     * Return the number of views available.
-     */
-    @Override
-    public int getCount() {
-        return 2;
+        tab.setText(string);
     }
 }
