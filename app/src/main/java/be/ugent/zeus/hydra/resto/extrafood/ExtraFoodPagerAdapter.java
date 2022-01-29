@@ -34,7 +34,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * This provides the tabs in a minerva course.
+ * This provides the tabs for the extra food category.
  *
  * @author Niko Strijbol
  */
