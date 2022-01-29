@@ -61,9 +61,9 @@ class AssociationViewHolder extends DataViewHolder<Pair<Association, Boolean>> {
         title.setText(data.first.getName());
         checkBox.setChecked(data.second);
         parent.setOnClickListener(v -> {
-            adapter.setChecked(getAdapterPosition());
+            adapter.setChecked(getBindingAdapterPosition());
             checkBox.toggle();
         });
-        checkBox.setOnClickListener(v -> adapter.setChecked(getAdapterPosition()));
+        checkBox.setOnClickListener(v -> adapter.setChecked(getBindingAdapterPosition()));
     }
 }

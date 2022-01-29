@@ -71,9 +71,9 @@ class EcologicalViewHolder extends DataViewHolder<EcologicalSandwich> {
         dates.setText(String.format(c.getString(R.string.date_between), start, end));
         String ingredientsString = TextUtils.join(", ", sandwich.getIngredients());
         ingredients.setText(String.format(c.getString(R.string.resto_sandwich_ingredients), ingredientsString));
-        expandableLayout.setExpanded(adapter.isChecked(getAdapterPosition()), false);
+        expandableLayout.setExpanded(adapter.isChecked(getBindingAdapterPosition()), false);
         itemView.setOnClickListener(v -> {
-            adapter.setChecked(getAdapterPosition());
+            adapter.setChecked(getBindingAdapterPosition());
             expandableLayout.toggle();
         });
     }
