@@ -28,6 +28,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.session.MediaSessionCompat;
@@ -133,8 +134,14 @@ public class MusicService extends MediaBrowserServiceCompat implements
         // Add the activity intent to the session.
         Intent startThis = new Intent(this, MainActivity.class);
         startThis.putExtra(MainActivity.ARG_TAB, R.id.drawer_urgent);
-        @SuppressLint("UnspecifiedImmutableFlag") // TODO fix once we target Android 12
-        PendingIntent pi = PendingIntent.getActivity(this, REQUEST_CODE, startThis, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pi;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            pi = PendingIntent.getActivity(this, REQUEST_CODE, startThis, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        } else {
+            @SuppressLint("UnspecifiedImmutableFlag")
+            PendingIntent temp = PendingIntent.getActivity(this, REQUEST_CODE, startThis, PendingIntent.FLAG_UPDATE_CURRENT);
+            pi = temp;
+        }
         mediaSession.setSessionActivity(pi);
     }
 
