@@ -58,9 +58,9 @@ class SaladHolder extends DataViewHolder<SaladBowl> {
         name.setText(bowl.getName());
         price.setText(String.format(c.getString(R.string.resto_salad_price), bowl.getPrice()));
         description.setText(bowl.getDescription());
-        expandableLayout.setExpanded(adapter.isChecked(getAdapterPosition()), false);
+        expandableLayout.setExpanded(adapter.isChecked(getBindingAdapterPosition()), false);
         itemView.setOnClickListener(v -> {
-            adapter.setChecked(getAdapterPosition());
+            adapter.setChecked(getBindingAdapterPosition());
             expandableLayout.toggle();
         });
     }

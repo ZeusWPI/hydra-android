@@ -71,11 +71,11 @@ public class DescriptionMultiSelectListViewHolder<E> extends DataViewHolder<E> {
     public void populate(E data) {
         title.setText(titleProvider.apply(data));
         description.setText(descriptionProvider.apply(data));
-        checkBox.setChecked(adapter.isChecked(getAdapterPosition()));
+        checkBox.setChecked(adapter.isChecked(getBindingAdapterPosition()));
         parent.setOnClickListener(v -> {
-            adapter.setChecked(getAdapterPosition());
+            adapter.setChecked(getBindingAdapterPosition());
             checkBox.toggle();
         });
-        checkBox.setOnClickListener(v -> adapter.setChecked(getAdapterPosition()));
+        checkBox.setOnClickListener(v -> adapter.setChecked(getBindingAdapterPosition()));
     }
 }

@@ -25,7 +25,6 @@ package be.ugent.zeus.hydra.feed.preferences;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.util.Log;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -34,6 +33,7 @@ import androidx.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.common.arch.data.Event;
 import be.ugent.zeus.hydra.common.database.Database;
+import be.ugent.zeus.hydra.common.utils.ThreadingUtils;
 import be.ugent.zeus.hydra.feed.HomeFeedFragment;
 import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDao;
 
@@ -53,7 +53,7 @@ public class DeleteViewModel extends AndroidViewModel {
     }
 
     void deleteAll() {
-        AsyncTask.execute(() -> {
+        ThreadingUtils.execute(() -> {
             Context context = getApplication().getApplicationContext();
             DismissalDao dismissalDao = Database.get(context).getCardDao();
             dismissalDao.deleteAll();

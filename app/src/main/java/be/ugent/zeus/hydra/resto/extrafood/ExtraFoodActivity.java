@@ -27,12 +27,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.databinding.ActivityExtraFoodBinding;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 public class ExtraFoodActivity extends BaseActivity<ActivityExtraFoodBinding> {
 
@@ -43,16 +44,17 @@ public class ExtraFoodActivity extends BaseActivity<ActivityExtraFoodBinding> {
         super.onCreate(savedInstanceState);
         setContentView(ActivityExtraFoodBinding::inflate);
 
-        ExtraFoodPagerAdapter adapter = new ExtraFoodPagerAdapter(getSupportFragmentManager(), this);
+        ExtraFoodPagerAdapter adapter = new ExtraFoodPagerAdapter(this);
         binding.pager.setAdapter(adapter);
-        binding.tabLayout.setupWithViewPager(binding.pager);
-        binding.pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        TabLayoutMediator mediator = new TabLayoutMediator(binding.tabLayout, binding.pager, adapter);
+        mediator.attach();
+        binding.pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 Reporting.getTracker(ExtraFoodActivity.this)
                         .setCurrentScreen(
                                 ExtraFoodActivity.this,
-                                adapter.getPageTitle(position).toString(),
+                                binding.tabLayout.getTabAt(position).getText().toString(),
                                 FoodFragment.class.getSimpleName());
             }
         });
@@ -79,5 +81,11 @@ public class ExtraFoodActivity extends BaseActivity<ActivityExtraFoodBinding> {
         getMenuInflater().inflate(R.menu.menu_refresh, menu);
         tintToolbarIcons(menu, R.id.action_refresh);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding.tabLayout.clearOnTabSelectedListeners();
     }
 }

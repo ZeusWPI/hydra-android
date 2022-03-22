@@ -25,14 +25,14 @@ package be.ugent.zeus.hydra.resto.sandwich;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import androidx.viewpager.widget.ViewPager;
-
+import androidx.viewpager2.widget.ViewPager2;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 import be.ugent.zeus.hydra.databinding.ActivityExtraFoodBinding;
 import be.ugent.zeus.hydra.resto.extrafood.FoodFragment;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 /**
  * Activity for the sandwiches.
@@ -46,16 +46,17 @@ public class SandwichActivity extends BaseActivity<ActivityExtraFoodBinding> {
         super.onCreate(savedInstanceState);
         setContentView(ActivityExtraFoodBinding::inflate);
 
-        SandwichPagerAdapter adapter = new SandwichPagerAdapter(getSupportFragmentManager(), this);
+        SandwichPagerAdapter adapter = new SandwichPagerAdapter(this);
         binding.pager.setAdapter(adapter);
-        binding.tabLayout.setupWithViewPager(binding.pager);
-        binding.pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        TabLayoutMediator mediator = new TabLayoutMediator(binding.tabLayout, binding.pager, adapter);
+        mediator.attach();
+        binding.pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 Reporting.getTracker(getApplicationContext())
                         .setCurrentScreen(
                                 SandwichActivity.this,
-                                adapter.getPageTitle(position).toString(),
+                                binding.tabLayout.getTabAt(position).getText().toString(),
                                 FoodFragment.class.getSimpleName());
             }
         });
@@ -75,5 +76,11 @@ public class SandwichActivity extends BaseActivity<ActivityExtraFoodBinding> {
         getMenuInflater().inflate(R.menu.menu_sandwhich, menu);
         tintToolbarIcons(menu, R.id.resto_show_website);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding.tabLayout.clearOnTabSelectedListeners();
     }
 }
