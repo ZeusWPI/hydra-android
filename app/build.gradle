@@ -72,7 +72,8 @@ android {
                 // We use dependabot for dependencies
                 "GradleDependency",
                 // We decide when we upgrade
-                "OldTargetApi"
+                "OldTargetApi",
+                "ObsoleteLintCustomCheck"
     }
 
     if (props["signing"]) {
