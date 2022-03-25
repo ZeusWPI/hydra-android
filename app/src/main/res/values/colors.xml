@@ -44,19 +44,6 @@
     <color name="color_on_surface">#000000</color>
     <color name="color_on_error">#ffffff</color>
 
-    <!--
-       ~ The colour scheme for SKO.
-       ~ This colour scheme was generated from https://goo.gl/mpDLkv
-      -->
-    <color name="sko_primary_colour">#009ade</color>
-    <color name="sko_primary_light_colour" tools:keep="@color/sko_primary_light_colour">#61cbff</color>
-    <color name="sko_primary_dark_colour">#005C86</color>
-    <color name="sko_secondary_colour">#e43026</color>
-    <color name="sko_secondary_light_colour" tools:keep="@color/sko_secondary_light_colour">#ff6851</color>
-    <color name="sko_secondary_dark_colour" tools:keep="@color/sko_secondary_dark_colour">#aa0000</color>
-    <color name="sko_primary_text_colour" tools:keep="@color/sko_primary_text_colour">#000000</color>
-    <color name="sko_secondary_text_colour" tools:keep="@color/sko_secondary_text_colour">#000000</color>
-
 
     <!-- General colours -->
     <color name="white">@color/material_color_white</color>

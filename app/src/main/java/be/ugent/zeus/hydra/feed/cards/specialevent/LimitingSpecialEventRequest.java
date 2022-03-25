@@ -55,18 +55,6 @@ public class LimitingSpecialEventRequest extends HideableHomeFeedRequest {
         this.remoteEventRequest = new SpecialEventRequest(context);
     }
 
-    private static SpecialEvent buildDebugSko() {
-        SpecialEvent event = new SpecialEvent();
-        event.setId(-5);
-        event.setName("Student Kick-Off");
-        event.setSimpleText("Ga naar de info voor de Student Kick-Off");
-        event.setImage("http://blog.studentkickoff.be/wp-content/uploads/2016/07/logo.png");
-        event.setPriority(1010);
-        event.setInApp(SpecialEvent.SKO_IN_APP);
-        event.setDevelopment(true);
-        return event;
-    }
-
     @NonNull
     @Override
     protected Result<Stream<Card>> performRequestCards(@NonNull Bundle args) {
@@ -75,11 +63,6 @@ public class LimitingSpecialEventRequest extends HideableHomeFeedRequest {
             List<Card> list = new ArrayList<>();
 
             List<SpecialEvent> specialEvents = new ArrayList<>(specialEventWrapper.getSpecialEvents());
-
-            // This is for local debug purposes
-            if (BuildConfig.DEBUG_HOME_STREAM_ADD_SKO_CARD) {
-                specialEvents.add(buildDebugSko());
-            }
 
             for (SpecialEvent event : specialEvents) {
                 if ((event.getStart() == null && event.getEnd() == null)

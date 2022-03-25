@@ -67,19 +67,6 @@
         <item name="android:textColorSecondary">?colorOnPrimary</item>
     </style>
 
-    <!-- SKO theme -->
-    <style name="Hydra.Sko" parent="Hydra.DayNight">
-        <item name="colorPrimary">@color/sko_primary_colour</item>
-        <item name="colorPrimaryVariant">@color/sko_primary_dark_colour</item>
-        <item name="colorSecondary">@color/sko_secondary_colour</item>
-        <item name="colorSecondaryVariant">@color/sko_secondary_dark_colour</item>
-    </style>
-
-    <style name="Hydra.Sko.SystemWindows" parent="Hydra.Sko">
-        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>
-        <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent</item>
-    </style>
-
     <style name="Base.DayNight.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="alphaEmphasisHigh">@dimen/material_emphasis_high_type</item>
         <item name="alphaEmphasisMedium">@dimen/material_emphasis_medium</item>

@@ -225,19 +225,6 @@
     <!-- This is the endpoint for the Resto API. Must be one of the provided API endpoints. -->
     <string name="value_resto_endpoint">en</string>
 
-    <!-- SKO -->
-    <string name="sko_overview_activity_title">Student Kick-Off</string>
-
-    <string name="sko_artist_info">Description</string>
-    <string name="sko_artist_more">More information</string>
-    <string name="sko_artist_search_web">Search artist on the web</string>
-    <string name="sko_artist_search_music">Search artist in music</string>
-    <string name="sko_artist_no_content">No description for this artist</string>
-    <string name="sko_artist_time">%1$s to %2$s</string>
-    <string name="sko_artist_time_end">To %1$s</string>
-    <string name="sko_artist_time_start">From %1$s</string>
-    <string name="sko_artist_time_none">No time available</string>
-
     <!-- Home feed -->
     <string name="feed_pref_card_types_title">Card types</string>
     <string name="feed_pref_card_types_summary">Choose which card types you want in your homefeed</string>

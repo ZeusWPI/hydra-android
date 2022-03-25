@@ -231,19 +231,6 @@
     <!-- This is the endpoint for the Resto API. Must be one of the provided API endpoints. -->
     <string name="value_resto_endpoint">nl</string>
 
-    <!-- SKO -->
-    <string name="sko_overview_activity_title">Student Kick-Off</string>
-
-    <string name="sko_artist_info">Beschrijving</string>
-    <string name="sko_artist_more">Meer informatie</string>
-    <string name="sko_artist_search_web">Artiest zoeken op internet</string>
-    <string name="sko_artist_search_music">Artiest zoeken in muziek</string>
-    <string name="sko_artist_no_content">Geen beschrijving gevonden voor deze artiest.</string>
-    <string name="sko_artist_time">%1$s tot %2$s</string>
-    <string name="sko_artist_time_end">Tot %1$s</string>
-    <string name="sko_artist_time_start">Vanaf %1$s</string>
-    <string name="sko_artist_time_none">Geen tijden beschikbaar</string>
-
     <!-- Home feed -->
     <string name="feed_pref_card_types_title">Soorten kaarten</string>
     <string name="feed_pref_card_types_summary">Kies welke soort kaarten je wilt zien in de homefeed</string>

@@ -138,21 +138,6 @@
             android:launchMode="singleTop"
             android:parentActivityName=".MainActivity" />
 
-        <!-- SKO overview activity -->
-        <activity
-            android:name=".sko.OverviewActivity"
-            android:label="@string/sko_overview_activity_title"
-            android:launchMode="singleTop"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/Hydra.Sko" />
-
-        <!-- SKO artist page -->
-        <activity
-            android:name=".sko.ArtistDetailsActivity"
-            android:label="Artiest"
-            android:parentActivityName=".sko.OverviewActivity"
-            android:theme="@style/Hydra.Sko.SystemWindows" />
-
         <!-- Onboarding activity -->
         <activity
             android:name=".onboarding.OnboardingActivity"
