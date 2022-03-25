@@ -27,6 +27,7 @@ import android.app.Application;
 import java.util.List;
 
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
+import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.common.ui.RefreshViewModel;
 import be.ugent.zeus.hydra.resto.RestoMenu;
@@ -42,6 +43,6 @@ public class MenuViewModel extends RefreshViewModel<List<RestoMenu>> {
 
     @Override
     protected BaseLiveData<Result<List<RestoMenu>>> constructDataInstance() {
-        return new MenuLiveData(getApplication());
+        return new RequestLiveData<>(getApplication(), new MenuRequest(getApplication()));
     }
 }

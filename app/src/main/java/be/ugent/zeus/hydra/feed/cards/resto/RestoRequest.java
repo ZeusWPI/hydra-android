@@ -67,12 +67,8 @@ public class RestoRequest extends HideableHomeFeedRequest {
     @NonNull
     @Override
     protected Result<Stream<Card>> performRequestCards(@NonNull Bundle args) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String restoKey = RestoPreferenceFragment.getRestoEndpoint(context, preferences);
-        String restoName = preferences.getString(RestoPreferenceFragment.PREF_RESTO_NAME, context.getString(R.string.resto_default_name));
-        RestoChoice choice = new RestoChoice(restoName, restoKey);
         String feedRestoKind = HomeFragment.getFeedRestoKindRaw(context);
         return request.execute(args).map(restoMenus -> restoMenus.stream()
-                .map(restoMenu -> new RestoMenuCard(restoMenu, choice, feedRestoKind)));
+                .map(restoMenu -> new RestoMenuCard(restoMenu, feedRestoKind)));
     }
 }

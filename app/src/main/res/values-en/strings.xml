@@ -223,8 +223,7 @@
     <string name="resto_order_now">Order online</string>
 
     <!-- This is the endpoint for the Resto API. Must be one of the provided API endpoints. -->
-    <string name="value_resto_default_endpoint">en</string>
-    <string name="resto_default_name">English customers</string>
+    <string name="value_resto_endpoint">en</string>
 
     <!-- SKO -->
     <string name="sko_overview_activity_title">Student Kick-Off</string>
@@ -272,7 +271,7 @@
     <string name="feed_card_type_desc_libraries">The opening hours of your favourite libraries.</string>
 
     <string name="feed_general_error">Could not get some cards.</string>
-    <string name="feed_resto_menu_title">Menu for %1$s • %2$s</string>
+    <string name="feed_resto_menu_title">Menu for %1$s</string>
 
     <string name="feed_urgent_player_desc">Go to the Urgent.fm player.</string>
 

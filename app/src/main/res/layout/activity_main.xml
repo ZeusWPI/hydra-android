@@ -41,23 +41,9 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
-                style="?toolbarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_scrollFlags="scroll|enterAlways|snap">
-
-                <Spinner
-                    android:id="@+id/spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone" />
-
-                <ProgressBar
-                    android:id="@+id/spinner_progress"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:visibility="gone" />
-            </com.google.android.material.appbar.MaterialToolbar>
+                app:layout_scrollFlags="scroll|enterAlways|snap" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab_layout"
