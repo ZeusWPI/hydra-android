@@ -30,12 +30,14 @@ import android.provider.CalendarContract;
 import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.text.util.LinkifyCompat;
+import androidx.core.view.WindowCompat;
 
 import java.time.format.DateTimeFormatter;
 
@@ -74,15 +76,16 @@ public class EventDetailsActivity extends BaseActivity<ActivityEventDetailBindin
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(ActivityEventDetailBinding::inflate);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        boolean hasDescription = true;
 
-        //Get data from saved instance, or from intent
+        // Get data from saved instance, or from intent.
         event = getIntent().getParcelableExtra(PARCEL_EVENT);
         Association association = getIntent().getParcelableExtra(PARCEL_ASSOCIATION);
         assert event != null;
         assert association != null;
 
         if (event.getTitle() != null) {
-            binding.title.setText(event.getTitle());
             requireToolbar().setTitle(event.getTitle());
         }
 
@@ -93,14 +96,21 @@ public class EventDetailsActivity extends BaseActivity<ActivityEventDetailBindin
         if (event.getDescription() != null && !event.getDescription().trim().isEmpty()) {
             binding.description.setText(event.getDescription());
             LinkifyCompat.addLinks(binding.description, Linkify.ALL);
+        } else {
+            hasDescription = false;
+            binding.eventDescriptionBlock.setVisibility(View.GONE);
         }
 
         if (association.getDescription() != null && !association.getDescription().trim().isEmpty()) {
             binding.eventOrganisatorSmall.setText(association.getDescription());
+            // If there is no event description, allow the association description to be longer.
+            if (!hasDescription) {
+                binding.eventOrganisatorSmall.setMaxLines(Integer.MAX_VALUE);
+            }
         }
 
         if (association.getWebsite() != null) {
-            binding.eventOrganisatorSmall.setOnClickListener(v -> NetworkUtils.maybeLaunchBrowser(v.getContext(), association.getWebsite()));
+            binding.eventOrganizer.setOnClickListener(v -> NetworkUtils.maybeLaunchBrowser(v.getContext(), association.getWebsite()));
         }
 
         if (event.hasPreciseLocation() || event.hasLocation()) {
@@ -142,10 +152,7 @@ public class EventDetailsActivity extends BaseActivity<ActivityEventDetailBindin
             return true;
         } else if (itemId == R.id.event_link) {
             NetworkUtils.maybeLaunchBrowser(this, event.getUrl());
-            return true;
-        } else if (itemId == R.id.event_location) {
-            NetworkUtils.maybeLaunchIntent(this, getLocationIntent());
-            return true;
+            return true; 
         } else if (itemId == R.id.menu_event_add_to_calendar) {
             addToCalendar();
 
@@ -161,7 +168,7 @@ public class EventDetailsActivity extends BaseActivity<ActivityEventDetailBindin
         getMenuInflater().inflate(R.menu.menu_event, menu);
 
         // We need to manually set the color of this Drawable for some reason.
-        tintToolbarIcons(menu, R.id.event_location, R.id.event_link, R.id.menu_event_add_to_calendar);
+        tintToolbarIcons(menu, R.id.event_link, R.id.menu_event_add_to_calendar);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -195,10 +202,6 @@ public class EventDetailsActivity extends BaseActivity<ActivityEventDetailBindin
             menu.removeItem(R.id.event_link);
         }
 
-        if (!(event.hasPreciseLocation() || event.hasLocation())) {
-            menu.removeItem(R.id.event_location);
-        }
-
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -220,7 +223,6 @@ public class EventDetailsActivity extends BaseActivity<ActivityEventDetailBindin
         }
 
         Intent intent = new Intent(Intent.ACTION_VIEW, uriLocation);
-        intent.setPackage("com.google.android.apps.maps");
         if (intent.resolveActivity(getPackageManager()) == null) {
             Toast.makeText(getApplicationContext(), "Google Maps is niet geïnstalleerd.", Toast.LENGTH_LONG).show();
         }

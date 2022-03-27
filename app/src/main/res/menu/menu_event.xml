@@ -23,13 +23,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/event_location"
-        android:icon="@drawable/ic_map"
-        android:orderInCategory="50"
-        android:title="@string/action_open_map"
-        app:showAsAction="ifRoom" />
-
-    <item
         android:id="@+id/menu_event_add_to_calendar"
         android:icon="@drawable/ic_event_add"
         android:orderInCategory="60"
