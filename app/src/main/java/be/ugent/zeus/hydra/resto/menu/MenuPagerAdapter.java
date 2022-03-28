@@ -22,19 +22,17 @@
 
 package be.ugent.zeus.hydra.resto.menu;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.utils.DateUtils;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.SingleDayFragment;
 
@@ -43,16 +41,16 @@ import be.ugent.zeus.hydra.resto.SingleDayFragment;
  *
  * @author Niko Strijbol
  */
-class MenuPagerAdapter extends FragmentStatePagerAdapter {
+class MenuPagerAdapter extends FragmentStateAdapter {
+    private static final int LEGEND = -63;
 
-    private final Context context;
     private List<RestoMenu> data = Collections.emptyList();
 
-    MenuPagerAdapter(FragmentManager fm, Context context) {
-        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        this.context = context.getApplicationContext();
+    public MenuPagerAdapter(@NonNull Fragment fragment) {
+        super(fragment);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setData(List<RestoMenu> data) {
         this.data = data;
         notifyDataSetChanged();
@@ -62,9 +60,14 @@ class MenuPagerAdapter extends FragmentStatePagerAdapter {
         return !data.isEmpty();
     }
 
+    @Nullable
+    LocalDate getTabDate(int position) {
+        return position == 0 ? null : data.get(position - 1).getDate();
+    }
+
     @NonNull
     @Override
-    public Fragment getItem(int position) {
+    public Fragment createFragment(int position) {
         if (position == 0) {
             return new LegendFragment();
         } else {
@@ -73,16 +76,7 @@ class MenuPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
-    public int getItemPosition(@NonNull Object object) {
-        if (object instanceof LegendFragment) {
-            return POSITION_UNCHANGED;
-        } else {
-            return POSITION_NONE;
-        }
-    }
-
-    @Override
-    public int getCount() {
+    public int getItemCount() {
         if (hasData()) {
             return data.size() + 1;
         } else {
@@ -90,27 +84,23 @@ class MenuPagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
-    @Nullable
-    LocalDate getTabDate(int position) {
-        return position == 0 ? null : data.get(position - 1).getDate();
+    @Override
+    public long getItemId(int position) {
+        if (position == 0) {
+            return LEGEND;
+        } else {
+            RestoMenu menu = data.get(position - 1);
+            return menu.hashCode();
+        }
     }
 
-    /**
-     * The position of a tab is the number of days from today the menu is for.
-     * This gets the date from the activity, because at this point, it is not guaranteed
-     * the fragments have a date already. The activity does already have the dates however,
-     * or no fragments will be made.
-     *
-     * @param position Which position the tab is in.
-     * @return The title.
-     */
     @Override
-    @NonNull
-    public CharSequence getPageTitle(int position) {
-        if (position == 0) {
-            return context.getString(R.string.resto_tab_title_legend);
-        } else {
-            return DateUtils.getFriendlyDate(context, data.get(position - 1).getDate());
+    public boolean containsItem(long itemId) {
+        if (itemId == LEGEND) {
+            return true;
         }
+
+        List<Long> data = this.data.stream().map(restoMenu -> (long) restoMenu.hashCode()).collect(Collectors.toList());
+        return data.contains(itemId);
     }
 }

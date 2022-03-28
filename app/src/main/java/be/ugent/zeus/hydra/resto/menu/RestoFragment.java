@@ -32,30 +32,30 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
+import be.ugent.zeus.hydra.common.utils.DateUtils;
 import be.ugent.zeus.hydra.common.utils.NetworkUtils;
-import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.extrafood.ExtraFoodActivity;
 import be.ugent.zeus.hydra.resto.history.HistoryActivity;
 import be.ugent.zeus.hydra.resto.meta.RestoLocationActivity;
-import be.ugent.zeus.hydra.resto.meta.selectable.SelectedResto;
 import be.ugent.zeus.hydra.resto.salad.SaladActivity;
 import be.ugent.zeus.hydra.resto.sandwich.SandwichActivity;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
 
@@ -76,10 +76,11 @@ public class RestoFragment extends Fragment implements
 
     private static final String URL = "https://www.ugent.be/student/nl/meer-dan-studeren/resto";
     private MenuPagerAdapter pageAdapter;
-    private ViewPager viewPager;
+    private ViewPager2 viewPager;
     private MenuViewModel menuViewModel;
     private TabLayout tabLayout;
     private BottomNavigationView bottomNavigation;
+    private ViewPager2.OnPageChangeCallback callback;
 
     /**
      * The saved position of the viewpager. Used to manually restore the position, since it is possible that the state
@@ -124,29 +125,29 @@ public class RestoFragment extends Fragment implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "receiveResto: on view created");
-        
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        pageAdapter = new MenuPagerAdapter(getChildFragmentManager(), requireContext());
+        pageAdapter = new MenuPagerAdapter(this);
 
         // Set up the ViewPager with the sections adapter.
         viewPager = view.findViewById(R.id.resto_tabs_content);
         viewPager.setAdapter(pageAdapter);
 
-        final AppBarLayout appBarLayout = requireActivity().findViewById(R.id.app_bar_layout);
-        // Send analytics
-        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                appBarLayout.setExpanded(true);
-            }
-        });
-
         // Make the tab layout from the main activity visible.
         tabLayout = requireActivity().findViewById(R.id.tab_layout);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        tabLayout.setupWithViewPager(viewPager);
         tabLayout.setVisibility(View.VISIBLE);
+
+        TabLayoutMediator mediator = new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            if (position == 0) {
+                tab.setText(R.string.resto_tab_title_legend);
+            } else {
+                String title = DateUtils.getFriendlyDate(requireContext(), Objects.requireNonNull(pageAdapter.getTabDate(position)));
+                tab.setText(title);
+            }
+        });
+        mediator.attach();
 
         bottomNavigation = requireActivity().findViewById(R.id.bottom_navigation);
         bottomNavigation.setVisibility(View.VISIBLE);
@@ -205,6 +206,22 @@ public class RestoFragment extends Fragment implements
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        if (this.callback != null) {
+            viewPager.registerOnPageChangeCallback(this.callback);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (this.callback != null) {
+            viewPager.unregisterOnPageChangeCallback(this.callback);
+        }
+    }
+
+    @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_resto, menu);
         requireBaseActivity(this).tintToolbarIcons(menu, R.id.action_history);
@@ -231,7 +248,7 @@ public class RestoFragment extends Fragment implements
     @Override
     public void onItemSelected(@NonNull AdapterView<?> parent, View view, int position, long id) {
         //The start should be the day we have currently selected.
-        if (pageAdapter.getCount() > viewPager.getCurrentItem()) {
+        if (pageAdapter.getItemCount() > viewPager.getCurrentItem()) {
             startDate = pageAdapter.getTabDate(viewPager.getCurrentItem());
         }
         menuViewModel.onRefresh();
