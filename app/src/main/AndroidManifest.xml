@@ -149,7 +149,7 @@
             android:name=".library.details.LibraryDetailActivity"
             android:label="Bibliotheek"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/Hydra.DayNight.SystemWindows" />
+            android:theme="@style/Hydra.Material.System" />
 
         <!-- Urgent stuff -->
         <!-- This is a music service without sensitive data and thus does not require permissions -->

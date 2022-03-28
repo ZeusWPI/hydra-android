@@ -35,4 +35,8 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
     </style>
+    
+    <style name="Hydra.Material.System">
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
 </resources>
