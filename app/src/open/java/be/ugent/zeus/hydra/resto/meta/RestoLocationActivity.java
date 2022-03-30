@@ -131,6 +131,7 @@ public class RestoLocationActivity extends BaseActivity<ActivityRestoLocationBin
             m.setTitle(location.getName());
             m.setSubDescription(location.getAddress());
             m.setDraggable(false);
+            m.setIcon(ContextCompat.getDrawable(this, R.drawable.shortcut_resto));
             binding.map.getOverlayManager().add(m);
         }
         binding.progressBar.progressBar.setVisibility(View.GONE);
