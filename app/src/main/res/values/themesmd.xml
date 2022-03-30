@@ -38,5 +38,6 @@
     
     <style name="Hydra.Material.System">
         <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
     </style>
 </resources>
