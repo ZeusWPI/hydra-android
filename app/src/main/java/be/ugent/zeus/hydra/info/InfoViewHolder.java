@@ -58,7 +58,7 @@ class InfoViewHolder extends DataViewHolder<InfoItem> {
         title.setText(infoItem.getTitle());
         itemView.setOnClickListener(v -> infoItem.getType().doOnClick(v.getContext(), helper, infoItem));
 
-        Drawable more = infoItem.getType().getDrawable(itemView.getContext(), R.attr.colorPrimarySecondary);
+        Drawable more = infoItem.getType().getDrawable(itemView.getContext(), R.attr.colorPrimary);
 
         // If the item itself has an image.
         if (infoItem.getImage() != null) {
@@ -68,7 +68,7 @@ class InfoViewHolder extends DataViewHolder<InfoItem> {
                 title.setCompoundDrawablesWithIntrinsicBounds(null, null, more, null);
             } else {
                 try {
-                    Drawable icon = ViewUtils.getTintedVectorDrawableAttr(c, resId, R.attr.colorPrimarySecondary);
+                    Drawable icon = ViewUtils.getTintedVectorDrawableAttr(c, resId, R.attr.colorPrimary);
                     title.setCompoundDrawablesWithIntrinsicBounds(icon, null, more, null);
                 } catch (Resources.NotFoundException e) {
                     Log.w(TAG, "On non-weird devices, this should not occur.", e);

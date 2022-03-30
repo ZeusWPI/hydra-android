@@ -54,14 +54,13 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
-        android:theme="@style/Hydra.DayNight"
+        android:theme="@style/Hydra.Material"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
 
         <!-- Main activity -->
         <activity
             android:exported="true"
             android:name=".MainActivity"
-            android:theme="@style/Hydra.Material"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -75,6 +74,7 @@
 
         <!-- Generic preference activity, which can load a preference fragment. -->
         <activity
+            android:theme="@style/Hydra.DayNight"
             android:exported="true"
             android:name=".preferences.PreferenceActivity"
             android:parentActivityName=".MainActivity">
@@ -86,6 +86,7 @@
 
         <!-- Select preferences for home feed -->
         <activity
+            android:theme="@style/Hydra.DayNight"
             android:name=".feed.preferences.HomeFeedPrefActivity"
             android:label="@string/feed_pref_card_types_title"
             android:parentActivityName=".preferences.PreferenceActivity" />
@@ -119,7 +120,6 @@
             android:name=".association.event.EventDetailsActivity"
             android:label="@string/event_detail_activity_title"
             android:launchMode="singleTop"
-            android:theme="@style/Hydra.Material"
             android:parentActivityName=".MainActivity" />
 
         <!-- Show info items -->
