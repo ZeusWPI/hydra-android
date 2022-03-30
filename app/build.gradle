@@ -192,6 +192,7 @@ dependencies {
     implementation 'com.github.niknetniko:material-intro:9903deb6c4'
     implementation 'com.github.jonfinerty:Once:19fa6fa10d'
     implementation 'com.github.esnaultdev:MaterialValues:v1.1.1'
+    implementation 'dev.chrisbanes.insetter:insetter:0.6.1'
 
     // Dependencies for the Play Store version.
     storeImplementation 'com.google.android.gms:play-services-maps:18.0.2'

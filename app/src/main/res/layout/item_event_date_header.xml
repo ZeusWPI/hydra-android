@@ -37,11 +37,12 @@
         android:layout_marginRight="@dimen/card_margin"
         app:contentPaddingLeft="@dimen/card_text_padding_vertical"
         app:contentPaddingRight="@dimen/card_text_padding_vertical"
+        style="@style/Widget.Material3.CardView.Elevated"
         app:shapeAppearanceOverlay="@style/EventTopShape">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/date_header"
-            style="@style/Hydra.Text.Subhead"
+            style="@style/Hydra.Text.SubheadMd"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"

@@ -26,8 +26,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -73,9 +72,10 @@
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/material_bottom_nav_bar_height"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:visibility="gone"
+            android:fitsSystemWindows="true"
             app:elevation="@dimen/material_bottom_nav_bar_elevation"
             app:itemHorizontalTranslationEnabled="false"
             app:labelVisibilityMode="labeled"
