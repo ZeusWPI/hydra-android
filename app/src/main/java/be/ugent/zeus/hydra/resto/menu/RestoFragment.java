@@ -24,6 +24,7 @@ package be.ugent.zeus.hydra.resto.menu;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.*;
 import android.widget.AdapterView;
@@ -46,6 +47,7 @@ import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 import be.ugent.zeus.hydra.common.utils.DateUtils;
 import be.ugent.zeus.hydra.common.utils.NetworkUtils;
+import be.ugent.zeus.hydra.common.utils.StringUtils;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.extrafood.ExtraFoodActivity;
 import be.ugent.zeus.hydra.resto.history.HistoryActivity;
@@ -144,7 +146,8 @@ public class RestoFragment extends Fragment implements
                 tab.setText(R.string.resto_tab_title_legend);
             } else {
                 String title = DateUtils.getFriendlyDate(requireContext(), Objects.requireNonNull(pageAdapter.getTabDate(position)));
-                tab.setText(title);
+                String capitalized = StringUtils.capitaliseFirst(title);
+                tab.setText(capitalized);
             }
         });
         mediator.attach();

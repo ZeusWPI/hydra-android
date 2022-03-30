@@ -61,6 +61,7 @@
         <activity
             android:exported="true"
             android:name=".MainActivity"
+            android:theme="@style/Hydra.Material"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -35,7 +35,7 @@
         android:paddingRight="@dimen/activity_vertical_margin">
 
         <com.google.android.material.textview.MaterialTextView
-            style="@style/Hydra.Text.Subhead"
+            style="@style/Hydra.Text.SubheadMd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/vertical_padding"
@@ -152,7 +152,7 @@
         </TableLayout>
 
         <TextView
-            style="@style/Hydra.Text.Subhead"
+            style="@style/Hydra.Text.SubheadMd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/vertical_padding"

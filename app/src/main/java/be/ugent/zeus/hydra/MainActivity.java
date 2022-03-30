@@ -33,6 +33,7 @@ import android.view.View;
 import androidx.annotation.*;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.WindowCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -54,8 +55,10 @@ import be.ugent.zeus.hydra.preferences.PreferenceActivity;
 import be.ugent.zeus.hydra.resto.menu.RestoFragment;
 import be.ugent.zeus.hydra.schamper.SchamperFragment;
 import be.ugent.zeus.hydra.urgent.UrgentFragment;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.tabs.TabLayout;
 import jonathanfinerty.once.Once;
 
@@ -215,6 +218,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(ActivityMainBinding::inflate);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        // Prevent toolbar appearing behind notification bar.
+        this.binding.appBarLayout.setStatusBarForeground(MaterialShapeDrawable.createWithElevationOverlay(this));
 
         if (savedInstanceState != null) {
             isOnboardingOpen = savedInstanceState.getBoolean(STATE_IS_ONBOARDING_OPEN, false);
