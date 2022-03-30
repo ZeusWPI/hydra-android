@@ -28,6 +28,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/material_card_gutter"
+    style="@style/Widget.Material3.CardView.Elevated"
     android:clickable="true"
     android:focusable="true">
 
@@ -59,7 +60,7 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/name"
-                    style="?textAppearanceHeadline6"
+                    style="?textAppearanceTitleLarge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -67,14 +68,14 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/association"
-                    style="?textAppearanceBody2"
+                    style="?textAppearanceBodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="Organisator" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/starttime"
-                    style="?textAppearanceBody2"
+                    style="?textAppearanceBodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="1"

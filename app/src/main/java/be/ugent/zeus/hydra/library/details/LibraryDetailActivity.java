@@ -206,15 +206,15 @@ public class LibraryDetailActivity extends BaseActivity<ActivityLibraryDetailsBi
         for (OpeningHours hours : list) {
             TableRow tableRow = new TableRow(this);
             tableRow.setPadding(0, rowPadding, 0, rowPadding);
-            TextView date = new TextView(this, null, R.attr.textAppearanceBody2);
+            TextView date = new TextView(this, null, R.attr.textAppearanceBodyMedium);
             date.setText(DateUtils.getFriendlyDate(this, hours.getDate()));
-            TextView openHours = new TextView(this, null, R.attr.textAppearanceBody2);
+            TextView openHours = new TextView(this, null, R.attr.textAppearanceBodyMedium);
             openHours.setPadding(rowPadding, 0, 0, 0);
             openHours.setText(hours.getHours());
             tableRow.addView(date);
             tableRow.addView(openHours);
             if (!TextUtils.isEmpty(hours.getComments())) {
-                TextView comments = new TextView(this, null, R.attr.textAppearanceBody2);
+                TextView comments = new TextView(this, null, R.attr.textAppearanceBodyMedium);
                 TableLayout.LayoutParams params = new TableLayout.LayoutParams();
                 params.weight = 0;
                 params.width = 0;

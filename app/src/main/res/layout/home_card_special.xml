@@ -28,6 +28,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/card_spacing"
+    style="@style/Widget.Material3.CardView.Elevated"
     android:clickable="true"
     android:focusable="true"
     app:contentPaddingLeft="@dimen/card_title_padding_vertical"
@@ -46,7 +47,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/title"
-                style="?textAppearanceHeadline6"
+                style="?textAppearanceTitleLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/card_title_padding_top"
@@ -54,7 +55,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text"
-                style="?textAppearanceBody2"
+                style="?textAppearanceBodyMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/card_title_padding_bottom_no_content"

@@ -29,6 +29,6 @@
     android:layout_height="wrap_content"
     android:singleLine="true"
     android:textAlignment="inherit"
-    android:textAppearance="?attr/textAppearanceHeadline6"
+    android:textAppearance="?attr/textAppearanceTitleLarge"
     android:textColor="?colorControlNormal"
     tools:text="Selected spinner item" />

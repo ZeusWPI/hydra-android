@@ -60,7 +60,7 @@
         android:text="@string/onboarding_reporting_analytics_title" />
 
     <com.google.android.material.textview.MaterialTextView
-        style="?textAppearanceBody2"
+        style="?textAppearanceBodyMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/vertical_padding"
@@ -103,7 +103,7 @@
         android:text="@string/onboarding_reporting_crash_title" />
 
     <com.google.android.material.textview.MaterialTextView
-        style="?textAppearanceBody2"
+        style="?textAppearanceBodyMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/vertical_padding"

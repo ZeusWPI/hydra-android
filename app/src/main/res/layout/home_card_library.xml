@@ -29,6 +29,7 @@
     android:layout_marginBottom="@dimen/card_spacing"
     android:clickable="true"
     android:focusable="true"
+    style="@style/Widget.Material3.CardView.Elevated"
     app:contentPaddingBottom="@dimen/card_title_padding_bottom_no_content">
 
     <LinearLayout

@@ -62,7 +62,7 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/association"
-                    style="?textAppearanceBody2"
+                    style="?textAppearanceBodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="Vereniging" />
@@ -70,7 +70,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/starttime"
-                style="?textAppearanceBody2"
+                style="?textAppearanceBodyMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="end"

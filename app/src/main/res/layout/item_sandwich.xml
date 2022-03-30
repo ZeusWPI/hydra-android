@@ -64,7 +64,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/sandwich_price_small"
-                style="?textAppearanceBody2"
+                style="?textAppearanceBodyMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textIsSelectable="true"
@@ -79,7 +79,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/sandwich_ingredients"
-            style="?textAppearanceBody2"
+            style="?textAppearanceBodyMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textIsSelectable="true"

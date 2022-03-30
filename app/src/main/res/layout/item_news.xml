@@ -56,7 +56,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/article_excerpt"
-            style="?textAppearanceBody2"
+            style="?textAppearanceBodyMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/card_text_padding_bottom_no_content"

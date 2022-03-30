@@ -84,7 +84,7 @@ public class MenuTable extends TableLayout {
             selectable = a.getBoolean(R.styleable.MenuTable_selectable, false);
             showTitles = a.getBoolean(R.styleable.MenuTable_showTitles, false);
             messagePaddingTop = a.getBoolean(R.styleable.MenuTable_messagePaddingTop, false);
-            normalStyle = ViewUtils.getAttr(context, R.attr.textAppearanceBody2);
+            normalStyle = ViewUtils.getAttr(context, R.attr.textAppearanceBodyMedium);
         } finally {
             a.recycle();
         }

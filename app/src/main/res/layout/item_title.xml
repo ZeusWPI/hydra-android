@@ -33,7 +33,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_header"
-        style="?textAppearanceHeadline6"
+        style="?textAppearanceTitleLarge"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textColor="?attr/colorAccent"

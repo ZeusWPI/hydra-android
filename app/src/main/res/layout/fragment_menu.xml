@@ -47,7 +47,7 @@
             android:paddingTop="@dimen/activity_horizontal_margin"
             android:paddingLeft="@dimen/activity_vertical_margin"
             android:paddingRight="@dimen/activity_vertical_margin"
-            style="?textAppearanceBody2"
+            style="?textAppearanceBodyMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/resto_order_online" />
