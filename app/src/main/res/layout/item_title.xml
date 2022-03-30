@@ -36,6 +36,6 @@
         style="?textAppearanceTitleLarge"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textColor="?attr/colorAccent"
+        android:textColor="?attr/colorOnPrimarySurface"
         tools:text="Dit is een titel." />
 </LinearLayout>

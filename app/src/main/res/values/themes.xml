@@ -50,11 +50,6 @@
         <item name="bottomNavigationStyle">@style/Widget.MaterialComponents.BottomNavigationView</item>
     </style>
 
-    <style name="Hydra.DayNight.SystemWindows" parent="Hydra.DayNight">
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-    </style>
-
     <!-- Theme for onboarding -->
     <style name="Hydra.Base.Onboarding" parent="Hydra.Base">
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -71,17 +66,10 @@
         <item name="alphaEmphasisHigh">@dimen/material_emphasis_high_type</item>
         <item name="alphaEmphasisMedium">@dimen/material_emphasis_medium</item>
         <item name="alphaEmphasisDisabled">@dimen/material_emphasis_disabled</item>
-
         <item name="android:statusBarColor">?colorPrimarySurface</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>
         <item name="android:navigationBarColor">@color/black</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
-
-        <!--Remap legacy AppCompat attributes to MaterialComponent attributes-->
-        <item name="colorPrimaryDark">?colorPrimaryVariant</item>
-        <item name="colorAccent">?colorSecondary</item>
-
         <item name="android:textColorPrimary">?colorOnSurface</item>
     </style>
-
 </resources>
