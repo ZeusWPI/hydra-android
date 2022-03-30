@@ -24,7 +24,6 @@ package be.ugent.zeus.hydra.resto.menu;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.*;
 import android.widget.AdapterView;
@@ -55,6 +54,7 @@ import be.ugent.zeus.hydra.resto.meta.RestoLocationActivity;
 import be.ugent.zeus.hydra.resto.salad.SaladActivity;
 import be.ugent.zeus.hydra.resto.sandwich.SandwichActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -69,7 +69,7 @@ import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity
 public class RestoFragment extends Fragment implements
         AdapterView.OnItemSelectedListener,
         MainActivity.ArgumentsReceiver,
-        BottomNavigationView.OnNavigationItemSelectedListener,
+        NavigationBarView.OnItemSelectedListener,
         MainActivity.ScheduledRemovalListener {
 
     public static final String ARG_DATE = "start_date";
@@ -82,7 +82,6 @@ public class RestoFragment extends Fragment implements
     private MenuViewModel menuViewModel;
     private TabLayout tabLayout;
     private BottomNavigationView bottomNavigation;
-    private ViewPager2.OnPageChangeCallback callback;
 
     /**
      * The saved position of the viewpager. Used to manually restore the position, since it is possible that the state
@@ -154,7 +153,7 @@ public class RestoFragment extends Fragment implements
 
         bottomNavigation = requireActivity().findViewById(R.id.bottom_navigation);
         bottomNavigation.setVisibility(View.VISIBLE);
-        bottomNavigation.setOnNavigationItemSelectedListener(this);
+        bottomNavigation.setOnItemSelectedListener(this);
 
         Bundle extras = getArguments();
         //Get the default start date
@@ -205,22 +204,6 @@ public class RestoFragment extends Fragment implements
                     viewPager.setCurrentItem(1);
                 }
             }
-        }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (this.callback != null) {
-            viewPager.registerOnPageChangeCallback(this.callback);
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (this.callback != null) {
-            viewPager.unregisterOnPageChangeCallback(this.callback);
         }
     }
 
