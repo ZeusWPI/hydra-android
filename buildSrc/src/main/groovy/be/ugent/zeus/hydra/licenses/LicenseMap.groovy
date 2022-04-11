@@ -38,6 +38,7 @@ class LicenseMap {
             "http://opensource.org/licenses/Apache-2.0"            : "apache-2.0.txt",
             "https://opensource.org/licenses/Apache-2.0"           : "apache-2.0.txt",
             "https://api.github.com/licenses/apache-2.0"           : "apache-2.0.txt",
+            "http://www.apache.org/licenses/LICENSE-2.0"           : "apache-2.0.txt",
 
             // MIT License
             // https://github.com/github/choosealicense.com/blob/gh-pages/_licenses/mit.txt
@@ -47,13 +48,22 @@ class LicenseMap {
             "http://www.opensource.org/licenses/mit-license.php"   : "mit.txt",
             "http://opensource.org/licenses/mit-license.php"       : "mit.txt",
             "https://github.com/mockito/mockito/blob/main/LICENSE" : "mit.txt",
+            "http://www.bouncycastle.org/licence.html"             : "mit.txt",
 
             // GPLv2 + Classpath Exception
             // https://github.com/github/choosealicense.com/blob/gh-pages/_licenses/mpl-2.0.txt
             "http://openjdk.java.net/legal/gplv2+ce.html"          : "gplv2ce.txt",
+            "http://www.gnu.org/software/classpath/license.html"   :" gplv2ce.txt",
 
             // Eclipse Public License - v 1.0
             "http://www.eclipse.org/legal/epl-v10.html"            : "epl.txt",
+            
+            // BSD 3 clause
+            "https://asm.ow2.io/license.html"                      : "bsd3.txt",
+            "http://opensource.org/licenses/BSD-3-Clause"          : "bsd3.txt",
+            
+            // COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.1
+            "https://github.com/javaee/javax.annotation/blob/master/LICENSE": "cddl.txt",
             
             // Not a license -- skip these
             "https://developer.android.com/studio/terms.html"      : null,
@@ -67,6 +77,6 @@ class LicenseMap {
             // Library specific licenses
             "org.threeten:threetenbp"                              : "threeten.txt",
             "com.heinrichreimersoftware:material-intro"            : "material-intro.txt",
-            "https://asm.ow2.io/license.html"                      : "asm.txt"
+            "http://source.icu-project.org/repos/icu/icu/trunk/license.html": "icu.txt"
     ]
 }
