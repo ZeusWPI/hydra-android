@@ -91,7 +91,8 @@
         app:layout_constraintStart_toEndOf="@id/mi_button_back"
         tools:layout_editor_absoluteX="131dp">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.Material3.Button.ElevatedButton"
             android:gravity="center"
             android:layout_gravity="center"
             android:layout_height="match_parent"
@@ -102,8 +103,7 @@
             android:paddingLeft="@dimen/mi_baseline"
             android:paddingRight="@dimen/mi_baseline"
             android:paddingTop="@dimen/mi_baseline_half"
-            android:text="@string/mi_label_button_cta"
-            android:textColor="?android:textColorPrimaryInverse" />
+            android:text="@string/mi_label_button_cta" />
 
         <Button
             android:gravity="center"
@@ -117,7 +117,6 @@
             android:paddingRight="@dimen/mi_baseline"
             android:paddingTop="@dimen/mi_baseline_half"
             android:text="@string/mi_label_button_cta"
-            android:textColor="?android:textColorPrimaryInverse"
             android:visibility="gone" />
 
     </TextSwitcher>

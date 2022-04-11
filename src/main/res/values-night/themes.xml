@@ -23,8 +23,7 @@
   -->
 
 <resources>
-
-    <style name="Theme.Intro" parent="Theme.AppCompat.NoActionBar">
+    <style name="Theme.Intro" parent="Theme.Material3.Dark.NoActionBar">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>

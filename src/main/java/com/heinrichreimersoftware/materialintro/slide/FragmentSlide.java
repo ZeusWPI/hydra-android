@@ -29,6 +29,7 @@ import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.ColorRes;
 import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.annotation.StyleRes;
 import androidx.fragment.app.Fragment;
@@ -41,6 +42,8 @@ import android.view.ViewGroup;
 import com.heinrichreimersoftware.materialintro.app.ButtonCtaFragment;
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;
 import com.heinrichreimersoftware.materialintro.view.parallax.ParallaxFragment;
+
+import java.util.Objects;
 
 public class FragmentSlide implements Slide, RestorableSlide, ButtonCtaSlide {
 
@@ -139,11 +142,13 @@ public class FragmentSlide implements Slide, RestorableSlide, ButtonCtaSlide {
         if (canGoForward != that.canGoForward) return false;
         if (canGoBackward != that.canGoBackward) return false;
         if (buttonCtaLabelRes != that.buttonCtaLabelRes) return false;
-        if (fragment != null ? !fragment.equals(that.fragment) : that.fragment != null)
+        if (!Objects.equals(fragment, that.fragment)) {
             return false;
-        if (buttonCtaLabel != null ? !buttonCtaLabel.equals(that.buttonCtaLabel) : that.buttonCtaLabel != null)
+        }
+        if (!Objects.equals(buttonCtaLabel, that.buttonCtaLabel)) {
             return false;
-        return buttonCtaClickListener != null ? buttonCtaClickListener.equals(that.buttonCtaClickListener) : that.buttonCtaClickListener == null;
+        }
+        return Objects.equals(buttonCtaClickListener, that.buttonCtaClickListener);
 
     }
 
@@ -249,7 +254,7 @@ public class FragmentSlide implements Slide, RestorableSlide, ButtonCtaSlide {
         private static final String ARGUMENT_THEME_RES =
                 "com.heinrichreimersoftware.materialintro.SimpleFragment.ARGUMENT_THEME_RES";
 
-        public FragmentSlideFragment() {
+        private FragmentSlideFragment() {
         }
 
         public static FragmentSlideFragment newInstance(@LayoutRes int layoutRes, @StyleRes int themeRes) {
@@ -267,8 +272,9 @@ public class FragmentSlide implements Slide, RestorableSlide, ButtonCtaSlide {
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+        public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+            assert getArguments() != null;
             int themeRes = getArguments().getInt(ARGUMENT_THEME_RES);
             Context contextThemeWrapper;
             if (themeRes != 0) {
