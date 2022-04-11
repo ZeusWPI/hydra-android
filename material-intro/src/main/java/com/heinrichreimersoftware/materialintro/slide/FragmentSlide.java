@@ -51,14 +51,6 @@ import java.util.Objects;
 public class FragmentSlide implements Slide, RestorableSlide, ButtonCtaSlide {
 
     private Fragment fragment;
-    @ColorRes
-    private final int background;
-    @ColorRes
-    private final int backgroundDark;
-    @ColorInt
-    private final int backgroundInt;
-    @ColorInt
-    private final int backgroundDarkInt;
     private final boolean canGoForward;
     private final boolean canGoBackward;
     private final CharSequence buttonCtaLabel;
@@ -68,15 +60,11 @@ public class FragmentSlide implements Slide, RestorableSlide, ButtonCtaSlide {
 
     protected FragmentSlide(Builder builder) {
         fragment = builder.fragment;
-        background = builder.background;
-        backgroundDark = builder.backgroundDark;
         canGoForward = builder.canGoForward;
         canGoBackward = builder.canGoBackward;
         buttonCtaLabel = builder.buttonCtaLabel;
         buttonCtaLabelRes = builder.buttonCtaLabelRes;
         buttonCtaClickListener = builder.buttonCtaClickListener;
-        backgroundInt = builder.backgroundInt;
-        backgroundDarkInt = builder.backgroundDarkInt;
     }
 
     @Override
@@ -87,26 +75,6 @@ public class FragmentSlide implements Slide, RestorableSlide, ButtonCtaSlide {
     @Override
     public void setFragment(Fragment fragment) {
         this.fragment = fragment;
-    }
-
-    @Override
-    public int getBackground() {
-        return background;
-    }
-
-    @Override
-    public int getBackgroundDark() {
-        return backgroundDark;
-    }
-
-    @Override
-    public int getBackgroundDarkInt() {
-        return backgroundDarkInt;
-    }
-
-    @Override
-    public int getBackgroundInt() {
-        return backgroundInt;
     }
 
     @Override
@@ -154,24 +122,16 @@ public class FragmentSlide implements Slide, RestorableSlide, ButtonCtaSlide {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FragmentSlide that = (FragmentSlide) o;
-        return background == that.background && backgroundDark == that.backgroundDark && backgroundInt == that.backgroundInt && backgroundDarkInt == that.backgroundDarkInt && canGoForward == that.canGoForward && canGoBackward == that.canGoBackward && buttonCtaLabelRes == that.buttonCtaLabelRes && Objects.equals(fragment, that.fragment) && Objects.equals(buttonCtaLabel, that.buttonCtaLabel) && Objects.equals(buttonCtaClickListener, that.buttonCtaClickListener);
+        return canGoForward == that.canGoForward && canGoBackward == that.canGoBackward && buttonCtaLabelRes == that.buttonCtaLabelRes && Objects.equals(fragment, that.fragment) && Objects.equals(buttonCtaLabel, that.buttonCtaLabel) && Objects.equals(buttonCtaClickListener, that.buttonCtaClickListener);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(fragment, background, backgroundDark, backgroundInt, backgroundDarkInt, canGoForward, canGoBackward, buttonCtaLabel, buttonCtaLabelRes, buttonCtaClickListener);
+        return Objects.hash(fragment, canGoForward, canGoBackward, buttonCtaLabel, buttonCtaLabelRes, buttonCtaClickListener);
     }
 
     public static class Builder {
         private Fragment fragment;
-        @ColorRes
-        private int background;
-        @ColorRes
-        private int backgroundDark;
-        @ColorInt
-        private int backgroundInt;
-        @ColorInt
-        private int backgroundDarkInt;
         private boolean canGoForward = true;
         private boolean canGoBackward = true;
         private CharSequence buttonCtaLabel = null;
@@ -191,26 +151,6 @@ public class FragmentSlide implements Slide, RestorableSlide, ButtonCtaSlide {
 
         public Builder fragment(@LayoutRes int layoutRes) {
             this.fragment = FragmentSlideFragment.newInstance(layoutRes);
-            return this;
-        }
-
-        public Builder background(@ColorRes int background) {
-            this.background = background;
-            return this;
-        }
-
-        public Builder backgroundDark(@ColorRes int backgroundDark) {
-            this.backgroundDark = backgroundDark;
-            return this;
-        }
-
-        public Builder backgroundInt(@ColorInt int background) {
-            this.backgroundInt = background;
-            return this;
-        }
-
-        public Builder backgroundDarkInt(@ColorInt int backgroundDark) {
-            this.backgroundDarkInt = backgroundDark;
             return this;
         }
 
@@ -252,8 +192,9 @@ public class FragmentSlide implements Slide, RestorableSlide, ButtonCtaSlide {
         }
 
         public FragmentSlide build() {
-            if ((background == 0 && backgroundInt == 0) || fragment == null)
-                throw new IllegalArgumentException("You must set at least a fragment and background.");
+            if (fragment == null) {
+                throw new IllegalArgumentException("You must set a fragment.");
+            }
             return new FragmentSlide(this);
         }
     }

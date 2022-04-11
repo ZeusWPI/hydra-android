@@ -72,6 +72,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.button.MaterialButton;
 import com.heinrichreimersoftware.materialintro.R;
 import com.heinrichreimersoftware.materialintro.slide.ButtonCtaSlide;
 import com.heinrichreimersoftware.materialintro.slide.Slide;
@@ -88,7 +89,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@SuppressWarnings("unused")
 public class IntroActivity extends AppCompatActivity implements IntroNavigation {
     private static final String KEY_CURRENT_ITEM =
             "com.heinrichreimersoftware.materialintro.app.IntroActivity.KEY_CURRENT_ITEM";
@@ -103,8 +103,8 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
     private FadeableViewPager miPager;
     private InkPageIndicator miPagerIndicator;
     private TextSwitcher miButtonCta;
-    private ImageButton miButtonBack;
-    private ImageButton miButtonNext;
+    private MaterialButton miButtonBack;
+    private MaterialButton miButtonNext;
 
     //Settings constants
     @IntDef({BUTTON_NEXT_FUNCTION_NEXT, BUTTON_NEXT_FUNCTION_NEXT_FINISH})
@@ -205,7 +205,6 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
         super.onPostCreate(savedInstanceState);
         activityCreated = true;
 
-        updateTaskDescription();
         updateButtonNextDrawable();
         updateButtonBackDrawable();
         updateScrollPositions();
@@ -587,153 +586,6 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
         return null;
     }
 
-    @ColorInt
-    private int getBackgroundColor(int position) {
-        if (getBackgroundInt(position) != 0) {
-            return getBackgroundInt(position);
-        } else {
-            return ContextCompat.getColor(IntroActivity.this, getBackground(position));
-        }
-    }
-
-    @ColorInt
-    private int getBackgroundDarkColor(int position) {
-        if (getBackgroundDarkInt(position) != 0) {
-            return getBackgroundDarkInt(position);
-        } else {
-            return ContextCompat.getColor(IntroActivity.this, getBackgroundDark(position));
-        }
-    }
-
-    private void updateTaskDescription() {
-        String title = getTitle().toString();
-        Drawable iconDrawable = getApplicationInfo().loadIcon(getPackageManager());
-        Bitmap icon = iconDrawable instanceof BitmapDrawable ? ((BitmapDrawable) iconDrawable).getBitmap() : null;
-        @ColorInt int colorPrimary;
-        if (position < getCount()) {
-            try {
-                colorPrimary = getBackgroundDarkColor(position);
-            } catch (Resources.NotFoundException e) {
-                colorPrimary = getBackgroundColor(position);
-            }
-        } else {
-            TypedValue typedValue = new TypedValue();
-            TypedArray a = obtainStyledAttributes(typedValue.data, new int[]{R.attr.colorPrimary});
-            colorPrimary = a.getColor(0, 0);
-            a.recycle();
-        }
-        colorPrimary = ColorUtils.setAlphaComponent(colorPrimary, 0xFF);
-
-        setTaskDescription(new ActivityManager.TaskDescription(title, icon, colorPrimary));
-    }
-
-    private void updateBackground() {
-        @ColorInt
-        int background;
-        @ColorInt
-        int backgroundNext;
-        @ColorInt
-        int backgroundDark;
-        @ColorInt
-        int backgroundDarkNext;
-
-        if (position == getCount()) {
-            background = Color.TRANSPARENT;
-            backgroundNext = Color.TRANSPARENT;
-            backgroundDark = Color.TRANSPARENT;
-            backgroundDarkNext = Color.TRANSPARENT;
-        } else {
-            background = getBackgroundColor(position);
-            backgroundNext = getBackgroundDarkColor(Math.min(position + 1, getCount() - 1));
-
-            background = ColorUtils.setAlphaComponent(background, 0xFF);
-            backgroundNext = ColorUtils.setAlphaComponent(backgroundNext, 0xFF);
-
-            try {
-                backgroundDark = getBackgroundDarkColor(position);
-            } catch (Resources.NotFoundException e) {
-                backgroundDark = ContextCompat.getColor(IntroActivity.this, R.color.mi_status_bar_background);
-            }
-            try {
-                backgroundDarkNext = getBackgroundDarkColor(Math.min(position + 1, getCount() - 1));
-            } catch (Resources.NotFoundException e) {
-                backgroundDarkNext = ContextCompat.getColor(IntroActivity.this, R.color.mi_status_bar_background);
-            }
-        }
-
-        if (position + positionOffset >= adapter.getCount() - 1) {
-            backgroundNext = ColorUtils.setAlphaComponent(background, 0x00);
-            backgroundDarkNext = ColorUtils.setAlphaComponent(backgroundDark, 0x00);
-        }
-
-        background = (Integer) evaluator.evaluate(positionOffset, background, backgroundNext);
-        backgroundDark = (Integer) evaluator.evaluate(positionOffset, backgroundDark, backgroundDarkNext);
-
-        miFrame.setBackgroundColor(background);
-
-        float[] backgroundDarkHsv = new float[3];
-        Color.colorToHSV(backgroundDark, backgroundDarkHsv);
-        //Slightly darken the background color a bit for more contrast
-        backgroundDarkHsv[2] *= 0.95;
-        int backgroundDarker = Color.HSVToColor(backgroundDarkHsv);
-        miPagerIndicator.setPageIndicatorColor(backgroundDarker);
-        ViewCompat.setBackgroundTintList(miButtonNext, ColorStateList.valueOf(backgroundDarker));
-        ViewCompat.setBackgroundTintList(miButtonBack, ColorStateList.valueOf(backgroundDarker));
-
-        @ColorInt
-        int backgroundButtonCta = buttonCtaTintMode == BUTTON_CTA_TINT_MODE_TEXT ?
-                ContextCompat.getColor(this, android.R.color.white) : backgroundDarker;
-        ViewCompat.setBackgroundTintList(miButtonCta.getChildAt(0), ColorStateList.valueOf(backgroundButtonCta));
-        ViewCompat.setBackgroundTintList(miButtonCta.getChildAt(1), ColorStateList.valueOf(backgroundButtonCta));
-
-        int iconColor;
-        if (ColorUtils.calculateLuminance(backgroundDark) > 0.4) {
-            //Light background
-            iconColor = ContextCompat.getColor(this, R.color.mi_icon_color_light);
-        } else {
-            //Dark background
-            iconColor = ContextCompat.getColor(this, R.color.mi_icon_color_dark);
-        }
-        miPagerIndicator.setCurrentPageIndicatorColor(iconColor);
-        DrawableCompat.setTint(miButtonNext.getDrawable(), iconColor);
-        DrawableCompat.setTint(miButtonBack.getDrawable(), iconColor);
-
-        @ColorInt
-        int textColorButtonCta = buttonCtaTintMode == BUTTON_CTA_TINT_MODE_TEXT ?
-                backgroundDarker : iconColor;
-        ((Button) miButtonCta.getChildAt(0)).setTextColor(textColorButtonCta);
-        ((Button) miButtonCta.getChildAt(1)).setTextColor(textColorButtonCta);
-
-        getWindow().setStatusBarColor(backgroundDark);
-
-        if (position == adapter.getCount()) {
-            getWindow().setNavigationBarColor(Color.TRANSPARENT);
-        } else if (position + positionOffset >= adapter.getCount() - 1) {
-            TypedValue typedValue = new TypedValue();
-            TypedArray a = obtainStyledAttributes(typedValue.data, new int[]{android.R.attr.navigationBarColor});
-
-            int defaultNavigationBarColor = a.getColor(0, Color.BLACK);
-
-            a.recycle();
-
-            int navigationBarColor = (Integer) evaluator.evaluate(positionOffset, defaultNavigationBarColor, Color.TRANSPARENT);
-            getWindow().setNavigationBarColor(navigationBarColor);
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int systemUiVisibility = getWindow().getDecorView().getSystemUiVisibility();
-            int flagLightStatusBar = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-            if (ColorUtils.calculateLuminance(backgroundDark) > 0.4) {
-                //Light background
-                systemUiVisibility |= flagLightStatusBar;
-            } else {
-                //Dark background
-                systemUiVisibility &= ~flagLightStatusBar;
-            }
-            getWindow().getDecorView().setSystemUiVisibility(systemUiVisibility);
-        }
-    }
-
     private void updateButtonCta() {
         float realPosition = position + positionOffset;
         float yOffset = getResources().getDimensionPixelSize(R.dimen.mi_y_offset);
@@ -907,7 +759,6 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
     }
 
     private void updateScrollPositions() {
-        updateBackground();
         updateButtonCta();
         updateButtonBackPosition();
         updateButtonNextPosition();
@@ -930,25 +781,25 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
         }
 
         if (offset <= 0) {
-            miButtonNext.setImageResource(R.drawable.mi_ic_next);
-            miButtonNext.getDrawable().setAlpha(0xFF);
+            miButtonNext.setIconResource(R.drawable.mi_ic_next);
+            miButtonNext.getIcon().setAlpha(0xFF);
         } else {
-            miButtonNext.setImageResource(R.drawable.mi_ic_next_finish);
-            if (miButtonNext.getDrawable() != null && miButtonNext.getDrawable() instanceof LayerDrawable) {
-                LayerDrawable drawable = (LayerDrawable) miButtonNext.getDrawable();
+            miButtonNext.setIconResource(R.drawable.mi_ic_next_finish);
+            if (miButtonNext.getIcon() != null && miButtonNext.getIcon() instanceof LayerDrawable) {
+                LayerDrawable drawable = (LayerDrawable) miButtonNext.getIcon();
                 drawable.getDrawable(0).setAlpha((int) (0xFF * (1 - offset)));
                 drawable.getDrawable(1).setAlpha((int) (0xFF * offset));
             } else {
-                miButtonNext.setImageResource(offset > 0 ? R.drawable.mi_ic_finish : R.drawable.mi_ic_next);
+                miButtonNext.setIconResource(offset > 0 ? R.drawable.mi_ic_finish : R.drawable.mi_ic_next);
             }
         }
     }
 
     private void updateButtonBackDrawable() {
         if (buttonBackFunction == BUTTON_BACK_FUNCTION_SKIP) {
-            miButtonBack.setImageResource(R.drawable.mi_ic_skip);
+            miButtonBack.setIconResource(R.drawable.mi_ic_skip);
         } else {
-            miButtonBack.setImageResource(R.drawable.mi_ic_previous);
+            miButtonBack.setIconResource(R.drawable.mi_ic_previous);
         }
     }
 
@@ -1243,26 +1094,6 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
         return adapter.getItem(position);
     }
 
-    @ColorRes
-    public int getBackground(int position) {
-        return adapter.getBackground(position);
-    }
-
-    @ColorRes
-    public int getBackgroundDark(int position) {
-        return adapter.getBackgroundDark(position);
-    }
-
-    @ColorInt
-    public int getBackgroundInt(int position) {
-        return adapter.getBackgroundInt(position);
-    }
-
-    @ColorInt
-    public int getBackgroundDarkInt(int position) {
-        return adapter.getBackgroundDarkInt(position);
-    }
-
     public List<Slide> getSlides() {
         return adapter.getSlides();
     }
@@ -1343,7 +1174,6 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
             return;
         }
 
-        updateTaskDescription();
         updateButtonBackDrawable();
         updateButtonNextDrawable();
         updateScrollPositions();
@@ -1372,7 +1202,6 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
         @Override
         public void onPageSelected(int position) {
             IntroActivity.this.position = position;
-            updateTaskDescription();
             lockSwipeIfNeeded();
         }
     }

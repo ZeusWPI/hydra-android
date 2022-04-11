@@ -26,9 +26,12 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:background="?colorPrimaryContainer"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    tools:ignore="PrivateResource">
 
     <com.heinrichreimersoftware.materialintro.view.FadeableViewPager
         android:id="@id/mi_pager"
@@ -41,28 +44,32 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp" />
 
-    <ImageButton
-        android:background="@drawable/mi_button_background"
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.Material3.Button.Icon"
         android:contentDescription="@string/mi_content_description_back"
         android:id="@id/mi_button_back"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/mi_baseline"
         android:layout_width="wrap_content"
         android:padding="@dimen/mi_baseline"
-        android:src="@drawable/mi_ic_skip"
+        app:icon="@drawable/mi_ic_skip"
+        android:minWidth="0dp"
+        app:iconPadding="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteX="16dp" />
 
-    <ImageButton
-        android:background="@drawable/mi_button_background"
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.Material3.Button.Icon"
         android:contentDescription="@string/mi_content_description_next"
         android:id="@id/mi_button_next"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/mi_baseline"
         android:layout_width="wrap_content"
         android:padding="@dimen/mi_baseline"
-        android:src="@drawable/mi_ic_next_finish"
+        android:minWidth="0dp"
+        app:iconPadding="0dp"
+        app:icon="@drawable/mi_ic_next_finish"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:layout_editor_absoluteX="312dp" />
@@ -74,6 +81,7 @@
         android:layout_width="0dp"
         app:dotDiameter="10dp"
         app:dotGap="@dimen/mi_baseline_half"
+        app:pageIndicatorColor="?attr/colorSecondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/mi_button_next"
         app:layout_constraintStart_toEndOf="@id/mi_button_back"
@@ -105,7 +113,7 @@
             android:paddingTop="@dimen/mi_baseline_half"
             android:text="@string/mi_label_button_cta" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:gravity="center"
             android:layout_gravity="center"
             android:layout_height="match_parent"

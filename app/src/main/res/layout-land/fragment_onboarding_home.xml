@@ -22,10 +22,13 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/checkbox_wrapper"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:fitsSystemWindows="true"
+    tools:context=".onboarding.OnboardingActivity">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -33,7 +36,8 @@
         android:gravity="center_vertical"
         android:orientation="vertical">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/TextAppearance.Material3.HeadlineMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
@@ -41,18 +45,16 @@
             android:paddingLeft="@dimen/vertical_padding"
             android:paddingTop="@dimen/large_horizontal_padding"
             android:paddingRight="@dimen/vertical_padding"
-            android:text="@string/onboarding_feed_title"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textColor="?android:textColorPrimary" />
+            android:text="@string/onboarding_feed_title" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/TextAppearance.Material3.TitleSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingLeft="@dimen/vertical_padding"
             android:paddingRight="@dimen/vertical_padding"
-            android:text="@string/onboarding_feed_desc"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+            android:text="@string/onboarding_feed_desc" />
 
     </LinearLayout>
 

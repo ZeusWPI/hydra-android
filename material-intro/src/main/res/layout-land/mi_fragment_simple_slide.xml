@@ -24,6 +24,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:baselineAligned="false"
@@ -44,6 +45,7 @@
             android:adjustViewBounds="true"
             android:gravity="center"
             tools:ignore="ContentDescription"
+            app:tint="?colorPrimary"
             tools:src="@android:drawable/sym_action_call" />
 
     </FrameLayout>
@@ -59,17 +61,18 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@id/mi_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
             android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-            tools:ignore="UnusedAttribute"
+            android:textColor="?colorOnPrimaryContainer"
+            tools:ignore="PrivateResource,UnusedAttribute"
             tools:text="Lorem ipsum" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@id/mi_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,6 +81,8 @@
             android:gravity="center"
             android:lineSpacingMultiplier="1.25"
             android:linksClickable="true"
+            android:textColor="?colorOnPrimaryContainer"
+            tools:ignore="PrivateResource,UnusedAttribute"
             android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
             tools:text="Lorem ipsum dolor sit amet, consectetur, adipisci velit, …" />
 

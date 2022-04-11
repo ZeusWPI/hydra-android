@@ -27,21 +27,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context=".onboarding.OnboardingActivity">
 
     <com.google.android.material.textview.MaterialTextView
-        style="?textAppearanceHeadline5"
+        style="@style/TextAppearance.Material3.HeadlineMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingLeft="@dimen/vertical_padding"
         android:paddingTop="@dimen/large_horizontal_padding"
         android:paddingRight="@dimen/vertical_padding"
-        android:text="@string/onboarding_feed_title"
-        android:textColor="?colorOnPrimary" />
+        android:text="@string/onboarding_feed_title" />
 
     <com.google.android.material.textview.MaterialTextView
-        style="?textAppearanceSubtitle1"
+        style="@style/TextAppearance.Material3.TitleSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -53,8 +53,6 @@
         android:id="@+id/recycler_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="@dimen/vertical_padding"
-        android:paddingTop="@dimen/large_horizontal_padding"
-        android:paddingRight="@dimen/vertical_padding" />
+        android:paddingTop="@dimen/large_horizontal_padding" />
 
 </LinearLayout>

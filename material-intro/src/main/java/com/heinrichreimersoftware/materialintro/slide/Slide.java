@@ -31,18 +31,6 @@ import androidx.fragment.app.Fragment;
 public interface Slide {
     Fragment getFragment();
 
-    @ColorRes
-    int getBackground();
-
-    @ColorRes
-    int getBackgroundDark();
-
-    @ColorInt
-    int getBackgroundInt();
-
-    @ColorInt
-    int getBackgroundDarkInt();
-
     boolean canGoForward();
 
     boolean canGoBackward();
