@@ -21,3 +21,4 @@
  */
 
 include ':app'
+include ':material-intro'
