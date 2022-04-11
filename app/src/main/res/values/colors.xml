@@ -23,31 +23,66 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!--colorPrimary colors map to components and elements, such as app bars and buttons. -->
-    <!--colorSecondary colors are most often used as accents on components, such as FABs and -->
-    <!--selection controls.-->
-    <!-- This colour scheme was generated from https://goo.gl/Mzta1m -->
-    <color name="hydra_color_primary">#1e64c8</color>
-    <color name="hydra_color_primary_variant_light">#6391fc</color>
-    <color name="hydra_color_primary_variant_dark">#003b96</color>
-    <color name="hydra_color_secondary">#ffd200</color>
-    <color name="hydra_color_secondary_variant_light" tools:ignore="UnusedResources">#ffff52</color>
-    <color name="hydra_color_secondary_variant_dark">#c7a100</color>
-
-    <color name="color_background">#fff5f5f5</color>
-
-    <!--"On" colors define how text, icons and strokes are colored in relation to the surface-->
-    <!--on which they appear.-->
-    <color name="color_on_primary">#ffffff</color>
-    <color name="color_on_secondary">#000000</color>
-    <color name="color_on_background">#000000</color>
-    <color name="color_on_surface">#000000</color>
-    <color name="color_on_error">#ffffff</color>
-
+    <!-- Material theme -->
+    <color name="md_theme_light_primary">#095BBF</color>
+    <color name="md_theme_light_onPrimary">#FFFFFF</color>
+    <color name="md_theme_light_primaryContainer">#D6E2FF</color>
+    <color name="md_theme_light_onPrimaryContainer">#001A43</color>
+    <color name="md_theme_light_secondary">#725C00</color>
+    <color name="md_theme_light_onSecondary">#FFFFFF</color>
+    <color name="md_theme_light_secondaryContainer">#FFE175</color>
+    <color name="md_theme_light_onSecondaryContainer">#231B00</color>
+    <color name="md_theme_light_tertiary">#725C00</color>
+    <color name="md_theme_light_onTertiary">#FFFFFF</color>
+    <color name="md_theme_light_tertiaryContainer">#FFE175</color>
+    <color name="md_theme_light_onTertiaryContainer">#231B00</color>
+    <color name="md_theme_light_error">#B3261E</color>
+    <color name="md_theme_light_errorContainer">#F9DEDC</color>
+    <color name="md_theme_light_onError">#FFFFFF</color>
+    <color name="md_theme_light_onErrorContainer">#410E0B</color>
+    <color name="md_theme_light_background">#FCFCFC</color>
+    <color name="md_theme_light_onBackground">#1F1A1B</color>
+    <color name="md_theme_light_surface">#FCFCFC</color>
+    <color name="md_theme_light_onSurface">#1F1A1B</color>
+    <color name="md_theme_light_surfaceVariant">#E7E0EC</color>
+    <color name="md_theme_light_onSurfaceVariant">#49454F</color>
+    <color name="md_theme_light_outline">#79747E</color>
+    <color name="md_theme_light_inverseOnSurface">#FAEEEF</color>
+    <color name="md_theme_light_inverseSurface">#352F30</color>
+    <color name="md_theme_light_inversePrimary">#ACC7FF</color>
+    <color name="md_theme_light_shadow">#000000</color>
+    <color name="md_theme_light_primaryInverse">#ACC7FF</color>
+    <color name="md_theme_dark_primary">#ACC7FF</color>
+    <color name="md_theme_dark_onPrimary">#002E6C</color>
+    <color name="md_theme_dark_primaryContainer">#004396</color>
+    <color name="md_theme_dark_onPrimaryContainer">#D6E2FF</color>
+    <color name="md_theme_dark_secondary">#EDC200</color>
+    <color name="md_theme_dark_onSecondary">#3C2F00</color>
+    <color name="md_theme_dark_secondaryContainer">#574500</color>
+    <color name="md_theme_dark_onSecondaryContainer">#FFE175</color>
+    <color name="md_theme_dark_tertiary">#EDC200</color>
+    <color name="md_theme_dark_onTertiary">#3C2F00</color>
+    <color name="md_theme_dark_tertiaryContainer">#574500</color>
+    <color name="md_theme_dark_onTertiaryContainer">#FFE175</color>
+    <color name="md_theme_dark_error">#F2B8B5</color>
+    <color name="md_theme_dark_errorContainer">#8C1D18</color>
+    <color name="md_theme_dark_onError">#601410</color>
+    <color name="md_theme_dark_onErrorContainer">#F9DEDC</color>
+    <color name="md_theme_dark_background">#1F1A1B</color>
+    <color name="md_theme_dark_onBackground">#EBE0E1</color>
+    <color name="md_theme_dark_surface">#1F1A1B</color>
+    <color name="md_theme_dark_onSurface">#EBE0E1</color>
+    <color name="md_theme_dark_surfaceVariant">#49454F</color>
+    <color name="md_theme_dark_onSurfaceVariant">#CAC4D0</color>
+    <color name="md_theme_dark_outline">#938F99</color>
+    <color name="md_theme_dark_inverseOnSurface">#1F1A1B</color>
+    <color name="md_theme_dark_inverseSurface">#EBE0E1</color>
+    <color name="md_theme_dark_inversePrimary">#095BBF</color>
+    <color name="md_theme_dark_shadow">#000000</color>
+    <color name="md_theme_dark_primaryInverse">#095BBF</color>
 
     <!-- General colours -->
     <color name="white">@color/material_color_white</color>
-    <color name="black" tools:ignore="UnusedResources">@color/material_color_black</color>
 
     <!--
         ~ The grey colour for the launcher shortcuts background.
@@ -55,5 +90,5 @@
         ~ the colour must be Solid fill of Material Grey 100 (#F5F5F5)
         -->
     <color name="launcher_shortcut_background">@color/material_color_grey_100</color>
-    <color name="hydra_launcher_color">?attr/colorPrimary</color>
+    <color name="hydra_launcher_color">@color/md_theme_light_primary</color>
 </resources>
