@@ -52,6 +52,9 @@ class LicenseMap {
             // https://github.com/github/choosealicense.com/blob/gh-pages/_licenses/mpl-2.0.txt
             "http://openjdk.java.net/legal/gplv2+ce.html"          : "gplv2ce.txt",
 
+            // Eclipse Public License - v 1.0
+            "http://www.eclipse.org/legal/epl-v10.html"            : "epl.txt",
+            
             // Not a license -- skip these
             "https://developer.android.com/studio/terms.html"      : null,
             "http://developer.android.com/studio/terms.html"       : null,
