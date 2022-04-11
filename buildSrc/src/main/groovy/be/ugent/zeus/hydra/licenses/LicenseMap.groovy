@@ -46,6 +46,7 @@ class LicenseMap {
             "https://opensource.org/licenses/MIT"                  : "mit.txt",
             "http://www.opensource.org/licenses/mit-license.php"   : "mit.txt",
             "http://opensource.org/licenses/mit-license.php"       : "mit.txt",
+            "https://github.com/mockito/mockito/blob/main/LICENSE" : "mit.txt",
 
             // GPLv2 + Classpath Exception
             // https://github.com/github/choosealicense.com/blob/gh-pages/_licenses/mpl-2.0.txt
