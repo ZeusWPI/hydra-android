@@ -21,39 +21,9 @@
   ~ SOFTWARE.
   -->
 
-<resources xmlns:tools="http://schemas.android.com/tools">
-
-    <!-- Style for toolbars -->
-    <style name="Hydra.Toolbar" parent="Widget.MaterialComponents.Toolbar.PrimarySurface">
-        <item name="colorControlNormal">?colorOnPrimarySurface</item>
-    </style>
-
-    <!-- For some reason, the shadow is broken in the day theme -->
-    <style name="Hydra.Tabs.Colored" parent="Widget.MaterialComponents.TabLayout.PrimarySurface">
-        <item name="android:elevation" tools:ignore="NewApi">@dimen/material_elevation_app_bar</item>
-    </style>
-
-    <!-- Needed for custom views -->
-    <style name="Hydra.Text.Subhead" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="android:textColor">?colorPrimarySecondary</item>
-    </style>
-
-    <style name="Hydra.Text.SubheadMd" parent="TextAppearance.Material3.TitleSmall">
+<resources>
+    <style name="Hydra.Text.Subhead" parent="TextAppearance.Material3.TitleSmall">
         <item name="android:textColor">?colorOnSurface</item>
-    </style>
-
-    <!-- Needed for subtitles in onboarding -->
-    <style name="Hydra.Text.Onboarding.Subhead" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="android:textColor">?colorSecondary</item>
-    </style>
-
-    <!-- Transparant text -->
-    <style name="Hydra.Text.Transparent" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="android:textColor">#00000000</item>
-    </style>
-
-    <style name="Hydra.Text.TransparentMd" parent="TextAppearance.Material3.BodyMedium">
-        <item name="android:textColor">#00000000</item>
     </style>
 
     <!-- Divider style -->
@@ -62,5 +32,4 @@
         <item name="android:layout_height">1dp</item>
         <item name="android:background">?android:attr/listDivider</item>
     </style>
-
 </resources>

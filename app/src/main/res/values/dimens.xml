@@ -29,8 +29,6 @@
 
     <!-- Material design normal keylines -->
     <dimen name="vertical_padding">16dp</dimen>
-    <dimen name="keyline">72dp</dimen>
-    <dimen name="keyline_fixed">72dp</dimen>
     <dimen name="keyline_tab">60dp</dimen><!-- keyline (71) - 12 (tab padding) -->
     <dimen name="large_horizontal_padding">16dp</dimen>
 
@@ -84,9 +82,6 @@
     <dimen name="list_one_line_padding_horizontal">16dp</dimen>
     <dimen name="list_one_line_text_size" tools:ignore="UnusedResources">16sp</dimen>
 
-    <dimen name="hero_image_height">256dp</dimen>
-
     <!-- Urgent social buttons -->
     <dimen name="urgent_social_icon_size">64dp</dimen>
-
 </resources>

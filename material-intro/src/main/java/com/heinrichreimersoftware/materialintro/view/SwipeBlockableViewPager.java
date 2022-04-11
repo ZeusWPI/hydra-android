@@ -24,6 +24,7 @@
 
 package com.heinrichreimersoftware.materialintro.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -66,8 +67,9 @@ public class SwipeBlockableViewPager extends ViewPager {
     public void setSwipeLeftEnabled(boolean swipeLeftEnabled) {
         this.swipeLeftEnabled = swipeLeftEnabled;
     }
-
+    
     @Override
+    @SuppressLint("ClickableViewAccessibility")
     public boolean onTouchEvent(MotionEvent event) {
         try {
             return handleTouchEvent(event) && super.onTouchEvent(event);

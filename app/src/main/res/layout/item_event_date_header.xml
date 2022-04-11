@@ -42,7 +42,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/date_header"
-            style="@style/Hydra.Text.SubheadMd"
+            style="@style/Hydra.Text.Subhead"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"

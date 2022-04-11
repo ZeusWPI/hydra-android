@@ -2,6 +2,7 @@
  * MIT License
  *
  * Copyright (c) 2017 Jan Heinrich Reimer
+ * Copyright (c) 2022 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +25,6 @@
 
 package com.heinrichreimersoftware.materialintro.slide;
 
-import androidx.annotation.ColorInt;
-import androidx.annotation.ColorRes;
 import androidx.fragment.app.Fragment;
 
 public interface Slide {

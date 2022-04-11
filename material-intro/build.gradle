@@ -17,6 +17,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    lintOptions {
+        warningsAsErrors true
+        showAll true
+        disable "Overdraw" // Allow overdraw, mainly used for selectable backgrounds
+        
+    }
 }
 
 dependencies {

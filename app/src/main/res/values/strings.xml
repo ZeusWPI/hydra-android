@@ -35,8 +35,6 @@
     <string name="action_again">Opnieuw</string>
     <string name="action_drawer_open" tools:keep="@string/action_drawer_open">Openen</string>
     <string name="action_drawer_close" tools:keep="@string/action_drawer_close">Sluiten</string>
-    <string name="action_open_map">Kaart openen</string>
-    <string name="action_send_mail">E-mailen</string>
     <string name="action_search">Zoeken</string>
     <string name="action_add_to_calendar">Toevoegen aan agenda</string>
     <string name="action_undo">Ongedaan maken</string>
@@ -162,9 +160,6 @@
     <string name="resto_pref_closing_description">
         Kies vanaf welk uur het menu voor de volgende dag getoond wordt.
     </string>
-
-    <string name="resto_pref_choice">Keuze resto</string>
-    <string name="resto_pref_choice_loading">Laden…</string>
 
     <string name="resto_extra_refresh_started">Vernieuwen…</string>
     <string name="resto_extra_breakfast">Ontbijt</string>
@@ -326,17 +321,13 @@
 
     <!-- Accessibility strings -->
     <string name="content_desc_more">meer</string>
-    <string name="content_desc_artist_image">Artiestfoto</string>
     <string name="content_desc_schamper_image">Schamperfoto</string>
-    <string name="content_desc_calendar_icon">Agenda-icon</string>
     <string name="content_desc_location">Locatie</string>
     <string name="content_desc_time">Tijd</string>
     <string name="content_desc_hydra_logo">Hydra-logo</string>
     <string name="content_desc_library">Bibliotheek</string>
     <string name="content_desc_resto">Resto</string>
     <string name="content_desc_schamper_article">Schamperartikel</string>
-    <string name="content_desc_search">Zoeken</string>
-    <string name="content_desc_search_artist">Zoeken op artist</string>
     <string name="content_desc_special_event_icon">Icoon speciaal evenement</string>
     <string name="content_desc_urgent_icon">Logo Urgent.fm</string>
     <string name="content_desc_association_icon">Icon vereniging</string>

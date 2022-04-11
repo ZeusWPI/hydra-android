@@ -118,9 +118,9 @@ public class MenuTable extends TableLayout {
         final int textPaddingTop;
         if (isTitle) {
             if (Build.VERSION.SDK_INT < 23) {
-                v.setTextAppearance(getContext(), R.style.Hydra_Text_SubheadMd);
+                v.setTextAppearance(getContext(), R.style.Hydra_Text_Subhead);
             } else {
-                v.setTextAppearance(R.style.Hydra_Text_SubheadMd);
+                v.setTextAppearance(R.style.Hydra_Text_Subhead);
             }
             textPaddingTop = getContext().getResources().getDimensionPixelSize(R.dimen.vertical_padding);
         } else if (messagePaddingTop) {

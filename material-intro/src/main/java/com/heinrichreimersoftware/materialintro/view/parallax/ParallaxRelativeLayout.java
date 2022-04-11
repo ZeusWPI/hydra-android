@@ -1,5 +1,6 @@
 package com.heinrichreimersoftware.materialintro.view.parallax;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import androidx.annotation.FloatRange;
@@ -63,6 +64,7 @@ public class ParallaxRelativeLayout extends RelativeLayout implements Parallaxab
 
         public LayoutParams(Context c, AttributeSet attrs) {
             super(c, attrs);
+            @SuppressLint("CustomViewStyleable")
             TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.ParallaxLayout_Layout);
             parallaxFactor = a.getFloat(R.styleable.ParallaxLayout_Layout_layout_parallaxFactor, parallaxFactor);
             a.recycle();

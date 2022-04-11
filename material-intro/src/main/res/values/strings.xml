@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ MIT License
   ~
-  ~ Copyright (c) 2017 Jan Heinrich Reimer
+  ~ Copyright (c) 2022 Niko Strijbol
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -23,13 +23,13 @@
   -->
 
 <resources>
-    <string name="mi_content_description_skip">Skip</string>
-    <string name="mi_content_description_back">Back</string>
-    <string name="mi_content_description_next">Next</string>
-    <string name="mi_content_description_next_finish">Next/Finish</string>
+    <string name="mi_content_description_skip">Overslaan</string>
+    <string name="mi_content_description_back">Vorige</string>
+    <string name="mi_content_description_next">Volgende</string>
+    <string name="mi_content_description_next_finish">Volgende/Voltooien</string>
     <plurals name="mi_label_grant_permission">
-        <item quantity="one">Grant permission</item>
-        <item quantity="other">Grant permissions</item>
+        <item quantity="one">Toestemming geven</item>
+        <item quantity="other">Toestemmingen geven</item>
     </plurals>
-    <string name="mi_label_button_cta">Get started</string>
+    <string name="mi_label_button_cta">Beginnen</string>
 </resources>

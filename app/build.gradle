@@ -60,6 +60,7 @@ android {
 
     lintOptions {
         warningsAsErrors true
+        showAll true
         // We don't support Right to Left layouts.
         disable "RtlSymmetry",
                 // We don't care about long vector paths.

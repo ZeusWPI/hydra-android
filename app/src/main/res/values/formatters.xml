@@ -22,15 +22,7 @@
   -->
 
 <resources>
-
-    <!--
-      ~ This file contains localized date/time formatters.
-      ~ In all these strings, the full Java formatting arguments can be used.
-      -->
-    <string name="formatter_general_hour_only" translatable="false">HH:mm</string>
-
     <bool name="date_supports_today">true</bool>
     <bool name="date_supports_tomorrow">true</bool>
     <bool name="date_supports_overmorrow">true</bool>
-
 </resources>

@@ -113,7 +113,7 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/description_title"
-                    style="@style/Hydra.Text.SubheadMd"
+                    style="@style/Hydra.Text.Subhead"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:height="48dp"

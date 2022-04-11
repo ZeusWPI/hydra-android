@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:tabContentStart="@dimen/keyline_tab"
-                app:tabMode="fixed" />
+                app:tabMode="scrollable" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

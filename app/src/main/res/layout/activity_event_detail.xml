@@ -228,7 +228,7 @@
                 android:paddingEnd="@dimen/card_text_padding_vertical">
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/Hydra.Text.SubheadMd"
+                    style="@style/Hydra.Text.Subhead"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:height="48dp"
