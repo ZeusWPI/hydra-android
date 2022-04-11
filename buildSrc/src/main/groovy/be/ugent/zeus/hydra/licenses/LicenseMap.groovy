@@ -37,8 +37,6 @@ class LicenseMap {
             "https://www.apache.org/licenses/LICENSE-2.0.txt"      : "apache-2.0.txt",
             "http://opensource.org/licenses/Apache-2.0"            : "apache-2.0.txt",
             "https://opensource.org/licenses/Apache-2.0"           : "apache-2.0.txt",
-            // For OSM-droid, see https://github.com/osmdroid/osmdroid/issues/1542
-            "http://www.apache.org/licenses/"                      : "apache-2.0.txt",
 
 
             // MIT License
