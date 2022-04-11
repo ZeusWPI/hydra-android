@@ -30,6 +30,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_view"
+        style="@style/Widget.Material3.CardView.Elevated"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/card_margin"
@@ -61,7 +62,7 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/association"
-                    style="?textAppearanceBody2"
+                    style="?textAppearanceBodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="Vereniging" />
@@ -69,7 +70,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/starttime"
-                style="?textAppearanceBody2"
+                style="?textAppearanceBodyMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="end"

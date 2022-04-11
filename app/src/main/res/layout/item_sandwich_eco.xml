@@ -49,7 +49,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/dates"
-            style="?textAppearanceBody2"
+            style="?textAppearanceBodyMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Naam van het broodje" />
@@ -63,7 +63,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/sandwich_ingredients"
-            style="?textAppearanceBody2"
+            style="?textAppearanceBodyMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textIsSelectable="true"

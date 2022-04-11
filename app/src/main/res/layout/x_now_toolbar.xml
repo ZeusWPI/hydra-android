@@ -40,13 +40,13 @@
         android:layout_marginLeft="8dp"
         android:contentDescription="@string/content_desc_resto"
         android:padding="8dp"
-        app:tint="@color/hydra_color_primary_variant_light"
-        tools:ignore="MissingPrefix"
-        tools:src="@drawable/tabs_resto" />
+        app:tint="?colorSecondary"
+        tools:src="@drawable/tabs_resto"
+        tools:ignore="PrivateResource" />
 
     <TextView
         android:id="@+id/now_toolbar_title"
-        style="?textAppearanceCaption"
+        style="?textAppearanceBodySmall"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"

@@ -61,7 +61,7 @@ public class DisplayableMenu {
     DisplayableMenu(Context context, RestoMenu menu, boolean selectable) {
         this.menu = menu;
         this.selectable = selectable;
-        normalStyle = ViewUtils.getAttr(context, R.attr.textAppearanceBody2);
+        normalStyle = ViewUtils.getAttr(context, R.attr.textAppearanceBodyMedium);
     }
 
     /**

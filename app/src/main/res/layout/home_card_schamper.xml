@@ -22,10 +22,11 @@
   ~ SOFTWARE.
   -->
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    style="@style/Widget.Material3.CardView.Elevated"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/card_spacing"
     android:clickable="true"
@@ -60,21 +61,21 @@
 
                 <TextView
                     android:id="@+id/title"
-                    style="?textAppearanceHeadline6"
+                    style="?textAppearanceTitleLarge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="Dit is een schamper artikel! Met een lange titel van meerdere lijnen!" />
 
                 <TextView
                     android:id="@+id/date"
-                    style="?textAppearanceBody2"
+                    style="?textAppearanceBodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="Datum Gisteren" />
 
                 <TextView
                     android:id="@+id/author"
-                    style="?textAppearanceBody2"
+                    style="?textAppearanceBodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="Auteur artikel" />
@@ -94,4 +95,4 @@
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

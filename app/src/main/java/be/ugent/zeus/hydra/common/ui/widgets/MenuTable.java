@@ -84,7 +84,7 @@ public class MenuTable extends TableLayout {
             selectable = a.getBoolean(R.styleable.MenuTable_selectable, false);
             showTitles = a.getBoolean(R.styleable.MenuTable_showTitles, false);
             messagePaddingTop = a.getBoolean(R.styleable.MenuTable_messagePaddingTop, false);
-            normalStyle = ViewUtils.getAttr(context, R.attr.textAppearanceBody2);
+            normalStyle = ViewUtils.getAttr(context, R.attr.textAppearanceBodyMedium);
         } finally {
             a.recycle();
         }
@@ -118,7 +118,6 @@ public class MenuTable extends TableLayout {
         final int textPaddingTop;
         if (isTitle) {
             if (Build.VERSION.SDK_INT < 23) {
-                //noinspection deprecation
                 v.setTextAppearance(getContext(), R.style.Hydra_Text_Subhead);
             } else {
                 v.setTextAppearance(R.style.Hydra_Text_Subhead);

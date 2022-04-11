@@ -37,6 +37,7 @@
         android:layout_marginRight="@dimen/card_margin"
         app:contentPaddingLeft="@dimen/card_text_padding_vertical"
         app:contentPaddingRight="@dimen/card_text_padding_vertical"
+        style="@style/Widget.Material3.CardView.Elevated"
         app:shapeAppearanceOverlay="@style/EventTopShape">
 
         <com.google.android.material.textview.MaterialTextView

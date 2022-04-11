@@ -28,6 +28,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/card_spacing"
+    style="@style/Widget.Material3.CardView.Elevated"
     android:clickable="true"
     android:focusable="true">
 
@@ -47,7 +48,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/title"
-            style="?textAppearanceHeadline5"
+            style="?textAppearanceHeadlineSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/card_title_padding_vertical"
@@ -73,14 +74,14 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/author"
-                    style="?textAppearanceSubtitle2"
+                    style="?textAppearanceTitleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="Auteur artikel" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/date"
-                    style="?textAppearanceSubtitle2"
+                    style="?textAppearanceTitleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="Datum Gisteren" />

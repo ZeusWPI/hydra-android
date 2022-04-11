@@ -28,6 +28,7 @@ import android.os.StrictMode;
 import android.util.Log;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.google.android.material.color.DynamicColors;
 import be.ugent.zeus.hydra.common.reporting.Manager;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.reporting.Tracker;
@@ -84,6 +85,9 @@ public class HydraApplication extends Application {
         // Set the theme.
         AppCompatDelegate.setDefaultNightMode(ThemeFragment.getNightMode(this));
         trackTheme();
+        
+        // Allow dynamic colours
+        DynamicColors.applyToActivitiesIfAvailable(this);
 
         Once.initialise(this);
     }

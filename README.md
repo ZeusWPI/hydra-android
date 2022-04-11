@@ -61,4 +61,4 @@ The `store` variant is the main variant, and used for the Play Store and is the 
 
 ## License
 
-Most code is licensed under the MIT license, unless otherwise noted.
+All code is licensed under the MIT license, unless otherwise noted.

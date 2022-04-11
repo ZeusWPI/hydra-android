@@ -45,7 +45,6 @@ android {
         // For a description of what these do, see the config.properties file.
         buildConfigField "boolean", "DEBUG_HOME_STREAM_PRIORITY", props.getProperty('hydra.debug.home.stream.priority')
         buildConfigField "boolean", "DEBUG_HOME_STREAM_STALL", props.getProperty('hydra.debug.home.stream.stall')
-        buildConfigField "boolean", "DEBUG_HOME_STREAM_ADD_SKO_CARD", props.getProperty('hydra.debug.home.stream.sko')
         buildConfigField "boolean", "DEBUG_ENABLE_STRICT_MODE", props.getProperty('hydra.debug.strict_mode')
         buildConfigField "boolean", "DEBUG_ENABLE_ALL_SPECIALS", props.getProperty('hydra.debug.home.stream.specials')
         buildConfigField "boolean", "DEBUG_TRACK_LEAKS", props.getProperty("hydra.debug.leaks")
@@ -61,6 +60,7 @@ android {
 
     lintOptions {
         warningsAsErrors true
+        showAll true
         // We don't support Right to Left layouts.
         disable "RtlSymmetry",
                 // We don't care about long vector paths.
@@ -179,19 +179,21 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.browser:browser:1.4.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation "androidx.lifecycle:lifecycle-common-java8:2.4.1"
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation 'androidx.room:room-runtime:2.4.2'
     annotationProcessor 'androidx.room:room-compiler:2.4.2'
     implementation 'com.squareup.okhttp3:okhttp:4.9.3'
     implementation 'com.squareup.moshi:moshi:1.13.0'
     implementation 'com.squareup.picasso:picasso:2.8'
     implementation 'com.github.cachapa:ExpandableLayout:2.9.2'
-    implementation 'com.github.niknetniko:material-intro:9903deb6c4'
+    implementation project(":material-intro")
     implementation 'com.github.jonfinerty:Once:19fa6fa10d'
     implementation 'com.github.esnaultdev:MaterialValues:v1.1.1'
+    implementation 'dev.chrisbanes.insetter:insetter:0.6.1'
 
     // Dependencies for the Play Store version.
     storeImplementation 'com.google.android.gms:play-services-maps:18.0.2'

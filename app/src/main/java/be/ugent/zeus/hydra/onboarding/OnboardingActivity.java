@@ -23,7 +23,10 @@
 package be.ugent.zeus.hydra.onboarding;
 
 import android.os.Bundle;
+import android.util.TypedValue;
+import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
+import androidx.core.view.WindowCompat;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.reporting.Event;
@@ -42,6 +45,7 @@ public class OnboardingActivity extends IntroActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
 
         Reporting.getTracker(this)
                 .log(new TutorialBeginEvent());
@@ -51,15 +55,11 @@ public class OnboardingActivity extends IntroActivity {
                 .title(R.string.onboarding_welcome)
                 .description(R.string.onboarding_welcome_description)
                 .image(R.drawable.logo_onboarding_ugent)
-                .background(R.color.hydra_color_primary)
-                .backgroundDark(R.color.hydra_color_primary)
                 .build());
 
         if (Reporting.hasReportingOptions()) {
             // Check for permission for data collection
             addSlide(new FragmentSlide.Builder()
-                    .background(R.color.hydra_color_primary)
-                    .backgroundDark(R.color.hydra_color_primary)
                     .fragment(new ReportingFragment())
                     .build()
             );
@@ -67,8 +67,6 @@ public class OnboardingActivity extends IntroActivity {
 
         // Home feed selector
         addSlide(new FragmentSlide.Builder()
-                .background(R.color.hydra_color_primary)
-                .backgroundDark(R.color.hydra_color_primary)
                 .fragment(new HomeFeedFragment())
                 .build());
     }

@@ -59,7 +59,7 @@
                     app:srcCompat="@drawable/resto_soup" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="?textAppearanceBody2"
+                    style="?textAppearanceBodyMedium"
                     android:layout_gravity="center_vertical"
                     android:text="@string/resto_legend_soup" />
             </TableRow>
@@ -76,7 +76,7 @@
                     app:srcCompat="@drawable/resto_vegetables" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="?textAppearanceBody2"
+                    style="?textAppearanceBodyMedium"
                     android:layout_gravity="center_vertical"
                     android:text="@string/resto_legend_vegetables" />
             </TableRow>
@@ -93,7 +93,7 @@
                     app:srcCompat="@drawable/resto_fish" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="?textAppearanceBody2"
+                    style="?textAppearanceBodyMedium"
                     android:layout_gravity="center_vertical"
                     android:text="@string/resto_legend_fish" />
             </TableRow>
@@ -110,7 +110,7 @@
                     app:srcCompat="@drawable/resto_meat" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="?textAppearanceBody2"
+                    style="?textAppearanceBodyMedium"
                     android:layout_gravity="center_vertical"
                     android:text="@string/resto_legend_meat" />
             </TableRow>
@@ -127,7 +127,7 @@
                     app:srcCompat="@drawable/resto_vegetarian" />
 
                 <TextView
-                    style="?textAppearanceBody2"
+                    style="?textAppearanceBodyMedium"
                     android:layout_gravity="center_vertical"
                     android:text="@string/resto_legend_vegetarian" />
             </TableRow>
@@ -144,7 +144,7 @@
                     app:srcCompat="@drawable/resto_vegan" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="?textAppearanceBody2"
+                    style="?textAppearanceBodyMedium"
                     android:layout_gravity="center_vertical"
                     android:text="@string/resto_legend_vegan" />
             </TableRow>
@@ -169,13 +169,13 @@
                 android:minHeight="@dimen/material_list_single_line_without_avatar_dense_height">
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="?textAppearanceBody2"
+                    style="?textAppearanceBodyMedium"
                     android:paddingEnd="16dp"
                     android:paddingRight="16dp"
                     android:text="@string/resto_legend_msc_abbr" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="?textAppearanceBody2"
+                    style="?textAppearanceBodyMedium"
                     android:layout_weight="1"
                     android:text="@string/resto_legend_msc_desc"
                     android:textIsSelectable="true" />
@@ -186,13 +186,13 @@
                 android:minHeight="@dimen/material_list_single_line_without_avatar_dense_height">
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="?textAppearanceBody2"
+                    style="?textAppearanceBodyMedium"
                     android:paddingEnd="16dp"
                     android:paddingRight="16dp"
                     android:text="@string/resto_legend_asc_abbr" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="?textAppearanceBody2"
+                    style="?textAppearanceBodyMedium"
                     android:layout_weight="1"
                     android:text="@string/resto_legend_asc_desc"
                     android:textIsSelectable="true" />
@@ -203,13 +203,13 @@
                 android:minHeight="@dimen/material_list_single_line_without_avatar_dense_height">
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="?textAppearanceBody2"
+                    style="?textAppearanceBodyMedium"
                     android:paddingEnd="16dp"
                     android:paddingRight="16dp"
                     android:text="@string/resto_legend_gap_abbr" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="?textAppearanceBody2"
+                    style="?textAppearanceBodyMedium"
                     android:layout_weight="1"
                     android:text="@string/resto_legend_gap_desc"
                     android:textIsSelectable="true" />

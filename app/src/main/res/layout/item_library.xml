@@ -51,14 +51,14 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/subtitle"
-            style="?textAppearanceBody2"
+            style="?textAppearanceBodyMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Meer informatie" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/opening_hours"
-            style="?textAppearanceBody2"
+            style="?textAppearanceBodyMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"

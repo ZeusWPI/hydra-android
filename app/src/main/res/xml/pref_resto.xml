@@ -39,18 +39,4 @@
         app:title="@string/resto_pref_closing_title"
         app:useDefaultSummary="true" />
 
-    <ListPreference
-        app:allowDividerAbove="true"
-        app:key="pref_choice_resto_select"
-        app:persistent="false"
-        app:summary="%s"
-        app:title="@string/resto_pref_choice" />
-
-    <Preference
-        app:allowDividerAbove="true"
-        app:key="pref_choice_resto_select_loading"
-        app:persistent="false"
-        app:summary="@string/resto_pref_choice_loading"
-        app:title="@string/resto_pref_choice" />
-
 </PreferenceScreen>

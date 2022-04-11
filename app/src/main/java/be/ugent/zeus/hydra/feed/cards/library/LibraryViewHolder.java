@@ -60,7 +60,7 @@ public class LibraryViewHolder extends CardViewHolder {
         list = itemView.findViewById(R.id.library_list);
 
         Context c = itemView.getContext();
-        styleName = ViewUtils.getAttr(c, R.attr.textAppearanceBody2);
+        styleName = ViewUtils.getAttr(c, R.attr.textAppearanceBodyMedium);
         styleHours = ViewUtils.getAttr(c, R.attr.textAppearanceCaption);
         rowPadding = c.getResources().getDimensionPixelSize(R.dimen.material_baseline_grid_1x);
 

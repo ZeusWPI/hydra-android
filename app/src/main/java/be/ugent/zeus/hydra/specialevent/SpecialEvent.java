@@ -30,7 +30,6 @@ import androidx.annotation.NonNull;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
-import be.ugent.zeus.hydra.sko.OverviewActivity;
 import com.squareup.moshi.Json;
 
 /**
@@ -41,9 +40,6 @@ import com.squareup.moshi.Json;
  */
 @SuppressWarnings("unused")
 public final class SpecialEvent {
-
-    public static final String SKO_IN_APP = "be.ugent.zeus.hydra.special.sko";
-
     private String name;
     private String link;
     @Json(name = "simple-text")
@@ -68,9 +64,6 @@ public final class SpecialEvent {
     public Intent getViewIntent(Context context) {
         if (inApp == null) {
             inApp = "";
-        }
-        if (SKO_IN_APP.equals(inApp)) {
-            return OverviewActivity.start(context);
         }
         return new Intent(Intent.ACTION_VIEW, Uri.parse(getLink()));
     }

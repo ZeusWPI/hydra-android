@@ -86,8 +86,6 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
     private static final String[] watchedPreferences = {
             HomeFeedFragment.PREF_DISABLED_CARD_TYPES,
             AssociationStore.PREF_WHITELIST,
-            RestoPreferenceFragment.PREF_RESTO_KEY,
-            RestoPreferenceFragment.PREF_RESTO_NAME,
             HomeFeedFragment.PREF_DISABLED_CARD_HACK
     };
     private final SharedPreferences.OnSharedPreferenceChangeListener restoListener = new RestoListener();
@@ -288,11 +286,6 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
             // We don't need to update for these values anymore, since we already do this manually.
             if (Arrays.stream(watchedPreferences).anyMatch(key::contains)) {
                 oldPreferences.put(key, sharedPreferences.getAll().get(key));
-            }
-            if (RestoPreferenceFragment.PREF_RESTO_KEY.equals(key) || RestoPreferenceFragment.PREF_RESTO_NAME.equals(key)) {
-                Bundle ex = new Bundle();
-                ex.putInt(REFRESH_HOMECARD_TYPE, Card.Type.RESTO);
-                flagForRefresh(ex);
             }
         }
     }

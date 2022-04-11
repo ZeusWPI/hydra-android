@@ -33,7 +33,5 @@ public interface Endpoints {
     String ZEUS_V1 = "https://hydra.ugent.be/api/1.0/";
     String ZEUS_V2 = "https://hydra.ugent.be/api/2.0/";
 
-    String LIBRARY = "http://widgets.lib.ugent.be/";
-
-    String SKO = "https://studentkickoff.be/";
+    String LIBRARY = "https://widgets.lib.ugent.be/";
 }

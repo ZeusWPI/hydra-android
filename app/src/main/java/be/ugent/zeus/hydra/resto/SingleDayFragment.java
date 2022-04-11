@@ -100,19 +100,15 @@ public class SingleDayFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Reporting.getTracker(getContext())
-                .log(new MenuEvent(getContext(), data));
+        Reporting.getTracker(getContext()).log(new MenuEvent(data));
     }
 
     private static class MenuEvent implements Event {
 
-        private final String resto;
         private final RestoMenu menu;
 
-        private MenuEvent(Context context, RestoMenu menu) {
+        private MenuEvent(RestoMenu menu) {
             this.menu = menu;
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-            this.resto = RestoPreferenceFragment.getRestoEndpoint(context, sharedPreferences);
         }
 
         @Nullable
@@ -121,9 +117,8 @@ public class SingleDayFragment extends Fragment {
             BaseEvents.Params names = Reporting.getEvents().params();
             Bundle params = new Bundle();
             params.putString(names.itemCategory(), RestoMenu.class.getSimpleName());
-            params.putString(names.itemId(), resto + menu.getDate().toString());
+            params.putString(names.itemId(), menu.getDate().toString());
             params.putString("date", menu.getDate().toString());
-            params.putString("resto", resto);
             return params;
         }
 

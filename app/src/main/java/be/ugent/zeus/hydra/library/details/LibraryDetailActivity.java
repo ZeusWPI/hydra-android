@@ -41,6 +41,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.util.LinkifyCompat;
+import androidx.core.view.WindowCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
@@ -91,17 +92,13 @@ public class LibraryDetailActivity extends BaseActivity<ActivityLibraryDetailsBi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(ActivityLibraryDetailsBinding::inflate);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
 
         library = getIntent().getParcelableExtra(ARG_LIBRARY);
 
         Picasso.get().load(library.getHeaderImage(this)).into(binding.headerImage);
 
         binding.collapsingToolbar.setTitle(library.getName());
-        // TODO: why is this necessary?
-        int white = ContextCompat.getColor(this, R.color.white);
-        binding.collapsingToolbar.setExpandedTitleColor(white);
-        binding.collapsingToolbar.setCollapsedTitleTextColor(white);
-
         String address = makeFullAddressText();
         if (TextUtils.isEmpty(address)) {
             binding.libraryAddressCard.setVisibility(View.GONE);
@@ -209,15 +206,15 @@ public class LibraryDetailActivity extends BaseActivity<ActivityLibraryDetailsBi
         for (OpeningHours hours : list) {
             TableRow tableRow = new TableRow(this);
             tableRow.setPadding(0, rowPadding, 0, rowPadding);
-            TextView date = new TextView(this, null, R.attr.textAppearanceBody2);
+            TextView date = new TextView(this, null, R.attr.textAppearanceBodyMedium);
             date.setText(DateUtils.getFriendlyDate(this, hours.getDate()));
-            TextView openHours = new TextView(this, null, R.attr.textAppearanceBody2);
+            TextView openHours = new TextView(this, null, R.attr.textAppearanceBodyMedium);
             openHours.setPadding(rowPadding, 0, 0, 0);
             openHours.setText(hours.getHours());
             tableRow.addView(date);
             tableRow.addView(openHours);
             if (!TextUtils.isEmpty(hours.getComments())) {
-                TextView comments = new TextView(this, null, R.attr.textAppearanceBody2);
+                TextView comments = new TextView(this, null, R.attr.textAppearanceBodyMedium);
                 TableLayout.LayoutParams params = new TableLayout.LayoutParams();
                 params.weight = 0;
                 params.width = 0;
@@ -235,7 +232,7 @@ public class LibraryDetailActivity extends BaseActivity<ActivityLibraryDetailsBi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_library_details, menu);
-        tintToolbarIcons(menu, R.id.library_location, R.id.library_email, R.id.library_url);
+        tintToolbarIcons(menu, R.id.library_url);
         if (library.getLink() == null) {
             menu.removeItem(R.id.library_url);
         }
@@ -245,17 +242,7 @@ public class LibraryDetailActivity extends BaseActivity<ActivityLibraryDetailsBi
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
-        if (itemId == R.id.library_location) {
-            NetworkUtils.maybeLaunchIntent(this, mapsIntent());
-            return true;
-        } else if (itemId == R.id.library_email) {
-            Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
-            sendIntent.setData(Uri.parse("mailto:"));
-            sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{library.getEmail()});
-            sendIntent.putExtra(Intent.EXTRA_SUBJECT, library.getName());
-            NetworkUtils.maybeLaunchIntent(this, sendIntent);
-            return true;
-        } else if (itemId == R.id.library_url) {
+        if (itemId == R.id.library_url) {
             if (library.getLink() != null) {
                 NetworkUtils.maybeLaunchBrowser(this, library.getLink());
             }

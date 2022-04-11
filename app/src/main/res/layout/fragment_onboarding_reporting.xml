@@ -22,16 +22,16 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/checkbox_wrapper"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context=".onboarding.OnboardingActivity">
 
     <com.google.android.material.textview.MaterialTextView
-        style="?textAppearanceHeadline4"
+        style="@style/TextAppearance.Material3.HeadlineMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -41,7 +41,7 @@
         android:text="@string/onboarding_reporting_title" />
 
     <com.google.android.material.textview.MaterialTextView
-        style="?textAppearanceSubtitle1"
+        style="@style/TextAppearance.Material3.TitleSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -50,7 +50,7 @@
         android:text="@string/onboarding_reporting_desc" />
 
     <com.google.android.material.textview.MaterialTextView
-        style="@style/Hydra.Text.Onboarding.Subhead"
+        style="@style/TextAppearance.Material3.TitleMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:height="48dp"
@@ -60,7 +60,7 @@
         android:text="@string/onboarding_reporting_analytics_title" />
 
     <com.google.android.material.textview.MaterialTextView
-        style="?textAppearanceBody2"
+        style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/vertical_padding"
@@ -81,19 +81,17 @@
             android:id="@+id/allowAnalytics"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/onboarding_reporting_allow"
-            android:textColor="?colorOnSurface" />
+            android:text="@string/onboarding_reporting_allow" />
 
         <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/disallowAnalytics"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/onboarding_reporting_disallow"
-            android:textColor="?colorOnSurface" />
+            android:text="@string/onboarding_reporting_disallow" />
     </RadioGroup>
 
     <com.google.android.material.textview.MaterialTextView
-        style="@style/Hydra.Text.Onboarding.Subhead"
+        style="@style/TextAppearance.Material3.TitleMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:height="48dp"
@@ -103,7 +101,7 @@
         android:text="@string/onboarding_reporting_crash_title" />
 
     <com.google.android.material.textview.MaterialTextView
-        style="?textAppearanceBody2"
+        style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/vertical_padding"
@@ -119,12 +117,10 @@
         android:paddingTop="@dimen/content_spacing"
         android:paddingRight="@dimen/vertical_padding"
         android:paddingBottom="@dimen/content_spacing"
-        android:text="@string/onboarding_reporting_allow_crash"
-        android:textColor="?colorOnSurface"
-        app:switchTextAppearance="?textAppearanceBody1" />
+        android:text="@string/onboarding_reporting_allow_crash" />
 
     <com.google.android.material.textview.MaterialTextView
-        style="@style/Hydra.Text.Onboarding.Subhead"
+        style="@style/TextAppearance.Material3.TitleMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:height="48dp"
@@ -135,13 +131,11 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/read_policy"
-        style="?materialButtonOutlinedStyle"
+        style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/vertical_padding"
         android:layout_marginRight="@dimen/vertical_padding"
-        android:text="@string/onboarding_reporting_privacy_policy_read"
-        android:textColor="?colorSecondary"
-        app:strokeColor="?colorSecondary" />
+        android:text="@string/onboarding_reporting_privacy_policy_read" />
 
 </LinearLayout>

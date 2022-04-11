@@ -27,6 +27,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    style="@style/Widget.Material3.CardView.Elevated"
     android:layout_marginBottom="@dimen/card_spacing"
     android:clickable="true"
     android:focusable="true">
@@ -45,7 +46,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/name"
-            style="?textAppearanceHeadline6"
+            style="?textAppearanceTitleLarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/card_title_padding_vertical"
@@ -54,7 +55,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/info"
-            style="?textAppearanceBody2"
+            style="?textAppearanceBodyMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/card_title_padding_vertical"

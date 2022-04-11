@@ -22,11 +22,5 @@
   -->
 
 <resources>
-
-    <color name="color_background">@color/material_color_black_87_percent</color>
-
-    <!--"On" colors define how text, icons and strokes are colored in relation to the surface-->
-    <!--on which they appear.-->
-    <color name="color_on_background">#ffffff</color>
-    <color name="color_on_surface">#ffffff</color>
+    <color name="hydra_launcher_color">@color/md_theme_dark_primary</color>
 </resources>

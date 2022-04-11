@@ -45,7 +45,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/artistText"
-            style="?textAppearanceBody1"
+            style="?textAppearanceBodyLarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
@@ -58,7 +58,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/titleText"
-            style="?textAppearanceBody2"
+            style="?textAppearanceBodyMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
@@ -124,7 +124,7 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/programme_description"
-                    style="?textAppearanceBody1"
+                    style="?textAppearanceBodyLarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textIsSelectable="true"

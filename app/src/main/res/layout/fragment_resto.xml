@@ -29,7 +29,7 @@
         The tabbed menu page.
         The padding on the bottom is for the navigation buttons. See the doc on the MainActivity.
          -->
-    <be.ugent.zeus.hydra.common.ui.HackedViewPager
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/resto_tabs_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

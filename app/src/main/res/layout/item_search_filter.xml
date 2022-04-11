@@ -34,7 +34,6 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/bottom_sheet_toolbar"
-        style="@style/Widget.MaterialComponents.Toolbar.Surface"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_marginBottom="@dimen/activity_horizontal_margin"
@@ -43,7 +42,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/search_term"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_vertical_margin"
@@ -59,7 +58,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/start_time"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_vertical_margin"
@@ -75,7 +74,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/end_time"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_vertical_margin"

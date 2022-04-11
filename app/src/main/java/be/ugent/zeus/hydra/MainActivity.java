@@ -33,6 +33,8 @@ import android.view.View;
 import androidx.annotation.*;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -56,7 +58,9 @@ import be.ugent.zeus.hydra.schamper.SchamperFragment;
 import be.ugent.zeus.hydra.urgent.UrgentFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.tabs.TabLayout;
+import dev.chrisbanes.insetter.Insetter;
 import jonathanfinerty.once.Once;
 
 import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireArguments;
@@ -215,6 +219,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(ActivityMainBinding::inflate);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        // Prevent toolbar appearing behind notification bar.
+        this.binding.appBarLayout.setStatusBarForeground(MaterialShapeDrawable.createWithElevationOverlay(this));
+        // Prevent navigation drawer from extending behind the notification bar.
+        // It doesn't work to just set fitsSystemWindows=true, since this adds the padding
+        // for the navigation bar to the header, which is not what you want.
+        Insetter.builder()
+                .padding(WindowInsetsCompat.Type.statusBars())
+                .applyToView(this.binding.navigationView.getHeaderView(0));
 
         if (savedInstanceState != null) {
             isOnboardingOpen = savedInstanceState.getBoolean(STATE_IS_ONBOARDING_OPEN, false);

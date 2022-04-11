@@ -29,18 +29,4 @@
         android:orderInCategory="50"
         android:title="@string/action_view_website"
         app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/library_location"
-        android:icon="@drawable/ic_map"
-        android:orderInCategory="60"
-        android:title="@string/action_open_map"
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/library_email"
-        android:icon="@drawable/ic_email"
-        android:orderInCategory="70"
-        android:title="@string/action_send_mail"
-        app:showAsAction="ifRoom" />
 </menu>
