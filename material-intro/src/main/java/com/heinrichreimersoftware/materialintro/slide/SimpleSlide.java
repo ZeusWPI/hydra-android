@@ -1,0 +1,607 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2017 Jan Heinrich Reimer
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package com.heinrichreimersoftware.materialintro.slide;
+
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Bundle;
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.ColorUtils;
+import android.text.Html;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.heinrichreimersoftware.materialintro.R;
+import com.heinrichreimersoftware.materialintro.view.parallax.ParallaxSlideFragment;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
+public class SimpleSlide implements Slide, RestorableSlide, ButtonCtaSlide {
+
+    private static final int DEFAULT_PERMISSIONS_REQUEST_CODE = 34; //Random number
+    private SimpleSlideFragment fragment;
+
+    private final long id;
+    private final CharSequence title;
+    @StringRes
+    private final int titleRes;
+    private final CharSequence description;
+    @StringRes
+    private final int descriptionRes;
+    @DrawableRes
+    private final int imageRes;
+    @LayoutRes
+    private final int layoutRes;
+
+
+    @ColorRes
+    private final int backgroundRes;
+    @ColorRes
+    private final int backgroundDarkRes;
+    @ColorInt
+    private final int backgroundInt;
+    @ColorInt
+    private final int backgroundDarkInt;
+    private final boolean canGoForward;
+    private final boolean canGoBackward;
+    private String[] permissions;
+    private final int permissionsRequestCode;
+    private final CharSequence buttonCtaLabel;
+    @StringRes
+    private final int buttonCtaLabelRes;
+    private final View.OnClickListener buttonCtaClickListener;
+
+    protected SimpleSlide(Builder builder) {
+        fragment = SimpleSlideFragment.newInstance(builder.id, builder.title, builder.titleRes,
+                builder.description, builder.descriptionRes, builder.imageRes,
+                builder.backgroundRes, builder.backgroundInt, builder.layoutRes, builder.permissionsRequestCode);
+        id = builder.id;
+        title = builder.title;
+        titleRes = builder.titleRes;
+        description = builder.description;
+        descriptionRes = builder.descriptionRes;
+        imageRes = builder.imageRes;
+        layoutRes = builder.layoutRes;
+        backgroundRes = builder.backgroundRes;
+        backgroundDarkRes = builder.backgroundDarkRes;
+        canGoForward = builder.canGoForward;
+        canGoBackward = builder.canGoBackward;
+        permissions = builder.permissions;
+        permissionsRequestCode = builder.permissionsRequestCode;
+        buttonCtaLabel = builder.buttonCtaLabel;
+        buttonCtaLabelRes = builder.buttonCtaLabelRes;
+        buttonCtaClickListener = builder.buttonCtaClickListener;
+        backgroundInt = builder.backgroundInt;
+        backgroundDarkInt = builder.backgroundDarkInt;
+        updatePermissions();
+    }
+
+    @Override
+    public Fragment getFragment() {
+        return fragment;
+    }
+
+    @Override
+    public void setFragment(Fragment fragment) {
+        if (fragment instanceof SimpleSlideFragment)
+            this.fragment = (SimpleSlideFragment) fragment;
+    }
+
+    @Override
+    public int getBackgroundInt() {
+        return backgroundInt;
+    }
+
+    @Override
+    public int getBackground() {
+        return backgroundRes;
+    }
+
+    @Override
+    public int getBackgroundDark() {
+        return backgroundDarkRes;
+    }
+
+    @Override
+    public int getBackgroundDarkInt() {
+        return backgroundDarkInt;
+    }
+
+    @Override
+    public boolean canGoForward() {
+        updatePermissions();
+        return canGoForward && permissions == null;
+
+    }
+
+    @Override
+    public boolean canGoBackward() {
+        return canGoBackward;
+    }
+
+    @Override
+    public View.OnClickListener getButtonCtaClickListener() {
+        updatePermissions();
+        if (permissions == null) {
+            return buttonCtaClickListener;
+        }
+        return v -> {
+            if (fragment.getActivity() != null)
+                ActivityCompat.requestPermissions(fragment.getActivity(), permissions,
+                        permissionsRequestCode);
+        };
+    }
+
+    @Override
+    public CharSequence getButtonCtaLabel() {
+        updatePermissions();
+        if (permissions == null) {
+            return buttonCtaLabel;
+        }
+        Context context = fragment.getContext();
+        if (context != null)
+            return context.getResources().getQuantityText(
+                    R.plurals.mi_label_grant_permission, permissions.length);
+        return null;
+    }
+
+    @Override
+    public int getButtonCtaLabelRes() {
+        updatePermissions();
+        if (permissions == null) {
+            return buttonCtaLabelRes;
+        }
+        return 0;
+    }
+
+    private synchronized void updatePermissions() {
+        if (permissions != null) {
+            final List<String> permissionsNotGranted = new ArrayList<>();
+            for (String permission : permissions) {
+                if (fragment.getContext() == null ||
+                        ContextCompat.checkSelfPermission(fragment.getContext(), permission) !=
+                                PackageManager.PERMISSION_GRANTED) {
+                    permissionsNotGranted.add(permission);
+                }
+            }
+
+            if (permissionsNotGranted.size() > 0) {
+                permissions = permissionsNotGranted.toArray(
+                        new String[0]);
+            } else {
+                permissions = null;
+            }
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SimpleSlide that = (SimpleSlide) o;
+        return id == that.id && titleRes == that.titleRes && descriptionRes == that.descriptionRes && imageRes == that.imageRes && layoutRes == that.layoutRes && backgroundRes == that.backgroundRes && backgroundDarkRes == that.backgroundDarkRes && backgroundInt == that.backgroundInt && backgroundDarkInt == that.backgroundDarkInt && canGoForward == that.canGoForward && canGoBackward == that.canGoBackward && permissionsRequestCode == that.permissionsRequestCode && buttonCtaLabelRes == that.buttonCtaLabelRes && Objects.equals(fragment, that.fragment) && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Arrays.equals(permissions, that.permissions) && Objects.equals(buttonCtaLabel, that.buttonCtaLabel) && Objects.equals(buttonCtaClickListener, that.buttonCtaClickListener);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(fragment, id, title, titleRes, description, descriptionRes, imageRes, layoutRes, backgroundRes, backgroundDarkRes, backgroundInt, backgroundDarkInt, canGoForward, canGoBackward, permissionsRequestCode, buttonCtaLabel, buttonCtaLabelRes, buttonCtaClickListener);
+        result = 31 * result + Arrays.hashCode(permissions);
+        return result;
+    }
+
+    public static class Builder {
+        @ColorRes
+        private int backgroundRes = 0;
+        private long id = 0;
+        @ColorRes
+        private int backgroundDarkRes = 0;
+        @ColorInt
+        private int backgroundInt;
+        @ColorInt
+        private int backgroundDarkInt;
+        private CharSequence title = null;
+        @StringRes
+        private int titleRes = 0;
+        private CharSequence description = null;
+        @StringRes
+        private int descriptionRes = 0;
+        @DrawableRes
+        private int imageRes = 0;
+        @LayoutRes
+        private int layoutRes = R.layout.mi_fragment_simple_slide;
+        private boolean canGoForward = true;
+        private boolean canGoBackward = true;
+        private String[] permissions = null;
+        private CharSequence buttonCtaLabel = null;
+        @StringRes
+        private int buttonCtaLabelRes = 0;
+        private View.OnClickListener buttonCtaClickListener = null;
+
+        private int permissionsRequestCode = DEFAULT_PERMISSIONS_REQUEST_CODE;
+
+        public Builder background(@ColorRes int backgroundRes) {
+            this.backgroundRes = backgroundRes;
+            return this;
+        }
+
+        public Builder backgroundDark(@ColorRes int backgroundDarkRes) {
+            this.backgroundDarkRes = backgroundDarkRes;
+            return this;
+        }
+
+        public Builder title(CharSequence title) {
+            this.title = title;
+            this.titleRes = 0;
+            return this;
+        }
+
+        public Builder titleHtml(String titleHtml) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                this.title = Html.fromHtml(titleHtml, Html.FROM_HTML_MODE_LEGACY);
+            } else {
+                this.title = Html.fromHtml(titleHtml);
+            }
+            this.titleRes = 0;
+            return this;
+        }
+
+        public Builder id(long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder title(@StringRes int titleRes) {
+            this.titleRes = titleRes;
+            this.title = null;
+            return this;
+        }
+
+        public Builder description(CharSequence description) {
+            this.description = description;
+            this.descriptionRes = 0;
+            return this;
+        }
+
+        public Builder descriptionHtml(String descriptionHtml) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                this.description = Html.fromHtml(descriptionHtml, Html.FROM_HTML_MODE_LEGACY);
+            } else {
+                this.description = Html.fromHtml(descriptionHtml);
+            }
+            this.descriptionRes = 0;
+            return this;
+        }
+
+        public Builder description(@StringRes int descriptionRes) {
+            this.descriptionRes = descriptionRes;
+            this.description = null;
+            return this;
+        }
+
+        public Builder image(@DrawableRes int imageRes) {
+            this.imageRes = imageRes;
+            return this;
+        }
+
+        public Builder layout(@LayoutRes int layoutRes) {
+            this.layoutRes = layoutRes;
+            return this;
+        }
+
+        public Builder scrollable(boolean scrollable) {
+            this.layoutRes = scrollable ? R.layout.mi_fragment_simple_slide_scrollable :
+                    R.layout.mi_fragment_simple_slide;
+            return this;
+        }
+
+        public Builder canGoForward(boolean canGoForward) {
+            this.canGoForward = canGoForward;
+            return this;
+        }
+
+        public Builder canGoBackward(boolean canGoBackward) {
+            this.canGoBackward = canGoBackward;
+            return this;
+        }
+
+        public Builder permissions(String[] permissions) {
+            this.permissions = permissions;
+            return this;
+        }
+
+        public Builder permission(String permission) {
+            this.permissions = new String[]{permission};
+            return this;
+        }
+
+        public Builder permissionsRequestCode(int permissionsRequestCode) {
+            this.permissionsRequestCode = permissionsRequestCode;
+            return this;
+        }
+
+        public Builder buttonCtaLabel(CharSequence buttonCtaLabel) {
+            this.buttonCtaLabel = buttonCtaLabel;
+            this.buttonCtaLabelRes = 0;
+            return this;
+        }
+
+        public Builder buttonCtaLabelHtml(String buttonCtaLabelHtml) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                this.buttonCtaLabel = Html.fromHtml(buttonCtaLabelHtml, Html.FROM_HTML_MODE_LEGACY);
+            } else {
+                this.buttonCtaLabel = Html.fromHtml(buttonCtaLabelHtml);
+            }
+            this.buttonCtaLabelRes = 0;
+            return this;
+        }
+
+        public Builder buttonCtaLabel(@StringRes int buttonCtaLabelRes) {
+            this.buttonCtaLabelRes = buttonCtaLabelRes;
+            this.buttonCtaLabel = null;
+            return this;
+        }
+
+        public Builder buttonCtaClickListener(View.OnClickListener buttonCtaClickListener) {
+            this.buttonCtaClickListener = buttonCtaClickListener;
+            return this;
+        }
+
+        public Builder backgroundInt(@ColorInt int background) {
+            this.backgroundInt = background;
+            return this;
+        }
+
+        public Builder backgroundDarkInt(@ColorInt int backgroundDark) {
+            this.backgroundDarkInt = backgroundDark;
+            return this;
+        }
+
+        public SimpleSlide build() {
+            if (backgroundRes == 0 && backgroundInt == 0)
+                throw new IllegalArgumentException("You must set a background.");
+            return new SimpleSlide(this);
+        }
+    }
+
+    public static class SimpleSlideFragment extends ParallaxSlideFragment {
+        private static final String ARGUMENT_ID =
+                "com.heinrichreimersoftware.materialintro.SimpleFragment.ARGUMENT_ID";
+        private static final String ARGUMENT_TITLE =
+                "com.heinrichreimersoftware.materialintro.SimpleFragment.ARGUMENT_TITLE";
+        private static final String ARGUMENT_TITLE_RES =
+                "com.heinrichreimersoftware.materialintro.SimpleFragment.ARGUMENT_TITLE_RES";
+        private static final String ARGUMENT_DESCRIPTION =
+                "com.heinrichreimersoftware.materialintro.SimpleFragment.ARGUMENT_DESCRIPTION";
+        private static final String ARGUMENT_DESCRIPTION_RES =
+                "com.heinrichreimersoftware.materialintro.SimpleFragment.ARGUMENT_DESCRIPTION_RES";
+        private static final String ARGUMENT_IMAGE_RES =
+                "com.heinrichreimersoftware.materialintro.SimpleFragment.ARGUMENT_IMAGE_RES";
+        private static final String ARGUMENT_BACKGROUND_RES =
+                "com.heinrichreimersoftware.materialintro.SimpleFragment.ARGUMENT_BACKGROUND_RES";
+        private static final String ARGUMENT_BACKGROUND_INT =
+                "com.heinrichreimersoftware.materialintro.SimpleFragment.ARGUMENT_BACKGROUND_INT";
+        private static final String ARGUMENT_LAYOUT_RES =
+                "com.heinrichreimersoftware.materialintro.SimpleFragment.ARGUMENT_LAYOUT_RES";
+
+        private static final String ARGUMENT_PERMISSIONS_REQUEST_CODE =
+                "com.heinrichreimersoftware.materialintro.SimpleFragment.ARGUMENT_PERMISSIONS_REQUEST_CODE";
+
+        private TextView titleView = null;
+        private TextView descriptionView = null;
+        private ImageView imageView = null;
+
+        public SimpleSlideFragment() {
+        }
+
+        public static SimpleSlideFragment newInstance(long id, CharSequence title, @StringRes int titleRes,
+                                                      CharSequence description, @StringRes int descriptionRes,
+                                                      @DrawableRes int imageRes, @ColorRes int backgroundRes,
+                                                      @ColorInt int backgroundInt, @LayoutRes int layout, int permissionsRequestCode) {
+            Bundle arguments = new Bundle();
+            arguments.putLong(ARGUMENT_ID, id);
+            arguments.putCharSequence(ARGUMENT_TITLE, title);
+            arguments.putInt(ARGUMENT_TITLE_RES, titleRes);
+            arguments.putCharSequence(ARGUMENT_DESCRIPTION, description);
+            arguments.putInt(ARGUMENT_DESCRIPTION_RES, descriptionRes);
+            arguments.putInt(ARGUMENT_IMAGE_RES, imageRes);
+            arguments.putInt(ARGUMENT_BACKGROUND_RES, backgroundRes);
+            arguments.putInt(ARGUMENT_BACKGROUND_INT, backgroundInt);
+            arguments.putInt(ARGUMENT_LAYOUT_RES, layout);
+            arguments.putInt(ARGUMENT_PERMISSIONS_REQUEST_CODE, permissionsRequestCode);
+
+            SimpleSlideFragment fragment = new SimpleSlideFragment();
+            fragment.setArguments(arguments);
+
+            return fragment;
+        }
+
+        @Override
+        public void onCreate(@Nullable Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            //noinspection deprecation
+            setRetainInstance(true);
+            updateNavigation();
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            //Lock scroll for the case that users revoke accepted permission settings while in the intro
+            updateNavigation();
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            Bundle arguments = requireArguments();
+
+            View fragment = inflater.inflate(arguments.getInt(ARGUMENT_LAYOUT_RES,
+                    R.layout.mi_fragment_simple_slide), container, false);
+
+            titleView = fragment.findViewById(R.id.mi_title);
+            descriptionView = fragment.findViewById(R.id.mi_description);
+            imageView = fragment.findViewById(R.id.mi_image);
+
+            long id = arguments.getLong(ARGUMENT_ID);
+            CharSequence title = arguments.getCharSequence(ARGUMENT_TITLE);
+            int titleRes = arguments.getInt(ARGUMENT_TITLE_RES);
+            CharSequence description = arguments.getCharSequence(ARGUMENT_DESCRIPTION);
+            int descriptionRes = arguments.getInt(ARGUMENT_DESCRIPTION_RES);
+            int imageRes = arguments.getInt(ARGUMENT_IMAGE_RES);
+
+            @ColorInt
+            int backgroundInt;
+            if (arguments.getInt(ARGUMENT_BACKGROUND_RES) != 0) {
+                backgroundInt = ContextCompat.getColor(requireContext(), arguments.getInt(ARGUMENT_BACKGROUND_RES));
+            } else {
+                backgroundInt = arguments.getInt(ARGUMENT_BACKGROUND_INT);
+            }
+
+            //Title
+            if (titleView != null) {
+                if (title != null) {
+                    titleView.setText(title);
+                    titleView.setVisibility(View.VISIBLE);
+                } else if (titleRes != 0) {
+                    titleView.setText(titleRes);
+                    titleView.setVisibility(View.VISIBLE);
+                } else {
+                    titleView.setVisibility(View.GONE);
+                }
+            }
+
+            //Description
+            if (descriptionView != null) {
+                if (description != null) {
+                    descriptionView.setText(description);
+                    descriptionView.setVisibility(View.VISIBLE);
+                } else if (descriptionRes != 0) {
+                    descriptionView.setText(descriptionRes);
+                    descriptionView.setVisibility(View.VISIBLE);
+                } else {
+                    descriptionView.setVisibility(View.GONE);
+                }
+            }
+
+            //Image
+            if (imageView != null) {
+                if (imageRes != 0) {
+                    try {
+                        imageView.setImageResource(imageRes);
+                    } catch (OutOfMemoryError oome) {
+                        imageView.setVisibility(View.GONE);
+                    }
+                    imageView.setVisibility(View.VISIBLE);
+                } else {
+                    imageView.setVisibility(View.GONE);
+                }
+            }
+
+            @ColorInt
+            int textColorPrimary;
+            @ColorInt
+            int textColorSecondary;
+
+            if (backgroundInt != 0 && ColorUtils.calculateLuminance(backgroundInt) < 0.6) {
+                //Use light text color
+                textColorPrimary = ContextCompat.getColor(requireContext(), R.color.mi_text_color_primary_dark);
+                textColorSecondary = ContextCompat.getColor(requireContext(), R.color.mi_text_color_secondary_dark);
+            } else {
+                //Use dark text color
+                textColorPrimary = ContextCompat.getColor(requireContext(), R.color.mi_text_color_primary_light);
+                textColorSecondary = ContextCompat.getColor(requireContext(), R.color.mi_text_color_secondary_light);
+            }
+
+            if (titleView != null) {
+                titleView.setTextColor(textColorPrimary);
+            }
+            if (descriptionView != null) {
+                descriptionView.setTextColor(textColorSecondary);
+            }
+
+            if (getActivity() instanceof SimpleSlideActivity) {
+                ((SimpleSlideActivity) getActivity()).onSlideViewCreated(this, fragment, id);
+            }
+
+            return fragment;
+        }
+
+        @Override
+        public void onDestroyView() {
+            if (getActivity() instanceof SimpleSlideActivity) {
+                long id = requireArguments().getLong(ARGUMENT_ID);
+                ((SimpleSlideActivity) getActivity()).onSlideDestroyView(this, getView(), id);
+            }
+            titleView = null;
+            descriptionView = null;
+            imageView = null;
+            super.onDestroyView();
+        }
+
+        public TextView getTitleView() {
+            return titleView;
+        }
+
+        public TextView getDescriptionView() {
+            return descriptionView;
+        }
+
+        public ImageView getImageView() {
+            return imageView;
+        }
+
+        public long getSlideId() {
+            return requireArguments().getLong(ARGUMENT_ID);
+        }
+
+        @SuppressWarnings("deprecation")
+        @Override
+        public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                               @NonNull int[] grantResults) {
+            int permissionsRequestCode = getArguments() == null ? DEFAULT_PERMISSIONS_REQUEST_CODE :
+                    getArguments().getInt(ARGUMENT_PERMISSIONS_REQUEST_CODE,
+                            DEFAULT_PERMISSIONS_REQUEST_CODE);
+            if (requestCode == permissionsRequestCode) {
+                updateNavigation();
+            }
+        }
+    }
+}
