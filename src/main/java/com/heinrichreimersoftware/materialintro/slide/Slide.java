@@ -24,6 +24,7 @@
 
 package com.heinrichreimersoftware.materialintro.slide;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.fragment.app.Fragment;
 
@@ -35,6 +36,12 @@ public interface Slide {
 
     @ColorRes
     int getBackgroundDark();
+
+    @ColorInt
+    int getBackgroundInt();
+
+    @ColorInt
+    int getBackgroundDarkInt();
 
     boolean canGoForward();
 

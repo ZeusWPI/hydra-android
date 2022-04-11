@@ -27,11 +27,14 @@ package com.heinrichreimersoftware.materialintro.slide;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+
+import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.annotation.StyleRes;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.view.ContextThemeWrapper;
 import android.text.Html;
@@ -52,6 +55,10 @@ public class FragmentSlide implements Slide, RestorableSlide, ButtonCtaSlide {
     private final int background;
     @ColorRes
     private final int backgroundDark;
+    @ColorInt
+    private final int backgroundInt;
+    @ColorInt
+    private final int backgroundDarkInt;
     private final boolean canGoForward;
     private final boolean canGoBackward;
     private final CharSequence buttonCtaLabel;
@@ -68,6 +75,8 @@ public class FragmentSlide implements Slide, RestorableSlide, ButtonCtaSlide {
         buttonCtaLabel = builder.buttonCtaLabel;
         buttonCtaLabelRes = builder.buttonCtaLabelRes;
         buttonCtaClickListener = builder.buttonCtaClickListener;
+        backgroundInt = builder.backgroundInt;
+        backgroundDarkInt = builder.backgroundDarkInt;
     }
 
     @Override
@@ -88,6 +97,16 @@ public class FragmentSlide implements Slide, RestorableSlide, ButtonCtaSlide {
     @Override
     public int getBackgroundDark() {
         return backgroundDark;
+    }
+
+    @Override
+    public int getBackgroundDarkInt() {
+        return backgroundDarkInt;
+    }
+
+    @Override
+    public int getBackgroundInt() {
+        return backgroundInt;
     }
 
     @Override
@@ -134,35 +153,13 @@ public class FragmentSlide implements Slide, RestorableSlide, ButtonCtaSlide {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         FragmentSlide that = (FragmentSlide) o;
-
-        if (background != that.background) return false;
-        if (backgroundDark != that.backgroundDark) return false;
-        if (canGoForward != that.canGoForward) return false;
-        if (canGoBackward != that.canGoBackward) return false;
-        if (buttonCtaLabelRes != that.buttonCtaLabelRes) return false;
-        if (!Objects.equals(fragment, that.fragment)) {
-            return false;
-        }
-        if (!Objects.equals(buttonCtaLabel, that.buttonCtaLabel)) {
-            return false;
-        }
-        return Objects.equals(buttonCtaClickListener, that.buttonCtaClickListener);
-
+        return background == that.background && backgroundDark == that.backgroundDark && backgroundInt == that.backgroundInt && backgroundDarkInt == that.backgroundDarkInt && canGoForward == that.canGoForward && canGoBackward == that.canGoBackward && buttonCtaLabelRes == that.buttonCtaLabelRes && Objects.equals(fragment, that.fragment) && Objects.equals(buttonCtaLabel, that.buttonCtaLabel) && Objects.equals(buttonCtaClickListener, that.buttonCtaClickListener);
     }
 
     @Override
     public int hashCode() {
-        int result = fragment != null ? fragment.hashCode() : 0;
-        result = 31 * result + background;
-        result = 31 * result + backgroundDark;
-        result = 31 * result + (canGoForward ? 1 : 0);
-        result = 31 * result + (canGoBackward ? 1 : 0);
-        result = 31 * result + (buttonCtaLabel != null ? buttonCtaLabel.hashCode() : 0);
-        result = 31 * result + buttonCtaLabelRes;
-        result = 31 * result + (buttonCtaClickListener != null ? buttonCtaClickListener.hashCode() : 0);
-        return result;
+        return Objects.hash(fragment, background, backgroundDark, backgroundInt, backgroundDarkInt, canGoForward, canGoBackward, buttonCtaLabel, buttonCtaLabelRes, buttonCtaClickListener);
     }
 
     public static class Builder {
@@ -170,7 +167,11 @@ public class FragmentSlide implements Slide, RestorableSlide, ButtonCtaSlide {
         @ColorRes
         private int background;
         @ColorRes
-        private int backgroundDark = 0;
+        private int backgroundDark;
+        @ColorInt
+        private int backgroundInt;
+        @ColorInt
+        private int backgroundDarkInt;
         private boolean canGoForward = true;
         private boolean canGoBackward = true;
         private CharSequence buttonCtaLabel = null;
@@ -200,6 +201,16 @@ public class FragmentSlide implements Slide, RestorableSlide, ButtonCtaSlide {
 
         public Builder backgroundDark(@ColorRes int backgroundDark) {
             this.backgroundDark = backgroundDark;
+            return this;
+        }
+
+        public Builder backgroundInt(@ColorInt int background) {
+            this.backgroundInt = background;
+            return this;
+        }
+
+        public Builder backgroundDarkInt(@ColorInt int backgroundDark) {
+            this.backgroundDarkInt = backgroundDark;
             return this;
         }
 

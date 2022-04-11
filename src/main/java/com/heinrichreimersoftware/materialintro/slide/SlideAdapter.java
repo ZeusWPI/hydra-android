@@ -24,6 +24,7 @@
 
 package com.heinrichreimersoftware.materialintro.slide;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -156,22 +157,24 @@ public class SlideAdapter extends FragmentPagerAdapter {
         return instantiatedFragment;
     }
 
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        Fragment fragment = (Fragment) object;
-        if (fragment == null)
-            return;
-        super.destroyItem(container, position, object);
-    }
-
     @ColorRes
     public int getBackground(int position) {
         return data.get(position).getBackground();
     }
 
+    @ColorInt
+    public int getBackgroundInt(int position) {
+        return data.get(position).getBackgroundInt();
+    }
+
     @ColorRes
     public int getBackgroundDark(int position) {
         return data.get(position).getBackgroundDark();
+    }
+
+    @ColorInt
+    public int getBackgroundDarkInt(int position) {
+        return data.get(position).getBackgroundDarkInt();
     }
 
     public List<Slide> getSlides() {

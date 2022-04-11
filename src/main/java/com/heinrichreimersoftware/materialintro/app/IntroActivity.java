@@ -28,8 +28,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -43,24 +41,6 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.annotation.ColorInt;
-import androidx.annotation.ColorRes;
-import androidx.annotation.IntDef;
-import androidx.annotation.IntRange;
-import androidx.annotation.InterpolatorRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.ColorUtils;
-import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.core.util.Pair;
-import androidx.core.view.ViewCompat;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
@@ -72,6 +52,25 @@ import android.view.animation.Interpolator;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextSwitcher;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.IntDef;
+import androidx.annotation.IntRange;
+import androidx.annotation.InterpolatorRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.ColorUtils;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.core.util.Pair;
+import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.ViewPager;
 
 import com.heinrichreimersoftware.materialintro.R;
 import com.heinrichreimersoftware.materialintro.slide.ButtonCtaSlide;
@@ -89,7 +88,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@SuppressLint("Registered")
+@SuppressWarnings("unused")
 public class IntroActivity extends AppCompatActivity implements IntroNavigation {
     private static final String KEY_CURRENT_ITEM =
             "com.heinrichreimersoftware.materialintro.app.IntroActivity.KEY_CURRENT_ITEM";
@@ -142,7 +141,7 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
 
     private SlideAdapter adapter;
 
-    private IntroPageChangeListener listener = new IntroPageChangeListener();
+    private final IntroPageChangeListener listener = new IntroPageChangeListener();
 
     private int position = 0;
     private float positionOffset = 0;
@@ -157,13 +156,13 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
     @ButtonCtaTintMode
     private int buttonCtaTintMode = BUTTON_CTA_TINT_MODE_BACKGROUND;
     private NavigationPolicy navigationPolicy = null;
-    private List<OnNavigationBlockedListener> navigationBlockedListeners = new ArrayList<>();
+    private final List<OnNavigationBlockedListener> navigationBlockedListeners = new ArrayList<>();
     private CharSequence buttonCtaLabel = null;
     @StringRes
     private int buttonCtaLabelRes = 0;
     private View.OnClickListener buttonCtaClickListener = null;
 
-    private Handler autoplayHandler = new Handler();
+    private final Handler autoplayHandler = new Handler();
     private Runnable autoplayCallback = null;
     private int autoplayCounter;
     private long autoplayDelay;
@@ -240,7 +239,7 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(KEY_CURRENT_ITEM, miPager.getCurrentItem());
         outState.putBoolean(KEY_FULLSCREEN, fullscreen);
@@ -285,13 +284,8 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
         getWindow().getDecorView().setSystemUiVisibility(systemUiVisibility);
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void setFullscreenFlags(boolean fullscreen) {
-        int fullscreenFlags = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            fullscreenFlags |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
-        }
-
+        int fullscreenFlags = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
         setSystemUiFlags(fullscreenFlags, fullscreen);
     }
 
@@ -334,21 +328,11 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
     }
 
     public void resetButtonNextOnClickListener() {
-        miButtonNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nextSlide();
-            }
-        });
+        miButtonNext.setOnClickListener(v -> nextSlide());
     }
 
     public void resetButtonBackOnClickListener() {
-        miButtonBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                performButtonBackPress();
-            }
-        });
+        miButtonBack.setOnClickListener(v -> performButtonBackPress());
     }
 
     private void smoothScrollPagerTo(final int position) {
@@ -378,6 +362,7 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
                 fakeDragToPosition(position);
             }
 
+            @SuppressWarnings("UnusedReturnValue")
             private boolean fakeDragToPosition(float position) {
                 // The following mimics the underlying calculations in ViewPager
                 float scrollX = miPager.getScrollX();
@@ -443,7 +428,8 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
 
             if (position > lastPosition) {
                 AnimUtils.applyShakeAnimation(this, miButtonNext);
-            } else if (position < lastPosition) {
+            } else {
+                assert position < lastPosition;
                 AnimUtils.applyShakeAnimation(this, miButtonBack);
             }
         }
@@ -583,48 +569,62 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
                     return Pair.create(slide.getButtonCtaLabel(),
                             slide.getButtonCtaClickListener());
                 } else {
-                    return Pair.create((CharSequence) getString(slide.getButtonCtaLabelRes()),
+                    return Pair.create(getString(slide.getButtonCtaLabelRes()),
                             slide.getButtonCtaClickListener());
                 }
             }
         }
         if (buttonCtaVisible) {
             if (buttonCtaLabelRes != 0) {
-                return Pair.create((CharSequence) getString(buttonCtaLabelRes),
-                        new ButtonCtaClickListener());
+                return Pair.create(getString(buttonCtaLabelRes), new ButtonCtaClickListener());
             }
             if (!TextUtils.isEmpty(buttonCtaLabel)) {
                 return Pair.create(buttonCtaLabel, new ButtonCtaClickListener());
             } else {
-                return Pair.create((CharSequence) getString(R.string.mi_label_button_cta),
-                        new ButtonCtaClickListener());
+                return Pair.create(getString(R.string.mi_label_button_cta), new ButtonCtaClickListener());
             }
         }
         return null;
     }
 
-    private void updateTaskDescription() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            String title = getTitle().toString();
-            Drawable iconDrawable = getApplicationInfo().loadIcon(getPackageManager());
-            Bitmap icon = iconDrawable instanceof BitmapDrawable ? ((BitmapDrawable) iconDrawable).getBitmap() : null;
-            int colorPrimary;
-            if (position < getCount()) {
-                try {
-                    colorPrimary = ContextCompat.getColor(IntroActivity.this, getBackgroundDark(position));
-                } catch (Resources.NotFoundException e) {
-                    colorPrimary = ContextCompat.getColor(IntroActivity.this, getBackground(position));
-                }
-            } else {
-                TypedValue typedValue = new TypedValue();
-                TypedArray a = obtainStyledAttributes(typedValue.data, new int[]{R.attr.colorPrimary});
-                colorPrimary = a.getColor(0, 0);
-                a.recycle();
-            }
-            colorPrimary = ColorUtils.setAlphaComponent(colorPrimary, 0xFF);
-
-            setTaskDescription(new ActivityManager.TaskDescription(title, icon, colorPrimary));
+    @ColorInt
+    private int getBackgroundColor(int position) {
+        if (getBackgroundInt(position) != 0) {
+            return getBackgroundInt(position);
+        } else {
+            return ContextCompat.getColor(IntroActivity.this, getBackground(position));
         }
+    }
+
+    @ColorInt
+    private int getBackgroundDarkColor(int position) {
+        if (getBackgroundDarkInt(position) != 0) {
+            return getBackgroundDarkInt(position);
+        } else {
+            return ContextCompat.getColor(IntroActivity.this, getBackgroundDark(position));
+        }
+    }
+
+    private void updateTaskDescription() {
+        String title = getTitle().toString();
+        Drawable iconDrawable = getApplicationInfo().loadIcon(getPackageManager());
+        Bitmap icon = iconDrawable instanceof BitmapDrawable ? ((BitmapDrawable) iconDrawable).getBitmap() : null;
+        @ColorInt int colorPrimary;
+        if (position < getCount()) {
+            try {
+                colorPrimary = getBackgroundDarkColor(position);
+            } catch (Resources.NotFoundException e) {
+                colorPrimary = getBackgroundColor(position);
+            }
+        } else {
+            TypedValue typedValue = new TypedValue();
+            TypedArray a = obtainStyledAttributes(typedValue.data, new int[]{R.attr.colorPrimary});
+            colorPrimary = a.getColor(0, 0);
+            a.recycle();
+        }
+        colorPrimary = ColorUtils.setAlphaComponent(colorPrimary, 0xFF);
+
+        setTaskDescription(new ActivityManager.TaskDescription(title, icon, colorPrimary));
     }
 
     private void updateBackground() {
@@ -643,27 +643,21 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
             backgroundDark = Color.TRANSPARENT;
             backgroundDarkNext = Color.TRANSPARENT;
         } else {
-            background = ContextCompat.getColor(IntroActivity.this,
-                    getBackground(position));
-            backgroundNext = ContextCompat.getColor(IntroActivity.this,
-                    getBackground(Math.min(position + 1, getCount() - 1)));
+            background = getBackgroundColor(position);
+            backgroundNext = getBackgroundDarkColor(Math.min(position + 1, getCount() - 1));
 
             background = ColorUtils.setAlphaComponent(background, 0xFF);
             backgroundNext = ColorUtils.setAlphaComponent(backgroundNext, 0xFF);
 
             try {
-                backgroundDark = ContextCompat.getColor(IntroActivity.this,
-                        getBackgroundDark(position));
+                backgroundDark = getBackgroundDarkColor(position);
             } catch (Resources.NotFoundException e) {
-                backgroundDark = ContextCompat.getColor(IntroActivity.this,
-                        R.color.mi_status_bar_background);
+                backgroundDark = ContextCompat.getColor(IntroActivity.this, R.color.mi_status_bar_background);
             }
             try {
-                backgroundDarkNext = ContextCompat.getColor(IntroActivity.this,
-                        getBackgroundDark(Math.min(position + 1, getCount() - 1)));
+                backgroundDarkNext = getBackgroundDarkColor(Math.min(position + 1, getCount() - 1));
             } catch (Resources.NotFoundException e) {
-                backgroundDarkNext = ContextCompat.getColor(IntroActivity.this,
-                        R.color.mi_status_bar_background);
+                backgroundDarkNext = ContextCompat.getColor(IntroActivity.this, R.color.mi_status_bar_background);
             }
         }
 
@@ -710,35 +704,33 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
         ((Button) miButtonCta.getChildAt(0)).setTextColor(textColorButtonCta);
         ((Button) miButtonCta.getChildAt(1)).setTextColor(textColorButtonCta);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(backgroundDark);
+        getWindow().setStatusBarColor(backgroundDark);
 
-            if (position == adapter.getCount()) {
-                getWindow().setNavigationBarColor(Color.TRANSPARENT);
-            } else if (position + positionOffset >= adapter.getCount() - 1) {
-                TypedValue typedValue = new TypedValue();
-                TypedArray a = obtainStyledAttributes(typedValue.data, new int[]{android.R.attr.navigationBarColor});
+        if (position == adapter.getCount()) {
+            getWindow().setNavigationBarColor(Color.TRANSPARENT);
+        } else if (position + positionOffset >= adapter.getCount() - 1) {
+            TypedValue typedValue = new TypedValue();
+            TypedArray a = obtainStyledAttributes(typedValue.data, new int[]{android.R.attr.navigationBarColor});
 
-                int defaultNavigationBarColor = a.getColor(0, Color.BLACK);
+            int defaultNavigationBarColor = a.getColor(0, Color.BLACK);
 
-                a.recycle();
+            a.recycle();
 
-                int navigationBarColor = (Integer) evaluator.evaluate(positionOffset, defaultNavigationBarColor, Color.TRANSPARENT);
-                getWindow().setNavigationBarColor(navigationBarColor);
+            int navigationBarColor = (Integer) evaluator.evaluate(positionOffset, defaultNavigationBarColor, Color.TRANSPARENT);
+            getWindow().setNavigationBarColor(navigationBarColor);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int systemUiVisibility = getWindow().getDecorView().getSystemUiVisibility();
+            int flagLightStatusBar = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            if (ColorUtils.calculateLuminance(backgroundDark) > 0.4) {
+                //Light background
+                systemUiVisibility |= flagLightStatusBar;
+            } else {
+                //Dark background
+                systemUiVisibility &= ~flagLightStatusBar;
             }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                int systemUiVisibility = getWindow().getDecorView().getSystemUiVisibility();
-                int flagLightStatusBar = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-                if (ColorUtils.calculateLuminance(backgroundDark) > 0.4) {
-                    //Light background
-                    systemUiVisibility |= flagLightStatusBar;
-                } else {
-                    //Dark background
-                    systemUiVisibility &= ~flagLightStatusBar;
-                }
-                getWindow().getDecorView().setSystemUiVisibility(systemUiVisibility);
-            }
+            getWindow().getDecorView().setSystemUiVisibility(systemUiVisibility);
         }
     }
 
@@ -770,8 +762,8 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
                     miButtonCta.setLayoutParams(layoutParams);
                 }
             } else {
+                miButtonCta.setVisibility(View.VISIBLE);
                 if (buttonNext == null) {
-                    miButtonCta.setVisibility(View.VISIBLE);
                     //Fade out
                     if (!((Button) miButtonCta.getCurrentView()).getText().equals(button.first))
                         miButtonCta.setText(button.first);
@@ -784,7 +776,6 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
                     layoutParams.height = Math.round(getResources().getDimensionPixelSize(R.dimen.mi_button_cta_height) * ACCELERATE_DECELERATE_INTERPOLATOR.getInterpolation(1 - positionOffset));
                     miButtonCta.setLayoutParams(layoutParams);
                 } else {
-                    miButtonCta.setVisibility(View.VISIBLE);
                     ViewGroup.LayoutParams layoutParams = miButtonCta.getLayoutParams();
                     layoutParams.height = getResources().getDimensionPixelSize(R.dimen.mi_button_cta_height);
                     miButtonCta.setLayoutParams(layoutParams);
@@ -827,8 +818,7 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
         } else if (realPosition < adapter.getCount() - 1) {
             //Scroll away skip button
             if (buttonBackFunction == BUTTON_BACK_FUNCTION_SKIP) {
-                boolean rtl = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && getResources().getConfiguration().getLayoutDirection() ==
-                        View.LAYOUT_DIRECTION_RTL;
+                boolean rtl = getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
                 miButtonBack.setTranslationX(positionOffset * (rtl ? 1 : -1) * miPager.getWidth());
             } else {
                 miButtonBack.setTranslationX(0);
@@ -836,8 +826,7 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
         } else {
             //Keep skip button scrolled away, hide next button
             if (buttonBackFunction == BUTTON_BACK_FUNCTION_SKIP) {
-                boolean rtl = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && getResources().getConfiguration().getLayoutDirection() ==
-                        View.LAYOUT_DIRECTION_RTL;
+                boolean rtl = getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
                 miButtonBack.setTranslationX((rtl ? 1 : -1) * miPager.getWidth());
             } else {
                 miButtonBack.setTranslationY(positionOffset * yOffset);
@@ -898,12 +887,10 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
     }
 
     private void updateFullscreen() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            if (adapter != null && position + positionOffset > adapter.getCount() - 1) {
-                setFullscreenFlags(false);
-            } else {
-                setFullscreenFlags(fullscreen);
-            }
+        if (adapter != null && position + positionOffset > adapter.getCount() - 1) {
+            setFullscreenFlags(false);
+        } else {
+            setFullscreenFlags(fullscreen);
         }
     }
 
@@ -965,41 +952,33 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
         }
     }
 
-    @SuppressWarnings("unused")
     public void autoplay(@IntRange(from = 1) long delay, @IntRange(from = -1) int repeatCount) {
         autoplayCounter = repeatCount;
         autoplayDelay = delay;
-        autoplayCallback = new Runnable() {
-            @Override
-            public void run() {
-                if (autoplayCounter == 0) {
-                    cancelAutoplay();
-                    return;
-                }
-                int distance = nextSlideAuto();
-                if (distance != 0)
-                    autoplayHandler.postDelayed(autoplayCallback, autoplayDelay + calculateScrollDuration(distance));
+        autoplayCallback = () -> {
+            if (autoplayCounter == 0) {
+                cancelAutoplay();
+                return;
             }
+            int distance = nextSlideAuto();
+            if (distance != 0)
+                autoplayHandler.postDelayed(autoplayCallback, autoplayDelay + calculateScrollDuration(distance));
         };
         autoplayHandler.postDelayed(autoplayCallback, autoplayDelay);
     }
 
-    @SuppressWarnings("unused")
     public void autoplay(@IntRange(from = 1) long delay) {
         autoplay(delay, DEFAULT_AUTOPLAY_REPEAT_COUNT);
     }
 
-    @SuppressWarnings("unused")
     public void autoplay(@IntRange(from = -1) int repeatCount) {
         autoplay(DEFAULT_AUTOPLAY_DELAY, repeatCount);
     }
 
-    @SuppressWarnings("unused")
     public void autoplay() {
         autoplay(DEFAULT_AUTOPLAY_DELAY, DEFAULT_AUTOPLAY_REPEAT_COUNT);
     }
 
-    @SuppressWarnings("unused")
     public void cancelAutoplay() {
         autoplayHandler.removeCallbacks(autoplayCallback);
         autoplayCallback = null;
@@ -1007,75 +986,61 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
         autoplayDelay = 0;
     }
 
-    @SuppressWarnings("unused")
     public boolean isAutoplaying() {
         return autoplayCallback != null;
     }
 
-    @SuppressWarnings("unused")
     public long getPageScrollDuration() {
         return pageScrollDuration;
     }
 
-    @SuppressWarnings("unused")
     public void setPageScrollDuration(@IntRange(from = 1) long pageScrollDuration) {
         this.pageScrollDuration = pageScrollDuration;
     }
 
-    @SuppressWarnings("unused")
     public Interpolator getPageScrollInterpolator() {
         return pageScrollInterpolator;
     }
 
-    @SuppressWarnings("unused")
     public void setPageScrollInterpolator(Interpolator pageScrollInterpolator) {
         this.pageScrollInterpolator = pageScrollInterpolator;
     }
 
-    @SuppressWarnings("unused")
     public void setPageScrollInterpolator(@InterpolatorRes int interpolatorRes) {
         this.pageScrollInterpolator = AnimationUtils.loadInterpolator(this, interpolatorRes);
     }
 
-    @SuppressWarnings("unused")
     public boolean isFullscreen() {
         return fullscreen;
     }
 
-    @SuppressWarnings("unused")
     public void setFullscreen(boolean fullscreen) {
         this.fullscreen = fullscreen;
     }
 
-    @SuppressWarnings("unused")
     public boolean isButtonCtaVisible() {
         return buttonCtaVisible;
     }
 
-    @SuppressWarnings("unused")
     public void setButtonCtaVisible(boolean buttonCtaVisible) {
         this.buttonCtaVisible = buttonCtaVisible;
         updateButtonCta();
     }
 
     @ButtonCtaTintMode
-    @SuppressWarnings("unused")
     public int getButtonCtaTintMode() {
         return buttonCtaTintMode;
     }
 
-    @SuppressWarnings("unused")
     public void setButtonCtaTintMode(@ButtonCtaTintMode int buttonCtaTintMode) {
         this.buttonCtaTintMode = buttonCtaTintMode;
     }
 
     @ButtonBackFunction
-    @SuppressWarnings("unused")
     public int getButtonBackFunction() {
         return buttonBackFunction;
     }
 
-    @SuppressWarnings("unused")
     public void setButtonBackFunction(@ButtonBackFunction int buttonBackFunction) {
         this.buttonBackFunction = buttonBackFunction;
         switch (buttonBackFunction) {
@@ -1091,19 +1056,16 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
     }
 
     @Deprecated
-    @SuppressWarnings("unused")
     public boolean isSkipEnabled() {
         return buttonBackFunction == BUTTON_BACK_FUNCTION_SKIP;
     }
 
     @Deprecated
-    @SuppressWarnings("unused")
     public void setSkipEnabled(boolean skipEnabled) {
         setButtonBackFunction(skipEnabled ? BUTTON_BACK_FUNCTION_SKIP : BUTTON_BACK_FUNCTION_BACK);
     }
 
     @ButtonNextFunction
-    @SuppressWarnings("unused")
     public int getButtonNextFunction() {
         return buttonNextFunction;
     }
@@ -1127,118 +1089,91 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
     }
 
     @Deprecated
-    @SuppressWarnings("unused")
     public boolean isFinishEnabled() {
         return buttonNextFunction == BUTTON_NEXT_FUNCTION_NEXT_FINISH;
     }
 
     @Deprecated
-    @SuppressWarnings("unused")
     public void setFinishEnabled(boolean finishEnabled) {
         setButtonNextFunction(finishEnabled ? BUTTON_NEXT_FUNCTION_NEXT_FINISH : BUTTON_NEXT_FUNCTION_NEXT);
     }
 
-    @SuppressWarnings("unused")
     public boolean isButtonBackVisible() {
         return miButtonBack.getVisibility() == View.VISIBLE;
     }
 
-    @SuppressWarnings("unused")
     public void setButtonBackVisible(boolean visible) {
         miButtonBack.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
     }
 
-    @SuppressWarnings("unused")
     public boolean isButtonNextVisible() {
         return miButtonNext.getVisibility() == View.VISIBLE;
     }
 
-    @SuppressWarnings("unused")
     public void setButtonNextVisible(boolean visible) {
         miButtonNext.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
     }
 
-    @SuppressWarnings("unused")
     public boolean isPagerIndicatorVisible() {
         return miPagerIndicator.getVisibility() == View.VISIBLE;
     }
 
-    @SuppressWarnings("unused")
     public void setPagerIndicatorVisible(boolean visible) {
         miPagerIndicator.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
-    @Deprecated
-    @SuppressWarnings("unused")
-    public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
-        miPager.setOnPageChangeListener(listener);
-        miPager.addOnPageChangeListener(this.listener);
-    }
-
-    @SuppressWarnings("unused")
     public void addOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
         miPager.addOnPageChangeListener(listener);
     }
 
-    @SuppressWarnings("unused")
     public void removeOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
         if (listener != this.listener)
             miPager.removeOnPageChangeListener(listener);
     }
 
-    @SuppressWarnings("unused")
     public View.OnClickListener getButtonCtaClickListener() {
         return buttonCtaClickListener;
     }
 
-    @SuppressWarnings("unused")
     public void setButtonCtaClickListener(View.OnClickListener buttonCtaClickListener) {
         this.buttonCtaClickListener = buttonCtaClickListener;
         updateButtonCta();
     }
 
-    @SuppressWarnings("unused")
     public CharSequence getButtonCtaLabel() {
         if (buttonCtaLabel != null)
             return buttonCtaLabel;
         return getString(buttonCtaLabelRes);
     }
 
-    @SuppressWarnings("unused")
     public void setButtonCtaLabel(@StringRes int buttonCtaLabelRes) {
         this.buttonCtaLabelRes = buttonCtaLabelRes;
         this.buttonCtaLabel = null;
         updateButtonCta();
     }
 
-    @SuppressWarnings("unused")
     public void setButtonCtaLabel(CharSequence buttonCtaLabel) {
         this.buttonCtaLabel = buttonCtaLabel;
         this.buttonCtaLabelRes = 0;
         updateButtonCta();
     }
 
-    @SuppressWarnings("unused")
     public void setNavigationPolicy(NavigationPolicy navigationPolicy) {
         this.navigationPolicy = navigationPolicy;
     }
 
-    @SuppressWarnings("unused")
     public void addOnNavigationBlockedListener(OnNavigationBlockedListener listener) {
         navigationBlockedListeners.add(listener);
     }
 
-    @SuppressWarnings("unused")
     public void removeOnNavigationBlockedListener(OnNavigationBlockedListener listener) {
         navigationBlockedListeners.remove(listener);
     }
 
-    @SuppressWarnings("unused")
     public void clearOnNavigationBlockedListeners() {
         navigationBlockedListeners.clear();
     }
 
-    @SuppressWarnings("unused")
     public void lockSwipeIfNeeded() {
         if (position < getCount()) {
             miPager.setSwipeLeftEnabled(canGoForward(position, false));
@@ -1246,13 +1181,12 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
         }
     }
 
-    @SuppressWarnings("unused")
     public void addSlide(int location, Slide object) {
         adapter.addSlide(location, object);
         notifyDataSetChanged();
     }
 
-    @SuppressWarnings({"unused", "UnusedReturnValue"})
+    @SuppressWarnings("UnusedReturnValue")
     public boolean addSlide(Slide object) {
         boolean modified = adapter.addSlide(object);
         if (modified) {
@@ -1261,7 +1195,6 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
         return modified;
     }
 
-    @SuppressWarnings("unused")
     public boolean addSlides(int location, @NonNull Collection<? extends Slide> collection) {
         boolean modified = adapter.addSlides(location, collection);
         if (modified) {
@@ -1270,7 +1203,6 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
         return modified;
     }
 
-    @SuppressWarnings("unused")
     public boolean addSlides(@NonNull Collection<? extends Slide> collection) {
         boolean modified = adapter.addSlides(collection);
         if (modified) {
@@ -1279,7 +1211,6 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
         return modified;
     }
 
-    @SuppressWarnings("unused")
     public boolean clearSlides() {
         if (adapter.clearSlides()) {
             notifyDataSetChanged();
@@ -1288,81 +1219,76 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
         return false;
     }
 
-    @SuppressWarnings("unused")
     public boolean containsSlide(Object object) {
         return adapter.containsSlide(object);
     }
 
-    @SuppressWarnings("unused")
     public boolean containsSlides(@NonNull Collection<?> collection) {
         return adapter.containsSlides(collection);
     }
 
-    @SuppressWarnings("unused")
     public Slide getSlide(int location) {
         return adapter.getSlide(location);
     }
 
-    @SuppressWarnings("unused")
     public int getSlidePosition(Slide slide) {
         return adapter.getItemPosition(slide);
     }
 
-    @SuppressWarnings("unused")
     public int getCurrentSlidePosition() {
         return miPager.getCurrentItem();
     }
 
-    @SuppressWarnings("unused")
     public Fragment getItem(int position) {
         return adapter.getItem(position);
     }
 
     @ColorRes
-    @SuppressWarnings("unused")
     public int getBackground(int position) {
         return adapter.getBackground(position);
     }
 
     @ColorRes
-    @SuppressWarnings("unused")
     public int getBackgroundDark(int position) {
         return adapter.getBackgroundDark(position);
     }
 
-    @SuppressWarnings("unused")
+    @ColorInt
+    public int getBackgroundInt(int position) {
+        return adapter.getBackgroundInt(position);
+    }
+
+    @ColorInt
+    public int getBackgroundDarkInt(int position) {
+        return adapter.getBackgroundDarkInt(position);
+    }
+
     public List<Slide> getSlides() {
         return adapter.getSlides();
     }
 
-    @SuppressWarnings("unused")
     public int indexOfSlide(Object object) {
         return adapter.indexOfSlide(object);
     }
 
-    @SuppressWarnings("unused")
     public boolean isEmpty() {
         return adapter.isEmpty();
     }
 
-    @SuppressWarnings("unused")
     public int getCount() {
         return adapter == null ? 0 : adapter.getCount();
     }
 
-    @SuppressWarnings("unused")
     public int lastIndexOfSlide(Object object) {
         return adapter.lastIndexOfSlide(object);
     }
 
-    @SuppressWarnings("unused")
     public Slide removeSlide(int location) {
         Slide object = adapter.removeSlide(location);
         notifyDataSetChanged();
         return object;
     }
 
-    @SuppressWarnings("unused")
     public boolean removeSlide(Object object) {
         boolean modified = adapter.removeSlide(object);
         if (modified) {
@@ -1371,7 +1297,6 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
         return modified;
     }
 
-    @SuppressWarnings("unused")
     public boolean removeSlides(@NonNull Collection<?> collection) {
         boolean modified = adapter.removeSlides(collection);
         if (modified) {
@@ -1380,7 +1305,6 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
         return modified;
     }
 
-    @SuppressWarnings("unused")
     public boolean retainSlides(@NonNull Collection<?> collection) {
         boolean modified = adapter.retainSlides(collection);
         if (modified) {
@@ -1389,14 +1313,12 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
         return modified;
     }
 
-    @SuppressWarnings("unused")
     public Slide setSlide(int location, Slide object) {
         Slide oldObject = adapter.setSlide(location, object);
         notifyDataSetChanged();
         return oldObject;
     }
 
-    @SuppressWarnings("unused")
     public List<Slide> setSlides(List<? extends Slide> list) {
         List<Slide> oldList = adapter.setSlides(list);
         notifyDataSetChanged();
