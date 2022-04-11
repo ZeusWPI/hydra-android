@@ -61,6 +61,7 @@ class LicenseMap {
 
             // Library specific licenses
             "org.threeten:threetenbp"                              : "threeten.txt",
-            "com.heinrichreimersoftware:material-intro"            : "material-intro.txt"
+            "com.heinrichreimersoftware:material-intro"            : "material-intro.txt",
+            "https://asm.ow2.io/license.html"                      : "asm.txt"
     ]
 }
