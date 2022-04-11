@@ -252,7 +252,7 @@ public class FragmentSlide implements Slide, RestorableSlide, ButtonCtaSlide {
         }
 
         public FragmentSlide build() {
-            if (background == 0 || fragment == null)
+            if ((background == 0 && backgroundInt == 0) || fragment == null)
                 throw new IllegalArgumentException("You must set at least a fragment and background.");
             return new FragmentSlide(this);
         }
