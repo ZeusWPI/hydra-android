@@ -38,12 +38,7 @@ public class AnimUtils {
 
     public static Interpolator getFastOutSlowInInterpolator(Context context) {
         if (fastOutSlowIn == null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                fastOutSlowIn = AnimationUtils.loadInterpolator(context,
-                        android.R.interpolator.fast_out_slow_in);
-            } else {
-                fastOutSlowIn = new FastOutSlowInInterpolator();
-            }
+            fastOutSlowIn = AnimationUtils.loadInterpolator(context, android.R.interpolator.fast_out_slow_in);
         }
         return fastOutSlowIn;
     }

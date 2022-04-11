@@ -38,7 +38,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class SlideAdapter extends FragmentPagerAdapter {
-    private List<Slide> data = new ArrayList<>();
+    private List<Slide> data;
     private FragmentManager fragmentManager;
 
     public SlideAdapter(FragmentManager fragmentManager) {

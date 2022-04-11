@@ -52,6 +52,7 @@ import com.heinrichreimersoftware.materialintro.view.parallax.ParallaxSlideFragm
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class SimpleSlide implements Slide, RestorableSlide, ButtonCtaSlide {
 
@@ -78,11 +79,11 @@ public class SimpleSlide implements Slide, RestorableSlide, ButtonCtaSlide {
     private final boolean canGoForward;
     private final boolean canGoBackward;
     private String[] permissions;
-    private int permissionsRequestCode;
-    private CharSequence buttonCtaLabel = null;
+    private final int permissionsRequestCode;
+    private final CharSequence buttonCtaLabel;
     @StringRes
-    private int buttonCtaLabelRes = 0;
-    private View.OnClickListener buttonCtaClickListener = null;
+    private final int buttonCtaLabelRes;
+    private final View.OnClickListener buttonCtaClickListener;
 
     protected SimpleSlide(Builder builder) {
         fragment = SimpleSlideFragment.newInstance(builder.id, builder.title, builder.titleRes,
@@ -146,13 +147,10 @@ public class SimpleSlide implements Slide, RestorableSlide, ButtonCtaSlide {
         if (permissions == null) {
             return buttonCtaClickListener;
         }
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (fragment.getActivity() != null)
-                    ActivityCompat.requestPermissions(fragment.getActivity(), permissions,
-                            permissionsRequestCode);
-            }
+        return v -> {
+            if (fragment.getActivity() != null)
+                ActivityCompat.requestPermissions(fragment.getActivity(), permissions,
+                        permissionsRequestCode);
         };
     }
 
@@ -191,12 +189,10 @@ public class SimpleSlide implements Slide, RestorableSlide, ButtonCtaSlide {
 
             if (permissionsNotGranted.size() > 0) {
                 permissions = permissionsNotGranted.toArray(
-                        new String[permissionsNotGranted.size()]);
+                        new String[0]);
             } else {
                 permissions = null;
             }
-        } else {
-            permissions = null;
         }
     }
 
@@ -218,15 +214,22 @@ public class SimpleSlide implements Slide, RestorableSlide, ButtonCtaSlide {
         if (canGoBackward != that.canGoBackward) return false;
         if (permissionsRequestCode != that.permissionsRequestCode) return false;
         if (buttonCtaLabelRes != that.buttonCtaLabelRes) return false;
-        if (fragment != null ? !fragment.equals(that.fragment) : that.fragment != null)
+        if (!Objects.equals(fragment, that.fragment)) {
             return false;
-        if (title != null ? !title.equals(that.title) : that.title != null) return false;
-        if (description != null ? !description.equals(that.description) : that.description != null)
+        }
+        if (!Objects.equals(title, that.title)) {
             return false;
-        if (!Arrays.equals(permissions, that.permissions)) return false;
-        if (buttonCtaLabel != null ? !buttonCtaLabel.equals(that.buttonCtaLabel) : that.buttonCtaLabel != null)
+        }
+        if (!Objects.equals(description, that.description)) {
             return false;
-        return buttonCtaClickListener != null ? buttonCtaClickListener.equals(that.buttonCtaClickListener) : that.buttonCtaClickListener == null;
+        }
+        if (!Arrays.equals(permissions, that.permissions)) {
+            return false;
+        }
+        if (!Objects.equals(buttonCtaLabel, that.buttonCtaLabel)) {
+            return false;
+        }
+        return Objects.equals(buttonCtaClickListener, that.buttonCtaClickListener);
 
     }
 
@@ -298,7 +301,6 @@ public class SimpleSlide implements Slide, RestorableSlide, ButtonCtaSlide {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 this.title = Html.fromHtml(titleHtml, Html.FROM_HTML_MODE_LEGACY);
             } else {
-                //noinspection deprecation
                 this.title = Html.fromHtml(titleHtml);
             }
             this.titleRes = 0;
@@ -326,7 +328,6 @@ public class SimpleSlide implements Slide, RestorableSlide, ButtonCtaSlide {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 this.description = Html.fromHtml(descriptionHtml, Html.FROM_HTML_MODE_LEGACY);
             } else {
-                //noinspection deprecation
                 this.description = Html.fromHtml(descriptionHtml);
             }
             this.descriptionRes = 0;
@@ -390,7 +391,6 @@ public class SimpleSlide implements Slide, RestorableSlide, ButtonCtaSlide {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 this.buttonCtaLabel = Html.fromHtml(buttonCtaLabelHtml, Html.FROM_HTML_MODE_LEGACY);
             } else {
-                //noinspection deprecation
                 this.buttonCtaLabel = Html.fromHtml(buttonCtaLabelHtml);
             }
             this.buttonCtaLabelRes = 0;
@@ -467,6 +467,7 @@ public class SimpleSlide implements Slide, RestorableSlide, ButtonCtaSlide {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+            //noinspection deprecation
             setRetainInstance(true);
             updateNavigation();
         }
@@ -481,7 +482,7 @@ public class SimpleSlide implements Slide, RestorableSlide, ButtonCtaSlide {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            Bundle arguments = getArguments();
+            Bundle arguments = requireArguments();
 
             View fragment = inflater.inflate(arguments.getInt(ARGUMENT_LAYOUT_RES,
                     R.layout.mi_fragment_simple_slide), container, false);
@@ -544,14 +545,14 @@ public class SimpleSlide implements Slide, RestorableSlide, ButtonCtaSlide {
             int textColorSecondary;
 
             if (backgroundRes != 0 &&
-                    ColorUtils.calculateLuminance(ContextCompat.getColor(getContext(), backgroundRes)) < 0.6) {
+                    ColorUtils.calculateLuminance(ContextCompat.getColor(requireContext(), backgroundRes)) < 0.6) {
                 //Use light text color
-                textColorPrimary = ContextCompat.getColor(getContext(), R.color.mi_text_color_primary_dark);
-                textColorSecondary = ContextCompat.getColor(getContext(), R.color.mi_text_color_secondary_dark);
+                textColorPrimary = ContextCompat.getColor(requireContext(), R.color.mi_text_color_primary_dark);
+                textColorSecondary = ContextCompat.getColor(requireContext(), R.color.mi_text_color_secondary_dark);
             } else {
                 //Use dark text color
-                textColorPrimary = ContextCompat.getColor(getContext(), R.color.mi_text_color_primary_light);
-                textColorSecondary = ContextCompat.getColor(getContext(), R.color.mi_text_color_secondary_light);
+                textColorPrimary = ContextCompat.getColor(requireContext(), R.color.mi_text_color_primary_light);
+                textColorSecondary = ContextCompat.getColor(requireContext(), R.color.mi_text_color_secondary_light);
             }
 
             if (titleView != null) {
@@ -571,7 +572,7 @@ public class SimpleSlide implements Slide, RestorableSlide, ButtonCtaSlide {
         @Override
         public void onDestroyView() {
             if (getActivity() instanceof SimpleSlideActivity) {
-                long id = getArguments().getLong(ARGUMENT_ID);
+                long id = requireArguments().getLong(ARGUMENT_ID);
                 ((SimpleSlideActivity) getActivity()).onSlideDestroyView(this, getView(), id);
             }
             titleView = null;
@@ -593,9 +594,10 @@ public class SimpleSlide implements Slide, RestorableSlide, ButtonCtaSlide {
         }
 
         public long getSlideId() {
-            return getArguments().getLong(ARGUMENT_ID);
+            return requireArguments().getLong(ARGUMENT_ID);
         }
 
+        @SuppressWarnings("deprecation")
         @Override
         public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                                @NonNull int[] grantResults) {

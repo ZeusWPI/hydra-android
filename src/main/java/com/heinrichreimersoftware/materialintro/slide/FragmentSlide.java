@@ -54,10 +54,10 @@ public class FragmentSlide implements Slide, RestorableSlide, ButtonCtaSlide {
     private final int backgroundDark;
     private final boolean canGoForward;
     private final boolean canGoBackward;
-    private CharSequence buttonCtaLabel = null;
+    private final CharSequence buttonCtaLabel;
     @StringRes
-    private int buttonCtaLabelRes = 0;
-    private View.OnClickListener buttonCtaClickListener = null;
+    private final int buttonCtaLabelRes;
+    private final View.OnClickListener buttonCtaClickListener;
 
     protected FragmentSlide(Builder builder) {
         fragment = builder.fragment;
@@ -223,7 +223,6 @@ public class FragmentSlide implements Slide, RestorableSlide, ButtonCtaSlide {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 this.buttonCtaLabel = Html.fromHtml(buttonCtaLabelHtml, Html.FROM_HTML_MODE_LEGACY);
             } else {
-                //noinspection deprecation
                 this.buttonCtaLabel = Html.fromHtml(buttonCtaLabelHtml);
             }
             this.buttonCtaLabelRes = 0;
