@@ -234,7 +234,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         }
 
         // Show onboarding if the user has not completed it yet.
-        if (!Once.beenDone(ONCE_ONBOARDING) && !isOnboardingOpen) {
+        if (!Once.beenDone(ONCE_ONBOARDING) && !isOnboardingOpen || true) {
             Intent intent = new Intent(this, OnboardingActivity.class);
             startActivityForResult(intent, ONBOARDING_REQUEST);
             isOnboardingOpen = true;

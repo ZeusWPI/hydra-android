@@ -23,9 +23,4 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Hydra.DayNight" parent="Hydra.Base">
-        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
-        <item name="colorPrimarySecondary">?colorSecondary</item>
-    </style>
-
 </resources>

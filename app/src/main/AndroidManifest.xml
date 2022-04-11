@@ -72,7 +72,6 @@
 
         <!-- Generic preference activity, which can load a preference fragment. -->
         <activity
-            android:theme="@style/Hydra.DayNight"
             android:exported="true"
             android:name=".preferences.PreferenceActivity"
             android:parentActivityName=".MainActivity">
@@ -84,7 +83,6 @@
 
         <!-- Select preferences for home feed -->
         <activity
-            android:theme="@style/Hydra.DayNight"
             android:name=".feed.preferences.HomeFeedPrefActivity"
             android:label="@string/feed_pref_card_types_title"
             android:parentActivityName=".preferences.PreferenceActivity" />

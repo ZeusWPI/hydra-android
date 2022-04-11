@@ -23,6 +23,8 @@
 package be.ugent.zeus.hydra.onboarding;
 
 import android.os.Bundle;
+import android.util.TypedValue;
+import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 
 import be.ugent.zeus.hydra.R;
@@ -45,21 +47,26 @@ public class OnboardingActivity extends IntroActivity {
 
         Reporting.getTracker(this)
                 .log(new TutorialBeginEvent());
+        
+        // Get the colours.
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorSurface, typedValue, true);
+        @ColorInt int surfaceColor = typedValue.data;
 
         //First tab
         addSlide(new SimpleSlide.Builder()
                 .title(R.string.onboarding_welcome)
                 .description(R.string.onboarding_welcome_description)
                 .image(R.drawable.logo_onboarding_ugent)
-                .background(R.color.hydra_color_primary)
-                .backgroundDark(R.color.hydra_color_primary)
+                .backgroundInt(surfaceColor)
+                .backgroundDarkInt(surfaceColor)
                 .build());
 
         if (Reporting.hasReportingOptions()) {
             // Check for permission for data collection
             addSlide(new FragmentSlide.Builder()
-                    .background(R.color.hydra_color_primary)
-                    .backgroundDark(R.color.hydra_color_primary)
+                    .backgroundInt(surfaceColor)
+                    .backgroundDarkInt(surfaceColor)
                     .fragment(new ReportingFragment())
                     .build()
             );
@@ -67,8 +74,8 @@ public class OnboardingActivity extends IntroActivity {
 
         // Home feed selector
         addSlide(new FragmentSlide.Builder()
-                .background(R.color.hydra_color_primary)
-                .backgroundDark(R.color.hydra_color_primary)
+                .backgroundInt(surfaceColor)
+                .backgroundDarkInt(surfaceColor)
                 .fragment(new HomeFeedFragment())
                 .build());
     }

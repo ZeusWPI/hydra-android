@@ -22,54 +22,9 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
-
-    <style name="Hydra.DayNight" parent="Hydra.Base">
-        <item name="colorPrimarySecondary">?colorPrimary</item>
-    </style>
-
-    <!-- Main theme, used by most activities -->
-    <style name="Hydra.Base" parent="Base.DayNight.NoActionBar">
-        <!--Material color attributes -->
-        <item name="colorPrimary">@color/hydra_color_primary</item>
-        <item name="colorPrimaryVariant">@color/hydra_color_primary_variant_dark</item>
-        <item name="colorSecondary">@color/hydra_color_secondary</item>
-        <item name="colorSecondaryVariant">@color/hydra_color_secondary_variant_dark</item>
-
-        <item name="android:colorBackground">@color/color_background</item>
-
-        <item name="colorOnPrimary">@color/color_on_primary</item>
-        <item name="colorOnSecondary">@color/color_on_secondary</item>
-        <item name="colorOnBackground">@color/color_on_background</item>
-        <item name="colorOnSurface">@color/color_on_surface</item>
-        <item name="colorOnError">@color/color_on_error</item>
-
-        <!--Component styles-->
-        <item name="tabStyle">@style/Hydra.Tabs.Colored</item>
-        <item name="toolbarStyle">@style/Hydra.Toolbar</item>
-        <item name="materialCardViewStyle">@style/Widget.MaterialComponents.CardView</item>
-        <item name="bottomNavigationStyle">@style/Widget.MaterialComponents.BottomNavigationView</item>
-    </style>
-
     <!-- Theme for onboarding -->
-    <style name="Hydra.Base.Onboarding" parent="Hydra.Base">
+    <style name="Hydra.Base.Onboarding" parent="Hydra.Material">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:colorBackground">?colorPrimary</item>
-        <item name="colorSurface">?colorPrimary</item>
-        <item name="colorOnBackground">?colorOnPrimary</item>
-        <item name="colorOnSurface">?colorOnPrimary</item>
-        <item name="android:textColor">?colorOnPrimary</item>
-        <item name="android:textColorSecondary">?colorOnPrimary</item>
-    </style>
-
-    <style name="Base.DayNight.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="alphaEmphasisHigh">@dimen/material_emphasis_high_type</item>
-        <item name="alphaEmphasisMedium">@dimen/material_emphasis_medium</item>
-        <item name="alphaEmphasisDisabled">@dimen/material_emphasis_disabled</item>
-        <item name="android:statusBarColor">?colorPrimarySurface</item>
-        <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>
-        <item name="android:navigationBarColor">@color/black</item>
-        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
-        <item name="android:textColorPrimary">?colorOnSurface</item>
     </style>
 </resources>

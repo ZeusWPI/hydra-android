@@ -189,7 +189,7 @@ dependencies {
     implementation 'com.squareup.moshi:moshi:1.13.0'
     implementation 'com.squareup.picasso:picasso:2.8'
     implementation 'com.github.cachapa:ExpandableLayout:2.9.2'
-    implementation 'com.github.niknetniko:material-intro:9903deb6c4'
+    implementation 'com.github.niknetniko:material-intro:dd10a9a858ebcb80ef7265146cbbe40823b59a84'
     implementation 'com.github.jonfinerty:Once:19fa6fa10d'
     implementation 'com.github.esnaultdev:MaterialValues:v1.1.1'
     implementation 'dev.chrisbanes.insetter:insetter:0.6.1'

@@ -21,15 +21,16 @@
   ~ SOFTWARE.
   -->
 
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<selector xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
-            <solid android:color="@color/hydra_color_secondary" />
+            <!-- https://github.com/material-components/material-components-android/issues/2538 -->
+            <solid android:color="?colorPrimaryContainer" tools:ignore="PrivateResource" />
         </shape>
     </item>
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/hydra_color_primary" />
+            <solid android:color="?colorPrimary" />
         </shape>
     </item>
 </selector>
