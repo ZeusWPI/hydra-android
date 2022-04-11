@@ -395,7 +395,7 @@ public class SimpleSlide implements Slide, RestorableSlide, ButtonCtaSlide {
         }
 
         public SimpleSlide build() {
-            if (backgroundRes == 0)
+            if (backgroundRes == 0 && backgroundInt == 0)
                 throw new IllegalArgumentException("You must set a background.");
             return new SimpleSlide(this);
         }
