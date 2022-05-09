@@ -1,0 +1,138 @@
+/*
+ * Copyright (c) 2022 Niko Strijbol
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package be.ugent.zeus.hydra.wpi;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import androidx.activity.result.ActivityResult;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager2.widget.ViewPager2;
+
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayoutMediator;
+import com.squareup.picasso.Picasso;
+
+import java.text.NumberFormat;
+
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
+import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
+import be.ugent.zeus.hydra.common.ui.BaseActivity;
+import be.ugent.zeus.hydra.databinding.ActivityWpiBinding;
+import be.ugent.zeus.hydra.wpi.account.AccountManager;
+import be.ugent.zeus.hydra.wpi.account.ApiKeyManagementActivity;
+import be.ugent.zeus.hydra.wpi.account.CombinedUserViewModel;
+
+/**
+ * Activity that allows you to manage your API key.
+ * <p>
+ * This is a temporary solution; at some point, we'll need to implement
+ * a proper login solution (or do we? it is Zeus after all).
+ *
+ * @author Niko Strijbol
+ */
+public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
+
+    private static final String TAG = "ApiKeyManagementActivit";
+    private static final int ACTIVITY_API_MANAGEMENT = 963;
+
+    private CombinedUserViewModel combinedUserViewModel;
+    private WpiPagerAdapter pageAdapter;
+
+    private final NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+    private final NumberFormat decimalFormatter = NumberFormat.getNumberInstance();
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(ActivityWpiBinding::inflate);
+        setTitle(AccountManager.getUsername(this));
+
+        pageAdapter = new WpiPagerAdapter(this);
+        ViewPager2 viewPager = binding.viewPager;
+        viewPager.setAdapter(pageAdapter);
+
+        TabLayoutMediator mediator = new TabLayoutMediator(binding.tabLayout, viewPager, (tab, position) -> {
+            if (position == 0) {
+                tab.setText(R.string.wpi_tap_tab);
+            } else if (position == 1) {
+                tab.setText(R.string.wpi_tab_tab);
+            }
+        });
+        mediator.attach();
+
+        combinedUserViewModel = new ViewModelProvider(this).get(CombinedUserViewModel.class);
+        combinedUserViewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
+        combinedUserViewModel.getData().observe(this, SuccessObserver.with(user -> {
+            Picasso.get().load(user.getProfilePicture()).into(binding.profilePicture);
+            String balance = currencyFormatter.format(user.getBalanceDecimal());
+            String orders = decimalFormatter.format(user.getOrders());
+            binding.profileDescription.setText(getString(R.string.wpi_user_description, balance, orders));
+        }));
+    }
+
+    private void onError(Throwable throwable) {
+        Log.e(TAG, "Error while getting data.", throwable);
+        // TODO: better error message.
+        Snackbar.make(binding.getRoot(), getString(R.string.error_network), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.action_again), v -> combinedUserViewModel.onRefresh())
+                .show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_wpi, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_manage_login) {
+            Intent intent = new Intent(this, ApiKeyManagementActivity.class);
+            startActivityForResult(intent, ACTIVITY_API_MANAGEMENT);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == ACTIVITY_API_MANAGEMENT && resultCode == Activity.RESULT_OK) {
+            combinedUserViewModel.onRefresh();
+            if (pageAdapter != null) {
+                pageAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+}

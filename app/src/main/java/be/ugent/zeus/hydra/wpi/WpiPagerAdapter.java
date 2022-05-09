@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2022 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,21 +20,42 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.common.network;
+package be.ugent.zeus.hydra.wpi;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+
+import be.ugent.zeus.hydra.common.ui.AdapterOutOfBoundsException;
+import be.ugent.zeus.hydra.wpi.tab.transaction.TransactionFragment;
+import be.ugent.zeus.hydra.wpi.tap.product.ProductFragment;
 
 /**
- * Hosts used in the APIs, together with some common API endpoints.
+ * This class provides the tabs in the WPI activity.
  *
  * @author Niko Strijbol
  */
-public interface Endpoints {
-    String DSA_V4 = "https://dsa.ugent.be/api/";
+class WpiPagerAdapter extends FragmentStateAdapter {
 
-    String ZEUS_V1 = "https://hydra.ugent.be/api/1.0/";
-    String ZEUS_V2 = "https://hydra.ugent.be/api/2.0/";
+    public WpiPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
+        super(fragmentActivity);
+    }
 
-    String TAP = "https://tap.zeus.gent/";
-    String TAB = "https://tab.zeus.gent/";
+    @NonNull
+    @Override
+    public Fragment createFragment(int position) {
+        if (position == 0) {
+            return new ProductFragment();
+        } else if (position == 1) {
+            return new TransactionFragment();
+        }
+        
+        throw new AdapterOutOfBoundsException(position, getItemCount());
+    }
 
-    String LIBRARY = "https://widgets.lib.ugent.be/";
+    @Override
+    public int getItemCount() {
+        return 2;
+    }
 }

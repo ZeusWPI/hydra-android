@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2021 The Hydra authors
- *
+ * Copyright (c) 2022 Niko Strijbol
+ *  
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -20,21 +20,44 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.common.network;
+package be.ugent.zeus.hydra.wpi.tab.user;
+
+import java.util.Objects;
 
 /**
- * Hosts used in the APIs, together with some common API endpoints.
- *
  * @author Niko Strijbol
  */
-public interface Endpoints {
-    String DSA_V4 = "https://dsa.ugent.be/api/";
+public class TabUser {
+    private int id;
+    private String name;
+    private int balance;
+    
+    public TabUser() {
+        // Moshi.
+    }
 
-    String ZEUS_V1 = "https://hydra.ugent.be/api/1.0/";
-    String ZEUS_V2 = "https://hydra.ugent.be/api/2.0/";
+    public int getId() {
+        return id;
+    }
 
-    String TAP = "https://tap.zeus.gent/";
-    String TAB = "https://tab.zeus.gent/";
+    public String getName() {
+        return name;
+    }
 
-    String LIBRARY = "https://widgets.lib.ugent.be/";
+    public int getBalance() {
+        return balance;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TabUser tabUser = (TabUser) o;
+        return id == tabUser.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

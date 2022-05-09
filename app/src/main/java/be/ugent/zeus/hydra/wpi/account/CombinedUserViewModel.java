@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2022 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,21 +20,26 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.common.network;
+package be.ugent.zeus.hydra.wpi.account;
+
+import android.app.Application;
+import androidx.annotation.NonNull;
+
+import be.ugent.zeus.hydra.common.request.Request;
+import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 
 /**
- * Hosts used in the APIs, together with some common API endpoints.
- *
  * @author Niko Strijbol
  */
-public interface Endpoints {
-    String DSA_V4 = "https://dsa.ugent.be/api/";
+public class CombinedUserViewModel extends RequestViewModel<CombinedUser> {
 
-    String ZEUS_V1 = "https://hydra.ugent.be/api/1.0/";
-    String ZEUS_V2 = "https://hydra.ugent.be/api/2.0/";
+    public CombinedUserViewModel(Application application) {
+        super(application);
+    }
 
-    String TAP = "https://tap.zeus.gent/";
-    String TAB = "https://tab.zeus.gent/";
-
-    String LIBRARY = "https://widgets.lib.ugent.be/";
+    @NonNull
+    @Override
+    protected Request<CombinedUser> getRequest() {
+        return new CombinedUserRequest(getApplication());
+    }
 }

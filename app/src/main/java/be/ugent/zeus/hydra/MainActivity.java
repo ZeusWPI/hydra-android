@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2022 The Hydra authors
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -60,6 +60,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.tabs.TabLayout;
+import be.ugent.zeus.hydra.wpi.WpiActivity;
 import dev.chrisbanes.insetter.Insetter;
 import jonathanfinerty.once.Once;
 
@@ -336,6 +337,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         if (menuItem.getItemId() == R.id.drawer_pref) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
             PreferenceActivity.start(this, null);
+            return;
+        }
+        
+        if (menuItem.getItemId() == R.id.drawer_zeus) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+            Intent intent = new Intent(this, WpiActivity.class);
+            startActivity(intent);
             return;
         }
 

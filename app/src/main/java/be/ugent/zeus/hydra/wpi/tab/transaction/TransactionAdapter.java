@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2022 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,21 +20,22 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.common.network;
+package be.ugent.zeus.hydra.wpi.tab.transaction;
+
+import android.view.ViewGroup;
+import androidx.annotation.NonNull;
+
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DiffAdapter;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
 
 /**
- * Hosts used in the APIs, together with some common API endpoints.
- *
  * @author Niko Strijbol
  */
-public interface Endpoints {
-    String DSA_V4 = "https://dsa.ugent.be/api/";
-
-    String ZEUS_V1 = "https://hydra.ugent.be/api/1.0/";
-    String ZEUS_V2 = "https://hydra.ugent.be/api/2.0/";
-
-    String TAP = "https://tap.zeus.gent/";
-    String TAB = "https://tab.zeus.gent/";
-
-    String LIBRARY = "https://widgets.lib.ugent.be/";
+class TransactionAdapter extends DiffAdapter<Transaction, TransactionViewHolder> {
+    @NonNull
+    @Override
+    public TransactionViewHolder onCreateViewHolder(@NonNull ViewGroup p, int viewType) {
+        return new TransactionViewHolder(ViewUtils.inflate(p, R.layout.item_transaction));
+    }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  ~ Copyright (c) 2021 The Hydra authors
+  ~ Copyright (c) 2022 The Hydra authors
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -59,6 +59,11 @@
             android:id="@+id/drawer_info"
             android:icon="@drawable/tabs_info"
             android:title="@string/drawer_title_info" />
+        <item
+            android:id="@+id/drawer_zeus"
+            android:checkable="false"
+            android:icon="@drawable/logo_zeus"
+            android:title="@string/drawer_title_zeus" />
         <item
             android:id="@+id/drawer_ufora"
             android:checkable="false"

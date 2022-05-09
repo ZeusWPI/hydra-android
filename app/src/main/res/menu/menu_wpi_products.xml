@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2021 The Hydra authors
+  ~ Copyright (c) 2022 Niko Strijbol
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -21,20 +21,13 @@
   ~ SOFTWARE.
   -->
 
-<resources>
-    <style name="Hydra.Text.Subhead" parent="TextAppearance.Material3.TitleSmall">
-        <item name="android:textColor">?colorOnSurface</item>
-    </style>
-
-    <!-- Divider style -->
-    <style name="Divider">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1dp</item>
-        <item name="android:background">?android:attr/listDivider</item>
-    </style>
-
-    <style name="circleImageView" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">50%</item>
-    </style>
-</resources>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_filter_stock"
+        android:icon="@drawable/ic_login"
+        android:orderInCategory="50"
+        android:title="@string/wpi_product_filter"
+        app:showAsAction="never"
+        android:checkable="true" />
+</menu>

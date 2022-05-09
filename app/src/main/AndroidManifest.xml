@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2021 The Hydra authors
+  ~ Copyright (c) 2022 The Hydra authors
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -147,6 +147,17 @@
             android:label="Bibliotheek"
             android:parentActivityName=".MainActivity"
             android:theme="@style/Hydra.Material.System" />
+
+
+        <activity 
+            android:name=".wpi.account.ApiKeyManagementActivity"
+            android:label="@string/wpi_api_key_management_title"
+            android:parentActivityName=".wpi.WpiActivity"/>
+
+        <activity
+            android:name=".wpi.WpiActivity"
+            android:label="@string/wpi_api_key_management_title"
+            android:parentActivityName=".MainActivity"/>
 
         <!-- Urgent stuff -->
         <!-- This is a music service without sensitive data and thus does not require permissions -->

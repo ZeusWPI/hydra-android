@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!--
-  ~ Copyright (c) 2021 The Hydra authors
+  ~ Copyright (c) 2022 The Hydra authors
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@
     <string name="title_activity_hydra_web_view">Web View</string>
 
     <string name="action_refresh">Refresh</string>
+    <string name="action_manage_login">Manage login data</string>
     <string name="action_view_website">View website</string>
     <string name="action_view_settings">Settings</string>
     <string name="action_view_link">Open link</string>
@@ -51,6 +52,7 @@
     <string name="drawer_title_pref">Settings</string>
     <string name="drawer_title_urgent">Urgent.fm</string>
     <string name="drawer_title_library">Libraries</string>
+    <string name="drawer_title_zeus">Zeus mode</string>
     <string name="drawer_title_ufora">Ufora app</string>
 
     <string name="shortcut_resto_short_label">Resto menu</string>
@@ -311,6 +313,15 @@
     <string name="library_info_details">Details</string>
     <string name="library_list_no_opening_hours">No opening hours found today.</string>
     <string name="library_list_opening_hours_today">Open today: %s</string>
+    
+    <!-- Zeus -->
+    <string name="wpi_api_key_management_title">API key management</string>
+    <string name="wpi_product_description">Calories: %1$s • In stock: %2$d</string>
+    <string name="wpi_product_na">n/a</string>
+    <string name="wpi_product_filter">Only in stock</string>
+    <string name="wpi_user_description">Balance: %1$s • Orders: %2$s</string>
+    <string name="wpi_tap_tab">Products</string>
+    <string name="wpi_tab_tab">Transactions</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_more">more</string>

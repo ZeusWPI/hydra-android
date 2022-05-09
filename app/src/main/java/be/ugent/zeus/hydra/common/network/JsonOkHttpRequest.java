@@ -44,9 +44,7 @@ import be.ugent.zeus.hydra.common.request.Result;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.JsonDataException;
 import com.squareup.moshi.Moshi;
-import okhttp3.CacheControl;
-import okhttp3.OkHttpClient;
-import okhttp3.Response;
+import okhttp3.*;
 
 /**
  * Common implementation base for requests that are network requests. This request provides built-in caching on the
@@ -187,7 +185,8 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
     protected okhttp3.Request.Builder constructRequest(@NonNull Bundle arguments) {
         return new okhttp3.Request.Builder()
                 .url(getAPIUrl())
-                .cacheControl(constructCacheControl(arguments));
+                .cacheControl(constructCacheControl(arguments))
+                .addHeader("Accept", "application/json");
     }
 
     protected CacheControl constructCacheControl(@NonNull Bundle arguments) {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2021 The Hydra authors
+  ~ Copyright (c) 2022 The Hydra authors
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@
     <string name="title_activity_hydra_web_view">Web View</string>
 
     <string name="action_refresh">Vernieuwen</string>
+    <string name="action_manage_login">Aanmeldgegevens beheren</string>
     <string name="action_view_website">Website bekijken</string>
     <string name="action_view_settings">Instellingen</string>
     <string name="action_view_link">Link openen</string>
@@ -54,6 +55,7 @@
     <string name="drawer_title_pref">Instellingen</string>
     <string name="drawer_title_urgent">Urgent.fm</string>
     <string name="drawer_title_library">Bibliotheken</string>
+    <string name="drawer_title_zeus">Zeus-modus</string>
     <string name="drawer_title_ufora">Ufora-app</string>
 
     <string name="shortcut_resto_short_label">Restomenu</string>
@@ -318,6 +320,15 @@
     <string name="library_info_details">Details</string>
     <string name="library_list_no_opening_hours">Geen openingsuren vandaag.</string>
     <string name="library_list_opening_hours_today">Vandaag open: %s</string>
+
+    <!-- Zeus -->
+    <string name="wpi_api_key_management_title">Beheer van API-sleutels</string>
+    <string name="wpi_product_description">Calorieën: %1$s • In voorraad: %2$d</string>
+    <string name="wpi_product_na">n.v.t.</string>
+    <string name="wpi_product_filter">Enkel in voorraad</string>
+    <string name="wpi_user_description">Saldo: %1$s • Bestellingen: %2$s</string>
+    <string name="wpi_tap_tab">Producten</string>
+    <string name="wpi_tab_tab">Transacties</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_more">meer</string>
