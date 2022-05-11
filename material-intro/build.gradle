@@ -23,7 +23,10 @@ android {
         showAll true
         disable "Overdraw", // Allow overdraw, mainly used for selectable backgrounds
                 // We decide when we upgrade
-                "OldTargetApi"
+                "OldTargetApi",
+                // We use dependabot for dependencies
+                "GradleDependency",
+                "ObsoleteLintCustomCheck"
         
     }
 }
