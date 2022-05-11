@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.wpi.tab.transaction;
+package be.ugent.zeus.hydra.wpi.tab.list;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -65,11 +65,14 @@ class TransactionViewHolder extends DataViewHolder<Transaction> {
         title.setText(transaction.getDisplayOther(me));
         if (transaction.getIssuer().equals("Tap")) {
             thumbnail.setImageResource(R.drawable.logo_tap);
+        } else if (transaction.getAmount() > 0) {
+            thumbnail.setImageResource(R.drawable.ic_bank_transfer_out);
+        } else if (transaction.getAmount() < 0) {
+            thumbnail.setImageResource(R.drawable.ic_bank_transfer_in);
         } else {
+            // This is probably not possible.
             thumbnail.setImageResource(R.drawable.ic_receipt_long);
-            
         }
-        // Todo: icon.
         meta.setText(currencyFormatter.format(transaction.getAdjustedAmount(me)));
         secondDescription.setText(transaction.getMessage());
         firstDescription.setText(DateUtils.relativeDateTimeString(transaction.getTime(), itemView.getContext()));

@@ -22,10 +22,12 @@
 
 package be.ugent.zeus.hydra.wpi.account;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import androidx.annotation.Nullable;
 
 import java.util.Objects;
@@ -67,6 +69,22 @@ public class ApiKeyManagementActivity extends BaseActivity<ActivityWpiApiKeyMana
         binding.apiTab.removeTextChangedListener(this);
         binding.apiTap.removeTextChangedListener(this);
         binding.apiUsername.removeTextChangedListener(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

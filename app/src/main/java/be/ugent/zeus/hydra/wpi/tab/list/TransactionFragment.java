@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.wpi.tab.transaction;
+package be.ugent.zeus.hydra.wpi.tab.list;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -77,11 +78,14 @@ public class TransactionFragment extends Fragment {
         viewModel.getData().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
         viewModel.getRefreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
 
-        // Get the activity view model and refresh it as well.
+        // For refreshing, we request a refresh from the parent activity.
+        // We then listen to the parent refresh state and refresh this fragment when the parent is refreshing.
         CombinedUserViewModel activityViewModel = new ViewModelProvider(requireActivity()).get(CombinedUserViewModel.class);
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            viewModel.onRefresh();
-            activityViewModel.onRefresh();
+        swipeRefreshLayout.setOnRefreshListener(activityViewModel);
+        activityViewModel.getRefreshing().observe(getViewLifecycleOwner(), refreshing -> {
+            if (refreshing) {
+                viewModel.onRefresh();
+            }
         });
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2022 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,17 +20,34 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.common.network;
+package be.ugent.zeus.hydra.wpi.tab.list;
 
-import be.ugent.zeus.hydra.common.request.RequestException;
+import android.app.Application;
+import androidx.annotation.NonNull;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import be.ugent.zeus.hydra.common.request.Request;
+import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 
 /**
  * @author Niko Strijbol
  */
-public class InvalidFormatException extends RequestException {
+public class TransactionViewModel extends RequestViewModel<List<Transaction>> {
 
-    public InvalidFormatException(String message, Throwable cause) {
-        super(message, cause);
+    public TransactionViewModel(Application application) {
+        super(application);
     }
 
+    @NonNull
+    @Override
+    protected Request<List<Transaction>> getRequest() {
+        return new TransactionRequest(getApplication())
+                .map(transactions -> transactions
+                        .stream()
+                        .sorted(Comparator.comparing(Transaction::getTime).reversed())
+                        .collect(Collectors.toList()));
+    }
 }

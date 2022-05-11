@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2022 Niko Strijbol
- *
+ *  
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -20,34 +20,30 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.wpi.tab.transaction;
+package be.ugent.zeus.hydra.common.ui;
 
-import android.app.Application;
-import androidx.annotation.NonNull;
-
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.common.ui.RequestViewModel;
+import android.text.Editable;
+import android.text.TextWatcher;
 
 /**
  * @author Niko Strijbol
  */
-public class TransactionViewModel extends RequestViewModel<List<Transaction>> {
+public interface SimpleTextWatcher extends TextWatcher {
 
-    public TransactionViewModel(Application application) {
-        super(application);
-    }
-
-    @NonNull
     @Override
-    protected Request<List<Transaction>> getRequest() {
-        return new TransactionRequest(getApplication())
-                .map(transactions -> transactions
-                        .stream()
-                        .sorted(Comparator.comparing(Transaction::getTime).reversed())
-                        .collect(Collectors.toList()));
+    default void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        // Do nothing.
     }
+
+    @Override
+    default void afterTextChanged(Editable s) {
+        // Do nothing.
+    }
+
+    @Override
+    default void onTextChanged(CharSequence s, int start, int before, int count) {
+        onTextChanged(s.toString());
+    }
+
+    void onTextChanged(String newText);
 }

@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.wpi.tab.transaction;
+package be.ugent.zeus.hydra.wpi.tab.list;
 
 import android.content.Context;
 import android.os.Bundle;

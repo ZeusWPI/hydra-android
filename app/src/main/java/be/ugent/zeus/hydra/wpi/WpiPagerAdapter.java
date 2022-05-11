@@ -28,7 +28,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import be.ugent.zeus.hydra.common.ui.AdapterOutOfBoundsException;
-import be.ugent.zeus.hydra.wpi.tab.transaction.TransactionFragment;
+import be.ugent.zeus.hydra.wpi.tab.list.TransactionFragment;
 import be.ugent.zeus.hydra.wpi.tap.product.ProductFragment;
 
 /**

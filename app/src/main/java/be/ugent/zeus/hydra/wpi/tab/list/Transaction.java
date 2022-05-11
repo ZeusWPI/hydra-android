@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.wpi.tab.transaction;
+package be.ugent.zeus.hydra.wpi.tab.list;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;

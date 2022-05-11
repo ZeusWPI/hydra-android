@@ -322,6 +322,21 @@
     <string name="wpi_user_description">Balance: %1$s • Orders: %2$s</string>
     <string name="wpi_tap_tab">Products</string>
     <string name="wpi_tab_tab">Transactions</string>
+    <string name="wpi_tab_form_title">Tab transfer</string>
+    <string name="wpi_tab_form_to">Zeus member</string>
+    <string name="wpi_tab_form_to_helper">Who you want to give money to or request money from. The Zeus username must be spelled exactly correct. Due to limitations in the API, there is no autocomplete for this field yet.</string>
+    <string name="wpi_tab_form_amount">Amount</string>
+    <string name="wpi_tab_form_amount_helper">If the amount is negative and you are not an admin, this will become a request, not a transfer.</string>
+    <string name="wpi_tab_form_message">Description</string>
+    <string name="wpi_tab_form_confirm">Confirm</string>
+    <string name="wpi_tab_form_done">Transaction saved</string>
+    <string name="wpi_tab_form_done_negative">Request made</string>
+    <string name="wpi_tab_form_confirm_positive">Sure? You will give %1$s to %2$s.</string>
+    <string name="wpi_tab_form_confirm_negative">Sure? You will demand %1$s from %2$s (or you will take it if you are admin).</string>
+    <string name="wpi_tab_form_error">There was an error while creating the transaction. Check that the transaction has not been saved before trying it again.</string>
+
+    <string name="wpi_tab_form_error_creditor_blank">This Zeus member was not found.</string>
+    <string name="wpi_tab_form_error_amount_zero">Zeus is not a bank; debt is forbidden.</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_more">more</string>

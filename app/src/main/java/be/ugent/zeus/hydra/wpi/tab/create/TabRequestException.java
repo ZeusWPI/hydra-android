@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2022 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,17 +20,28 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.common.network;
+package be.ugent.zeus.hydra.wpi.tab.create;
+
+import android.text.TextUtils;
+
+import java.util.List;
 
 import be.ugent.zeus.hydra.common.request.RequestException;
 
 /**
+ * Error when posting a transaction results in 422.
+ * 
  * @author Niko Strijbol
  */
-public class InvalidFormatException extends RequestException {
+public class TabRequestException extends RequestException {
+    private final List<String> messages;
 
-    public InvalidFormatException(String message, Throwable cause) {
-        super(message, cause);
+    public TabRequestException(List<String> messages) {
+        super(TextUtils.join(", ", messages));
+        this.messages = messages;
     }
 
+    public List<String> getMessages() {
+        return messages;
+    }
 }

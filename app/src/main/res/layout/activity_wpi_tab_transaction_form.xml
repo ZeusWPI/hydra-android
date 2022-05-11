@@ -27,7 +27,7 @@
     android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".wpi.account.ApiKeyManagementActivity"
+    tools:context=".wpi.tab.create.FormActivity"
     tools:menu="@menu/menu_resto">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -35,7 +35,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include layout="@layout/x_toolbar_no_scroll" />
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_close"
+            android:ellipsize="marquee" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -54,43 +59,54 @@
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/form_member_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Gebruikersnaam">
+                android:hint="@string/wpi_tab_form_to"
+                app:helperText="@string/wpi_tab_form_to_helper">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/apiUsername"
+                    android:id="@+id/form_member"
+                    android:inputType="text"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/form_amount_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:prefixText="€ "
+                android:hint="@string/wpi_tab_form_amount"
+                app:helperText="@string/wpi_tab_form_amount_helper">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/form_amount"
+                    android:layout_width="match_parent"
+                    android:inputType="numberDecimal|numberSigned"
+                    android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="API-sleutel Tab">
+                android:hint="@string/wpi_tab_form_message">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/apiTab"
+                    android:id="@+id/form_message"
+                    android:inputType="textShortMessage|textMultiLine"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="API-sleutel Tap">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/apiTap"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
-
-            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/confirm_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/wpi_tab_form_confirm" />
             
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

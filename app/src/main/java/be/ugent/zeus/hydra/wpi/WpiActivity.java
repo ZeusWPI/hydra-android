@@ -27,9 +27,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.*;
 import androidx.activity.result.ActivityResult;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -50,6 +48,7 @@ import be.ugent.zeus.hydra.databinding.ActivityWpiBinding;
 import be.ugent.zeus.hydra.wpi.account.AccountManager;
 import be.ugent.zeus.hydra.wpi.account.ApiKeyManagementActivity;
 import be.ugent.zeus.hydra.wpi.account.CombinedUserViewModel;
+import be.ugent.zeus.hydra.wpi.tab.create.FormActivity;
 
 /**
  * Activity that allows you to manage your API key.
@@ -62,13 +61,26 @@ import be.ugent.zeus.hydra.wpi.account.CombinedUserViewModel;
 public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
 
     private static final String TAG = "ApiKeyManagementActivit";
-    private static final int ACTIVITY_API_MANAGEMENT = 963;
+    private static final int ACTIVITY_DO_REFRESH = 963;
 
     private CombinedUserViewModel combinedUserViewModel;
     private WpiPagerAdapter pageAdapter;
 
     private final NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
     private final NumberFormat decimalFormatter = NumberFormat.getNumberInstance();
+    
+    private final ViewPager2.OnPageChangeCallback callback = new ViewPager2.OnPageChangeCallback() {
+        @Override
+        public void onPageSelected(int position) {
+            if (position == 0) {
+                binding.tabFab.hide();
+                binding.tapFab.show();
+            } else if (position == 1) {
+                binding.tapFab.hide();
+                binding.tabFab.show();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,6 +100,11 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
             }
         });
         mediator.attach();
+        
+        binding.tabFab.setOnClickListener(v -> {
+            Intent intent = new Intent(WpiActivity.this, FormActivity.class);
+            startActivityForResult(intent, ACTIVITY_DO_REFRESH);
+        });
 
         combinedUserViewModel = new ViewModelProvider(this).get(CombinedUserViewModel.class);
         combinedUserViewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
@@ -97,6 +114,18 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
             String orders = decimalFormatter.format(user.getOrders());
             binding.profileDescription.setText(getString(R.string.wpi_user_description, balance, orders));
         }));
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        binding.viewPager.registerOnPageChangeCallback(callback);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        binding.viewPager.unregisterOnPageChangeCallback(callback);
     }
 
     private void onError(Throwable throwable) {
@@ -118,7 +147,7 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_manage_login) {
             Intent intent = new Intent(this, ApiKeyManagementActivity.class);
-            startActivityForResult(intent, ACTIVITY_API_MANAGEMENT);
+            startActivityForResult(intent, ACTIVITY_DO_REFRESH);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -128,7 +157,10 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == ACTIVITY_API_MANAGEMENT && resultCode == Activity.RESULT_OK) {
+        Log.i(TAG, "onActivityResult: result");
+
+        if (requestCode == ACTIVITY_DO_REFRESH && resultCode == Activity.RESULT_OK) {
+            Log.i(TAG, "onActivityResult: refreshing for result...");
             combinedUserViewModel.onRefresh();
             if (pageAdapter != null) {
                 pageAdapter.notifyDataSetChanged();
