@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 The Hydra authors
+ * Copyright (c) 2022 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,46 +20,26 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.wpi.tap.product;
+package be.ugent.zeus.hydra.common.scanner;
 
 import android.content.Context;
-import android.os.Bundle;
-import androidx.annotation.NonNull;
 
-import java.time.Duration;
+import java.util.List;
 
-import be.ugent.zeus.hydra.common.network.Endpoints;
-import be.ugent.zeus.hydra.common.network.JsonArrayRequest;
-import be.ugent.zeus.hydra.wpi.account.AccountManager;
-import okhttp3.Request;
+import be.ugent.zeus.hydra.common.request.Result;
 
 /**
+ * Ask some service to scan for barcodes.
+ * 
  * @author Niko Strijbol
  */
-public class ProductRequest extends JsonArrayRequest<Product> {
+public interface BarcodeScanner {
 
-    private final Context context;
-
-    public ProductRequest(Context context) {
-        super(context, Product.class);
-        this.context = context.getApplicationContext();
-    }
-
-    @Override
-    protected Request.Builder constructRequest(@NonNull Bundle arguments) {
-        Request.Builder builder = super.constructRequest(arguments);
-        builder.addHeader("Authorization", "Bearer " + AccountManager.getTapKey(context));
-        return builder;
-    }
-
-    @NonNull
-    @Override
-    protected String getAPIUrl() {
-        return Endpoints.TAP + "products";
-    }
-
-    @Override
-    public Duration getCacheDuration() {
-        return Duration.ZERO;
-    }
+    /**
+     * Ask to scan some EAN13 barcodes.
+     * 
+     * @param context
+     * @return
+     */
+    Result<List<String>> getBarcodes(Context context);
 }

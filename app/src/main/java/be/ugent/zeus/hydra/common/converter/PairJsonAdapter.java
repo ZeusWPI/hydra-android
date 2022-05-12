@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 The Hydra authors
+ * Copyright (c) 2022 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,46 +20,32 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.wpi.tap.product;
+package be.ugent.zeus.hydra.common.converter;
 
-import android.content.Context;
-import android.os.Bundle;
-import androidx.annotation.NonNull;
+import android.util.Pair;
 
-import java.time.Duration;
+import com.squareup.moshi.FromJson;
+import com.squareup.moshi.ToJson;
 
-import be.ugent.zeus.hydra.common.network.Endpoints;
-import be.ugent.zeus.hydra.common.network.JsonArrayRequest;
-import be.ugent.zeus.hydra.wpi.account.AccountManager;
-import okhttp3.Request;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Niko Strijbol
  */
-public class ProductRequest extends JsonArrayRequest<Product> {
+public class PairJsonAdapter {
 
-    private final Context context;
-
-    public ProductRequest(Context context) {
-        super(context, Product.class);
-        this.context = context.getApplicationContext();
+    @FromJson
+    Pair<Object, Object> read(List<Object> value) {
+        return Pair.create(value.get(0), value.get(1));
     }
 
-    @Override
-    protected Request.Builder constructRequest(@NonNull Bundle arguments) {
-        Request.Builder builder = super.constructRequest(arguments);
-        builder.addHeader("Authorization", "Bearer " + AccountManager.getTapKey(context));
-        return builder;
-    }
-
-    @NonNull
-    @Override
-    protected String getAPIUrl() {
-        return Endpoints.TAP + "products";
-    }
-
-    @Override
-    public Duration getCacheDuration() {
-        return Duration.ZERO;
+    @ToJson
+    List<Object> write(Pair<Object, Object> value) {
+        List<Object> object = new ArrayList<>();
+        object.add(value.first);
+        object.add(value.second);
+        return object;
     }
 }

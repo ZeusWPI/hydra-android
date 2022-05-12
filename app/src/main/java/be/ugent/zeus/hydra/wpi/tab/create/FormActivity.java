@@ -22,15 +22,12 @@
 
 package be.ugent.zeus.hydra.wpi.tab.create;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -38,13 +35,12 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.EventObserver;
+import be.ugent.zeus.hydra.common.network.NetworkState;
 import be.ugent.zeus.hydra.common.request.RequestException;
-import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.SimpleTextWatcher;
 import be.ugent.zeus.hydra.databinding.ActivityWpiTabTransactionFormBinding;
@@ -105,12 +101,12 @@ public class FormActivity extends BaseActivity<ActivityWpiTabTransactionFormBind
         }));
 
         model.getNetworkState().observe(this, networkState -> {
-            boolean enabled = networkState == null || networkState == TransactionViewModel.NetworkState.IDLE;
+            boolean enabled = networkState == null || networkState == NetworkState.IDLE;
             binding.formMember.setEnabled(enabled);
             binding.formAmount.setEnabled(enabled);
             binding.formMessage.setEnabled(enabled);
             binding.confirmButton.setEnabled(enabled);
-            if (networkState == TransactionViewModel.NetworkState.BUSY) {
+            if (networkState == NetworkState.BUSY) {
                 binding.formAmountLayout.setError(null);
                 binding.formMemberLayout.setError(null);
             }

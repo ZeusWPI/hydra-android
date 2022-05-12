@@ -49,6 +49,7 @@ import be.ugent.zeus.hydra.wpi.account.AccountManager;
 import be.ugent.zeus.hydra.wpi.account.ApiKeyManagementActivity;
 import be.ugent.zeus.hydra.wpi.account.CombinedUserViewModel;
 import be.ugent.zeus.hydra.wpi.tab.create.FormActivity;
+import be.ugent.zeus.hydra.wpi.tap.cart.CartActivity;
 
 /**
  * Activity that allows you to manage your API key.
@@ -103,6 +104,10 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
         
         binding.tabFab.setOnClickListener(v -> {
             Intent intent = new Intent(WpiActivity.this, FormActivity.class);
+            startActivityForResult(intent, ACTIVITY_DO_REFRESH);
+        });
+        binding.tapFab.setOnClickListener(v -> {
+            Intent intent = new Intent(WpiActivity.this, CartActivity.class);
             startActivityForResult(intent, ACTIVITY_DO_REFRESH);
         });
 

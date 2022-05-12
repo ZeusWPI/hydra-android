@@ -334,9 +334,9 @@
     <string name="wpi_tab_form_confirm_positive">Sure? You will give %1$s to %2$s.</string>
     <string name="wpi_tab_form_confirm_negative">Sure? You will demand %1$s from %2$s (or you will take it if you are admin).</string>
     <string name="wpi_tab_form_error">There was an error while creating the transaction. Check that the transaction has not been saved before trying it again.</string>
-
     <string name="wpi_tab_form_error_creditor_blank">This Zeus member was not found.</string>
     <string name="wpi_tab_form_error_amount_zero">Zeus is not a bank; debt is forbidden.</string>
+    <string name="wpi_cart_product_description">%1$d ⨯ %2$s</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_more">more</string>

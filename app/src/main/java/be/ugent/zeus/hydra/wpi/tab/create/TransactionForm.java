@@ -35,7 +35,7 @@ import java.util.Objects;
  * 
  * @author Niko Strijbol
  */
-public class TransactionForm implements Parcelable {
+class TransactionForm implements Parcelable {
     
     private String destination;
     private int amount;

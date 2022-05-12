@@ -20,33 +20,31 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.wpi.tab.create;
+package be.ugent.zeus.hydra.wpi.tap.cart;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.function.Consumer;
+
 import be.ugent.zeus.hydra.common.arch.data.Event;
+import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 import be.ugent.zeus.hydra.common.network.NetworkState;
+import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
-import be.ugent.zeus.hydra.common.utils.ThreadingUtils;
+import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 
 /**
- * Responsible for managing requests to create transactions.
- * 
- * There are a set of methods that return LiveData. Those should be
- * listened to to get the results.
- * 
  * @author Niko Strijbol
  */
-public class TransactionViewModel extends AndroidViewModel {
-    
+public class CartViewModel extends RequestViewModel<Cart> {
+
     private final MutableLiveData<NetworkState> networkState;
     private final MutableLiveData<Event<Result<Boolean>>> requestResult;
     
-    public TransactionViewModel(@NonNull Application application) {
+    public CartViewModel(Application application) {
         super(application);
         networkState = new MutableLiveData<>(NetworkState.IDLE);
         requestResult = new MutableLiveData<>();
@@ -55,18 +53,29 @@ public class TransactionViewModel extends AndroidViewModel {
     public LiveData<NetworkState> getNetworkState() {
         return networkState;
     }
-    
+
     public LiveData<Event<Result<Boolean>>> getRequestResult() {
         return requestResult;
     }
-    
-    public void startRequest(TransactionForm transactionForm) {
-        CreateTransactionRequest request = new CreateTransactionRequest(getApplication(), transactionForm);
-        networkState.postValue(NetworkState.BUSY);
-        ThreadingUtils.execute(() -> {
-            Result<Boolean> result = request.execute();
-            networkState.postValue(NetworkState.IDLE);
-            requestResult.postValue(new Event<>(result));
-        });
+
+    @NonNull
+    @Override
+    protected Request<Cart> getRequest() {
+        return new CartRequest(getApplication());
+    }
+
+    /**
+     * Send the cart to the server.
+     * 
+     * @param cart The cart to save.
+     */
+    public void startRequest(CartStorage cart) {
+//        CreateTransactionRequest request = new CreateTransactionRequest(getApplication(), transactionForm);
+//        networkState.postValue(NetworkState.BUSY);
+//        ThreadingUtils.execute(() -> {
+//            Result<Boolean> result = request.execute();
+//            networkState.postValue(NetworkState.IDLE);
+//            requestResult.postValue(new Event<>(result));
+//        });
     }
 }
