@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 The Hydra authors
+ * Copyright (c) 2022 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,26 +20,15 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
+package be.ugent.zeus.hydra.wpi.tap.cart;
 
 /**
- * Simple diff callback for items where the equals method encapsulates
- * changes to the layout.
- * 
  * @author Niko Strijbol
  */
-public class EqualsItemCallback<T> extends DiffUtil.ItemCallback<T> {
-
-    @Override
-    public boolean areItemsTheSame(@NonNull T oldItem, @NonNull T newItem) {
-        return oldItem.equals(newItem);
-    }
-
-    @Override
-    public boolean areContentsTheSame(@NonNull T oldItem, @NonNull T newItem) {
-        return true;
-    }
+public interface CartInteraction {
+    
+    void increment(CartProduct product);
+    void decrement(CartProduct product);
+    void remove(CartProduct product);
+    
 }

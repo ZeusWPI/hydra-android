@@ -45,7 +45,7 @@ import be.ugent.zeus.hydra.common.request.Result;
  * 
  * @author Niko Strijbol
  */
-class ExistingCartRequest implements Request<CartStorage> {
+class ExistingCartRequest implements Request<StorageCart> {
     
     public static final String PREF_CART_STORAGE = "pref_cart_storage";
     
@@ -55,10 +55,10 @@ class ExistingCartRequest implements Request<CartStorage> {
         this.context = context.getApplicationContext();
     }
 
-    public static void saveCartStorage(@NonNull Context context, @NonNull CartStorage storage) {
+    public static void saveCartStorage(@NonNull Context context, @NonNull StorageCart storage) {
         SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(context);
         Moshi moshi = InstanceProvider.getMoshi();
-        JsonAdapter<CartStorage> adapter = moshi.adapter(CartStorage.class);
+        JsonAdapter<StorageCart> adapter = moshi.adapter(StorageCart.class);
         String raw = adapter.toJson(storage);
         p.edit()
                 .putString(PREF_CART_STORAGE, raw)
@@ -72,16 +72,26 @@ class ExistingCartRequest implements Request<CartStorage> {
 
     @NonNull
     @Override
-    public Result<CartStorage> execute(@NonNull Bundle args) {
+    public Result<StorageCart> execute(@NonNull Bundle args) {
         SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(context);
         Moshi moshi = InstanceProvider.getMoshi();
-        JsonAdapter<CartStorage> adapter = moshi.adapter(CartStorage.class);
+        JsonAdapter<StorageCart> adapter = moshi.adapter(StorageCart.class);
         
-        CartStorage found;
+        StorageCart found;
         try {
             found = Objects.requireNonNull(adapter.fromJson(p.getString(PREF_CART_STORAGE, "")));
+            
+            // Carts older than this are discarded.
+            OffsetDateTime oldestLimit = OffsetDateTime.now().minusDays(1);
+            if (found.getLastEdited().isBefore(oldestLimit)) {
+                found = null;
+            }
         } catch (IOException | NullPointerException e) {
-            found = new CartStorage(new ArrayList<>(), OffsetDateTime.now());
+            found = null;
+        }
+        
+        if (found == null) {
+            found = new StorageCart(new ArrayList<>(), OffsetDateTime.now());
         }
         
         return Result.Builder.fromData(found);

@@ -27,16 +27,24 @@ import androidx.annotation.NonNull;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DiffAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.EqualsItemCallback;
 import be.ugent.zeus.hydra.common.utils.ViewUtils;
 
 /**
  * @author Niko Strijbol
  */
 class CartProductAdapter extends DiffAdapter<CartProduct, CartProductViewHolder> {
+    
+    private final CartInteraction interaction;
+
+    CartProductAdapter(CartInteraction interaction) {
+        super();
+        this.interaction = interaction;
+    }
 
     @NonNull
     @Override
     public CartProductViewHolder onCreateViewHolder(@NonNull ViewGroup p, int viewType) {
-        return new CartProductViewHolder(ViewUtils.inflate(p, R.layout.item_product));
+        return new CartProductViewHolder(ViewUtils.inflate(p, R.layout.item_product), interaction);
     }
 }

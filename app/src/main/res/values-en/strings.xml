@@ -337,6 +337,12 @@
     <string name="wpi_tab_form_error_creditor_blank">This Zeus member was not found.</string>
     <string name="wpi_tab_form_error_amount_zero">Zeus is not a bank; debt is forbidden.</string>
     <string name="wpi_cart_product_description">%1$d ⨯ %2$s</string>
+    <string name="wpi_cart_total_amount">Total: %1$s</string>
+    <plurals name="wpi_cart_total_products">
+        <item quantity="one">%d product</item>
+        <item quantity="other">%d products</item>
+    </plurals>
+    <string name="wpi_cart_clear">Clear</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_more">more</string>

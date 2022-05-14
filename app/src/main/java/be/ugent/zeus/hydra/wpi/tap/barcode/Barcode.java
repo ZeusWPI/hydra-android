@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2022 The Hydra authors
- *
+ * Copyright (c) 2022 Niko Strijbol
+ *  
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -20,46 +20,50 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.wpi.tap.product;
+package be.ugent.zeus.hydra.wpi.tap.barcode;
 
-import android.content.Context;
-import android.os.Bundle;
-import androidx.annotation.NonNull;
+import com.squareup.moshi.Json;
 
-import java.time.Duration;
-
-import be.ugent.zeus.hydra.common.network.Endpoints;
-import be.ugent.zeus.hydra.common.network.JsonArrayRequest;
-import be.ugent.zeus.hydra.wpi.account.AccountManager;
-import okhttp3.Request;
+import java.util.Objects;
 
 /**
+ * A Tap barcode.
+ * 
  * @author Niko Strijbol
  */
-public class ProductRequest extends JsonArrayRequest<Product> {
+public class Barcode {
+    
+    private int id;
+    @Json(name = "product_id")
+    private int productId;
+    private String code;
+    
+    public Barcode() {
+        // Moshi.
+    }
 
-    private final Context context;
+    public int getProductId() {
+        return productId;
+    }
 
-    public ProductRequest(Context context) {
-        super(context, Product.class);
-        this.context = context.getApplicationContext();
+    public int getId() {
+        return id;
+    }
+
+    public String getCode() {
+        return code;
     }
 
     @Override
-    protected Request.Builder constructRequest(@NonNull Bundle arguments) {
-        Request.Builder builder = super.constructRequest(arguments);
-        builder.addHeader("Authorization", "Bearer " + AccountManager.getTapKey(context));
-        return builder;
-    }
-
-    @NonNull
-    @Override
-    protected String getAPIUrl() {
-        return Endpoints.TAP + "products";
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Barcode barcode = (Barcode) o;
+        return id == barcode.id;
     }
 
     @Override
-    public Duration getCacheDuration() {
-        return Duration.ofDays(1);
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

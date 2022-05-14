@@ -22,24 +22,46 @@
 
 package be.ugent.zeus.hydra.common.scanner;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+
+import androidx.activity.result.ActivityResultLauncher;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import be.ugent.zeus.hydra.common.request.Result;
 
 /**
  * Ask some service to scan for barcodes.
  * 
+ * TODO: this is an ugly interface.
+ * 
  * @author Niko Strijbol
  */
 public interface BarcodeScanner {
+    
+    String RESULT_BARCODE = "activity_result_barcode";
+    String RESULT_ERROR_MESSAGE = "activity_result_error_message";
 
     /**
-     * Ask to scan some EAN13 barcodes.
-     * 
-     * @param context
-     * @return
+     * If this barcode scanner needs to launch an activity or not.
      */
-    Result<List<String>> getBarcodes(Context context);
+    boolean needsActivity();
+
+
+    /**
+     * Get an activity to launch, which will give the barcode
+     * as a result.
+     */
+    Intent getActivityIntent(Activity activity);
+
+    /**
+     * Get a barcode without activity.
+     * 
+     * Implementations should optimize, if possible, for scanning product barcodes.
+     * This includes EAN/UPC codes.
+     */
+    void getBarcode(Context context, Consumer<String> onSuccess, Consumer<Exception> onError);
 }

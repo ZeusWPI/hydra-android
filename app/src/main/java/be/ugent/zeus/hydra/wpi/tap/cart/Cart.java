@@ -24,11 +24,13 @@ package be.ugent.zeus.hydra.wpi.tap.cart;
 
 import android.util.Pair;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import be.ugent.zeus.hydra.wpi.tap.product.Product;
 
@@ -39,35 +41,136 @@ import be.ugent.zeus.hydra.wpi.tap.product.Product;
  * the parcel when saving the user's cart. The product map is to make adding
  * stuff faster, so it is not necessarily needed.
  * 
+ * Because of how the diff algorithms work in the RecyclerView, the cart is
+ * partially read-only: this list of orders is read-only, and will result in
+ * a new cart you'll need to save.
+ * 
  * @author Niko Strijbol
  */
 public class Cart {
+    private final List<CartProduct> orders;
+    private final Map<Integer, Product> productIdToProduct;
+    private final Map<String, Integer> barcodeToProductId;
+    private final OffsetDateTime lastEdited;
     
-    private List<CartProduct> orders;
-    private Map<Integer, Product> productMap;
-    private OffsetDateTime lastEdited;
-    
-    public CartStorage asStorage() {
-        return new CartStorage(orders.stream().map(cp -> new Pair<>(cp.getProductId(), cp.getAmount())).collect(Collectors.toList()), lastEdited);
+    private Cart(List<CartProduct> orders, Map<Integer, Product> productIdToProduct, Map<String, Integer> barcodeToProductId) {
+        this(orders, productIdToProduct, barcodeToProductId, OffsetDateTime.now());
     }
 
-    public void setLastEdited(OffsetDateTime lastEdited) {
+    private Cart(List<CartProduct> orders, Map<Integer, Product> productIdToProduct, Map<String, Integer> barcodeToProductId, OffsetDateTime lastEdited) {
+        this.orders = orders;
+        this.productIdToProduct = productIdToProduct;
+        this.barcodeToProductId = barcodeToProductId;
         this.lastEdited = lastEdited;
     }
 
-    public void setOrders(List<CartProduct> orders) {
-        this.orders = orders;
+    /**
+     * Create a new cart based on an existing one.
+     * 
+     * @param existingCart The existing cart.
+     * @param productIdToProduct Map of product ID's to products.
+     * @param barcodeToProductId Map of barcodes to product ID's.
+     */
+    public Cart(StorageCart existingCart, Map<Integer, Product> productIdToProduct, Map<String, Integer> barcodeToProductId) {
+        this(fromExisting(existingCart, productIdToProduct), productIdToProduct, barcodeToProductId, existingCart.getLastEdited());
     }
-
-    public OffsetDateTime getLastEdited() {
-        return lastEdited;
-    }
-
-    public List<CartProduct> getOrders() {
+    
+    private static List<CartProduct> fromExisting(StorageCart cart, Map<Integer, Product> productIdToProduct) {
+        List<CartProduct> orders = new ArrayList<>();
+        for (Pair<Integer, Integer> productIdAndAmount: cart.getProductIds()) {
+            Product product = productIdToProduct.get(productIdAndAmount.first);
+            if (product == null) {
+                // Skip this product, as it nog longer exists.
+                continue;
+            }
+            orders.add(new CartProduct(product, productIdAndAmount.second));
+        }
         return orders;
     }
 
-    public void setProductMap(Map<Integer, Product> productMap) {
-        this.productMap = productMap;
+    /**
+     * Get a smaller class suitable for saving. It contains all data
+     * that cannot be found on the network.
+     */
+    public StorageCart forStorage() {
+        return new StorageCart(orders.stream().map(cp -> new Pair<>(cp.getProductId(), cp.getAmount())).collect(Collectors.toList()), lastEdited);
+    }
+
+    /**
+     * @return Unmodifiable Map of product ID's to products.
+     */
+    public Map<Integer, Product> getProductIdToProduct() {
+        return Collections.unmodifiableMap(productIdToProduct);
+    }
+
+    /**
+     * Get the product corresponding to a given barcode.
+     * 
+     * @param barcode The barcode to search.
+     *                
+     * @return The found product or null.
+     */
+    @Nullable
+    public Product getProductFor(@NonNull String barcode) {
+        Integer productId = barcodeToProductId.get(barcode);
+        if (productId == null) {
+            return null;
+        }
+        return productIdToProduct.get(productId);
+    }
+    
+    /**
+     * Add a product or increment its count if already present.
+     *
+     * @param product The product to add.
+     *
+     * @return A new cart that has the added product.
+     */
+    @NonNull
+    public Cart addProduct(@NonNull Product product) {
+        // Find the position of an existing cart product if available.
+        // TODO: this is probably horribly inefficient
+        OptionalInt index = IntStream.range(0, orders.size())
+                .filter(i -> orders.get(i).getProductId() == product.getId())
+                .findFirst();
+        
+        if (index.isPresent()) {
+            return increment(orders.get(index.getAsInt()));
+        } else {
+            CartProduct newProduct = new CartProduct(product, 1);
+            List<CartProduct> replacementList = new ArrayList<>(orders);
+            replacementList.add(newProduct);
+            return new Cart(replacementList, productIdToProduct, barcodeToProductId);
+        }
+    }
+
+    public Cart increment(CartProduct product) {
+        int index = orders.indexOf(product);
+        CartProduct replacement = product.increment();
+        List<CartProduct> replacementList = new ArrayList<>(orders);
+        replacementList.set(index, replacement);
+        return new Cart(replacementList, productIdToProduct, barcodeToProductId);
+    }
+    
+    public Cart remove(CartProduct product) {
+        List<CartProduct> replacementList = new ArrayList<>(orders);
+        replacementList.remove(product);
+        return new Cart(replacementList, productIdToProduct, barcodeToProductId);
+    }
+
+    public Cart decrement(CartProduct product) {
+        int index = orders.indexOf(product);
+        CartProduct replacement = product.decrement();
+        List<CartProduct> replacementList = new ArrayList<>(orders);
+        replacementList.set(index, replacement);
+        return new Cart(replacementList, productIdToProduct, barcodeToProductId);
+    }
+    
+    public Cart clear() {
+        return new Cart(new ArrayList<>(), productIdToProduct, barcodeToProductId);
+    }
+
+    public List<CartProduct> getOrders() {
+        return Collections.unmodifiableList(orders);
     }
 }

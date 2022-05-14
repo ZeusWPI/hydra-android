@@ -22,27 +22,44 @@
 
 package be.ugent.zeus.hydra.common.barcode;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 
+import androidx.annotation.NonNull;
+
+import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+import java.util.function.Consumer;
+
+import be.ugent.zeus.hydra.common.request.RequestException;
+import be.ugent.zeus.hydra.common.request.Result;
+import be.ugent.zeus.hydra.common.scanner.BarcodeScanner;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Tasks;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanner;
 import com.google.mlkit.vision.codescanner.GmsBarcodeScannerOptions;
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanning;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import be.ugent.zeus.hydra.common.request.Result;
-import be.ugent.zeus.hydra.common.scanner.BarcodeScanner;
-
 /**
  * @author Niko Strijbol
  */
 class GoogleBarcodeScanner implements BarcodeScanner {
-    
-    @Override
-    public Result<List<String>> getBarcodes(Context context) {
 
+    @Override
+    public boolean needsActivity() {
+        return false;
+    }
+
+    @Override
+    public Intent getActivityIntent(Activity activity) {
+        throw new UnsupportedOperationException("This Barcode Scanner does not use an activity.");
+    }
+
+    @Override
+    public void getBarcode(Context context, Consumer<String> onSuccess, Consumer<Exception> onError) {
         GmsBarcodeScannerOptions options = new GmsBarcodeScannerOptions.Builder()
                 .setBarcodeFormats(
                         Barcode.FORMAT_EAN_13,
@@ -51,11 +68,9 @@ class GoogleBarcodeScanner implements BarcodeScanner {
                         Barcode.FORMAT_UPC_E,
                         Barcode.FORMAT_UPC_A)
                 .build();
-
         GmsBarcodeScanner scanner = GmsBarcodeScanning.getClient(context, options);
-        
-        scanner.startScan();
-        
-        return Result.Builder.fromData(new ArrayList<>());
+        scanner.startScan()
+                .addOnSuccessListener(barcode -> onSuccess.accept(barcode.getRawValue()))
+                .addOnFailureListener(onError::accept);
     }
 }

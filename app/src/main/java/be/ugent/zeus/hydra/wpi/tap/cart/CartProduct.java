@@ -38,35 +38,22 @@ import be.ugent.zeus.hydra.wpi.tap.product.Product;
  * @author Niko Strijbol
  */
 public class CartProduct {
-
-    private static final String IMAGE_URL = "system/products/avatars/%s/%s/%s/medium/%s";
+    private final int amount;
+    private final int productId;
+    private final String name;
+    private final int price;
+    private final String thumbnail;
     
-    private int amount;
-    private int productId;
-    private String name;
-    private int price;
-    private String thumbnail;
-    
-    public static CartProduct fromProduct(Product product, int amount) {
-        CartProduct cartProduct = new CartProduct();
-        cartProduct.price = product.getPrice();
-        cartProduct.productId = product.getId();
-        cartProduct.name = product.getName();
-        cartProduct.thumbnail = product.getAvatarFileName();
-        cartProduct.amount = amount;
-        return cartProduct;
+    public CartProduct(Product product, int amount) {
+        this(amount, product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
     }
 
-    public String getThumbnailUrl() {
-        if (this.thumbnail == null) {
-            return null;
-        }
-        String paddedID = String.format(Locale.ROOT, "%09d", productId);
-        String first = paddedID.substring(0, 3);
-        String second = paddedID.substring(3, 6);
-        String third = paddedID.substring(6, 9);
-
-        return Endpoints.TAP + String.format(Locale.ROOT, IMAGE_URL, first, second, third, this.thumbnail);
+    private CartProduct(int amount, int productId, String name, int price, String thumbnail) {
+        this.amount = amount;
+        this.productId = productId;
+        this.name = name;
+        this.price = price;
+        this.thumbnail = thumbnail;
     }
 
     public String getName() {
@@ -79,6 +66,24 @@ public class CartProduct {
 
     public int getProductId() {
         return productId;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    /**
+     * @return A new product cart with the amount incremented by 1.
+     */
+    public CartProduct increment() {
+        return new CartProduct(this.amount + 1, this.productId, this.name, this.price, this.thumbnail);
+    }
+
+    /**
+     * @return A new product cart with the amount decremented by 1.
+     */
+    public CartProduct decrement() {
+        return new CartProduct(this.amount - 1, this.productId, this.name, this.price, this.thumbnail);
     }
 
     public BigDecimal getPriceDecimal() {

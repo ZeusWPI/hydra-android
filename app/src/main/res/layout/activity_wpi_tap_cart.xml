@@ -75,7 +75,54 @@
 
 
         </LinearLayout>
-
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        
+    <LinearLayout
+        android:padding="16dp"
+        style="?attr/bottomSheetStyle"
+        android:background="@android:color/white"
+        android:backgroundTint="?colorPrimaryContainer"
+        android:id="@+id/bottom_sheet"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:behavior_hideable="true"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/cart_summary_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.Material3.TitleLarge"
+            tools:text="Totaal: 30 euro" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/cart_summary_articles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            android:paddingBottom="16dp"
+            tools:text="30 artikelen" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cart_pay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="78dp"
+            android:text="Afrekenen"/>
+        
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/scan_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_anchor="@id/bottom_sheet"
+        app:layout_anchorGravity="end"
+        android:backgroundTint="?colorSecondaryContainer"
+        app:srcCompat="@drawable/ic_barcode_scan"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+        tools:ignore="ContentDescription" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -22,36 +22,25 @@
 
 package be.ugent.zeus.hydra.wpi.tap.cart;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Pair;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
-
 /**
+ * Class to save cart data.
+ * 
  * @author Niko Strijbol
  */
-public class CartStorage {
+class StorageCart {
     
     private final List<Pair<Integer, Integer>> productIdsAndAmounts;
     private final OffsetDateTime lastEdited;
 
-    public CartStorage(List<Pair<Integer, Integer>> productIds, OffsetDateTime lastEdited) {
+    public StorageCart(List<Pair<Integer, Integer>> productIds, OffsetDateTime lastEdited) {
         this.productIdsAndAmounts = productIds;
         this.lastEdited = lastEdited;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CartStorage that = (CartStorage) o;
-        return productIdsAndAmounts.equals(that.productIdsAndAmounts) && lastEdited.equals(that.lastEdited);
     }
 
     public OffsetDateTime getLastEdited() {
@@ -60,6 +49,14 @@ public class CartStorage {
 
     public List<Pair<Integer, Integer>> getProductIds() {
         return productIdsAndAmounts;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StorageCart that = (StorageCart) o;
+        return productIdsAndAmounts.equals(that.productIdsAndAmounts) && lastEdited.equals(that.lastEdited);
     }
 
     @Override

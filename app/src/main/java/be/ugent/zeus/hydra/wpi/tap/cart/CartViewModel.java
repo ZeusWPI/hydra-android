@@ -27,10 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.function.Consumer;
-
 import be.ugent.zeus.hydra.common.arch.data.Event;
-import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 import be.ugent.zeus.hydra.common.network.NetworkState;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
@@ -69,7 +66,7 @@ public class CartViewModel extends RequestViewModel<Cart> {
      * 
      * @param cart The cart to save.
      */
-    public void startRequest(CartStorage cart) {
+    public void startRequest(StorageCart cart) {
 //        CreateTransactionRequest request = new CreateTransactionRequest(getApplication(), transactionForm);
 //        networkState.postValue(NetworkState.BUSY);
 //        ThreadingUtils.execute(() -> {

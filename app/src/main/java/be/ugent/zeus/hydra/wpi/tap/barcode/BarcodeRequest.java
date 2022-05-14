@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 The Hydra authors
+ * Copyright (c) 2022 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.wpi.tap.product;
+package be.ugent.zeus.hydra.wpi.tap.barcode;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -36,12 +36,12 @@ import okhttp3.Request;
 /**
  * @author Niko Strijbol
  */
-public class ProductRequest extends JsonArrayRequest<Product> {
+public class BarcodeRequest extends JsonArrayRequest<Barcode> {
 
     private final Context context;
 
-    public ProductRequest(Context context) {
-        super(context, Product.class);
+    public BarcodeRequest(Context context) {
+        super(context, Barcode.class);
         this.context = context.getApplicationContext();
     }
 
@@ -51,15 +51,15 @@ public class ProductRequest extends JsonArrayRequest<Product> {
         builder.addHeader("Authorization", "Bearer " + AccountManager.getTapKey(context));
         return builder;
     }
-
+    
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.TAP + "products";
+        return Endpoints.TAP + "barcodes";
     }
 
     @Override
-    public Duration getCacheDuration() {
+    protected Duration getCacheDuration() {
         return Duration.ofDays(1);
     }
 }

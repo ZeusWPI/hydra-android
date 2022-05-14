@@ -22,7 +22,9 @@
 
 package be.ugent.zeus.hydra.wpi.tap.cart;
 
-import android.view.View;
+import static androidx.recyclerview.widget.RecyclerView.NO_POSITION;
+
+import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,30 +41,67 @@ import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
  *
  * @author Niko Strijbol
  */
-class CartProductViewHolder extends DataViewHolder<CartProduct> {
+class CartProductViewHolder extends DataViewHolder<CartProduct> implements View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
 
     private final ImageView thumbnail;
     private final TextView title;
     private final TextView description;
     private final TextView meta;
     private final NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+    private final CartInteraction cartInteraction;
 
-    CartProductViewHolder(View v) {
+    CartProductViewHolder(View v, CartInteraction cartInteraction) {
         super(v);
         thumbnail = v.findViewById(R.id.thumbnail);
         title = v.findViewById(R.id.title);
         description = v.findViewById(R.id.description);
         meta = v.findViewById(R.id.meta);
         currencyFormatter.setCurrency(Currency.getInstance("EUR"));
+        itemView.setOnCreateContextMenuListener(this);
+        this.cartInteraction = cartInteraction;
     }
 
     @Override
     public void populate(final CartProduct product) {
         title.setText(product.getName());
-        PriorityUtils.loadThumbnail(itemView.getContext(), product.getThumbnailUrl(), thumbnail);
+        PriorityUtils.loadThumbnail(itemView.getContext(), product.getThumbnail(), thumbnail);
         BigDecimal totalPrice = product.getPriceDecimal().multiply(BigDecimal.valueOf(product.getAmount()));
         meta.setText(currencyFormatter.format(totalPrice));
         String unitPrice = currencyFormatter.format(product.getPriceDecimal());
         description.setText(itemView.getContext().getString(R.string.wpi_cart_product_description, product.getAmount(), unitPrice));
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        MenuInflater inflater = new MenuInflater(v.getContext());
+        inflater.inflate(R.menu.menu_cart_item, menu);
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            item.setOnMenuItemClickListener(this);
+        }
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        CartProductAdapter adapter = (CartProductAdapter) getBindingAdapter();
+        if (adapter == null) {
+            return false;
+        }
+        int position = getBindingAdapterPosition();
+        if (position == NO_POSITION) {
+            return false;
+        }
+        CartProduct product = adapter.getItem(position);
+        if (item.getItemId() == R.id.cart_plus) {
+            cartInteraction.increment(product);
+            return true;
+        } else if (item.getItemId() == R.id.cart_minus) {
+            cartInteraction.decrement(product);
+            return true;
+        } else if (item.getItemId() == R.id.cart_delete) {
+            cartInteraction.remove(product);
+            return true;
+        }
+        return false;
     }
 }

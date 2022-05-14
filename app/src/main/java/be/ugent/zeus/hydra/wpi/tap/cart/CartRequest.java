@@ -33,6 +33,8 @@ import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
+import be.ugent.zeus.hydra.wpi.tap.barcode.Barcode;
+import be.ugent.zeus.hydra.wpi.tap.barcode.BarcodeRequest;
 import be.ugent.zeus.hydra.wpi.tap.product.Product;
 import be.ugent.zeus.hydra.wpi.tap.product.ProductRequest;
 
@@ -42,32 +44,25 @@ import be.ugent.zeus.hydra.wpi.tap.product.ProductRequest;
 class CartRequest implements Request<Cart> {
     
     private final Request<List<Product>> productRequest;
-    private final Request<CartStorage> existingCartRequest;
+    private final Request<StorageCart> existingCartRequest;
+    private final Request<List<Barcode>> barcodeRequest;
 
     public CartRequest(@NonNull Context context) {
         this.productRequest = new ProductRequest(context);
         this.existingCartRequest = new ExistingCartRequest(context);
+        this.barcodeRequest = new BarcodeRequest(context);
     }
 
     @NonNull
     @Override
     public Result<Cart> execute(@NonNull Bundle args) {
-        return productRequest.andThen(existingCartRequest)
+        return productRequest
+                .andThen(existingCartRequest)
+                .andThen(barcodeRequest)
                 .map(pair -> {
-                    Map<Integer, Product> productMap = pair.first.stream().collect(Collectors.toMap(Product::getId, Function.identity()));
-                    Cart cart = new Cart();
-                    cart.setLastEdited(pair.second.getLastEdited());
-                    cart.setProductMap(productMap);
-                    List<CartProduct> cartProducts = new ArrayList<>();
-                    for (Pair<Integer, Integer> productIdAndAmount: pair.second.getProductIds()) {
-                        Product product = productMap.get(productIdAndAmount.first);
-                        if (product == null) {
-                            continue;
-                        }
-                        cartProducts.add(CartProduct.fromProduct(product, productIdAndAmount.second));
-                    }
-                    cart.setOrders(cartProducts);
-                    return cart;
+                    Map<Integer, Product> productMap = pair.first.first.stream().collect(Collectors.toMap(Product::getId, Function.identity()));
+                    Map<String, Integer> barcodeToProduct = pair.second.stream().collect(Collectors.toMap(Barcode::getCode, Barcode::getProductId));
+                    return new Cart(pair.first.second, productMap, barcodeToProduct);
                 })
                 .execute(args);
     }
