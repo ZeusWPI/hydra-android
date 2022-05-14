@@ -114,7 +114,7 @@
         
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/scan_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -122,8 +122,22 @@
         app:layout_anchor="@id/bottom_sheet"
         app:layout_anchorGravity="end"
         android:backgroundTint="?colorSecondaryContainer"
-        app:srcCompat="@drawable/ic_barcode_scan"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+        app:icon="@drawable/ic_barcode_scan"
+        android:text="@string/wpi_cart_scan"
         tools:ignore="ContentDescription" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/scan_add_manual"
+        app:fabSize="mini"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_anchor="@id/scan_add"
+        app:layout_anchorGravity="end|top"
+        android:translationY="-32dp"
+        android:backgroundTint="@color/white"
+        app:srcCompat="@drawable/ic_search"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+        android:contentDescription="@string/wpi_cart_add_manual" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

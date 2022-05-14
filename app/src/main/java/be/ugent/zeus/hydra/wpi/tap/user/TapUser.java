@@ -36,7 +36,7 @@ import be.ugent.zeus.hydra.common.network.Endpoints;
  */
 public class TapUser {
     
-    private static final String IMAGE_URL = "system/users/avatars/%s/%s/%s/large/%s";
+    private static final String IMAGE_URL = "system/users/avatars/%s/%s/%s/medium/%s";
     
     private int id;
     @Json(name = "avatar_file_name")

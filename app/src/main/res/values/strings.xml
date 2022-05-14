@@ -355,6 +355,10 @@
     <string name="wpi_cart_item_menu_remove">1 verwijderen</string>
     <string name="wpi_cart_item_menu_clear">Product verwijderen</string>
     <string name="wpi_cart_pay">Afrekenen</string>
+    <string name="wpi_cart_scan">Scannen</string>
+    <string name="wpi_cart_add_manual">Zoeken</string>
+    <string name="wpi_start_cart">Bestellen</string>
+    <string name="wpi_start_transfer">Overschrijven</string>
     
     <!-- Accessibility strings -->
     <string name="content_desc_more">meer</string>

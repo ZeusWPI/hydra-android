@@ -348,6 +348,10 @@
     <string name="wpi_cart_item_menu_remove">Remove 1</string>
     <string name="wpi_cart_item_menu_clear">Remove product</string>
     <string name="wpi_cart_pay">Pay</string>
+    <string name="wpi_cart_scan">Scan</string>
+    <string name="wpi_cart_add_manual">Search</string>
+    <string name="wpi_start_cart">Order</string>
+    <string name="wpi_start_transfer">Transfer</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_more">more</string>
