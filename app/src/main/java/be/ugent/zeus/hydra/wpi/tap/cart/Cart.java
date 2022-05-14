@@ -159,11 +159,15 @@ public class Cart {
     }
 
     public Cart decrement(CartProduct product) {
-        int index = orders.indexOf(product);
-        CartProduct replacement = product.decrement();
-        List<CartProduct> replacementList = new ArrayList<>(orders);
-        replacementList.set(index, replacement);
-        return new Cart(replacementList, productIdToProduct, barcodeToProductId);
+        if (product.getAmount() == 1) {
+            return remove(product);
+        } else {
+            int index = orders.indexOf(product);
+            CartProduct replacement = product.decrement();
+            List<CartProduct> replacementList = new ArrayList<>(orders);
+            replacementList.set(index, replacement);
+            return new Cart(replacementList, productIdToProduct, barcodeToProductId);
+        }
     }
     
     public Cart clear() {

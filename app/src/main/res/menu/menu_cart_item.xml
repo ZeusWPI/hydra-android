@@ -23,15 +23,13 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item
         android:id="@+id/cart_plus"
-        android:title="één meer" />
+        android:title="@string/wpi_cart_item_menu_add" />
     <item
         android:id="@+id/cart_minus"
-        android:title="één minder" />
+        android:title="@string/wpi_cart_item_menu_remove" />
     <item
         android:id="@+id/cart_delete"
-        android:title="verwijderen" />
-
+        android:title="@string/wpi_cart_item_menu_clear" />
 </menu>

@@ -28,5 +28,5 @@
         android:id="@+id/menu_cart_clear"
         android:title="@string/wpi_cart_clear"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_delete" />
+        android:icon="@drawable/ic_remove_shopping_cart" />
 </menu>

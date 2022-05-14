@@ -350,6 +350,11 @@
         <item quantity="other">%d producten</item>
     </plurals>
     <string name="wpi_cart_clear">Leegmaken</string>
+    <string name="wpi_cart_title">Tapbestelling</string>
+    <string name="wpi_cart_item_menu_add">1 toevoegen</string>
+    <string name="wpi_cart_item_menu_remove">1 verwijderen</string>
+    <string name="wpi_cart_item_menu_clear">Product verwijderen</string>
+    <string name="wpi_cart_pay">Afrekenen</string>
     
     <!-- Accessibility strings -->
     <string name="content_desc_more">meer</string>

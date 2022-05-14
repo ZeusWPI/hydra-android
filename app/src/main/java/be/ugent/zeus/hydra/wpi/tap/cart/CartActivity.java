@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
@@ -108,7 +109,7 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
         swipeRefreshLayout.setEnabled(false);
         swipeRefreshLayout.setColorSchemeColors(ColourUtils.resolveColour(this, R.attr.colorSecondary));
 
-        viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
+        viewModel.getData().observe(this, PartialErrorObserver.with(this::onCartLoadError));
         // A custom adapter to map the data and save an instance of it.
         viewModel.getData().observe(this, new SuccessObserver<Cart>() {
             @Override
@@ -195,6 +196,14 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
 //                    .setNegativeButton(android.R.string.cancel, null)
 //                    .show();
 //        });
+    }
+    
+    private void onCartLoadError(Throwable throwable) {
+        Log.e(TAG, "Error while getting cart data.", throwable);
+        Toast.makeText(this, getString(R.string.error_network), Toast.LENGTH_SHORT)
+                .show();
+        setResult(RESULT_CANCELED);
+        finish();
     }
 
     private void onError(Throwable throwable) {

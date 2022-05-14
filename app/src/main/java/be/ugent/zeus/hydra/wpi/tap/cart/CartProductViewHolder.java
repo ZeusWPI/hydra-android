@@ -24,6 +24,7 @@ package be.ugent.zeus.hydra.wpi.tap.cart;
 
 import static androidx.recyclerview.widget.RecyclerView.NO_POSITION;
 
+import android.util.Log;
 import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -79,6 +80,19 @@ class CartProductViewHolder extends DataViewHolder<CartProduct> implements View.
             MenuItem item = menu.getItem(i);
             item.setOnMenuItemClickListener(this);
         }
+        
+        // Hide clear all based on count.
+        CartProductAdapter adapter = (CartProductAdapter) getBindingAdapter();
+        if (adapter == null) {
+            return;
+        }
+        int position = getBindingAdapterPosition();
+        if (position == NO_POSITION) {
+            return;
+        }
+        CartProduct product = adapter.getItem(position);
+        MenuItem item = menu.findItem(R.id.cart_minus);
+        item.setVisible(product.getAmount() != 1);
     }
 
     @Override

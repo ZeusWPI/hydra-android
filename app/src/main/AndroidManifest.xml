@@ -167,7 +167,7 @@
 
         <activity
             android:name=".wpi.tap.cart.CartActivity"
-            android:label="@string/wpi_tab_form_title"
+            android:label="@string/wpi_cart_title"
             android:parentActivityName=".wpi.WpiActivity" />
 
         <!-- Urgent stuff -->
