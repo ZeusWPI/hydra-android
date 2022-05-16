@@ -20,11 +20,10 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.wpi.tab.create;
+package be.ugent.zeus.hydra.wpi.tap.cart;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.WorkerThread;
 
@@ -50,63 +49,62 @@ import okhttp3.*;
  *
  * @author Niko Strijbol
  */
-public class CreateTransactionRequest extends OkHttpRequest<Boolean> {
+public class CreateOrderRequest extends OkHttpRequest<OrderResult> {
 
-    private final TransactionForm form;
+    private final Cart cart;
     private final Context context;
 
-    public CreateTransactionRequest(@NonNull Context context, @NonNull TransactionForm form) {
+    public CreateOrderRequest(@NonNull Context context, @NonNull Cart cart) {
         super(context);
         this.context = context.getApplicationContext();
-        this.form = form;
+        this.cart = cart;
     }
-    
+
     @NonNull
     @Override
     @WorkerThread
-    public Result<Boolean> execute(@NonNull Bundle args) {
+    public Result<OrderResult> execute(@NonNull Bundle args) {
 
         MediaType json = MediaType.get("application/json; charset=utf-8");
 
-        Map<String, Map<String, Object>> data = new HashMap<>();
-        data.put("transaction", form.asApiObject(AccountManager.getUsername(context)));
-        Type type = Types.newParameterizedType(Map.class, String.class, Types.newParameterizedType(Map.class, String.class, Object.class));
-        JsonAdapter<Map<String, Map<String, Object>>> adapter = moshi.adapter(type);
+        Map<String, Map<String, List<Map<String, Object>>>> data = new HashMap<>();
+        data.put("order", cart.forJson());
+        Type type = Types.newParameterizedType(Map.class, String.class, Types.newParameterizedType(List.class, Types.newParameterizedType(Map.class, String.class, Object.class)));
+        JsonAdapter<Map<String, Map<String, List<Map<String, Object>>>>> adapter = moshi.adapter(type);
 
         String rawData = adapter.toJson(data);
-        
+
         // Create a request body.
         RequestBody body = RequestBody.create(rawData, json);
 
         // Create the request itself.
-        okhttp3.Request request = new Request.Builder()
+        Request request = new Request.Builder()
                 .addHeader("Accept", "application/json")
                 .addHeader("Content-Type", json.toString())
                 .addHeader("Authorization", "Bearer " + AccountManager.getTabKey(context))
-                .url(Endpoints.TAB + "transactions")
+                .url(Endpoints.TAP + "users/" + AccountManager.getUsername(context) + "/orders")
                 .post(body)
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
-                return Result.Builder.fromData(true);
-            } else if (response.code() == 422) {
                 // If the body is null, this is unexpected.
                 ResponseBody responseBody = response.body();
                 if (responseBody == null) {
-                    throw new IOException("Unexpected null body for response 422");
+                    throw new IOException("Unexpected null body for response");
                 }
-                // Unprocessable entity
-                Type errorType = Types.newParameterizedType(List.class, String.class);
-                JsonAdapter<List<String>> errorAdapter = moshi.adapter(errorType);
-                List<String> errors = errorAdapter.fromJson(responseBody.source());
-                return Result.Builder.fromException(new TabRequestException(errors));
+                JsonAdapter<OrderResult> resultAdapter = moshi.adapter(OrderResult.class);
+                OrderResult result = resultAdapter.fromJson(responseBody.source());
+                if (result == null || result.getId() == null) {
+                    return Result.Builder.fromException(new RequestException("Unsuccessful transaction."));
+                }
+                return Result.Builder.fromData(result);
             } else {
-                throw new IOException("Unexpected state in request; neither successful nor 422: got " + response.code());
+                throw new IOException("Unexpected state in request; not successful: got " + response.code());
             }
         } catch (JsonDataException | NullPointerException e) {
             // Create, log and throw exception, since this is not normal.
-            String message = "The server did not respond with the expected format when creating a Tab transaction.";
+            String message = "The server did not respond with the expected format when creating a Tap order.";
             InvalidFormatException exception = new InvalidFormatException(message, e);
             tracker.logError(exception);
             return Result.Builder.fromException(exception);

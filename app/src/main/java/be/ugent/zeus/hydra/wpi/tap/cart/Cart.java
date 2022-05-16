@@ -95,6 +95,19 @@ public class Cart {
     public StorageCart forStorage() {
         return new StorageCart(orders.stream().map(cp -> new Pair<>(cp.getProductId(), cp.getAmount())).collect(Collectors.toList()), lastEdited);
     }
+    
+    public Map<String, List<Map<String, Object>>> forJson() {
+        List<Map<String, Object>> attributes = new ArrayList<>();
+        for (CartProduct cartProduct: this.getOrders()) {
+            Map<String, Object> data = new HashMap<>();
+            data.put("product_id", cartProduct.getProductId());
+            data.put("count", cartProduct.getAmount());
+            attributes.add(data);
+        }
+        Map<String, List<Map<String, Object>>> total = new HashMap<>();
+        total.put("order_items_attributes", attributes);
+        return total;
+    }
 
     /**
      * @return Unmodifiable Map of product ID's to products.
