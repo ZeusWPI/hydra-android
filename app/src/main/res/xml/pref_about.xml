@@ -64,12 +64,7 @@
         app:key="pref_about_creator_zeus"
         app:persistent="false"
         app:singleLineTitle="false"
-        app:title="@string/pref_about_creator_zeus"
-        tools:ignore="UnusedAttribute">
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:data="https://zeus.ugent.be" />
-    </Preference>
+        app:title="@string/pref_about_creator_zeus" />
 
     <Preference
         app:iconSpaceReserved="true"

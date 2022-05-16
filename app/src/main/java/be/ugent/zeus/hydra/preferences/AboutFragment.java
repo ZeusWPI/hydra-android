@@ -24,19 +24,26 @@ package be.ugent.zeus.hydra.preferences;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.preference.Preference;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.PreferenceFragment;
 import be.ugent.zeus.hydra.common.ui.WebViewActivity;
+import be.ugent.zeus.hydra.common.utils.NetworkUtils;
+import be.ugent.zeus.hydra.wpi.EnableManager;
 
 /**
  * @author Niko Strijbol
  */
 public class AboutFragment extends PreferenceFragment {
+
+    private static final int ZEUS_TIMES = 2;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -57,6 +64,29 @@ public class AboutFragment extends PreferenceFragment {
             intent.putExtra(WebViewActivity.URL, "file:///android_res/raw/third_party_licenses.html");
             startActivity(intent);
             return false;
+        });
+
+        // Ugly one-element array.
+        final AtomicInteger counter = new AtomicInteger();
+
+        // If Zeus-mode is enabled, link to the site.
+        // Otherwise, allow enabling it.
+        requirePreference("pref_about_creator_zeus").setOnPreferenceClickListener(preference -> {
+            if (EnableManager.isZeusModeEnabled(requireContext())) {
+                Toast.makeText(requireContext(), R.string.wpi_mode_enabled, Toast.LENGTH_SHORT).show();
+                NetworkUtils.maybeLaunchBrowser(requireContext(), "https://zeus.ugent.be");
+            } else {
+                int newValue = counter.incrementAndGet();
+                int remaining = ZEUS_TIMES - newValue;
+                if (remaining == 0) {
+                    EnableManager.setZeusModeEnabled(requireContext(), true);
+                    Toast.makeText(requireContext(), R.string.wpi_mode_enabled, Toast.LENGTH_SHORT).show();
+                } else {
+                    String message = requireContext().getResources().getQuantityString(R.plurals.wpi_mode_press, remaining, remaining);
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+                }
+            }
+            return true;
         });
 
         requirePreference("pref_about_creator_zeus")

@@ -60,6 +60,7 @@
             android:icon="@drawable/tabs_info"
             android:title="@string/drawer_title_info" />
         <item
+            android:visible="false"
             android:id="@+id/drawer_zeus"
             android:checkable="false"
             android:icon="@drawable/logo_zeus"

@@ -362,6 +362,10 @@
     <string name="wpi_tap_form_error">Er trad een fout op bij de bestelling. Controleer dat de bestelling er niet toch doorgekomen is voor u het opnieuw probeert.</string>
     <string name="wpi_tap_order_ok">Besteld voor %1$s</string>
     <string name="wpi_tap_form_confirm">Zeker? Het totaal van uw bestelling is %1$s.</string>
+    <string name="wpi_mode_enabled">Zeus-modus is ingeschakeld.</string>
+    <plurals name="wpi_mode_press">
+        <item quantity="other">Druk nog %d keer…</item>
+    </plurals>
 
     <!-- Accessibility strings -->
     <string name="content_desc_more">meer</string>

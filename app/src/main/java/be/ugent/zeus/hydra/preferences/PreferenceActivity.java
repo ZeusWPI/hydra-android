@@ -51,12 +51,18 @@ public class PreferenceActivity extends BaseActivity<ActivityPreferencesBinding>
     private PreferenceEntry entry;
 
     public static void start(@NonNull Context context, @Nullable PreferenceEntry entry) {
+        Intent intent = startIntent(context, entry);
+        context.startActivity(intent);
+    }
+
+    public static Intent startIntent(@NonNull Context context, @Nullable PreferenceEntry entry) {
         Intent intent = new Intent(context, PreferenceActivity.class);
         if (entry != null) {
             intent.putExtra(ARG_FRAGMENT, (Parcelable) entry);
         }
-        context.startActivity(intent);
+        return intent;
     }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
