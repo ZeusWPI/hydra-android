@@ -80,6 +80,8 @@ public class ProductPickerDialogFragment extends DialogFragment implements Consu
         requireDialog().getWindow().setLayout((int) (displayRectangle.width() * 0.9f), (int) (displayRectangle.width() * 0.9f));
         
         // There must be a cart in the activity.
+        // TODO: this is actually not the case when the activity is recreated.
+        //   Either fix it in the activity, or handle it here.
         Cart cart = interactor.getCart();
         ProductAdapter adapter = new ProductAdapter(this);
         adapter.submitData(new ArrayList<>(cart.getProductIdToProduct().values()));
