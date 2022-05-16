@@ -37,7 +37,7 @@ import be.ugent.zeus.hydra.wpi.tap.product.Product;
  * 
  * @author Niko Strijbol
  */
-public class CartProduct {
+class CartProduct {
     private final int amount;
     private final int productId;
     private final String name;

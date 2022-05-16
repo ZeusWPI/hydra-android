@@ -48,7 +48,7 @@ import be.ugent.zeus.hydra.wpi.tap.product.Product;
  * 
  * @author Niko Strijbol
  */
-public class Cart {
+class Cart {
     private final List<CartProduct> orders;
     private final Map<Integer, Product> productIdToProduct;
     private final Map<String, Integer> barcodeToProductId;

@@ -23,10 +23,13 @@
 package be.ugent.zeus.hydra.wpi.tap.cart;
 
 /**
+ * Allows interaction with a cart.
+ * 
+ * Mainly used to interact with the CartActivity from the Cart Item view holders.
+ * 
  * @author Niko Strijbol
  */
-public interface CartInteraction {
-    
+interface CartInteraction {
     void increment(CartProduct product);
     void decrement(CartProduct product);
     void remove(CartProduct product);

@@ -49,7 +49,7 @@ import okhttp3.*;
  *
  * @author Niko Strijbol
  */
-public class CreateOrderRequest extends OkHttpRequest<OrderResult> {
+class CreateOrderRequest extends OkHttpRequest<OrderResult> {
 
     private final Cart cart;
     private final Context context;
