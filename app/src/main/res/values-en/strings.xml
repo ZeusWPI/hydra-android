@@ -352,6 +352,10 @@
     <string name="wpi_cart_add_manual">Search</string>
     <string name="wpi_start_cart">Order</string>
     <string name="wpi_start_transfer">Transfer</string>
+    <string name="wpi_tap_form_error">There was an error while creating the order. Check that the order has not been saved before trying it again.</string>
+    <string name="wpi_tap_order_ok">Ordered for %1$s</string>
+    <string name="wpi_tap_form_confirm">Sure? The total of your order is %1$s.</string>
+
 
     <!-- Accessibility strings -->
     <string name="content_desc_more">more</string>

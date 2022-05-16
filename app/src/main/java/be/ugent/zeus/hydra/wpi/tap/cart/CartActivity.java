@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,17 +38,19 @@ import java.math.BigDecimal;
 import java.text.NumberFormat;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.arch.observers.EventObserver;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 import be.ugent.zeus.hydra.common.barcode.Manager;
 import be.ugent.zeus.hydra.common.network.NetworkState;
+import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.scanner.BarcodeScanner;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.recyclerview.SpanItemSpacingDecoration;
 import be.ugent.zeus.hydra.common.utils.ColourUtils;
-import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 import be.ugent.zeus.hydra.databinding.ActivityWpiTapCartBinding;
 import be.ugent.zeus.hydra.wpi.tap.product.Product;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 /**
@@ -123,81 +126,55 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
         viewModel.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
         swipeRefreshLayout.setOnRefreshListener(viewModel);
 
-//        model.getRequestResult().observe(this, EventObserver.with(booleanResult -> {
-//            if (booleanResult.isWithoutError()) {
-//                int string;
-//                if (formObject.getAmount() < 0) {
-//                    string = R.string.wpi_tab_form_done_negative;
-//                } else {
-//                    string = R.string.wpi_tab_form_done;
-//                }
-//                Toast.makeText(CartActivity.this, string, Toast.LENGTH_SHORT).show();
-//                setResult(RESULT_OK);
-//                finish();
-//            } else {
-//                RequestException e = booleanResult.getError();
-//                Log.e(TAG, "error during transaction request", e);
-//                if (e instanceof TabRequestException) {
-//                    List<String> messages = ((TabRequestException) e).getMessages();
-//                    handleErrorMessages(messages);
-//                } else {
-//                    String message = e.getMessage();
-//                    new MaterialAlertDialogBuilder(CartActivity.this)
-//                            .setTitle(android.R.string.dialog_alert_title)
-//                            .setIconAttribute(android.R.attr.alertDialogIcon)
-//                            .setMessage(getString(R.string.wpi_tab_form_error) + "\n" + message)
-//                            .setPositiveButton(android.R.string.ok, null)
-//                            .show();
-//                }
-//            }
-//        }));
+        viewModel.getRequestResult().observe(this, EventObserver.with(orderResult -> {
+            if (orderResult.isWithoutError()) {
+                BigDecimal total = orderResult.getData().getPrice();
+                String formattedTotal = currencyFormatter.format(total);
+                String message = getString(R.string.wpi_tap_order_ok, formattedTotal);
+                Toast.makeText(CartActivity.this, message, Toast.LENGTH_SHORT).show();
+                setResult(RESULT_OK);
+                finish();
+            } else {
+                RequestException e = orderResult.getError();
+                Log.e(TAG, "error during transaction request", e);
+                String message = e.getMessage();
+                new MaterialAlertDialogBuilder(CartActivity.this)
+                        .setTitle(android.R.string.dialog_alert_title)
+                        .setIconAttribute(android.R.attr.alertDialogIcon)
+                        .setMessage(getString(R.string.wpi_tap_form_error) + "\n" + message)
+                        .setPositiveButton(android.R.string.ok, null)
+                        .show();
+            }
+        }));
 
         viewModel.getNetworkState().observe(this, networkState -> {
             boolean enabled = networkState == null || networkState == NetworkState.IDLE;
             lastEnabledBoolean = enabled;
             binding.scanAdd.setEnabled(enabled);
             binding.cartPay.setEnabled(enabled);
+            if (enabled) {
+                binding.cartProgress.setVisibility(View.GONE);
+            } else {
+                binding.cartProgress.setVisibility(View.VISIBLE);
+            }
             invalidateOptionsMenu();
-//            if (networkState == NetworkState.BUSY) {
-//                binding.formAmountLayout.setError(null);
-//                binding.formMemberLayout.setError(null);
-//            }
         });
 
-        // Set up sync between UI and object.
-//        binding.formAmount.addTextChangedListener((SimpleTextWatcher) newText -> {
-//            if (TextUtils.isEmpty(newText)) {
-//                return;
-//            }
-//            try {
-//                new BigDecimal(newText);
-//                binding.formAmount.setError(null);
-//            } catch (NumberFormatException e) {
-//                Log.e(TAG, "onCreate: ", e);
-//                binding.formAmount.setError("Wrong format");
-//            }
-//        });
-
-//        binding.confirmButton.setOnClickListener(v -> {
-//            syncData();
-//            String message;
-//            if (formObject.getAmount() < 0) {
-//                message = getString(R.string.wpi_tab_form_confirm_negative, 
-//                        currencyFormatter.format(formObject.getAdjustedAmount().negate()),
-//                        formObject.getDestination());
-//            } else {
-//                message = getString(R.string.wpi_tab_form_confirm_positive, 
-//                        currencyFormatter.format(formObject.getAdjustedAmount()),
-//                        formObject.getDestination());
-//            }
-//            new MaterialAlertDialogBuilder(CartActivity.this)
-//                    .setMessage(message)
-//                    .setPositiveButton(android.R.string.ok, (dialog, which) -> model.startRequest(formObject))
-//                    .setNegativeButton(android.R.string.cancel, null)
-//                    .show();
-//        });
+        binding.cartPay.setOnClickListener(v -> {
+            if (lastCart == null) {
+                Toast.makeText(CartActivity.this, R.string.error_network, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            String formattedTotal = currencyFormatter.format(lastCart.getTotalPrice());
+            String message = getString(R.string.wpi_tap_form_confirm, formattedTotal);
+            new MaterialAlertDialogBuilder(CartActivity.this)
+                    .setMessage(message)
+                    .setPositiveButton(android.R.string.ok, (dialog, which) -> viewModel.startRequest(lastCart))
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show();
+        });
     }
-    
+
     private void onCartLoadError(Throwable throwable) {
         Log.e(TAG, "Error while getting cart data.", throwable);
         Toast.makeText(this, getString(R.string.error_network), Toast.LENGTH_SHORT)
@@ -212,17 +189,15 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
                 .setAction(getString(R.string.action_again), v -> viewModel.onRefresh())
                 .show();
     }
-    
+
     private void updateCartSummary(Cart cart) {
         BigDecimal totalAmount = BigDecimal.ZERO;
         int totalProducts = 0;
         if (cart != null) {
-            for (CartProduct product : cart.getOrders()) {
-                totalAmount = totalAmount.add(product.getPriceDecimal().multiply(BigDecimal.valueOf(product.getAmount())));
-                totalProducts += product.getAmount();
-            }
+            totalAmount = cart.getTotalPrice();
+            totalProducts = cart.getTotalProducts();
         }
-        
+
         // Set texts
         String totalString = getString(R.string.wpi_cart_total_amount, currencyFormatter.format(totalAmount));
         binding.cartSummaryAmount.setText(totalString);

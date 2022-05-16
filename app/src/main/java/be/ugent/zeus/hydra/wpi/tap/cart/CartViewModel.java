@@ -32,6 +32,7 @@ import be.ugent.zeus.hydra.common.network.NetworkState;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.common.ui.RequestViewModel;
+import be.ugent.zeus.hydra.common.utils.ThreadingUtils;
 
 /**
  * @author Niko Strijbol
@@ -39,7 +40,7 @@ import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 public class CartViewModel extends RequestViewModel<Cart> {
 
     private final MutableLiveData<NetworkState> networkState;
-    private final MutableLiveData<Event<Result<Boolean>>> requestResult;
+    private final MutableLiveData<Event<Result<OrderResult>>> requestResult;
     
     public CartViewModel(Application application) {
         super(application);
@@ -51,7 +52,7 @@ public class CartViewModel extends RequestViewModel<Cart> {
         return networkState;
     }
 
-    public LiveData<Event<Result<Boolean>>> getRequestResult() {
+    public LiveData<Event<Result<OrderResult>>> getRequestResult() {
         return requestResult;
     }
 
@@ -66,13 +67,13 @@ public class CartViewModel extends RequestViewModel<Cart> {
      * 
      * @param cart The cart to save.
      */
-    public void startRequest(StorageCart cart) {
-//        CreateTransactionRequest request = new CreateTransactionRequest(getApplication(), transactionForm);
-//        networkState.postValue(NetworkState.BUSY);
-//        ThreadingUtils.execute(() -> {
-//            Result<Boolean> result = request.execute();
-//            networkState.postValue(NetworkState.IDLE);
-//            requestResult.postValue(new Event<>(result));
-//        });
+    public void startRequest(Cart cart) {
+        CreateOrderRequest request = new CreateOrderRequest(getApplication(), cart);
+        networkState.postValue(NetworkState.BUSY);
+        ThreadingUtils.execute(() -> {
+            Result<OrderResult> result = request.execute();
+            networkState.postValue(NetworkState.IDLE);
+            requestResult.postValue(new Event<>(result));
+        });
     }
 }

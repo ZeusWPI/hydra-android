@@ -340,7 +340,7 @@
     <string name="wpi_tab_form_done_negative">Aanvraag gemaakt</string>
     <string name="wpi_tab_form_confirm_positive">Zeker? U geeft %1$s aan %2$s.</string>
     <string name="wpi_tab_form_confirm_negative">Zeker? U vraagt %1$s aan %2$s (of u neemt het als u admin bent).</string>
-    <string name="wpi_tab_form_error">Er trad een fout op bij het maken van de transactie. Controleer zeker dat de transactie er niet toch doorgekomen is voor u het opnieuw probeert.</string>
+    <string name="wpi_tab_form_error">Er trad een fout op bij het maken van de transactie. Controleer dat de transactie er niet toch doorgekomen is voor u het opnieuw probeert.</string>
     <string name="wpi_tab_form_error_creditor_blank">Dit Zeuslid werd niet gevonden.</string>
     <string name="wpi_tab_form_error_amount_zero">Zeus is geen bank; schulden zijn verboden!</string>
     <string name="wpi_cart_product_description">%1$d ⨯ %2$s</string>
@@ -359,7 +359,10 @@
     <string name="wpi_cart_add_manual">Zoeken</string>
     <string name="wpi_start_cart">Bestellen</string>
     <string name="wpi_start_transfer">Overschrijven</string>
-    
+    <string name="wpi_tap_form_error">Er trad een fout op bij de bestelling. Controleer dat de bestelling er niet toch doorgekomen is voor u het opnieuw probeert.</string>
+    <string name="wpi_tap_order_ok">Besteld voor %1$s</string>
+    <string name="wpi_tap_form_confirm">Zeker? Het totaal van uw bestelling is %1$s.</string>
+
     <!-- Accessibility strings -->
     <string name="content_desc_more">meer</string>
     <string name="content_desc_schamper_image">Schamperfoto</string>

@@ -27,6 +27,7 @@ import android.util.Pair;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -181,6 +182,22 @@ public class Cart {
             replacementList.set(index, replacement);
             return new Cart(replacementList, productIdToProduct, barcodeToProductId);
         }
+    }
+    
+    public BigDecimal getTotalPrice() {
+        BigDecimal totalAmount = BigDecimal.ZERO;
+        for (CartProduct product : getOrders()) {
+            totalAmount = totalAmount.add(product.getPriceDecimal().multiply(BigDecimal.valueOf(product.getAmount())));
+        }
+        return totalAmount;
+    }
+    
+    public int getTotalProducts() {
+        int totalProducts = 0;
+        for (CartProduct product : getOrders()) {
+            totalProducts += product.getAmount();
+        }
+        return totalProducts;
     }
     
     public Cart clear() {

@@ -58,7 +58,7 @@ class OrderResult {
         return createdAt;
     }
 
-    public BigDecimal getPriceDecimal() {
+    public BigDecimal getPrice() {
         return new BigDecimal(price).movePointLeft(2);
     }
 
