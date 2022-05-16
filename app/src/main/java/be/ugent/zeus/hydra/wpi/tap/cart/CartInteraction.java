@@ -22,6 +22,8 @@
 
 package be.ugent.zeus.hydra.wpi.tap.cart;
 
+import be.ugent.zeus.hydra.wpi.tap.product.Product;
+
 /**
  * Allows interaction with a cart.
  * 
@@ -33,5 +35,6 @@ interface CartInteraction {
     void increment(CartProduct product);
     void decrement(CartProduct product);
     void remove(CartProduct product);
-    
+    void add(Product product);
+    Cart getCart();
 }

@@ -49,32 +49,13 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-            
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="none"
-                app:layoutManager="@string/app_layout_manager_linear"
-                tools:listitem="@layout/item_salad_bowl" />
-
-            <LinearLayout
-                android:id="@+id/bottom_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="hallo" />
-            </LinearLayout>
-
-
-        </LinearLayout>
+            android:clipToPadding="false"
+            app:layoutManager="@string/app_layout_manager_linear"
+            tools:listitem="@layout/item_salad_bowl" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         
     <LinearLayout
@@ -86,7 +67,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:behavior_hideable="true"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <com.google.android.material.textview.MaterialTextView
@@ -139,7 +119,7 @@
         tools:ignore="ContentDescription" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/scan_add_manual"
+        android:id="@+id/manual_add"
         app:fabSize="mini"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -149,7 +129,6 @@
         android:translationY="-32dp"
         android:backgroundTint="@color/white"
         app:srcCompat="@drawable/ic_search"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         android:contentDescription="@string/wpi_cart_add_manual" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -22,23 +22,42 @@
 
 package be.ugent.zeus.hydra.wpi.tap.product;
 
+import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
+
+import java.util.List;
+import java.util.Locale;
+import java.util.function.BiPredicate;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DiffAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.SearchableAdapter;
 import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.news.NewsArticle;
 
 /**
  * @author Niko Strijbol
  */
-class ProductAdapter extends DiffAdapter<Product, ProductViewHolder> {
+public class ProductAdapter extends SearchableAdapter<Product, ProductViewHolder> {
+    
+    private final Consumer<Product> onClickListener;
+
+    public ProductAdapter() {
+        this(null);
+    }
+    
+    public ProductAdapter(Consumer<Product> onClickListener) {
+        super(p -> p.getName().toLowerCase(Locale.getDefault()));
+        this.onClickListener = onClickListener;
+    }
 
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup p, int viewType) {
-        return new ProductViewHolder(ViewUtils.inflate(p, R.layout.item_product));
+        return new ProductViewHolder(ViewUtils.inflate(p, R.layout.item_product), onClickListener);
     }
 }

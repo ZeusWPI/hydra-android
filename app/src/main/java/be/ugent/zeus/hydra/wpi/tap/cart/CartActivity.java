@@ -24,9 +24,7 @@ package be.ugent.zeus.hydra.wpi.tap.cart;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -101,6 +99,21 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
                 saveCart(newCart, false);
             }, this::onError);
         });
+        binding.manualAdd.setOnClickListener(v -> {
+            ProductPickerDialogFragment productPicker = new ProductPickerDialogFragment();
+            productPicker.show(getSupportFragmentManager(), "productPick");
+        });
+        
+        // This is one ugly hack :(
+        binding.bottomSheet.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int bottomSheetHeight = binding.bottomSheet.getHeight();
+                RecyclerView rv = binding.recyclerView;
+                rv.setPadding(rv.getPaddingLeft(), rv.getPaddingTop(), rv.getPaddingRight(), (int) (bottomSheetHeight * 1.4));
+                binding.bottomSheet.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
 
         RecyclerView recyclerView = binding.recyclerView;
         recyclerView.setHasFixedSize(true);
@@ -133,6 +146,7 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
                 String message = getString(R.string.wpi_tap_order_ok, formattedTotal);
                 Toast.makeText(CartActivity.this, message, Toast.LENGTH_SHORT).show();
                 setResult(RESULT_OK);
+                this.clearCart(true);
                 finish();
             } else {
                 RequestException e = orderResult.getError();
@@ -248,11 +262,28 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
     }
 
     @Override
+    public void add(Product product) {
+        if (this.lastCart != null) {
+            Cart newCart = this.lastCart.addProduct(product);
+            saveCart(newCart, false);
+        }
+    }
+
+    @Override
+    public Cart getCart() {
+        return lastCart;
+    }
+    
+    private void clearCart(boolean stopping) {
+        Cart newCart = this.lastCart.clear();
+        saveCart(newCart, stopping);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == R.id.menu_cart_clear) {
-            Cart newCart = this.lastCart.clear();
-            saveCart(newCart, false);
+            this.clearCart(false);
             return true;
         }
         return super.onOptionsItemSelected(item);

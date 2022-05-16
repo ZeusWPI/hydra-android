@@ -26,10 +26,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import org.w3c.dom.Text;
 
 import java.text.NumberFormat;
 import java.util.Currency;
+import java.util.function.Consumer;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
@@ -48,14 +51,16 @@ class ProductViewHolder extends DataViewHolder<Product> {
     private final TextView meta;
     private final NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
     private final NumberFormat decimalFormatter = NumberFormat.getNumberInstance();
+    private final Consumer<Product> onClickListener;
 
-    ProductViewHolder(View v) {
+    ProductViewHolder(View v, @Nullable Consumer<Product> onClickListener) {
         super(v);
         thumbnail = v.findViewById(R.id.thumbnail);
         title = v.findViewById(R.id.title);
         description = v.findViewById(R.id.description);
         meta = v.findViewById(R.id.meta);
         currencyFormatter.setCurrency(Currency.getInstance("EUR"));
+        this.onClickListener = onClickListener;
     }
 
     @Override
@@ -70,5 +75,9 @@ class ProductViewHolder extends DataViewHolder<Product> {
             calories = itemView.getContext().getString(R.string.wpi_product_na);
         }
         description.setText(itemView.getContext().getString(R.string.wpi_product_description, calories, product.getStock()));
+        if (onClickListener != null) {
+            // TODO: should this move to the constructor?
+            itemView.setOnClickListener(v -> onClickListener.accept(product));
+        }
     }
 }

@@ -24,6 +24,7 @@ package be.ugent.zeus.hydra.wpi.tap.cart;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.WorkerThread;
 
@@ -69,7 +70,9 @@ class CreateOrderRequest extends OkHttpRequest<OrderResult> {
 
         Map<String, Map<String, List<Map<String, Object>>>> data = new HashMap<>();
         data.put("order", cart.forJson());
-        Type type = Types.newParameterizedType(Map.class, String.class, Types.newParameterizedType(List.class, Types.newParameterizedType(Map.class, String.class, Object.class)));
+        Type type = Types.newParameterizedType(Map.class, String.class, Types.newParameterizedType(Map.class, String.class,
+                Types.newParameterizedType(List.class, Types.newParameterizedType(Map.class, String.class, Object.class)))
+        );
         JsonAdapter<Map<String, Map<String, List<Map<String, Object>>>>> adapter = moshi.adapter(type);
 
         String rawData = adapter.toJson(data);
@@ -81,7 +84,7 @@ class CreateOrderRequest extends OkHttpRequest<OrderResult> {
         Request request = new Request.Builder()
                 .addHeader("Accept", "application/json")
                 .addHeader("Content-Type", json.toString())
-                .addHeader("Authorization", "Bearer " + AccountManager.getTabKey(context))
+                .addHeader("Authorization", "Bearer " + AccountManager.getTapKey(context))
                 .url(Endpoints.TAP + "users/" + AccountManager.getUsername(context) + "/orders")
                 .post(body)
                 .build();
@@ -100,6 +103,7 @@ class CreateOrderRequest extends OkHttpRequest<OrderResult> {
                 }
                 return Result.Builder.fromData(result);
             } else {
+                // TODO: unsufficient money is also 403, so handle that better in the activity.
                 throw new IOException("Unexpected state in request; not successful: got " + response.code());
             }
         } catch (JsonDataException | NullPointerException e) {
