@@ -149,22 +149,27 @@
             android:theme="@style/Hydra.Material.System" />
 
 
+        <!-- Zeus-related activities -->
         <activity 
+            android:theme="@style/Zeus.Material"
             android:name=".wpi.account.ApiKeyManagementActivity"
             android:label="@string/wpi_api_key_management_title"
             android:parentActivityName=".wpi.WpiActivity"/>
 
         <activity
+            android:theme="@style/Zeus.Material"
             android:name=".wpi.WpiActivity"
             android:launchMode="singleTop"
             android:parentActivityName=".MainActivity"/>
 
         <activity
+            android:theme="@style/Zeus.Material"
             android:name=".wpi.tab.create.FormActivity"
             android:label="@string/wpi_tab_form_title"
             android:parentActivityName=".wpi.WpiActivity" />
 
         <activity
+            android:theme="@style/Zeus.Material"
             android:name=".wpi.tap.cart.CartActivity"
             android:label="@string/wpi_cart_title"
             android:parentActivityName=".wpi.WpiActivity" />

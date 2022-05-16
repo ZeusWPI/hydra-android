@@ -55,4 +55,39 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
     </style>
+
+    <style name="Zeus.Material" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/wpi_theme_dark_primary</item>
+        <item name="colorOnPrimary">@color/wpi_theme_dark_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/wpi_theme_dark_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/wpi_theme_dark_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/wpi_theme_dark_secondary</item>
+        <item name="colorOnSecondary">@color/wpi_theme_dark_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/wpi_theme_dark_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/wpi_theme_dark_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/wpi_theme_dark_tertiary</item>
+        <item name="colorOnTertiary">@color/wpi_theme_dark_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/wpi_theme_dark_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/wpi_theme_dark_onTertiaryContainer</item>
+        <item name="colorError">@color/wpi_theme_dark_error</item>
+        <item name="colorErrorContainer">@color/wpi_theme_dark_errorContainer</item>
+        <item name="colorOnError">@color/wpi_theme_dark_onError</item>
+        <item name="colorOnErrorContainer">@color/wpi_theme_dark_onErrorContainer</item>
+        <item name="android:colorBackground">@color/wpi_theme_dark_background</item>
+        <item name="colorOnBackground">@color/wpi_theme_dark_onBackground</item>
+        <item name="colorSurface">@color/wpi_theme_dark_surface</item>
+        <item name="colorOnSurface">@color/wpi_theme_dark_onSurface</item>
+        <item name="colorSurfaceVariant">@color/wpi_theme_dark_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/wpi_theme_dark_onSurfaceVariant</item>
+        <item name="colorOutline">@color/wpi_theme_dark_outline</item>
+        <item name="colorOnSurfaceInverse">@color/wpi_theme_dark_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/wpi_theme_dark_inverseSurface</item>
+        <!--        <item name="colorInversePrimary">@color/wpi_theme_dark_inversePrimary</item>-->
+        <!--        <item name="colorShadow">@color/wpi_theme_dark_shadow</item>-->
+        <item name="colorPrimaryInverse">@color/wpi_theme_dark_primaryInverse</item>
+
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+    </style>
 </resources>
