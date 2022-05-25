@@ -37,15 +37,10 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
-import be.ugent.zeus.hydra.common.reporting.Reporting;
-import be.ugent.zeus.hydra.common.reporting.Tracker;
-import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.JsonDataException;
-import com.squareup.moshi.Moshi;
 import okhttp3.CacheControl;
-import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
 /**
@@ -66,16 +61,13 @@ import okhttp3.Response;
  * @author Niko Strijbol
  */
 @SuppressWarnings("WeakerAccess")
-public abstract class JsonOkHttpRequest<D> implements Request<D> {
+public abstract class JsonOkHttpRequest<D> extends OkHttpRequest<D> {
 
     private static final String TAG = "JsonOkHttpRequest";
 
     private static final String ALLOW_STALENESS = "be.ugent.zeus.hydra.data.staleness";
 
-    private final Moshi moshi;
-    private final OkHttpClient client;
     private final Type typeToken;
-    private final Tracker tracker;
 
     /**
      * Construct a new request. As this constructor is not type-safe, it must only be used internally.
@@ -84,10 +76,8 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
      * @param token   The type token of the return type.
      */
     JsonOkHttpRequest(@NonNull Context context, @NonNull Type token) {
-        this.moshi = InstanceProvider.getMoshi();
-        this.client = InstanceProvider.getClient(context);
+        super(context);
         this.typeToken = token;
-        this.tracker = Reporting.getTracker(context);
     }
 
     /**
@@ -187,7 +177,8 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
     protected okhttp3.Request.Builder constructRequest(@NonNull Bundle arguments) {
         return new okhttp3.Request.Builder()
                 .url(getAPIUrl())
-                .cacheControl(constructCacheControl(arguments));
+                .cacheControl(constructCacheControl(arguments))
+                .addHeader("Accept", "application/json");
     }
 
     protected CacheControl constructCacheControl(@NonNull Bundle arguments) {

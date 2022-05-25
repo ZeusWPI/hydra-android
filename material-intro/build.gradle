@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 31
-    buildToolsVersion "31.0.0"
+    compileSdkVersion 32
+    buildToolsVersion "32.0.0"
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 32
         versionCode 1
         versionName "1.0.0"
     }
@@ -23,7 +23,10 @@ android {
         showAll true
         disable "Overdraw", // Allow overdraw, mainly used for selectable backgrounds
                 // We decide when we upgrade
-                "OldTargetApi"
+                "OldTargetApi",
+                // We use dependabot for dependencies
+                "GradleDependency",
+                "ObsoleteLintCustomCheck"
         
     }
 }
@@ -31,5 +34,5 @@ android {
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
-    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'com.google.android.material:material:1.6.0'
 }

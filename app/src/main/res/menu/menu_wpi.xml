@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2021 The Hydra authors
+  ~ Copyright (c) 2022 Niko Strijbol
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,12 @@
   ~ SOFTWARE.
   -->
 
-<resources>
-    <color name="hydra_launcher_color">@color/md_theme_dark_primary</color>
-</resources>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_manage_login"
+        android:icon="@drawable/ic_login"
+        android:orderInCategory="50"
+        android:title="@string/action_manage_login"
+        app:showAsAction="never" />
+</menu>

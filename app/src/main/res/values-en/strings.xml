@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!--
-  ~ Copyright (c) 2021 The Hydra authors
+  ~ Copyright (c) 2022 The Hydra authors
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@
     <string name="title_activity_hydra_web_view">Web View</string>
 
     <string name="action_refresh">Refresh</string>
+    <string name="action_manage_login">Manage login data</string>
     <string name="action_view_website">View website</string>
     <string name="action_view_settings">Settings</string>
     <string name="action_view_link">Open link</string>
@@ -51,6 +52,7 @@
     <string name="drawer_title_pref">Settings</string>
     <string name="drawer_title_urgent">Urgent.fm</string>
     <string name="drawer_title_library">Libraries</string>
+    <string name="drawer_title_zeus">Zeus mode</string>
     <string name="drawer_title_ufora">Ufora app</string>
 
     <string name="shortcut_resto_short_label">Resto menu</string>
@@ -311,6 +313,56 @@
     <string name="library_info_details">Details</string>
     <string name="library_list_no_opening_hours">No opening hours found today.</string>
     <string name="library_list_opening_hours_today">Open today: %s</string>
+    
+    <!-- Zeus -->
+    <string name="wpi_api_key_management_title">API key management</string>
+    <string name="wpi_product_description">Calories: %1$s • In stock: %2$d</string>
+    <string name="wpi_product_na">n/a</string>
+    <string name="wpi_product_filter">Only in stock</string>
+    <string name="wpi_user_description">Balance: %1$s • Orders: %2$s</string>
+    <string name="wpi_tap_tab">Products</string>
+    <string name="wpi_tab_tab">Transactions</string>
+    <string name="wpi_tab_form_title">Tab transfer</string>
+    <string name="wpi_tab_form_to">Zeus member</string>
+    <string name="wpi_tab_form_to_helper">Who you want to give money to or request money from. The Zeus username must be spelled exactly correct. Due to limitations in the API, there is no autocomplete for this field yet.</string>
+    <string name="wpi_tab_form_amount">Amount</string>
+    <string name="wpi_tab_form_amount_helper">If the amount is negative and you are not an admin, this will become a request, not a transfer.</string>
+    <string name="wpi_tab_form_message">Description</string>
+    <string name="wpi_tab_form_confirm">Confirm</string>
+    <string name="wpi_tab_form_done">Transaction saved</string>
+    <string name="wpi_tab_form_done_negative">Request made</string>
+    <string name="wpi_tab_form_confirm_positive">Sure? You will give %1$s to %2$s.</string>
+    <string name="wpi_tab_form_confirm_negative">Sure? You will demand %1$s from %2$s (or you will take it if you are admin).</string>
+    <string name="wpi_tab_form_error">There was an error while creating the transaction. Check that the transaction has not been saved before trying it again.</string>
+    <string name="wpi_tab_form_error_creditor_blank">This Zeus member was not found.</string>
+    <string name="wpi_tab_form_error_amount_zero">Zeus is not a bank; debt is forbidden.</string>
+    <string name="wpi_cart_product_description">%1$d ⨯ %2$s</string>
+    <string name="wpi_cart_total_amount">Total: %1$s</string>
+    <plurals name="wpi_cart_total_products">
+        <item quantity="one">%d product</item>
+        <item quantity="other">%d products</item>
+    </plurals>
+    <string name="wpi_cart_clear">Clear</string>
+    <string name="wpi_cart_title">Tap order</string>
+    <string name="wpi_cart_item_menu_add">Add 1</string>
+    <string name="wpi_cart_item_menu_remove">Remove 1</string>
+    <string name="wpi_cart_item_menu_clear">Remove product</string>
+    <string name="wpi_cart_pay">Pay</string>
+    <string name="wpi_cart_scan">Scan</string>
+    <string name="wpi_cart_add_manual">Search</string>
+    <string name="wpi_start_cart">Order</string>
+    <string name="wpi_start_transfer">Transfer</string>
+    <string name="wpi_tap_form_error">There was an error while creating the order. Check that the order has not been saved before trying it again.</string>
+    <string name="wpi_tap_order_ok">Ordered for %1$s</string>
+    <string name="wpi_tap_form_confirm">Sure? The total of your order is %1$s.</string>
+    <string name="wpi_mode_enabled">Zeus mode is enabled.</string>
+    <plurals name="wpi_mode_press">
+        <item quantity="one">Press %d more time…</item>
+        <item quantity="other">Press %d more times…</item>
+    </plurals>
+    <string name="wpi_username">Username</string>
+    <string name="wpi_tab_key">API key for Tab</string>
+    <string name="wpi_tap_key">API key for Tap</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_more">more</string>

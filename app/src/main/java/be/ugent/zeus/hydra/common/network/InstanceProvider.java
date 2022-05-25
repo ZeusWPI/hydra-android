@@ -27,9 +27,7 @@ import androidx.annotation.VisibleForTesting;
 
 import java.io.File;
 
-import be.ugent.zeus.hydra.common.converter.BooleanJsonAdapter;
-import be.ugent.zeus.hydra.common.converter.DateThreeTenAdapter;
-import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
+import be.ugent.zeus.hydra.common.converter.*;
 import com.squareup.moshi.Moshi;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
@@ -76,7 +74,6 @@ public final class InstanceProvider {
         return getClient(cacheDir);
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     public static synchronized Moshi getMoshi() {
         if (moshi == null) {
             moshi = new Moshi.Builder()
@@ -84,6 +81,7 @@ public final class InstanceProvider {
                     .add(new DateThreeTenAdapter())
                     .add(new DateTypeConverters.GsonOffset())
                     .add(new DateTypeConverters.LocalZonedDateTimeInstance())
+                    .add(new PairJsonAdapter.Factory())
                     .build();
         }
         return moshi;

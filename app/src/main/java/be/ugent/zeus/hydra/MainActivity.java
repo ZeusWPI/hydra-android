@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2022 The Hydra authors
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -60,6 +60,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.tabs.TabLayout;
+import be.ugent.zeus.hydra.wpi.EnableManager;
+import be.ugent.zeus.hydra.wpi.WpiActivity;
 import dev.chrisbanes.insetter.Insetter;
 import jonathanfinerty.once.Once;
 
@@ -187,7 +189,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     static final String ONCE_DRAWER = "once_drawer";
     private static final String TAG = "BaseActivity";
     private static final String UFORA = "com.d2l.brightspace.student.android";
-    private static final int ONBOARDING_REQUEST = 5;
     private static final String STATE_IS_ONBOARDING_OPEN = "state_is_onboarding_open";
     private static final String FRAGMENT_MENU_ID = "backStack";
 
@@ -195,6 +196,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     private static final String SHORTCUT_URGENT = "urgent";
     private static final String SHORTCUT_EVENTS = "events";
     private static final String SHORTCUT_LIBRARIES = "libraries";
+
+    private static final int ONBOARDING_REQUEST = 5;
+    private static final int PREFERENCES_REQUEST = 5693;
 
     private ActionBarDrawerToggle toggle;
 
@@ -277,6 +281,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
                 }
             }
         });
+        
+        updateMenuVisibility();
 
         // If the instance is null, we must initialise a fragment, otherwise android does it for us.
         if (savedInstanceState == null) {
@@ -301,6 +307,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         if (!Once.beenDone(ONCE_DRAWER)) {
             binding.drawerLayout.openDrawer(GravityCompat.START);
         }
+    }
+    
+    private void updateMenuVisibility() {
+        // Show Zeus-mode if enabled.
+        MenuItem item = binding.navigationView.getMenu().findItem(R.id.drawer_zeus);
+        item.setVisible(EnableManager.isZeusModeEnabled(this));
     }
 
     @Override
@@ -335,7 +347,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         // First check if it are settings, then we don't update anything.
         if (menuItem.getItemId() == R.id.drawer_pref) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
-            PreferenceActivity.start(this, null);
+            Intent preferenceIntent = PreferenceActivity.startIntent(this, null);
+            startActivityForResult(preferenceIntent, PREFERENCES_REQUEST);
+            return;
+        }
+        
+        if (menuItem.getItemId() == R.id.drawer_zeus) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+            Intent intent = new Intent(this, WpiActivity.class);
+            startActivity(intent);
             return;
         }
 
@@ -551,6 +571,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
                 Log.w(TAG, "Onboarding failed, stop app.");
                 finish();
             }
+        } else if (requestCode == PREFERENCES_REQUEST) {
+            // Don't care about the actual status.
+            updateMenuVisibility();
         }
         // We need to call this for the fragments to work properly.
         super.onActivityResult(requestCode, resultCode, data);

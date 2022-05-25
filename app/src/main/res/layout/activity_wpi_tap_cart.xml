@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2022 Niko Strijbol
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  -->
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".wpi.tab.create.FormActivity"
+    tools:menu="@menu/menu_resto">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:ellipsize="marquee"
+            app:navigationIcon="@drawable/ic_close" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            app:layoutManager="@string/app_layout_manager_linear"
+            tools:listitem="@layout/item_salad_bowl" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        
+    <LinearLayout
+        android:padding="16dp"
+        style="?attr/bottomSheetStyle"
+        android:background="@android:color/white"
+        android:backgroundTint="?colorPrimaryContainer"
+        android:id="@+id/bottom_sheet"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/cart_summary_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.Material3.TitleLarge"
+            tools:text="Totaal: 30 euro" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/cart_summary_articles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            android:paddingBottom="16dp"
+            tools:text="30 artikelen" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cart_pay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="78dp"
+                app:icon="@drawable/ic_shopping_cart_checkout"
+                android:text="@string/wpi_cart_pay" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/cart_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true" />
+            
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/scan_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_anchor="@id/bottom_sheet"
+        app:layout_anchorGravity="end"
+        android:backgroundTint="?colorSecondaryContainer"
+        app:icon="@drawable/ic_barcode_scan"
+        android:text="@string/wpi_cart_scan"
+        tools:ignore="ContentDescription" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/manual_add"
+        app:fabSize="mini"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_anchor="@id/scan_add"
+        app:layout_anchorGravity="end|top"
+        android:translationY="-32dp"
+        android:backgroundTint="@color/white"
+        app:srcCompat="@drawable/ic_search"
+        android:contentDescription="@string/wpi_cart_add_manual" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

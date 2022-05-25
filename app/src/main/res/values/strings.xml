@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2021 The Hydra authors
+  ~ Copyright (c) 2022 The Hydra authors
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@
     <string name="title_activity_hydra_web_view">Web View</string>
 
     <string name="action_refresh">Vernieuwen</string>
+    <string name="action_manage_login">Aanmeldgegevens beheren</string>
     <string name="action_view_website">Website bekijken</string>
     <string name="action_view_settings">Instellingen</string>
     <string name="action_view_link">Link openen</string>
@@ -54,6 +55,7 @@
     <string name="drawer_title_pref">Instellingen</string>
     <string name="drawer_title_urgent">Urgent.fm</string>
     <string name="drawer_title_library">Bibliotheken</string>
+    <string name="drawer_title_zeus">Zeus-modus</string>
     <string name="drawer_title_ufora">Ufora-app</string>
 
     <string name="shortcut_resto_short_label">Restomenu</string>
@@ -318,6 +320,55 @@
     <string name="library_info_details">Details</string>
     <string name="library_list_no_opening_hours">Geen openingsuren vandaag.</string>
     <string name="library_list_opening_hours_today">Vandaag open: %s</string>
+
+    <!-- Zeus -->
+    <string name="wpi_api_key_management_title">Beheer van API-sleutels</string>
+    <string name="wpi_product_description">Calorieën: %1$s • In voorraad: %2$d</string>
+    <string name="wpi_product_na">n.v.t.</string>
+    <string name="wpi_product_filter">Enkel in voorraad</string>
+    <string name="wpi_user_description">Saldo: %1$s • Bestellingen: %2$s</string>
+    <string name="wpi_tap_tab">Producten</string>
+    <string name="wpi_tab_tab">Transacties</string>
+    <string name="wpi_tab_form_title">Tab-overschrijving</string>
+    <string name="wpi_tab_form_to">Zeuslid</string>
+    <string name="wpi_tab_form_to_helper">Aan wie u geld wilt geven of vragen. De Zeus-gebruikersnaam moet exact juist gespeld zijn. Door beperkingen in de API is nog geen automatische aanvulling in dit veld.</string>
+    <string name="wpi_tab_form_amount">Bedrag</string>
+    <string name="wpi_tab_form_amount_helper">Als het bedrag negatief is, en u bent geen admin, dan zal dit een verzoek worden in plaats van een transactie.</string>
+    <string name="wpi_tab_form_message">Beschrijving</string>
+    <string name="wpi_tab_form_confirm">Bevestigen</string>
+    <string name="wpi_tab_form_done">Transactie gemaakt</string>
+    <string name="wpi_tab_form_done_negative">Aanvraag gemaakt</string>
+    <string name="wpi_tab_form_confirm_positive">Zeker? U geeft %1$s aan %2$s.</string>
+    <string name="wpi_tab_form_confirm_negative">Zeker? U vraagt %1$s aan %2$s (of u neemt het als u admin bent).</string>
+    <string name="wpi_tab_form_error">Er trad een fout op bij het maken van de transactie. Controleer dat de transactie er niet toch doorgekomen is voor u het opnieuw probeert.</string>
+    <string name="wpi_tab_form_error_creditor_blank">Dit Zeuslid werd niet gevonden.</string>
+    <string name="wpi_tab_form_error_amount_zero">Zeus is geen bank; schulden zijn verboden!</string>
+    <string name="wpi_cart_product_description">%1$d ⨯ %2$s</string>
+    <string name="wpi_cart_total_amount">Totaal: %1$s</string>
+    <plurals name="wpi_cart_total_products">
+        <item quantity="one">%d product</item>
+        <item quantity="other">%d producten</item>
+    </plurals>
+    <string name="wpi_cart_clear">Leegmaken</string>
+    <string name="wpi_cart_title">Tapbestelling</string>
+    <string name="wpi_cart_item_menu_add">1 toevoegen</string>
+    <string name="wpi_cart_item_menu_remove">1 verwijderen</string>
+    <string name="wpi_cart_item_menu_clear">Product verwijderen</string>
+    <string name="wpi_cart_pay">Afrekenen</string>
+    <string name="wpi_cart_scan">Scannen</string>
+    <string name="wpi_cart_add_manual">Zoeken</string>
+    <string name="wpi_start_cart">Bestellen</string>
+    <string name="wpi_start_transfer">Overschrijven</string>
+    <string name="wpi_tap_form_error">Er trad een fout op bij de bestelling. Controleer dat de bestelling er niet toch doorgekomen is voor u het opnieuw probeert.</string>
+    <string name="wpi_tap_order_ok">Besteld voor %1$s</string>
+    <string name="wpi_tap_form_confirm">Zeker? Het totaal van uw bestelling is %1$s.</string>
+    <string name="wpi_mode_enabled">Zeus-modus is ingeschakeld.</string>
+    <plurals name="wpi_mode_press">
+        <item quantity="other">Druk nog %d keer…</item>
+    </plurals>
+    <string name="wpi_username">Gebruikersnaam</string>
+    <string name="wpi_tab_key">API-sleutel voor Tab</string>
+    <string name="wpi_tap_key">API-sleutel voor Tap</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_more">meer</string>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2022 The Hydra authors
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 
 /**
+ * Simple diff callback for items where the equals method encapsulates
+ * changes to the layout.
+ * 
  * @author Niko Strijbol
  */
 public class EqualsItemCallback<T> extends DiffUtil.ItemCallback<T> {

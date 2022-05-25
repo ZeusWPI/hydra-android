@@ -45,7 +45,7 @@ interface AdapterUpdate<D> {
     List<D> getNewData(@Nullable List<D> existingData);
 
     /**
-     * Apply the update to the update callback. At this point, the underlying data of the callback is alreay
+     * Apply the update to the update callback. At this point, the underlying data of the callback is already
      * updated to reflect the new data.
      *
      * @param listUpdateCallback The callback to update.
