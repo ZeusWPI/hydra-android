@@ -106,7 +106,7 @@
         android:layout_margin="16dp"
         app:icon="@drawable/ic_bank_transfer"
         android:text="@string/wpi_start_transfer"
-        app:layout_behavior=".common.ui.ShrinkExtendedFabBehavior"
+        app:layout_behavior="be.ugent.zeus.hydra.common.ui.ShrinkExtendedFabBehavior"
         tools:ignore="ContentDescription" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -118,7 +118,7 @@
         android:layout_margin="16dp"
         android:text="@string/wpi_start_cart"
         app:icon="@drawable/ic_shopping_cart"
-        app:layout_behavior=".common.ui.ShrinkExtendedFabBehavior"
+        app:layout_behavior="be.ugent.zeus.hydra.common.ui.ShrinkExtendedFabBehavior"
         tools:ignore="ContentDescription" />
 
 

@@ -25,64 +25,44 @@ package be.ugent.zeus.hydra.common.barcode;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.Objects;
-import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
-import be.ugent.zeus.hydra.common.request.RequestException;
-import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.common.scanner.BarcodeScanner;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Tasks;
-import com.google.mlkit.vision.barcode.common.Barcode;
-import com.google.mlkit.vision.codescanner.GmsBarcodeScanner;
-import com.google.mlkit.vision.codescanner.GmsBarcodeScannerOptions;
-import com.google.mlkit.vision.codescanner.GmsBarcodeScanning;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 /**
  * @author Niko Strijbol
  */
-class GoogleBarcodeScanner implements BarcodeScanner {
+class OpenBarcodeScanner implements BarcodeScanner {
 
     @Override
     public boolean needsActivity() {
-        return false;
+        return true;
     }
 
     @Override
     public Intent getActivityIntent(Activity activity) {
-        throw new UnsupportedOperationException("This Barcode Scanner does not use an activity.");
+        IntentIntegrator integrator = new IntentIntegrator(activity);
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.PRODUCT_CODE_TYPES);
+        return integrator.createScanIntent();
     }
-
-    @Override
+    
     public int getRequestCode() {
-        throw new UnsupportedOperationException("This Barcode Scanner does not use an activity.");
+        return IntentIntegrator.REQUEST_CODE;
     }
-
-    @Nullable
+    
     @Override
+    @Nullable
     public String interpretActivityResult(Intent data, int resultCode) {
-        throw new UnsupportedOperationException("This Barcode Scanner does not use an activity.");
+        IntentResult result = IntentIntegrator.parseActivityResult(resultCode, data);
+        return result.getContents();
     }
 
     @Override
     public void getBarcode(Context context, Consumer<String> onSuccess, Consumer<Exception> onError) {
-        GmsBarcodeScannerOptions options = new GmsBarcodeScannerOptions.Builder()
-                .setBarcodeFormats(
-                        Barcode.FORMAT_EAN_13,
-                        Barcode.FORMAT_EAN_8,
-                        // Americans...
-                        Barcode.FORMAT_UPC_E,
-                        Barcode.FORMAT_UPC_A)
-                .build();
-        GmsBarcodeScanner scanner = GmsBarcodeScanning.getClient(context, options);
-        scanner.startScan()
-                .addOnSuccessListener(barcode -> onSuccess.accept(barcode.getRawValue()))
-                .addOnFailureListener(onError::accept);
+        throw new UnsupportedOperationException("This Barcode Scanner requires an activity.");
     }
 }

@@ -25,13 +25,9 @@ package be.ugent.zeus.hydra.common.scanner;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import androidx.annotation.Nullable;
 
-import androidx.activity.result.ActivityResultLauncher;
-
-import java.util.List;
 import java.util.function.Consumer;
-
-import be.ugent.zeus.hydra.common.request.Result;
 
 /**
  * Ask some service to scan for barcodes.
@@ -41,21 +37,32 @@ import be.ugent.zeus.hydra.common.request.Result;
  * @author Niko Strijbol
  */
 public interface BarcodeScanner {
-    
-    String RESULT_BARCODE = "activity_result_barcode";
-    String RESULT_ERROR_MESSAGE = "activity_result_error_message";
-
     /**
      * If this barcode scanner needs to launch an activity or not.
      */
     boolean needsActivity();
-
 
     /**
      * Get an activity to launch, which will give the barcode
      * as a result.
      */
     Intent getActivityIntent(Activity activity);
+
+    /**
+     * @return Get the request code to use when launching an activity.
+     */
+    int getRequestCode();
+
+    /**
+     * Get the barcode from the activity launch from the intent from
+     * {@link #getActivityIntent(Activity)}.
+     * 
+     * @param data The result data.
+     *             
+     * @return The barcode, or null.
+     */
+    @Nullable
+    String interpretActivityResult(Intent data, int resultCode);
 
     /**
      * Get a barcode without activity.

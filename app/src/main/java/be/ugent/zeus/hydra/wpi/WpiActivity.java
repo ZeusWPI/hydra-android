@@ -88,7 +88,7 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(ActivityWpiBinding::inflate);
-        setTitle(AccountManager.getUsername(this));
+        setTitle();
 
         pageAdapter = new WpiPagerAdapter(this);
         ViewPager2 viewPager = binding.viewPager;
@@ -119,7 +119,12 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
             String balance = currencyFormatter.format(user.getBalanceDecimal());
             String orders = decimalFormatter.format(user.getOrders());
             binding.profileDescription.setText(getString(R.string.wpi_user_description, balance, orders));
+            setTitle();
         }));
+    }
+    
+    private void setTitle() {
+        setTitle(AccountManager.getUsername(this));
     }
 
     @Override
@@ -168,6 +173,7 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
         if (requestCode == ACTIVITY_DO_REFRESH && resultCode == Activity.RESULT_OK) {
             Log.i(TAG, "onActivityResult: refreshing for result...");
             combinedUserViewModel.onRefresh();
+            
             if (pageAdapter != null) {
                 pageAdapter.notifyDataSetChanged();
             }

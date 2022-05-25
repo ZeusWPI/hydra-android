@@ -22,6 +22,7 @@
 
 package be.ugent.zeus.hydra.wpi.tap.cart;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
@@ -79,24 +80,12 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
 
         binding.scanAdd.setOnClickListener(v -> {
             BarcodeScanner scanner = Manager.getScanner();
-            scanner.getBarcode(CartActivity.this, s -> {
-                if (viewModel.getLastCart() == null) {
-                    // There is no cart yet.
-                    Log.w(TAG, "onCreate: cart not ready yet...");
-                    Snackbar.make(binding.getRoot(), "Product niet gevonden.", Snackbar.LENGTH_LONG)
-                            .show();
-                    return;
-                }
-                Product foundProduct = viewModel.getLastCart().getProductFor(s);
-                if (foundProduct == null) {
-                    Log.w(TAG, "onCreate: barcode niet gevonden in map " + s);
-                    Snackbar.make(binding.getRoot(), "Product niet gevonden.", Snackbar.LENGTH_LONG)
-                            .show();
-                    return;
-                }
-                Cart newCart = viewModel.getLastCart().addProduct(foundProduct);
-                saveCart(newCart, false);
-            }, this::onError);
+            if (scanner.needsActivity()) {
+                Intent intent = scanner.getActivityIntent(CartActivity.this);
+                startActivityForResult(intent, scanner.getRequestCode());
+            } else {
+                scanner.getBarcode(CartActivity.this, this::onBarcodeScan, this::onError);
+            }
         });
         binding.manualAdd.setOnClickListener(v -> {
             ProductPickerDialogFragment productPicker = new ProductPickerDialogFragment();
@@ -201,6 +190,39 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
         Snackbar.make(binding.getRoot(), getString(R.string.error_network), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.action_again), v -> viewModel.onRefresh())
                 .show();
+    }
+    
+    private void onBarcodeScan(String barcode) {
+        if (barcode == null) {
+            return;
+        }
+        if (viewModel.getLastCart() == null) {
+            // There is no cart yet.
+            Log.w(TAG, "onCreate: cart not ready yet...");
+            Snackbar.make(binding.getRoot(), "Product niet gevonden.", Snackbar.LENGTH_LONG)
+                    .show();
+            return;
+        }
+        Product foundProduct = viewModel.getLastCart().getProductFor(barcode);
+        if (foundProduct == null) {
+            Log.w(TAG, "onCreate: barcode niet gevonden in map " + barcode);
+            Snackbar.make(binding.getRoot(), "Product niet gevonden.", Snackbar.LENGTH_LONG)
+                    .show();
+            return;
+        }
+        Cart newCart = viewModel.getLastCart().addProduct(foundProduct);
+        saveCart(newCart, false);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == Manager.getScanner().getRequestCode()) {
+            // Handle it.
+            String barcode = Manager.getScanner().interpretActivityResult(data, resultCode);
+            onBarcodeScan(barcode);
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void updateCartSummary(Cart cart) {

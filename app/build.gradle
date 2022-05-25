@@ -203,6 +203,7 @@ dependencies {
 
     // Dependencies for open version.
     openImplementation 'org.osmdroid:osmdroid-android:6.1.11'
+    openImplementation 'com.journeyapps:zxing-android-embedded:4.3.0'
 
     if (props.getProperty("hydra.debug.leaks").toBoolean()) {
         logger.info("Leak tracking enabled...")
