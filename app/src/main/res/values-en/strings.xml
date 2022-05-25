@@ -360,6 +360,9 @@
         <item quantity="one">Press %d more time…</item>
         <item quantity="other">Press %d more times…</item>
     </plurals>
+    <string name="wpi_username">Username</string>
+    <string name="wpi_tab_key">API key for Tab</string>
+    <string name="wpi_tap_key">API key for Tap</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_more">more</string>

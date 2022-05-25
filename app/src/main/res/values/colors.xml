@@ -117,8 +117,8 @@
     <color name="wpi_theme_light_outline">#79747E</color>
     <color name="wpi_theme_light_inverseOnSurface">#FBEEE8</color>
     <color name="wpi_theme_light_inverseSurface">#362F2B</color>
-    <color name="wpi_theme_light_inversePrimary">#FFB684</color>
-    <color name="wpi_theme_light_shadow">#000000</color>
+    <color name="wpi_theme_light_inversePrimary" tools:ignore="UnusedResources">#FFB684</color>
+    <color name="wpi_theme_light_shadow" tools:ignore="UnusedResources">#000000</color>
     <color name="wpi_theme_light_primaryInverse">#FFB684</color>
     <color name="wpi_theme_dark_primary">#FFB684</color>
     <color name="wpi_theme_dark_onPrimary">#512300</color>
@@ -144,8 +144,8 @@
     <color name="wpi_theme_dark_onSurfaceVariant">#CAC4D0</color>
     <color name="wpi_theme_dark_outline">#938F99</color>
     <color name="wpi_theme_dark_inverseOnSurface">#201A17</color>
-    <color name="wpi_theme_dark_inverseSurface">#ECE0DA</color>
-    <color name="wpi_theme_dark_inversePrimary">#984800</color>
-    <color name="wpi_theme_dark_shadow">#000000</color>
+    <color name="wpi_theme_dark_inverseSurface" tools:ignore="UnusedResources">#ECE0DA</color>
+    <color name="wpi_theme_dark_inversePrimary" tools:ignore="UnusedResources">#984800</color>
+    <color name="wpi_theme_dark_shadow" tools:ignore="UnusedResources">#000000</color>
     <color name="wpi_theme_dark_primaryInverse">#984800</color>
 </resources>

@@ -366,6 +366,9 @@
     <plurals name="wpi_mode_press">
         <item quantity="other">Druk nog %d keer…</item>
     </plurals>
+    <string name="wpi_username">Gebruikersnaam</string>
+    <string name="wpi_tab_key">API-sleutel voor Tab</string>
+    <string name="wpi_tap_key">API-sleutel voor Tap</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_more">meer</string>
