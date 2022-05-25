@@ -22,6 +22,8 @@
 
 package be.ugent.zeus.hydra.wpi.tap.cart;
 
+import java.util.function.Consumer;
+
 import be.ugent.zeus.hydra.wpi.tap.product.Product;
 
 /**
@@ -36,5 +38,4 @@ interface CartInteraction {
     void decrement(CartProduct product);
     void remove(CartProduct product);
     void add(Product product);
-    Cart getCart();
 }

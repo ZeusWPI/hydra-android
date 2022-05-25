@@ -65,7 +65,6 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
      * The latest instance of the cart we've found.
      * TODO: this can probably be nicer by moving this to the view holder.
      */
-    private Cart lastCart;
     private CartViewModel viewModel;
     // Ugly hack to disable menus while submitting carts.
     private Boolean lastEnabledBoolean;
@@ -81,21 +80,21 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
         binding.scanAdd.setOnClickListener(v -> {
             BarcodeScanner scanner = Manager.getScanner();
             scanner.getBarcode(CartActivity.this, s -> {
-                if (lastCart == null) {
+                if (viewModel.getLastCart() == null) {
                     // There is no cart yet.
                     Log.w(TAG, "onCreate: cart not ready yet...");
                     Snackbar.make(binding.getRoot(), "Product niet gevonden.", Snackbar.LENGTH_LONG)
                             .show();
                     return;
                 }
-                Product foundProduct = lastCart.getProductFor(s);
+                Product foundProduct = viewModel.getLastCart().getProductFor(s);
                 if (foundProduct == null) {
                     Log.w(TAG, "onCreate: barcode niet gevonden in map " + s);
                     Snackbar.make(binding.getRoot(), "Product niet gevonden.", Snackbar.LENGTH_LONG)
                             .show();
                     return;
                 }
-                Cart newCart = lastCart.addProduct(foundProduct);
+                Cart newCart = viewModel.getLastCart().addProduct(foundProduct);
                 saveCart(newCart, false);
             }, this::onError);
         });
@@ -132,7 +131,7 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
             protected void onSuccess(@NonNull Cart data) {
                 Log.i(TAG, "onSuccess: received cart, with X items: " + data.getOrders().size());
                 adapter.submitData(data.getOrders());
-                lastCart = data;
+                viewModel.registerLastCart(data);
                 updateCartSummary(data);
             }
         });
@@ -175,15 +174,15 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
         });
 
         binding.cartPay.setOnClickListener(v -> {
-            if (lastCart == null) {
+            if (viewModel.getLastCart() == null) {
                 Toast.makeText(CartActivity.this, R.string.error_network, Toast.LENGTH_SHORT).show();
                 return;
             }
-            String formattedTotal = currencyFormatter.format(lastCart.getTotalPrice());
+            String formattedTotal = currencyFormatter.format(viewModel.getLastCart().getTotalPrice());
             String message = getString(R.string.wpi_tap_form_confirm, formattedTotal);
             new MaterialAlertDialogBuilder(CartActivity.this)
                     .setMessage(message)
-                    .setPositiveButton(android.R.string.ok, (dialog, which) -> viewModel.startRequest(lastCart))
+                    .setPositiveButton(android.R.string.ok, (dialog, which) -> viewModel.startRequest(viewModel.getLastCart()))
                     .setNegativeButton(android.R.string.cancel, null)
                     .show();
         });
@@ -223,15 +222,15 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
     @Override
     protected void onStop() {
         super.onStop();
-        if (lastCart != null) {
-            saveCart(lastCart, true);
+        if (viewModel.getLastCart() != null) {
+            saveCart(viewModel.getLastCart(), true);
         }
     }
 
     private void saveCart(Cart toSave, boolean stopping) {
         StorageCart storage = toSave.forStorage();
         ExistingCartRequest.saveCartStorage(this, storage);
-        this.lastCart = toSave;
+        viewModel.registerLastCart(toSave);
         if (!stopping) {
             viewModel.requestRefresh();
         }
@@ -239,43 +238,38 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
 
     @Override
     public void increment(CartProduct product) {
-        if (this.lastCart != null) {
-            Cart newCart = this.lastCart.increment(product);
+        if (this.viewModel.getLastCart() != null) {
+            Cart newCart = this.viewModel.getLastCart().increment(product);
             saveCart(newCart, false);
         }
     }
 
     @Override
     public void decrement(CartProduct product) {
-        if (this.lastCart != null) {
-            Cart newCart = this.lastCart.decrement(product);
+        if (this.viewModel.getLastCart() != null) {
+            Cart newCart = this.viewModel.getLastCart().decrement(product);
             saveCart(newCart, false);
         }
     }
 
     @Override
     public void remove(CartProduct product) {
-        if (this.lastCart != null) {
-            Cart newCart = this.lastCart.remove(product);
+        if (this.viewModel.getLastCart() != null) {
+            Cart newCart = this.viewModel.getLastCart().remove(product);
             saveCart(newCart, false);
         }
     }
 
     @Override
     public void add(Product product) {
-        if (this.lastCart != null) {
-            Cart newCart = this.lastCart.addProduct(product);
+        if (this.viewModel.getLastCart() != null) {
+            Cart newCart = this.viewModel.getLastCart().addProduct(product);
             saveCart(newCart, false);
         }
     }
-
-    @Override
-    public Cart getCart() {
-        return lastCart;
-    }
     
     private void clearCart(boolean stopping) {
-        Cart newCart = this.lastCart.clear();
+        Cart newCart = this.viewModel.getLastCart().clear();
         saveCart(newCart, stopping);
     }
 

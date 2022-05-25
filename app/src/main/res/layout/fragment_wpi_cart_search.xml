@@ -34,12 +34,20 @@
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="@string/app_layout_manager_linear"
-        tools:listitem="@layout/item_product" />
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="@string/app_layout_manager_linear"
+            tools:listitem="@layout/item_product" />
+
+        <include layout="@layout/x_progress_bar" />
+    </FrameLayout>
+
+    
 
 </LinearLayout>

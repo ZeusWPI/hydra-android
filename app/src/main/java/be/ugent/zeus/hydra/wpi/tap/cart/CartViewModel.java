@@ -39,13 +39,12 @@ import be.ugent.zeus.hydra.common.utils.ThreadingUtils;
  */
 public class CartViewModel extends RequestViewModel<Cart> {
 
-    private final MutableLiveData<NetworkState> networkState;
-    private final MutableLiveData<Event<Result<OrderResult>>> requestResult;
-    
+    private final MutableLiveData<NetworkState> networkState = new MutableLiveData<>(NetworkState.IDLE);
+    private final MutableLiveData<Event<Result<OrderResult>>> requestResult = new MutableLiveData<>();
+    private final MutableLiveData<Cart> lastSeenCart = new MutableLiveData<>();
+
     public CartViewModel(Application application) {
         super(application);
-        networkState = new MutableLiveData<>(NetworkState.IDLE);
-        requestResult = new MutableLiveData<>();
     }
 
     public LiveData<NetworkState> getNetworkState() {
@@ -56,6 +55,10 @@ public class CartViewModel extends RequestViewModel<Cart> {
         return requestResult;
     }
 
+    public LiveData<Cart> getLastSeenCart() {
+        return this.lastSeenCart;
+    }
+
     @NonNull
     @Override
     protected Request<Cart> getRequest() {
@@ -64,7 +67,7 @@ public class CartViewModel extends RequestViewModel<Cart> {
 
     /**
      * Send the cart to the server.
-     * 
+     *
      * @param cart The cart to save.
      */
     public void startRequest(Cart cart) {
@@ -75,5 +78,13 @@ public class CartViewModel extends RequestViewModel<Cart> {
             networkState.postValue(NetworkState.IDLE);
             requestResult.postValue(new Event<>(result));
         });
+    }
+
+    public void registerLastCart(Cart lastSeenCart) {
+        this.lastSeenCart.setValue(lastSeenCart);
+    }
+
+    public Cart getLastCart() {
+        return this.lastSeenCart.getValue();
     }
 }
