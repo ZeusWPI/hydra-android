@@ -42,7 +42,6 @@ import be.ugent.zeus.hydra.R;
 public class ChannelCreator {
 
     public static final String URGENT_CHANNEL = "be.ugent.zeus.hydra.notifications.urgent";
-    public static final String WPI_WIDGET_CHANNEL = "be.ugent.zeus.hydra.notifications.wpi.door_widget";
 
     private ChannelCreator() {
         throw new AssertionError("Utility class must not be instantiated.");
@@ -62,26 +61,6 @@ public class ChannelCreator {
         String channelDescription = context.getString(R.string.urgent_channel_desc);
 
         NotificationChannel channel = new NotificationChannel(URGENT_CHANNEL, channelName, NotificationManager.IMPORTANCE_LOW);
-        channel.setDescription(channelDescription);
-        channel.enableLights(false);
-        channel.enableVibration(false);
-        getManager(context).createNotificationChannel(channel);
-    }
-
-    /**
-     * Create a channel for the notification if opening the door takes too long
-     */
-    @TargetApi(26)
-    public static void createWpiWidgetChannel(@NonNull Context context) {
-        // Don't do anything on older versions.
-        if (Build.VERSION.SDK_INT < 26) {
-            return;
-        }
-
-        String channelName = context.getString(R.string.wpi_door_channel_title);
-        String channelDescription = context.getString(R.string.wpi_door_channel_description);
-
-        NotificationChannel channel = new NotificationChannel(WPI_WIDGET_CHANNEL, channelName, NotificationManager.IMPORTANCE_LOW);
         channel.setDescription(channelDescription);
         channel.enableLights(false);
         channel.enableVibration(false);
