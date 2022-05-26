@@ -363,6 +363,9 @@
     <string name="wpi_username">Username</string>
     <string name="wpi_tab_key">API key for Tab</string>
     <string name="wpi_tap_key">API key for Tap</string>
+    <string name="wpi_door_open">Open the door</string>
+    <string name="wpi_door_close">Close the door</string>
+    <string name="wpi_door_key_hint">API key for the door. This is optional.</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_more">more</string>

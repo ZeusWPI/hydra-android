@@ -369,6 +369,9 @@
     <string name="wpi_username">Gebruikersnaam</string>
     <string name="wpi_tab_key">API-sleutel voor Tab</string>
     <string name="wpi_tap_key">API-sleutel voor Tap</string>
+    <string name="wpi_door_open">Open de deur</string>
+    <string name="wpi_door_close">Sluit de deur</string>
+    <string name="wpi_door_key_hint">API-sleutel voor de deur. Dit is optioneel.</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_more">meer</string>
