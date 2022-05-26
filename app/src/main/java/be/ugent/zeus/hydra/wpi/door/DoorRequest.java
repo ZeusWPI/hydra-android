@@ -52,17 +52,29 @@ public class DoorRequest extends OkHttpRequest<DoorRequestResult> {
     public enum Command {
         OPEN("open"), CLOSE("lock"), STATUS("status");
 
-        String command;
+        public String command;
 
         Command(String value) {
             this.command = value;
+        }
+        
+        public static Command fromString(String command) {
+            switch (command) {
+                case "open":
+                    return OPEN;
+                case "lock":
+                    return CLOSE;
+                case "status":
+                    return STATUS;
+            }
+            throw new IllegalStateException("Unknown command: " + command);
         }
     }
 
     private final Context context;
     private final Command command;
 
-    protected DoorRequest(@NonNull Context context, @NonNull Command command) {
+    public DoorRequest(@NonNull Context context, @NonNull Command command) {
         super(context);
         this.context = context;
         this.command = command;

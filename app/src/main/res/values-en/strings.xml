@@ -366,6 +366,11 @@
     <string name="wpi_door_open">Open the door</string>
     <string name="wpi_door_close">Close the door</string>
     <string name="wpi_door_key_hint">API key for the door. This is optional.</string>
+    <string name="wpi_door_widget_description">Open and close the door of the basement.</string>
+    <string name="wpi_door_widget_success">Command %1$s executed, was %2$s</string>
+    <string name="wpi_door_widget_error">Command %s: error with door</string>
+    <string name="wpi_door_channel_title">Door</string>
+    <string name="wpi_door_channel_description">Notifications for the door</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_more">more</string>

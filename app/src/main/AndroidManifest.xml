@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2022 The Hydra authors
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -57,8 +56,8 @@
 
         <!-- Main activity -->
         <activity
-            android:exported="true"
             android:name=".MainActivity"
+            android:exported="true"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -72,8 +71,8 @@
 
         <!-- Generic preference activity, which can load a preference fragment. -->
         <activity
-            android:exported="true"
             android:name=".preferences.PreferenceActivity"
+            android:exported="true"
             android:parentActivityName=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
@@ -150,29 +149,29 @@
 
 
         <!-- Zeus-related activities -->
-        <activity 
-            android:theme="@style/Zeus.Material"
+        <activity
             android:name=".wpi.account.ApiKeyManagementActivity"
             android:label="@string/wpi_api_key_management_title"
-            android:parentActivityName=".wpi.WpiActivity"/>
+            android:parentActivityName=".wpi.WpiActivity"
+            android:theme="@style/Zeus.Material" />
 
         <activity
-            android:theme="@style/Zeus.Material"
             android:name=".wpi.WpiActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Zeus.Material" />
 
         <activity
-            android:theme="@style/Zeus.Material"
             android:name=".wpi.tab.create.FormActivity"
             android:label="@string/wpi_tab_form_title"
-            android:parentActivityName=".wpi.WpiActivity" />
+            android:parentActivityName=".wpi.WpiActivity"
+            android:theme="@style/Zeus.Material" />
 
         <activity
-            android:theme="@style/Zeus.Material"
             android:name=".wpi.tap.cart.CartActivity"
             android:label="@string/wpi_cart_title"
-            android:parentActivityName=".wpi.WpiActivity" />
+            android:parentActivityName=".wpi.WpiActivity"
+            android:theme="@style/Zeus.Material" />
 
         <!-- Urgent stuff -->
         <!-- This is a music service without sensitive data and thus does not require permissions -->
@@ -187,10 +186,28 @@
             </intent-filter>
         </service>
 
-        <receiver android:name="androidx.media.session.MediaButtonReceiver" android:exported="true">
+        <receiver
+            android:name="androidx.media.session.MediaButtonReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
+
+        <receiver
+            android:name=".wpi.door.widget.DoorWidgetProvider"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="be.ugent.zeus.hydra.wpi.widget.REQUEST" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/door_widget" />
+        </receiver>
+
+        <receiver
+            android:name=".wpi.door.widget.DoorRequestExecutor"
+            android:exported="false" />
     </application>
 </manifest>

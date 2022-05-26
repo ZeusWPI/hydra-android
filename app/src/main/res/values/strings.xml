@@ -372,6 +372,11 @@
     <string name="wpi_door_open">Open de deur</string>
     <string name="wpi_door_close">Sluit de deur</string>
     <string name="wpi_door_key_hint">API-sleutel voor de deur. Dit is optioneel.</string>
+    <string name="wpi_door_widget_description">Open en sluit de deur van de kelder.</string>
+    <string name="wpi_door_widget_success">Commando %1$s uitgevoerd, was %2$s</string>
+    <string name="wpi_door_widget_error">Commando %s: fout bij deur</string>
+    <string name="wpi_door_channel_title">Deur</string>
+    <string name="wpi_door_channel_description">Meldingen voor de deur</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_more">meer</string>
