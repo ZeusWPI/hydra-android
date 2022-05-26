@@ -24,7 +24,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'be.ugent.zeus.hydra.licenses'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'com.github.triplet.play'
 
 // Read our properties, see bottom for details.
 def props = loadProperties()
@@ -272,8 +271,4 @@ def loadProperties() {
     }
 
     return actualKeys
-}
-
-play {
-    serviceAccountCredentials.set(file("your-key.json"))
 }
