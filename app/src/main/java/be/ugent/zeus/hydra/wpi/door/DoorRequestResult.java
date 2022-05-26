@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2022 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,22 +20,33 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.common.network;
+package be.ugent.zeus.hydra.wpi.door;
 
 /**
- * Hosts used in the APIs, together with some common API endpoints.
- *
+ * Result of a successful door request.
+ * 
  * @author Niko Strijbol
+ * @see <a href="https://github.com/ZeusWPI/mattermore/blob/5576da45f4cf7af2e206e15907885b30151cd42b/app/app.py#L202">Door API source code</a>
  */
-public interface Endpoints {
-    String DSA_V4 = "https://dsa.ugent.be/api/";
+public class DoorRequestResult {
+    private String status;
+    private String before;
+    
+    public DoorRequestResult() {
+        // Moshi
+    }
 
-    String ZEUS_V1 = "https://hydra.ugent.be/api/1.0/";
-    String ZEUS_V2 = "https://hydra.ugent.be/api/2.0/";
+    /**
+     * @return This will always be "OK", otherwise there will be no JSON response.
+     */
+    public String getStatus() {
+        return status;
+    }
 
-    String TAP = "https://tap.zeus.gent/";
-    String TAB = "https://tab.zeus.gent/";
-    String MATTERMORE = "https://mattermore.zeus.gent/";
-
-    String LIBRARY = "https://widgets.lib.ugent.be/";
+    /**
+     * @return The state of the door before the request.
+     */
+    public String getBefore() {
+        return before;
+    }
 }

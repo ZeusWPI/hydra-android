@@ -57,7 +57,7 @@ public class EnableManager {
             ShortcutInfoCompat shortcut = new ShortcutInfoCompat.Builder(context, ZEUS_SHORTCUT_ID)
                     .setShortLabel("Zeus WPI")
                     .setLongLabel(context.getString(R.string.drawer_title_zeus))
-                    .setIcon(IconCompat.createWithResource(context, R.drawable.logo_tap))
+                    .setIcon(IconCompat.createWithResource(context, R.drawable.shortcut_wpi))
                     .setIntent(new Intent(Intent.ACTION_VIEW, null, context, WpiActivity.class))
                     .build();
             ShortcutManagerCompat.pushDynamicShortcut(context, shortcut);

@@ -1,0 +1,19 @@
+<!--
+  ~ Copyright (c) Zeus.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="21dp"
+    android:height="24dp"
+    android:viewportWidth="329.98376"
+    android:viewportHeight="377.12625">
+    <group
+        android:pivotX="164.5"
+        android:pivotY="188.5"
+        android:scaleX="0.5"
+        android:scaleY="0.5">
+        <path
+            android:fillColor="#ff7f00"
+            android:pathData="m3.93,74.639l199.678,-0L-0,318.513l0,58.614l329.984,-0l0,-74.643L120.445,302.484l205.613,-243.873l0,-58.611L3.93,-0Z" />
+    </group>
+</vector>

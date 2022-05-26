@@ -21,31 +21,15 @@
   ~ SOFTWARE.
   -->
 
-<resources>
-    <style name="Hydra.Text.Subhead" parent="TextAppearance.Material3.TitleSmall">
-        <item name="android:textColor">?colorOnSurface</item>
-    </style>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Divider style -->
-    <style name="Divider">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1dp</item>
-        <item name="android:background">?android:attr/listDivider</item>
-    </style>
+    <item
+        android:bottom="2dp"
+        android:drawable="@drawable/shortcut_background"
+        android:left="2dp"
+        android:right="2dp"
+        android:top="2dp" />
 
-    <style name="circleImageView" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">50%</item>
-    </style>
+    <item android:left="1.5dp" android:right="1.5dp" android:drawable="@drawable/logo_z" />
 
-    <style name="IconOnlyOutlineButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="iconPadding">0dp</item>
-        <item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item>
-        <item name="android:paddingLeft">12dp</item>
-        <item name="android:paddingRight">12dp</item>
-        <item name="android:minWidth">48dp</item>
-        <item name="android:minHeight">48dp</item>
-        <item name="iconGravity">textStart</item>
-    </style>
-</resources>
+</layer-list>

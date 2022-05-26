@@ -34,18 +34,20 @@ import be.ugent.zeus.hydra.R;
 public class AccountManager {
     private static final String PREF_WPI_TAB_API_KEY = "pref_wpi_tab_api_key";
     private static final String PREF_WPI_TAP_API_KEY = "pref_wpi_tap_api_key";
+    private static final String PREF_WPI_DOOR_API_KEY = "pref_wpi_door_api_key";
     private static final String PREF_WPI_USERNAME = "pref_wpi_username";
 
     private AccountManager() {
         // No.
     }
 
-    public static void saveData(Context context, String tabKey, String tapKey, String username) {
+    public static void saveData(Context context, String tabKey, String tapKey, String username, String doorKey) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         preferences.edit()
                 .putString(PREF_WPI_TAB_API_KEY, tabKey)
                 .putString(PREF_WPI_TAP_API_KEY, tapKey)
                 .putString(PREF_WPI_USERNAME, username)
+                .putString(PREF_WPI_DOOR_API_KEY, doorKey)
                 .apply();
     }
 
@@ -65,5 +67,11 @@ public class AccountManager {
     public static String getUsername(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         return preferences.getString(PREF_WPI_USERNAME, context.getString(R.string.wpi_product_na));
+    }
+
+    @Nullable
+    public static String getDoorKey(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getString(PREF_WPI_DOOR_API_KEY, null);
     }
 }

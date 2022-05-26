@@ -26,7 +26,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import androidx.annotation.Nullable;
 
@@ -53,6 +52,7 @@ public class ApiKeyManagementActivity extends BaseActivity<ActivityWpiApiKeyMana
         binding.apiTab.setText(AccountManager.getTabKey(this));
         binding.apiTap.setText(AccountManager.getTapKey(this));
         binding.apiUsername.setText(AccountManager.getUsername(this));
+        binding.doorApiKey.setText(AccountManager.getDoorKey(this));
     }
 
     @Override
@@ -61,6 +61,7 @@ public class ApiKeyManagementActivity extends BaseActivity<ActivityWpiApiKeyMana
         binding.apiTab.addTextChangedListener(this);
         binding.apiTap.addTextChangedListener(this);
         binding.apiUsername.addTextChangedListener(this);
+        binding.doorApiKey.addTextChangedListener(this);
     }
 
     @Override
@@ -69,6 +70,7 @@ public class ApiKeyManagementActivity extends BaseActivity<ActivityWpiApiKeyMana
         binding.apiTab.removeTextChangedListener(this);
         binding.apiTap.removeTextChangedListener(this);
         binding.apiUsername.removeTextChangedListener(this);
+        binding.doorApiKey.removeTextChangedListener(this);
     }
 
     @Override
@@ -97,7 +99,8 @@ public class ApiKeyManagementActivity extends BaseActivity<ActivityWpiApiKeyMana
         String tab = Objects.requireNonNull(binding.apiTab.getText()).toString();
         String tap = Objects.requireNonNull(binding.apiTap.getText()).toString();
         String user = Objects.requireNonNull(binding.apiUsername.getText()).toString();
-        AccountManager.saveData(this, tab, tap, user);
+        String door = Objects.requireNonNull(binding.doorApiKey.getText()).toString();
+        AccountManager.saveData(this, tab, tap, user, door);
     }
 
     @Override
