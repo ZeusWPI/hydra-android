@@ -47,6 +47,7 @@ class OpenBarcodeScanner implements BarcodeScanner {
     public Intent getActivityIntent(Activity activity) {
         IntentIntegrator integrator = new IntentIntegrator(activity);
         integrator.setDesiredBarcodeFormats(IntentIntegrator.PRODUCT_CODE_TYPES);
+        integrator.setBeepEnabled(false);
         return integrator.createScanIntent();
     }
     
