@@ -34,7 +34,7 @@ public interface Endpoints {
     String ZEUS_V2 = "https://hydra.ugent.be/api/2.0/";
 
     String TAP = "https://tap.zeus.gent/";
-    String TAB = "https://tab.zeus.gent/";
+    String TAB = "https://tab.zeus.gent/api/v1/";
     String MATTERMORE = "https://mattermore.zeus.gent/";
 
     String LIBRARY = "https://widgets.lib.ugent.be/";
