@@ -30,7 +30,6 @@ import java.util.stream.Collectors;
 import be.ugent.zeus.hydra.common.ModelTest;
 import be.ugent.zeus.hydra.common.utils.DateUtils;
 import be.ugent.zeus.hydra.testing.Utils;
-import de.jaehrig.gettersetterverifier.GetterSetterVerifier;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -66,13 +65,6 @@ public class EventTest extends ModelTest<Event> {
         Utils.setField(event, "start", offsetDateTime);
         LocalDateTime localDateTime = event.getLocalStart();
         assertEquals(DateUtils.toLocalDateTime(offsetDateTime), localDateTime);
-    }
-
-    @Test
-    public void gettersAndSetters() {
-        GetterSetterVerifier.forClass(Event.class)
-                .excludeFields("localStart", "localEnd", "identifier")
-                .verify();
     }
 
     @Test
