@@ -37,6 +37,7 @@ public class CombinedUser {
     private int balance;
     private String profilePicture;
     protected int orders;
+    private Integer favourite;
 
     public int getId() {
         return id;
@@ -80,6 +81,14 @@ public class CombinedUser {
 
     public BigDecimal getBalanceDecimal() {
         return new BigDecimal(getBalance()).movePointLeft(2);
+    }
+
+    public Integer getFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(Integer favourite) {
+        this.favourite = favourite;
     }
 
     @Override

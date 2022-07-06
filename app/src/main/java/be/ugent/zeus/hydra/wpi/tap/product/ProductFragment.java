@@ -22,6 +22,7 @@
 
 package be.ugent.zeus.hydra.wpi.tap.product;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,16 +35,19 @@ import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import java.util.Optional;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
-import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
-import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
+import be.ugent.zeus.hydra.common.arch.observers.*;
 import be.ugent.zeus.hydra.common.ui.recyclerview.SpanItemSpacingDecoration;
 import be.ugent.zeus.hydra.common.utils.ColourUtils;
 import be.ugent.zeus.hydra.wpi.account.CombinedUserViewModel;
+import be.ugent.zeus.hydra.wpi.tap.cart.CartActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-import static be.ugent.zeus.hydra.wpi.tap.product.ProductViewModel.PREF_SHOW_ONLY_IN_STOCK;
+import static be.ugent.zeus.hydra.wpi.WpiActivity.ACTIVITY_DO_REFRESH;
+import static be.ugent.zeus.hydra.wpi.tap.product.ProductData.PREF_SHOW_ONLY_IN_STOCK;
 
 /**
  * Display TAP products.
@@ -82,7 +86,7 @@ public class ProductFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(ProductViewModel.class);
         viewModel.getData().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
         viewModel.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
-        viewModel.getData().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
+        viewModel.getFilteredData().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
         viewModel.getRefreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
 
         // For refreshing, we request a refresh from the parent activity.
@@ -92,6 +96,32 @@ public class ProductFragment extends Fragment {
         activityViewModel.getRefreshing().observe(getViewLifecycleOwner(), refreshing -> {
             if (refreshing) {
                 viewModel.onRefresh();
+            }
+        });
+
+        // Attach both to the combiner.
+        viewModel.getData().observe(getViewLifecycleOwner(), SuccessObserver.with(products -> viewModel.updateValue(products.getAllData())));
+        activityViewModel.getData().observe(getViewLifecycleOwner(), SuccessObserver.with(combinedUser -> viewModel.updateValue(combinedUser.getFavourite())));
+
+        // Listen to both.
+        viewModel.getFavouriteProduct().observe(getViewLifecycleOwner(), pf -> {
+            FloatingActionButton fab = requireActivity().findViewById(R.id.tap_add_favourite);
+            if (pf.first == null || pf.second == null) {
+                fab.hide();
+            } else {
+                Optional<Product> product = pf.first.stream().filter(p -> p.getId() == pf.second).findFirst();
+                if (!product.isPresent()) {
+                    // Oops.
+                    fab.hide();
+                    return;
+                }
+                Product favourite = product.get();
+                fab.setOnClickListener(v -> {
+                    Intent intent = new Intent(requireActivity(), CartActivity.class);
+                    intent.putExtra(CartActivity.ARG_FAVOURITE_PRODUCT_ID, favourite.getId());
+                    startActivityForResult(intent, ACTIVITY_DO_REFRESH);
+                });
+                fab.show();
             }
         });
     }

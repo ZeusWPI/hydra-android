@@ -22,6 +22,8 @@
 
 package be.ugent.zeus.hydra.wpi.tap.user;
 
+import androidx.annotation.Nullable;
+
 import com.squareup.moshi.Json;
 
 import java.util.Locale;
@@ -44,6 +46,8 @@ public class TapUser {
     @Json(name = "orders_count")
     private int orderCount;
     private String name;
+    @Json(name = "dagschotel_id")
+    private Integer favourite;
     
     public TapUser() {
         // Needed for Moshi
@@ -75,6 +79,14 @@ public class TapUser {
         String third = paddedID.substring(6, 9);
 
         return Endpoints.TAP + String.format(Locale.ROOT, IMAGE_URL, first, second, third, this.avatarFileName);
+    }
+
+    /**
+     * @return The ID of the dagschotel product or null if there is no dagschotel.
+     */
+    @Nullable
+    public Integer getFavourite() {
+        return favourite;
     }
 
     @Override
