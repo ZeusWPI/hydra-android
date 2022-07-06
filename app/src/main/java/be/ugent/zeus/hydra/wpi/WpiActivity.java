@@ -30,27 +30,17 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.*;
-import androidx.activity.result.ActivityResult;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayoutMediator;
-import com.squareup.picasso.Picasso;
-
 import java.text.NumberFormat;
-import java.util.function.Consumer;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 import be.ugent.zeus.hydra.common.network.NetworkState;
-import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.databinding.ActivityWpiBinding;
 import be.ugent.zeus.hydra.wpi.account.AccountManager;
@@ -60,6 +50,10 @@ import be.ugent.zeus.hydra.wpi.door.DoorRequest;
 import be.ugent.zeus.hydra.wpi.door.DoorViewModel;
 import be.ugent.zeus.hydra.wpi.tab.create.FormActivity;
 import be.ugent.zeus.hydra.wpi.tap.cart.CartActivity;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayoutMediator;
+import com.squareup.picasso.Picasso;
 
 /**
  * Activity that allows you to manage your API key.
@@ -72,7 +66,7 @@ import be.ugent.zeus.hydra.wpi.tap.cart.CartActivity;
 public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
 
     private static final String TAG = "ApiKeyManagementActivit";
-    private static final int ACTIVITY_DO_REFRESH = 963;
+    public static final int ACTIVITY_DO_REFRESH = 963;
 
     private CombinedUserViewModel combinedUserViewModel;
     private WpiPagerAdapter pageAdapter;
@@ -80,15 +74,22 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
     private final NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
     private final NumberFormat decimalFormatter = NumberFormat.getNumberInstance();
     
+    private boolean shouldShowFavouriteFab = false;
+
     private final ViewPager2.OnPageChangeCallback callback = new ViewPager2.OnPageChangeCallback() {
         @Override
         public void onPageSelected(int position) {
             if (position == 0) {
                 binding.tabFab.hide();
                 binding.tapFab.show();
+                if (shouldShowFavouriteFab) {
+                    binding.tapAddFavourite.show();
+                }
             } else if (position == 1) {
                 binding.tapFab.hide();
                 binding.tabFab.show();
+                shouldShowFavouriteFab = binding.tapAddFavourite.isOrWillBeShown();
+                binding.tapAddFavourite.hide();
             }
         }
     };
@@ -111,7 +112,7 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
             }
         });
         mediator.attach();
-        
+
         binding.tabFab.setOnClickListener(v -> {
             Intent intent = new Intent(WpiActivity.this, FormActivity.class);
             startActivityForResult(intent, ACTIVITY_DO_REFRESH);
@@ -120,9 +121,9 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
             Intent intent = new Intent(WpiActivity.this, CartActivity.class);
             startActivityForResult(intent, ACTIVITY_DO_REFRESH);
         });
-        
+
         syncDoorButtons();
-        
+
         ViewModelProvider provider = new ViewModelProvider(this);
 
         combinedUserViewModel = provider.get(CombinedUserViewModel.class);
@@ -139,7 +140,7 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
         DoorViewModel doorViewModel = provider.get(DoorViewModel.class);
         doorViewModel.getNetworkState().observe(this, networkState -> {
             boolean enabled = networkState == null || networkState == NetworkState.IDLE;
-            
+
             // If the buttons are currently disabled, and we want to re-enable them,
             // we add a delay of about 3 seconds.
             // This scenario is most likely after a button was pressed, but the HTTP call
@@ -167,11 +168,11 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
                 .setNegativeButton(android.R.string.cancel, null)
                 .show());
     }
-    
+
     private void setTitle() {
         setTitle(AccountManager.getUsername(this));
     }
-    
+
     private void syncDoorButtons() {
         boolean hasDoorKey = !TextUtils.isEmpty(AccountManager.getDoorKey(this));
         binding.doorButtonOpen.setVisibility(hasDoorKey ? View.VISIBLE : View.GONE);
@@ -224,7 +225,7 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
         if (requestCode == ACTIVITY_DO_REFRESH && resultCode == Activity.RESULT_OK) {
             Log.i(TAG, "onActivityResult: refreshing for result...");
             combinedUserViewModel.onRefresh();
-            
+
             if (pageAdapter != null) {
                 pageAdapter.notifyDataSetChanged();
             }

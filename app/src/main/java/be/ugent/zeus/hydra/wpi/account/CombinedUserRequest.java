@@ -59,6 +59,7 @@ public class CombinedUserRequest implements Request<CombinedUser> {
             user.setOrders(p.second.getOrderCount());
             user.setProfilePicture(p.second.getProfileImageUrl());
             user.setBalance(p.first.getBalance());
+            user.setFavourite(p.second.getFavourite());
             return user;
         }).execute(args);
     }

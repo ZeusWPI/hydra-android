@@ -40,6 +40,8 @@
             android:scrollbars="vertical"
             app:layoutManager="@string/app_layout_manager_normal"
             app:spanCount="@integer/span_count_normal"
+            android:paddingBottom="120dp"
+            android:clipToPadding="false"
             tools:listitem="@layout/item_product" />
 
         <include layout="@layout/x_progress_bar" />

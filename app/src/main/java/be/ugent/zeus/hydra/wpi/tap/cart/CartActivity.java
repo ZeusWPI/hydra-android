@@ -62,6 +62,8 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
     private static final String TAG = "FormActivity";
     private final NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
 
+    public static final String ARG_FAVOURITE_PRODUCT_ID = "arg_favourite";
+
     /**
      * The latest instance of the cart we've found.
      * TODO: this can probably be nicer by moving this to the view holder.
@@ -75,7 +77,15 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
         super.onCreate(savedInstanceState);
         setContentView(ActivityWpiTapCartBinding::inflate);
 
-        viewModel = new ViewModelProvider(this).get(CartViewModel.class);
+        int initialProductId = -1;
+        // If the saved instance is null, add the favourite product.
+        // If the instance is not null, the cart will be restored, and the favourite
+        // product will already be in the cart, so don't add it again.
+        if (savedInstanceState == null) {
+            initialProductId = getIntent().getIntExtra(ARG_FAVOURITE_PRODUCT_ID, -1);
+        }
+
+        viewModel = new ViewModelProvider(this, new CartViewModel.Factory(getApplication(), initialProductId)).get(CartViewModel.class);
         updateCartSummary(null);
 
         binding.scanAdd.setOnClickListener(v -> {
@@ -91,7 +101,7 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
             ProductPickerDialogFragment productPicker = new ProductPickerDialogFragment();
             productPicker.show(getSupportFragmentManager(), "productPick");
         });
-        
+
         // This is one ugly hack :(
         binding.bottomSheet.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -191,7 +201,7 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
                 .setAction(getString(R.string.action_again), v -> viewModel.onRefresh())
                 .show();
     }
-    
+
     private void onBarcodeScan(String barcode) {
         if (barcode == null) {
             return;
@@ -289,7 +299,7 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
             saveCart(newCart, false);
         }
     }
-    
+
     private void clearCart(boolean stopping) {
         Cart newCart = this.viewModel.getLastCart().clear();
         saveCart(newCart, stopping);
@@ -301,6 +311,12 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
         if (itemId == R.id.menu_cart_clear) {
             this.clearCart(false);
             return true;
+        } else if (itemId == android.R.id.home) {
+            // The user has explicitly pressed the "cross"/close button.
+            // We assume they are done with the cart, so we clear it.
+            // If pressing the back button, we don't clear it.
+            this.clearCart(false);
+            // Do not return, but continue with normal processing.
         }
         return super.onOptionsItemSelected(item);
     }
@@ -321,5 +337,11 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
         MenuItem item = menu.findItem(R.id.menu_cart_clear);
         item.setEnabled(lastEnabledBoolean == null || lastEnabledBoolean);
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(ARG_FAVOURITE_PRODUCT_ID, true);
     }
 }

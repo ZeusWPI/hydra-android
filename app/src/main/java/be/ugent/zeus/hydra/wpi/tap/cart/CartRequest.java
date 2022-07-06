@@ -24,10 +24,10 @@ package be.ugent.zeus.hydra.wpi.tap.cart;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Pair;
 import androidx.annotation.NonNull;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -42,15 +42,17 @@ import be.ugent.zeus.hydra.wpi.tap.product.ProductRequest;
  * @author Niko Strijbol
  */
 class CartRequest implements Request<Cart> {
-    
+
     private final Request<List<Product>> productRequest;
     private final Request<StorageCart> existingCartRequest;
     private final Request<List<Barcode>> barcodeRequest;
+    private final int initialProductId;
 
-    public CartRequest(@NonNull Context context) {
+    public CartRequest(@NonNull Context context, int initialProductId) {
         this.productRequest = new ProductRequest(context);
         this.existingCartRequest = new ExistingCartRequest(context);
         this.barcodeRequest = new BarcodeRequest(context);
+        this.initialProductId = initialProductId;
     }
 
     @NonNull
@@ -62,7 +64,8 @@ class CartRequest implements Request<Cart> {
                 .map(pair -> {
                     Map<Integer, Product> productMap = pair.first.first.stream().collect(Collectors.toMap(Product::getId, Function.identity()));
                     Map<String, Integer> barcodeToProduct = pair.second.stream().collect(Collectors.toMap(Barcode::getCode, Barcode::getProductId));
-                    return new Cart(pair.first.second, productMap, barcodeToProduct);
+                    Cart cart = new Cart(pair.first.second, productMap, barcodeToProduct);
+                    return cart.maybeAddInitialProduct(initialProductId);
                 })
                 .execute(args);
     }

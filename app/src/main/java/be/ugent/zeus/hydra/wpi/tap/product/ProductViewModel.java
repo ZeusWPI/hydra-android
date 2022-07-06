@@ -24,23 +24,25 @@ package be.ugent.zeus.hydra.wpi.tap.product;
 
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.util.Log;
+import android.util.Pair;
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.preference.PreferenceManager;
 
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.common.ui.PreferenceFragment;
+import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 
 /**
  * @author Niko Strijbol
  */
-public class ProductViewModel extends RequestViewModel<List<Product>> {
-    public static final String PREF_SHOW_ONLY_IN_STOCK = "pref_wpi_filter_stock";
+public class ProductViewModel extends RequestViewModel<ProductData> {
+    
+    private final MediatorLiveData<Pair<List<Product>, Integer>> favouriteProductLiveData = new MediatorLiveData<>();
 
     public ProductViewModel(Application application) {
         super(application);
@@ -48,15 +50,38 @@ public class ProductViewModel extends RequestViewModel<List<Product>> {
 
     @NonNull
     @Override
-    protected Request<List<Product>> getRequest() {
+    protected Request<ProductData> getRequest() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplication());
-        return new ProductRequest(getApplication()).map(products -> {
-            boolean show = preferences.getBoolean(PREF_SHOW_ONLY_IN_STOCK, true);
-            if (show) {
-                return products.stream().filter(p -> p.getStock() > 0).collect(Collectors.toList());
-            } else {
-                return products;
-            }
-        });
+        return new ProductRequest(getApplication()).map(products -> new ProductData(preferences, products));
+    }
+    
+    public LiveData<Result<List<Product>>> getFilteredData() {
+        return Transformations.map(getData(), input -> input.map(ProductData::getFilteredData));
+    }
+    
+    public void updateValue(List<Product> products) {
+        Pair<List<Product>, Integer> existing = favouriteProductLiveData.getValue();
+        Pair<List<Product>, Integer> newPair;
+        if (existing != null) {
+            newPair = Pair.create(products, existing.second);
+        } else {
+            newPair = Pair.create(products, null);
+        }
+        favouriteProductLiveData.setValue(newPair);
+    }
+
+    public void updateValue(Integer id) {
+        Pair<List<Product>, Integer> existing = favouriteProductLiveData.getValue();
+        Pair<List<Product>, Integer> newPair;
+        if (existing != null) {
+            newPair = Pair.create(existing.first, id);
+        } else {
+            newPair = Pair.create(null, id);
+        }
+        favouriteProductLiveData.setValue(newPair);
+    }
+    
+    public LiveData<Pair<List<Product>, Integer>> getFavouriteProduct() {
+        return favouriteProductLiveData;
     }
 }

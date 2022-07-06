@@ -23,9 +23,9 @@
 package be.ugent.zeus.hydra.wpi.tap.cart;
 
 import android.app.Application;
+import android.util.Log;
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.*;
 
 import be.ugent.zeus.hydra.common.arch.data.Event;
 import be.ugent.zeus.hydra.common.network.NetworkState;
@@ -42,9 +42,11 @@ public class CartViewModel extends RequestViewModel<Cart> {
     private final MutableLiveData<NetworkState> networkState = new MutableLiveData<>(NetworkState.IDLE);
     private final MutableLiveData<Event<Result<OrderResult>>> requestResult = new MutableLiveData<>();
     private final MutableLiveData<Cart> lastSeenCart = new MutableLiveData<>();
+    private final int initialProductId;
 
-    public CartViewModel(Application application) {
+    public CartViewModel(Application application, int initialProductId) {
         super(application);
+        this.initialProductId = initialProductId;
     }
 
     public LiveData<NetworkState> getNetworkState() {
@@ -62,7 +64,7 @@ public class CartViewModel extends RequestViewModel<Cart> {
     @NonNull
     @Override
     protected Request<Cart> getRequest() {
-        return new CartRequest(getApplication());
+        return new CartRequest(getApplication(), initialProductId);
     }
 
     /**
@@ -86,5 +88,26 @@ public class CartViewModel extends RequestViewModel<Cart> {
 
     public Cart getLastCart() {
         return this.lastSeenCart.getValue();
+    }
+
+    public static class Factory implements ViewModelProvider.Factory {
+        private final Application application;
+        private final int initialProductId;
+
+        public Factory(@NonNull Application application, int initialProductId) {
+            this.application = application;
+            this.initialProductId = initialProductId;
+        }
+
+
+        @NonNull
+        @Override
+        public <T extends ViewModel> T create(Class<T> modelClass) {
+            if (!modelClass.equals(CartViewModel.class)) {
+                throw new IllegalStateException("This factory can only create CartViewModels");
+            }
+            //noinspection unchecked
+            return (T) new CartViewModel(application, initialProductId);
+        }
     }
 }

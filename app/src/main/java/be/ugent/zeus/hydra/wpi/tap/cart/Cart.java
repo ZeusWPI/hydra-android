@@ -22,8 +22,8 @@
 
 package be.ugent.zeus.hydra.wpi.tap.cart;
 
+import android.util.Log;
 import android.util.Pair;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -37,23 +37,25 @@ import be.ugent.zeus.hydra.wpi.tap.product.Product;
 
 /**
  * The cart is a collection of cart products and a map of normal products.
- * 
+ * <p>
  * The cart products are what is in the cart, and is what should be saved to
  * the parcel when saving the user's cart. The product map is to make adding
  * stuff faster, so it is not necessarily needed.
- * 
+ * <p>
  * Because of how the diff algorithms work in the RecyclerView, the cart is
  * partially read-only: this list of orders is read-only, and will result in
  * a new cart you'll need to save.
- * 
+ *
  * @author Niko Strijbol
  */
 class Cart {
+    private static final String TAG = "Cart";
+
     private final List<CartProduct> orders;
     private final Map<Integer, Product> productIdToProduct;
     private final Map<String, Integer> barcodeToProductId;
     private final OffsetDateTime lastEdited;
-    
+
     private Cart(List<CartProduct> orders, Map<Integer, Product> productIdToProduct, Map<String, Integer> barcodeToProductId) {
         this(orders, productIdToProduct, barcodeToProductId, OffsetDateTime.now());
     }
@@ -67,18 +69,18 @@ class Cart {
 
     /**
      * Create a new cart based on an existing one.
-     * 
-     * @param existingCart The existing cart.
+     *
+     * @param existingCart       The existing cart.
      * @param productIdToProduct Map of product ID's to products.
      * @param barcodeToProductId Map of barcodes to product ID's.
      */
     public Cart(StorageCart existingCart, Map<Integer, Product> productIdToProduct, Map<String, Integer> barcodeToProductId) {
         this(fromExisting(existingCart, productIdToProduct), productIdToProduct, barcodeToProductId, existingCart.getLastEdited());
     }
-    
+
     private static List<CartProduct> fromExisting(StorageCart cart, Map<Integer, Product> productIdToProduct) {
         List<CartProduct> orders = new ArrayList<>();
-        for (Pair<Integer, Integer> productIdAndAmount: cart.getProductIds()) {
+        for (Pair<Integer, Integer> productIdAndAmount : cart.getProductIds()) {
             Product product = productIdToProduct.get(productIdAndAmount.first);
             if (product == null) {
                 // Skip this product, as it nog longer exists.
@@ -96,10 +98,10 @@ class Cart {
     public StorageCart forStorage() {
         return new StorageCart(orders.stream().map(cp -> new Pair<>(cp.getProductId(), cp.getAmount())).collect(Collectors.toList()), lastEdited);
     }
-    
+
     public Map<String, List<Map<String, Object>>> forJson() {
         List<Map<String, Object>> attributes = new ArrayList<>();
-        for (CartProduct cartProduct: this.getOrders()) {
+        for (CartProduct cartProduct : this.getOrders()) {
             Map<String, Object> data = new HashMap<>();
             data.put("product_id", cartProduct.getProductId());
             data.put("count", cartProduct.getAmount());
@@ -119,9 +121,8 @@ class Cart {
 
     /**
      * Get the product corresponding to a given barcode.
-     * 
+     *
      * @param barcode The barcode to search.
-     *                
      * @return The found product or null.
      */
     @Nullable
@@ -132,22 +133,28 @@ class Cart {
         }
         return productIdToProduct.get(productId);
     }
-    
+
     /**
-     * Add a product or increment its count if already present.
-     *
-     * @param product The product to add.
-     *
-     * @return A new cart that has the added product.
+     * Get the index in the order list of a specific product.
      */
-    @NonNull
-    public Cart addProduct(@NonNull Product product) {
+    private OptionalInt getPosition(Product product) {
         // Find the position of an existing cart product if available.
         // TODO: this is probably horribly inefficient
         OptionalInt index = IntStream.range(0, orders.size())
                 .filter(i -> orders.get(i).getProductId() == product.getId())
                 .findFirst();
-        
+        return index;
+    }
+
+    /**
+     * Add a product or increment its count if already present.
+     *
+     * @param product The product to add.
+     * @return A new cart that has the added product.
+     */
+    @NonNull
+    public Cart addProduct(@NonNull Product product) {
+        OptionalInt index = this.getPosition(product);
         if (index.isPresent()) {
             return increment(orders.get(index.getAsInt()));
         } else {
@@ -158,6 +165,26 @@ class Cart {
         }
     }
 
+    /**
+     * Maybe add the product to the cart.
+     */
+    @NonNull
+    public Cart maybeAddInitialProduct(int productId) {
+        Product favourite = productIdToProduct.get(productId);
+        if (favourite == null) {
+            Log.i(TAG, "maybeAddProduct: not adding initial product, " + productId + " is invalid.");
+            return this;
+        }
+        // Only add the product if it is not yet in the cart.
+        // Since the cart is saved between activities, this prevents
+        // adding the same product again, while you might not want that.
+        if (this.getPosition(favourite).isPresent()) {
+            Log.i(TAG, "maybeAddProduct: not adding same product twice product.");
+            return this;
+        }
+        return addProduct(favourite);
+    }
+
     public Cart increment(CartProduct product) {
         int index = orders.indexOf(product);
         CartProduct replacement = product.increment();
@@ -165,7 +192,7 @@ class Cart {
         replacementList.set(index, replacement);
         return new Cart(replacementList, productIdToProduct, barcodeToProductId);
     }
-    
+
     public Cart remove(CartProduct product) {
         List<CartProduct> replacementList = new ArrayList<>(orders);
         replacementList.remove(product);
@@ -183,7 +210,7 @@ class Cart {
             return new Cart(replacementList, productIdToProduct, barcodeToProductId);
         }
     }
-    
+
     public BigDecimal getTotalPrice() {
         BigDecimal totalAmount = BigDecimal.ZERO;
         for (CartProduct product : getOrders()) {
@@ -191,7 +218,7 @@ class Cart {
         }
         return totalAmount;
     }
-    
+
     public int getTotalProducts() {
         int totalProducts = 0;
         for (CartProduct product : getOrders()) {
@@ -199,7 +226,7 @@ class Cart {
         }
         return totalProducts;
     }
-    
+
     public Cart clear() {
         return new Cart(new ArrayList<>(), productIdToProduct, barcodeToProductId);
     }
