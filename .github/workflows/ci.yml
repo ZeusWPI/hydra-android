@@ -17,12 +17,7 @@ jobs:
         with:
           java-version: 11
           distribution: temurin
-      - name: Cache Gradle packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/caches
-          key: ${{ matrix.command }}-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: ${{ matrix.command }}-${{ runner.os }}-gradle
+          cache: 'gradle'
       - name: Test with Gradle
         run: ./gradlew ${{ matrix.command }}
   lint:
@@ -35,12 +30,7 @@ jobs:
         with:
           java-version: 11
           distribution: temurin
-      - name: Cache Gradle packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/caches
-          key: lint-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: lint-${{ runner.os }}-gradle
+          cache: 'gradle'
       - name: Lint with Gradle
         run: ./gradlew lint
   build:
@@ -56,12 +46,7 @@ jobs:
         with:
           java-version: 11
           distribution: temurin
-      - name: Cache Gradle packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/caches
-          key: build-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: build-${{ runner.os }}-gradle
+          cache: 'gradle'
       - name: Set up secrets.properties
         run: echo "$SECRETS_PROPERTIES" | base64 --decode > app/secrets.properties
         env:
