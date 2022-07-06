@@ -73,6 +73,8 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
 
     private final NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
     private final NumberFormat decimalFormatter = NumberFormat.getNumberInstance();
+    
+    private boolean shouldShowFavouriteFab = false;
 
     private final ViewPager2.OnPageChangeCallback callback = new ViewPager2.OnPageChangeCallback() {
         @Override
@@ -80,9 +82,14 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
             if (position == 0) {
                 binding.tabFab.hide();
                 binding.tapFab.show();
+                if (shouldShowFavouriteFab) {
+                    binding.tapAddFavourite.show();
+                }
             } else if (position == 1) {
                 binding.tapFab.hide();
                 binding.tabFab.show();
+                shouldShowFavouriteFab = binding.tapAddFavourite.isOrWillBeShown();
+                binding.tapAddFavourite.hide();
             }
         }
     };
