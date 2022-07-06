@@ -17,7 +17,7 @@ jobs:
         with:
           java-version: 13
       - name: Cache Gradle packages
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.gradle/caches
           key: ${{ matrix.command }}-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
@@ -34,7 +34,7 @@ jobs:
         with:
           java-version: 13
       - name: Cache Gradle packages
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.gradle/caches
           key: lint-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
@@ -54,7 +54,7 @@ jobs:
         with:
           java-version: 13
       - name: Cache Gradle packages
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.gradle/caches
           key: build-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
