@@ -70,13 +70,13 @@ jobs:
       - name: Build APK
         run: ./gradlew assembleRelease
       - name: Upload store APK
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: hydra-store.apk
           path: app/build/outputs/apk/store/release/app-store-release.apk
           if-no-files-found: error
       - name: Upload foss APK
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: hydra-foss.apk
           path: app/build/outputs/apk/open/release/app-open-release.apk
@@ -84,13 +84,13 @@ jobs:
       - name: Build App Bundle
         run: ./gradlew bundleRelease
       - name: Upload store bundle
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: hydra-store.aab
           path: app/build/outputs/bundle/storeRelease/app-store-release.aab
           if-no-files-found: error
       - name: Upload foss bundle
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: hydra-foss.aab
           path: app/build/outputs/bundle/openRelease/app-open-release.aab
