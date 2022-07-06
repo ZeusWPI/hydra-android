@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2022 The Hydra authors
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,7 @@
 
 package be.ugent.zeus.hydra.common.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import androidx.annotation.AttrRes;
@@ -46,6 +47,7 @@ public class ColourUtils {
     @ColorInt
     public static int resolveColour(Context context, @AttrRes int attribute) {
         int[] attrs = {attribute};
+        @SuppressLint("ResourceType") // False positive I think.
         TypedArray ta = context.obtainStyledAttributes(attrs);
         try {
             return ta.getColor(0, 0);
