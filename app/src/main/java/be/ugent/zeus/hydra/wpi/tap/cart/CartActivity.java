@@ -311,6 +311,12 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
         if (itemId == R.id.menu_cart_clear) {
             this.clearCart(false);
             return true;
+        } else if (itemId == android.R.id.home) {
+            // The user has explicitly pressed the "cross"/close button.
+            // We assume they are done with the cart, so we clear it.
+            // If pressing the back button, we don't clear it.
+            this.clearCart(false);
+            // Do not return, but continue with normal processing.
         }
         return super.onOptionsItemSelected(item);
     }
