@@ -12,16 +12,12 @@ jobs:
         command: [testOpenDebug, testOpenRelease, testStoreDebug, testStoreRelease]
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK 13
-        uses: actions/setup-java@v1
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
         with:
-          java-version: 13
-      - name: Cache Gradle packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/caches
-          key: ${{ matrix.command }}-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: ${{ matrix.command }}-${{ runner.os }}-gradle
+          java-version: 11
+          distribution: temurin
+          cache: 'gradle'
       - name: Test with Gradle
         run: ./gradlew ${{ matrix.command }}
   lint:
@@ -29,16 +25,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK 13
-        uses: actions/setup-java@v1
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
         with:
-          java-version: 13
-      - name: Cache Gradle packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/caches
-          key: lint-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: lint-${{ runner.os }}-gradle
+          java-version: 11
+          distribution: temurin
+          cache: 'gradle'
       - name: Lint with Gradle
         run: ./gradlew lint
   build:
@@ -49,16 +41,12 @@ jobs:
     if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK 13
-        uses: actions/setup-java@v1
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
         with:
-          java-version: 13
-      - name: Cache Gradle packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/caches
-          key: build-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: build-${{ runner.os }}-gradle
+          java-version: 11
+          distribution: temurin
+          cache: 'gradle'
       - name: Set up secrets.properties
         run: echo "$SECRETS_PROPERTIES" | base64 --decode > app/secrets.properties
         env:
