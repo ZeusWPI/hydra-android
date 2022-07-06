@@ -65,7 +65,7 @@ class CartRequest implements Request<Cart> {
                     Map<Integer, Product> productMap = pair.first.first.stream().collect(Collectors.toMap(Product::getId, Function.identity()));
                     Map<String, Integer> barcodeToProduct = pair.second.stream().collect(Collectors.toMap(Barcode::getCode, Barcode::getProductId));
                     Cart cart = new Cart(pair.first.second, productMap, barcodeToProduct);
-                    return cart.maybeAddProduct(initialProductId);
+                    return cart.maybeAddInitialProduct(initialProductId);
                 })
                 .execute(args);
     }

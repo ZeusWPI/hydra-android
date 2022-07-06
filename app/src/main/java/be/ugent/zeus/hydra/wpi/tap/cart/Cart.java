@@ -50,7 +50,7 @@ import be.ugent.zeus.hydra.wpi.tap.product.Product;
  */
 class Cart {
     private static final String TAG = "Cart";
-    
+
     private final List<CartProduct> orders;
     private final Map<Integer, Product> productIdToProduct;
     private final Map<String, Integer> barcodeToProductId;
@@ -135,6 +135,18 @@ class Cart {
     }
 
     /**
+     * Get the index in the order list of a specific product.
+     */
+    private OptionalInt getPosition(Product product) {
+        // Find the position of an existing cart product if available.
+        // TODO: this is probably horribly inefficient
+        OptionalInt index = IntStream.range(0, orders.size())
+                .filter(i -> orders.get(i).getProductId() == product.getId())
+                .findFirst();
+        return index;
+    }
+
+    /**
      * Add a product or increment its count if already present.
      *
      * @param product The product to add.
@@ -142,12 +154,7 @@ class Cart {
      */
     @NonNull
     public Cart addProduct(@NonNull Product product) {
-        // Find the position of an existing cart product if available.
-        // TODO: this is probably horribly inefficient
-        OptionalInt index = IntStream.range(0, orders.size())
-                .filter(i -> orders.get(i).getProductId() == product.getId())
-                .findFirst();
-
+        OptionalInt index = this.getPosition(product);
         if (index.isPresent()) {
             return increment(orders.get(index.getAsInt()));
         } else {
@@ -162,10 +169,17 @@ class Cart {
      * Maybe add the product to the cart.
      */
     @NonNull
-    public Cart maybeAddProduct(int productId) {
+    public Cart maybeAddInitialProduct(int productId) {
         Product favourite = productIdToProduct.get(productId);
         if (favourite == null) {
             Log.i(TAG, "maybeAddProduct: not adding initial product, " + productId + " is invalid.");
+            return this;
+        }
+        // Only add the product if it is not yet in the cart.
+        // Since the cart is saved between activities, this prevents
+        // adding the same product again, while you might not want that.
+        if (this.getPosition(favourite).isPresent()) {
+            Log.i(TAG, "maybeAddProduct: not adding same product twice product.");
             return this;
         }
         return addProduct(favourite);
