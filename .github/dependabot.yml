@@ -6,21 +6,29 @@ updates:
     interval: monthly
     time: "04:00"
   open-pull-requests-limit: 99
+  labels:
+    - "dependencies"
 - package-ecosystem: gradle
   directory: "/buildSrc"
   schedule:
     interval: monthly
     time: "04:00"
   open-pull-requests-limit: 99
+  labels:
+    - "dependencies"  
 - package-ecosystem: gradle
   directory: "/material-intro"
   schedule:
     interval: monthly
     time: "04:00"
   open-pull-requests-limit: 99
+  labels:
+    - "dependencies"  
 - package-ecosystem: "github-actions"
   directory: "/"
   schedule:
     interval: monthly
     time: "04:00"
   open-pull-requests-limit: 99
+  labels:
+    - "dependencies"  
