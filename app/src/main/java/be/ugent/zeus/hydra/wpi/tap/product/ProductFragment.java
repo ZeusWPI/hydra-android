@@ -129,9 +129,11 @@ public class ProductFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_wpi_products, menu);
+        
+        // Set saved preference for stock stuff.
         MenuItem item = menu.findItem(R.id.action_filter_stock);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        boolean show = preferences.getBoolean(PREF_SHOW_ONLY_IN_STOCK, true);
+        boolean show = preferences.getBoolean(PREF_SHOW_ONLY_IN_STOCK, false);
         item.setChecked(show);
         super.onCreateOptionsMenu(menu, inflater);
     }
