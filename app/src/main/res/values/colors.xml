@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2021 The Hydra authors
+  ~ Copyright (c) 2022 The Hydra authors
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -90,6 +90,7 @@
         -->
     <color name="launcher_shortcut_background">@color/material_color_grey_100</color>
     <color name="hydra_launcher_color">@color/md_theme_light_primary</color>
+    <color name="wpi_launcher_color">@color/wpi_theme_light_primary</color>
 
     <!-- Zeus theme -->
     <color name="wpi_theme_light_primary">#984800</color>

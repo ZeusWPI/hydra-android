@@ -319,6 +319,11 @@
     <string name="wpi_product_description">Calories: %1$s • In stock: %2$d</string>
     <string name="wpi_product_na">n/a</string>
     <string name="wpi_product_filter">Only in stock</string>
+    <string name="wpi_pin_favourite">Shortcut for favourite</string>
+    <string name="wpi_pin_unsupported">Launcher does not support this</string>
+    <string name="wpi_pin_description">Favourite</string>
+    <string name="wpi_pin_no_favourite">You don\'t have a favourite</string>
+    <string name="wpi_pin_updated">Updated existing shortcut</string>
     <string name="wpi_user_description">Balance: %1$s • Orders: %2$s</string>
     <string name="wpi_tap_tab">Products</string>
     <string name="wpi_tab_tab">Transactions</string>

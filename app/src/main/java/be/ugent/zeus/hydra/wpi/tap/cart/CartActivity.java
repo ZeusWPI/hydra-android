@@ -29,6 +29,7 @@ import android.view.*;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.pm.ShortcutManagerCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -52,6 +53,8 @@ import be.ugent.zeus.hydra.wpi.tap.product.Product;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
+import static be.ugent.zeus.hydra.wpi.tap.product.ProductFragment.FAVOURITE_PINNED_SHORTCUT;
+
 /**
  * The Tap cart.
  *
@@ -63,6 +66,7 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
     private final NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
 
     public static final String ARG_FAVOURITE_PRODUCT_ID = "arg_favourite";
+    public static final String ARG_FROM_SHORTCUT = "arg_from_shortcut";
 
     /**
      * The latest instance of the cart we've found.
@@ -83,6 +87,11 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
         // product will already be in the cart, so don't add it again.
         if (savedInstanceState == null) {
             initialProductId = getIntent().getIntExtra(ARG_FAVOURITE_PRODUCT_ID, -1);
+
+            // Record use of the shortcut.
+            if (getIntent().getBooleanExtra(ARG_FROM_SHORTCUT, false)) {
+                ShortcutManagerCompat.reportShortcutUsed(this, FAVOURITE_PINNED_SHORTCUT);
+            }
         }
 
         viewModel = new ViewModelProvider(this, new CartViewModel.Factory(getApplication(), initialProductId)).get(CartViewModel.class);
