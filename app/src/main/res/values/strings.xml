@@ -283,7 +283,7 @@
 
     <!-- Info -->
     <string name="info_sub_item_activity_title">Meer info</string>
-    <!-- This is the endpoint for the information API. Can be nl or en, nothing else. -->
+    <!-- This is the endpoint for the information API. Can be nl or en-US, nothing else. -->
     <string name="value_info_endpoint">nl</string>
 
     <!-- Schamper and news -->
