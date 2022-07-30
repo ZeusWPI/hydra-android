@@ -310,7 +310,12 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
     }
 
     private void clearCart(boolean stopping) {
-        Cart newCart = this.viewModel.getLastCart().clear();
+        Cart newCart = this.viewModel.getLastCart();
+        if (newCart == null) {
+            // If closing too fast, this is still null.
+            return;
+        }
+        newCart = newCart.clear();
         saveCart(newCart, stopping);
     }
 
