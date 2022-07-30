@@ -28,14 +28,12 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import be.ugent.zeus.hydra.common.arch.data.Event;
 import be.ugent.zeus.hydra.common.network.NetworkState;
-import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.common.utils.ThreadingUtils;
 
 /**
  * Responsible for managing requests to operate on the door.
- *
+ * <p>
  * There are a set of methods that return LiveData. Those should be
  * listened to to get the results.
  *
@@ -44,29 +42,22 @@ import be.ugent.zeus.hydra.common.utils.ThreadingUtils;
 public class DoorViewModel extends AndroidViewModel {
 
     private final MutableLiveData<NetworkState> networkState;
-    private final MutableLiveData<Event<Result<DoorRequestResult>>> requestResult;
 
     public DoorViewModel(@NonNull Application application) {
         super(application);
         networkState = new MutableLiveData<>(NetworkState.IDLE);
-        requestResult = new MutableLiveData<>();
     }
 
     public LiveData<NetworkState> getNetworkState() {
         return networkState;
     }
 
-    public LiveData<Event<Result<DoorRequestResult>>> getRequestResult() {
-        return requestResult;
-    }
-
     public void startRequest(DoorRequest.Command command) {
         DoorRequest request = new DoorRequest(getApplication(), command);
         networkState.postValue(NetworkState.BUSY);
         ThreadingUtils.execute(() -> {
-            Result<DoorRequestResult> result = request.execute();
+            request.execute();
             networkState.postValue(NetworkState.IDLE);
-            requestResult.postValue(new Event<>(result));
         });
     }
 }

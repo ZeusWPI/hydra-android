@@ -28,9 +28,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import be.ugent.zeus.hydra.common.arch.data.Event;
 import be.ugent.zeus.hydra.common.network.NetworkState;
-import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.common.utils.ThreadingUtils;
 
 /**
@@ -58,7 +56,7 @@ public class CammieViewModel extends AndroidViewModel {
         MoveRequest request = new MoveRequest(getApplication(), command);
         networkState.postValue(NetworkState.BUSY);
         ThreadingUtils.execute(() -> {
-            Result<String> result = request.execute();
+            request.execute();
             networkState.postValue(NetworkState.IDLE);
         });
     }
