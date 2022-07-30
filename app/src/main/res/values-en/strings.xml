@@ -349,6 +349,7 @@
     </plurals>
     <string name="wpi_cart_clear">Clear</string>
     <string name="wpi_cart_title">Tap order</string>
+    <string name="wpi_cammie_title">Cammie</string>
     <string name="wpi_cart_item_menu_add">Add 1</string>
     <string name="wpi_cart_item_menu_remove">Remove 1</string>
     <string name="wpi_cart_item_menu_clear">Remove product</string>

@@ -53,6 +53,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Hydra.Material"
+        tools:replace="android:supportsRtl"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
         <!-- Main activity -->
@@ -172,6 +173,12 @@
             android:theme="@style/Zeus.Material"
             android:name=".wpi.tap.cart.CartActivity"
             android:label="@string/wpi_cart_title"
+            android:parentActivityName=".wpi.WpiActivity" />
+
+        <activity
+            android:theme="@style/Zeus.Material"
+            android:name=".wpi.cammie.CammieActivity"
+            android:label="@string/wpi_cammie_title"
             android:parentActivityName=".wpi.WpiActivity" />
 
         <!-- Urgent stuff -->
