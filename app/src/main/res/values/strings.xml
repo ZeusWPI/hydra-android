@@ -326,6 +326,11 @@
     <string name="wpi_product_description">Calorieën: %1$s • In voorraad: %2$d</string>
     <string name="wpi_product_na">n.v.t.</string>
     <string name="wpi_product_filter">Enkel in voorraad</string>
+    <string name="wpi_pin_favourite">Snelkoppeling voor dagschotel</string>
+    <string name="wpi_pin_unsupported">Startscherm ondersteunt dit niet</string>
+    <string name="wpi_pin_description">Dagschotel</string>
+    <string name="wpi_pin_no_favourite">U heeft geen dagschotel</string>
+    <string name="wpi_pin_updated">Bestaande snelkoppeling bijgewerkt</string>
     <string name="wpi_user_description">Saldo: %1$s • Bestellingen: %2$s</string>
     <string name="wpi_tap_tab">Producten</string>
     <string name="wpi_tab_tab">Transacties</string>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2022 Niko Strijbol
+  ~ Copyright (c) 2022 The Hydra authors
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -21,19 +21,15 @@
   ~ SOFTWARE.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/action_filter_stock"
-        android:icon="@drawable/ic_login"
-        android:orderInCategory="50"
-        android:title="@string/wpi_product_filter"
-        app:showAsAction="never"
-        android:checkable="true" />
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/action_pin_favourite"
-        android:orderInCategory="50"
-        android:title="@string/wpi_pin_favourite"
-        app:showAsAction="never" />
-</menu>
+        android:bottom="2dp"
+        android:drawable="@drawable/shortcut_background"
+        android:left="2dp"
+        android:right="2dp"
+        android:top="2dp" />
+
+    <item android:drawable="@drawable/shortcut_tap_favourite_foreground" />
+
+</layer-list>
