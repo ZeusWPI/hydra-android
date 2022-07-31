@@ -22,6 +22,7 @@
 
 package be.ugent.zeus.hydra.wpi.cammie;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -49,7 +50,6 @@ public class CammieActivity extends BaseActivity<ActivityWpiCammieBinding> {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(ActivityWpiCammieBinding::inflate);
-        
         
         CammieViewModel vm = new ViewModelProvider(this).get(CammieViewModel.class);
         

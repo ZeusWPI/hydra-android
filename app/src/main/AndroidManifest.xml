@@ -181,6 +181,12 @@
             android:label="@string/wpi_cammie_title"
             android:parentActivityName=".wpi.WpiActivity" />
 
+        <activity
+            android:theme="@style/Zeus.Material.System"
+            android:name=".wpi.cammie.FullScreenCammieActivity"
+            android:label="@string/wpi_cammie_title"
+            android:parentActivityName=".wpi.cammie.CammieActivity" />
+
         <!-- Urgent stuff -->
         <!-- This is a music service without sensitive data and thus does not require permissions -->
         <service
