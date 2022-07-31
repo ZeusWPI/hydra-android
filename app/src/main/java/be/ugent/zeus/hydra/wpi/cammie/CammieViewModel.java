@@ -41,23 +41,38 @@ import be.ugent.zeus.hydra.common.utils.ThreadingUtils;
  */
 public class CammieViewModel extends AndroidViewModel {
 
-    private final MutableLiveData<NetworkState> networkState;
+    private final MutableLiveData<NetworkState> controlNetworkState;
+    private final MutableLiveData<NetworkState> messageNetworkState;
 
     public CammieViewModel(@NonNull Application application) {
         super(application);
-        networkState = new MutableLiveData<>(NetworkState.IDLE);
+        controlNetworkState = new MutableLiveData<>(NetworkState.IDLE);
+        messageNetworkState = new MutableLiveData<>(NetworkState.IDLE);
     }
 
-    public LiveData<NetworkState> getNetworkState() {
-        return networkState;
+    public LiveData<NetworkState> getControlNetworkState() {
+        return controlNetworkState;
+    }
+
+    public LiveData<NetworkState> getMessageNetworkState() {
+        return messageNetworkState;
     }
 
     public void startRequest(MoveRequest.Command command) {
         MoveRequest request = new MoveRequest(getApplication(), command);
-        networkState.postValue(NetworkState.BUSY);
+        controlNetworkState.postValue(NetworkState.BUSY);
         ThreadingUtils.execute(() -> {
             request.execute();
-            networkState.postValue(NetworkState.IDLE);
+            controlNetworkState.postValue(NetworkState.IDLE);
+        });
+    }
+
+    public void sendMessage(String message) {
+        ChatRequest request = new ChatRequest(getApplication(), message);
+        messageNetworkState.postValue(NetworkState.BUSY);
+        ThreadingUtils.execute(() -> {
+            request.execute();
+            controlNetworkState.postValue(NetworkState.IDLE);
         });
     }
 }

@@ -62,7 +62,7 @@ public class CammieActivity extends BaseActivity<ActivityWpiCammieBinding> {
         binding.moveSouth.setOnClickListener(v -> vm.startRequest(MoveRequest.Command.SOUTH));
         binding.moveSouthEast.setOnClickListener(v -> vm.startRequest(MoveRequest.Command.SOUTH_EAST));
 
-        vm.getNetworkState().observe(this, networkState -> {
+        vm.getControlNetworkState().observe(this, networkState -> {
             boolean enabled = networkState == null || networkState == NetworkState.IDLE;
 
             // If the buttons are currently disabled, and we want to re-enable them,
