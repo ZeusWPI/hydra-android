@@ -45,11 +45,10 @@ public class FullScreenCammieActivity extends BaseActivity<ActivityWpiFullScreen
         super.onCreate(savedInstanceState);
         setContentView(ActivityWpiFullScreenCammieBinding::inflate);
         enterFullScreen();
-        
+
         binding.cammieViewer.setOnClickListener(v -> {
             if (requireToolbar().isShowing()) {
                 enterFullScreen();
-                
             } else {
                 exitFullScreen();
             }
@@ -78,12 +77,12 @@ public class FullScreenCammieActivity extends BaseActivity<ActivityWpiFullScreen
         windowInsetsController.hide(WindowInsetsCompat.Type.systemBars());
         requireToolbar().hide();
     }
-    
+
     private void exitFullScreen() {
         if (getWindow() == null) {
             return;
         }
-        
+
         WindowInsetsControllerCompat windowInsetsController = WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
         windowInsetsController.show(WindowInsetsCompat.Type.systemBars());
         requireToolbar().show();

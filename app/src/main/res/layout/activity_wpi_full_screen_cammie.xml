@@ -51,7 +51,7 @@
             android:animateLayoutChanges="true"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            app:titleTextColor="@color/white"
+            app:navigationIcon="@drawable/ic_close"
             android:layout_height="?attr/actionBarSize"
             android:background="#4D000000" />
 
