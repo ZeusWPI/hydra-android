@@ -373,6 +373,9 @@
     <string name="wpi_door_close">Close the door</string>
     <string name="wpi_door_key_hint">API key for the door. This is optional.</string>
 
+    <string name="wpi_cammie_fullscreen_menu">Open in fullscreen</string>
+    <string name="wpi_cammie_fullscreen_turn">Turn orientation</string>
+
     <!-- Accessibility strings -->
     <string name="content_desc_more">more</string>
     <string name="content_desc_schamper_image">Schamper image</string>

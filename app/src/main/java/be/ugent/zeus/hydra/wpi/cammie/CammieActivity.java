@@ -25,7 +25,10 @@ package be.ugent.zeus.hydra.wpi.cammie;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -35,7 +38,6 @@ import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.databinding.ActivityWpiCammieBinding;
 import com.github.niqdev.mjpeg.DisplayMode;
 import com.github.niqdev.mjpeg.Mjpeg;
-import com.google.android.material.snackbar.Snackbar;
 
 /**
  * View cammie from Hydra.
@@ -44,15 +46,13 @@ import com.google.android.material.snackbar.Snackbar;
  */
 public class CammieActivity extends BaseActivity<ActivityWpiCammieBinding> {
 
-    private static final String TAG = "CammieActivity";
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(ActivityWpiCammieBinding::inflate);
-        
+
         CammieViewModel vm = new ViewModelProvider(this).get(CammieViewModel.class);
-        
+
         binding.moveNorthWest.setOnClickListener(v -> vm.startRequest(MoveRequest.Command.NORTH_WEST));
         binding.moveNorth.setOnClickListener(v -> vm.startRequest(MoveRequest.Command.NORTH));
         binding.moveNorthEast.setOnClickListener(v -> vm.startRequest(MoveRequest.Command.NORTH_EAST));
@@ -69,15 +69,13 @@ public class CammieActivity extends BaseActivity<ActivityWpiCammieBinding> {
             // we add a delay of about 1 second.
             // In the other case, just do it.
             if (enabled && !binding.moveNorthWest.isEnabled()) {
-                new Handler().postDelayed(() -> {
-                    toggleButtons(true);
-                }, 1000);
+                new Handler().postDelayed(() -> toggleButtons(true), 1000);
             } else {
                 toggleButtons(enabled);
             }
         });
     }
-    
+
     private void toggleButtons(boolean enabled) {
         binding.moveNorthWest.setEnabled(enabled);
         binding.moveNorth.setEnabled(enabled);
@@ -111,9 +109,19 @@ public class CammieActivity extends BaseActivity<ActivityWpiCammieBinding> {
                 });
     }
 
-    private void onError(Throwable throwable) {
-        Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make(binding.getRoot(), getString(R.string.error_network), Snackbar.LENGTH_LONG)
-                .show();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_wpi_cammie, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_open_fullscreen) {
+            Intent intent = new Intent(this, FullScreenCammieActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

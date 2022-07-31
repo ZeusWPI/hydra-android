@@ -23,10 +23,7 @@
 package be.ugent.zeus.hydra.wpi.cammie;
 
 import android.os.Bundle;
-import android.view.View;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
@@ -35,7 +32,6 @@ import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.databinding.ActivityWpiFullScreenCammieBinding;
 import com.github.niqdev.mjpeg.DisplayMode;
 import com.github.niqdev.mjpeg.Mjpeg;
-import com.github.niqdev.mjpeg.MjpegSurfaceView;
 
 /**
  * View cammie from Hydra.
@@ -43,8 +39,6 @@ import com.github.niqdev.mjpeg.MjpegSurfaceView;
  * @author Niko Strijbol
  */
 public class FullScreenCammieActivity extends BaseActivity<ActivityWpiFullScreenCammieBinding> {
-
-    private static final String TAG = "FullScreenCammieActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

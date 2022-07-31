@@ -182,9 +182,10 @@
             android:parentActivityName=".wpi.WpiActivity" />
 
         <activity
-            android:theme="@style/Zeus.Material.System"
+            android:theme="@style/Zeus.Material.Cammie"
             android:name=".wpi.cammie.FullScreenCammieActivity"
             android:label="@string/wpi_cammie_title"
+            android:screenOrientation="fullSensor"
             android:parentActivityName=".wpi.cammie.CammieActivity" />
 
         <!-- Urgent stuff -->

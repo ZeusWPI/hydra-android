@@ -378,6 +378,9 @@
     <string name="wpi_door_open">Open de deur</string>
     <string name="wpi_door_close">Sluit de deur</string>
     <string name="wpi_door_key_hint">API-sleutel voor de deur. Dit is optioneel.</string>
+    
+    <string name="wpi_cammie_fullscreen_menu">Openen in volledig scherm</string>
+    <string name="wpi_cammie_fullscreen_turn">Oriëntatie wijzigen</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_more">meer</string>
