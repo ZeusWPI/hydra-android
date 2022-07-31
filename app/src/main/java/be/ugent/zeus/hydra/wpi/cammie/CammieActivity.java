@@ -61,6 +61,10 @@ public class CammieActivity extends BaseActivity<ActivityWpiCammieBinding> {
         binding.moveSouthWest.setOnClickListener(v -> vm.startRequest(MoveRequest.Command.SOUTH_WEST));
         binding.moveSouth.setOnClickListener(v -> vm.startRequest(MoveRequest.Command.SOUTH));
         binding.moveSouthEast.setOnClickListener(v -> vm.startRequest(MoveRequest.Command.SOUTH_EAST));
+        binding.message.setOnClickListener(v -> {
+            ChatDialogFragment fragment = new ChatDialogFragment();
+            fragment.show(getSupportFragmentManager(), "messageSend");
+        });
 
         vm.getControlNetworkState().observe(this, networkState -> {
             boolean enabled = networkState == null || networkState == NetworkState.IDLE;

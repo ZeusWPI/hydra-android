@@ -37,6 +37,7 @@
     <string name="action_search">Search</string>
     <string name="action_add_to_calendar">Add to calendar</string>
     <string name="action_undo">Undo</string>
+    <string name="action_send">Send</string>
 
     <string name="select_none">Select none</string>
 
@@ -375,6 +376,8 @@
 
     <string name="wpi_cammie_fullscreen_menu">Open in fullscreen</string>
     <string name="wpi_cammie_fullscreen_turn">Turn orientation</string>
+    <string name="wpi_cammie_chat_dialog_title">Send a message</string>
+    <string name="wpi_cammie_chat_sent">Message sent?</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_more">more</string>
