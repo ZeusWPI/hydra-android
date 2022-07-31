@@ -69,6 +69,7 @@ public class ChatDialogFragment extends DialogFragment {
                 // The network is back to idle, so we are done.
                 dismiss();
             } else {
+                // The request is starting.
                 textInputLayout.setEnabled(false);
             }
         });
@@ -87,18 +88,23 @@ public class ChatDialogFragment extends DialogFragment {
                 })
                 .create();
         ourDialog.setOnShowListener(dialog -> {
-            // Show the keyboard and stuff by default.
+            // Ensure we have focus. This must happen in the listener, as this will be ignored
+            // if the view is not attached.
             View input = DialogCompat.requireViewById((Dialog) dialog, R.id.message_entry);
             input.requestFocus();
         });
         // Ensure keyboard is shown.
+        // This must happen here and not in the listener, as that is too late, and this is thus ignored.
         ourDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         return ourDialog;
     }
 
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
+        // Only show the toast if the dismissal is the result of a network request,
+        // not e.g. touching outside the dialog.
         if (buttonPressed) {
+            // TODO: remove question mark once proper error handling exists.
             Toast.makeText(requireActivity(), R.string.wpi_cammie_chat_sent, Toast.LENGTH_LONG).show();
         }
         super.onDismiss(dialog);
