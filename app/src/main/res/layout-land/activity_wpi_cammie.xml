@@ -103,8 +103,7 @@
                 style="@style/IconOnlyOutlineButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:icon="@drawable/ic_door_closed" />
+                app:icon="@drawable/ic_chat" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/move_east"
