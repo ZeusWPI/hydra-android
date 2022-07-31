@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2022 The Hydra authors
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@ import com.squareup.moshi.ToJson;
  *
  * @author Niko Strijbol
  */
-public class DateThreeTenAdapter {
+public class LocalDateAdapter {
 
     @FromJson
     LocalDate read(String value) {

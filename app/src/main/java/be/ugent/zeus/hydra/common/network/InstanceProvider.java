@@ -78,7 +78,7 @@ public final class InstanceProvider {
         if (moshi == null) {
             moshi = new Moshi.Builder()
                     .add(new BooleanJsonAdapter())
-                    .add(new DateThreeTenAdapter())
+                    .add(new LocalDateAdapter())
                     .add(new DateTypeConverters.GsonOffset())
                     .add(new DateTypeConverters.LocalZonedDateTimeInstance())
                     .add(new PairJsonAdapter.Factory())
