@@ -31,15 +31,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.DialogCompat;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.network.NetworkState;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 /**
  * A dialog fragment allowing the user to search for and pick a product.
@@ -57,24 +54,6 @@ public class ChatDialogFragment extends DialogFragment {
         vm = new ViewModelProvider(this).get(CammieViewModel.class);
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        TextInputLayout textInputLayout = ViewCompat.requireViewById(view, R.id.message_layout);
-        // Attach the network listener.
-        vm.getMessageNetworkState().observe(this, networkState -> {
-            boolean enabled = networkState == null || networkState == NetworkState.IDLE;
-
-            if (enabled) {
-                // The network is back to idle, so we are done.
-                dismiss();
-            } else {
-                // The request is starting.
-                textInputLayout.setEnabled(false);
-            }
-        });
-    }
-
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -82,6 +61,7 @@ public class ChatDialogFragment extends DialogFragment {
                 .setTitle(R.string.wpi_cammie_chat_dialog_title)
                 .setView(R.layout.fragment_wpi_cammie_chat)
                 .setPositiveButton(R.string.action_send, (dialog, which) -> {
+                    // This will also dismiss the dialog unfortunately.
                     buttonPressed = true;
                     TextInputEditText input = (TextInputEditText) DialogCompat.requireViewById((Dialog) dialog, R.id.message_entry);
                     vm.sendMessage(input.getEditableText().toString());
