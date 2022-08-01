@@ -381,7 +381,6 @@
     <string name="wpi_door_key_hint">API-sleutel voor de deur. Dit is optioneel.</string>
     
     <string name="wpi_cammie_fullscreen_menu">Openen in volledig scherm</string>
-    <string name="wpi_cammie_fullscreen_turn">Oriëntatie wijzigen</string>
     <string name="wpi_cammie_chat_dialog_title">Stuur een bericht</string>
     <string name="wpi_cammie_chat_sent">Bericht gestuurd?</string>
     <string name="wpi_door_sending_request">Verzoek voor "%1$s" sturen…</string>

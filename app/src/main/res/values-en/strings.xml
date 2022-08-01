@@ -375,7 +375,6 @@
     <string name="wpi_door_key_hint">API key for the door. This is optional.</string>
 
     <string name="wpi_cammie_fullscreen_menu">Open in fullscreen</string>
-    <string name="wpi_cammie_fullscreen_turn">Turn orientation</string>
     <string name="wpi_cammie_chat_dialog_title">Send a message</string>
     <string name="wpi_cammie_chat_sent">Message sent?</string>
     <string name="wpi_door_sending_request">Sending %1$s request…</string>
