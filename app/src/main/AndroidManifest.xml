@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2022 The Hydra authors
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -34,6 +33,9 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
+    <!-- Read tags for Zeus -->
+    <uses-permission android:name="android.permission.NFC" />
+
     <queries>
         <intent>
             <!-- Custom tabs queries -->
@@ -53,13 +55,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Hydra.Material"
-        tools:replace="android:supportsRtl"
-        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning"
+        tools:replace="android:supportsRtl">
 
         <!-- Main activity -->
         <activity
-            android:exported="true"
             android:name=".MainActivity"
+            android:exported="true"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -73,8 +75,8 @@
 
         <!-- Generic preference activity, which can load a preference fragment. -->
         <activity
-            android:exported="true"
             android:name=".preferences.PreferenceActivity"
+            android:exported="true"
             android:parentActivityName=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
@@ -151,42 +153,57 @@
 
 
         <!-- Zeus-related activities -->
-        <activity 
-            android:theme="@style/Zeus.Material"
+        <activity
             android:name=".wpi.account.ApiKeyManagementActivity"
             android:label="@string/wpi_api_key_management_title"
-            android:parentActivityName=".wpi.WpiActivity"/>
+            android:parentActivityName=".wpi.WpiActivity"
+            android:theme="@style/Zeus.Material" />
 
         <activity
-            android:theme="@style/Zeus.Material"
             android:name=".wpi.WpiActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Zeus.Material" />
 
         <activity
-            android:theme="@style/Zeus.Material"
             android:name=".wpi.tab.create.FormActivity"
             android:label="@string/wpi_tab_form_title"
-            android:parentActivityName=".wpi.WpiActivity" />
+            android:parentActivityName=".wpi.WpiActivity"
+            android:theme="@style/Zeus.Material" />
 
         <activity
-            android:theme="@style/Zeus.Material"
             android:name=".wpi.tap.cart.CartActivity"
             android:label="@string/wpi_cart_title"
-            android:parentActivityName=".wpi.WpiActivity" />
+            android:parentActivityName=".wpi.WpiActivity"
+            android:theme="@style/Zeus.Material" />
 
         <activity
-            android:theme="@style/Zeus.Material"
             android:name=".wpi.cammie.CammieActivity"
             android:label="@string/wpi_cammie_title"
-            android:parentActivityName=".wpi.WpiActivity" />
+            android:parentActivityName=".wpi.WpiActivity"
+            android:theme="@style/Zeus.Material" />
 
         <activity
-            android:theme="@style/Zeus.Material.Cammie"
             android:name=".wpi.cammie.FullScreenCammieActivity"
             android:label="@string/wpi_cammie_title"
+            android:parentActivityName=".wpi.cammie.CammieActivity"
             android:screenOrientation="fullSensor"
-            android:parentActivityName=".wpi.cammie.CammieActivity" />
+            android:theme="@style/Zeus.Material.Cammie" />
+
+        <activity
+            android:name=".wpi.door.nfc.IntentReceiverActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert">
+
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="hydra.ugent.be"
+                    android:scheme="zeus" />
+            </intent-filter>
+
+        </activity>
 
         <!-- Urgent stuff -->
         <!-- This is a music service without sensitive data and thus does not require permissions -->
@@ -201,7 +218,9 @@
             </intent-filter>
         </service>
 
-        <receiver android:name="androidx.media.session.MediaButtonReceiver" android:exported="true">
+        <receiver
+            android:name="androidx.media.session.MediaButtonReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>

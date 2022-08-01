@@ -27,6 +27,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Objects;
 
 import be.ugent.zeus.hydra.common.network.Endpoints;
@@ -56,6 +57,10 @@ public class DoorRequest extends OkHttpRequest<DoorRequestResult> {
 
         Command(String value) {
             this.command = value;
+        }
+
+        public static Command fromStringValue(String value) {
+            return Command.valueOf(value.toUpperCase(Locale.ROOT));
         }
     }
 
