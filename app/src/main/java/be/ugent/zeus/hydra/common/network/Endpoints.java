@@ -37,6 +37,7 @@ public interface Endpoints {
     String TAB = "https://tab.zeus.gent/api/v1/";
     String MATTERMORE = "https://mattermore.zeus.gent/";
     String KELDER = "https://kelder.zeus.ugent.be/";
+    String CAMMIE = "https://kelder.zeus.ugent.be/camera/cammie";
 
     String LIBRARY = "https://widgets.lib.ugent.be/";
 }

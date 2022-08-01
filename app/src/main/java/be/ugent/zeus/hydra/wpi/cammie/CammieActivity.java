@@ -33,6 +33,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.common.network.NetworkState;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.databinding.ActivityWpiCammieBinding;
@@ -113,7 +114,7 @@ public class CammieActivity extends BaseActivity<ActivityWpiCammieBinding> {
 
     private void loadMjpeg() {
         Mjpeg.newInstance()
-                .open("https://kelder.zeus.ugent.be/camera/cammie", 5)
+                .open(Endpoints.CAMMIE, 5)
                 .subscribe(inputStream -> {
                     binding.cammieViewer.setSource(inputStream);
                     binding.cammieViewer.setDisplayMode(DisplayMode.BEST_FIT);
