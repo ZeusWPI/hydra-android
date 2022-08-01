@@ -61,6 +61,10 @@ public class CammieActivity extends BaseActivity<ActivityWpiCammieBinding> {
         binding.moveSouthWest.setOnClickListener(v -> vm.startRequest(MoveRequest.Command.SOUTH_WEST));
         binding.moveSouth.setOnClickListener(v -> vm.startRequest(MoveRequest.Command.SOUTH));
         binding.moveSouthEast.setOnClickListener(v -> vm.startRequest(MoveRequest.Command.SOUTH_EAST));
+        binding.bigTable.setOnClickListener(v -> vm.startRequest(MoveRequest.Command.BIG_TABLE));
+        binding.smallTable.setOnClickListener(v -> vm.startRequest(MoveRequest.Command.SMALL_TABLE));
+        binding.sofa.setOnClickListener(v -> vm.startRequest(MoveRequest.Command.SOFA));
+        binding.door.setOnClickListener(v -> vm.startRequest(MoveRequest.Command.DOOR));
         binding.message.setOnClickListener(v -> {
             ChatDialogFragment fragment = new ChatDialogFragment();
             fragment.show(getSupportFragmentManager(), "messageSend");
@@ -89,6 +93,10 @@ public class CammieActivity extends BaseActivity<ActivityWpiCammieBinding> {
         binding.moveSouthWest.setEnabled(enabled);
         binding.moveSouth.setEnabled(enabled);
         binding.moveSouthEast.setEnabled(enabled);
+        binding.bigTable.setEnabled(enabled);
+        binding.smallTable.setEnabled(enabled);
+        binding.sofa.setEnabled(enabled);
+        binding.door.setEnabled(enabled);
     }
 
     @Override

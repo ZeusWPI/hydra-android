@@ -65,10 +65,10 @@
             android:orientation="horizontal"
             android:rowCount="3"
             android:useDefaultMargins="true"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/cammie_viewer">
+            app:layout_constraintStart_toEndOf="@+id/cammie_viewer"
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/move_north_west"
@@ -135,18 +135,43 @@
 
         </GridLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/cammie_viewer">
 
-    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-    <!--        android:id="@+id/tap_add_favourite"-->
-    <!--        android:visibility="gone"-->
-    <!--        tools:visibility="visible"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_margin="16dp"-->
-    <!--        app:layout_anchorGravity="end|top"-->
-    <!--        android:translationY="-32dp"-->
-    <!--        android:src="@drawable/ic_heart"-->
-    <!--        android:contentDescription="@string/wpi_cart_add_manual" />-->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/big_table"
+                android:layout_marginEnd="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wpi_cammie_big_table" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/small_table"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/wpi_cammie_small_table" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sofa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/wpi_cammie_sofa" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/door"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wpi_cammie_door" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

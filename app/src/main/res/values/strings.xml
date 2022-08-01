@@ -385,6 +385,10 @@
     <string name="wpi_cammie_chat_dialog_title">Stuur een bericht</string>
     <string name="wpi_cammie_chat_sent">Bericht gestuurd?</string>
     <string name="wpi_door_sending_request">Verzoek voor "%1$s" sturen…</string>
+    <string name="wpi_cammie_big_table">Grote tafel</string>
+    <string name="wpi_cammie_small_table">Kleine tafel</string>
+    <string name="wpi_cammie_sofa">Zetel</string>
+    <string name="wpi_cammie_door">Deur</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_more">meer</string>

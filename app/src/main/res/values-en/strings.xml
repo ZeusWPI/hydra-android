@@ -379,6 +379,10 @@
     <string name="wpi_cammie_chat_dialog_title">Send a message</string>
     <string name="wpi_cammie_chat_sent">Message sent?</string>
     <string name="wpi_door_sending_request">Sending %1$s request…</string>
+    <string name="wpi_cammie_big_table">Big table</string>
+    <string name="wpi_cammie_small_table">Small table</string>
+    <string name="wpi_cammie_sofa">Sofa</string>
+    <string name="wpi_cammie_door">Door</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_more">more</string>

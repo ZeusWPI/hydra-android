@@ -57,10 +57,10 @@
             stream:type="stream_default" />
 
         <GridLayout
-            android:layout_marginTop="24dp"
             android:id="@+id/grid_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:columnCount="3"
             android:orientation="horizontal"
             android:rowCount="3"
@@ -135,18 +135,50 @@
 
         </GridLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.button.MaterialButton
+            android:layout_marginTop="16dp"
+            android:id="@+id/big_table"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/wpi_cammie_big_table"
+            app:layout_constraintTop_toBottomOf="@id/grid_layout" />
 
-    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-    <!--        android:id="@+id/tap_add_favourite"-->
-    <!--        android:visibility="gone"-->
-    <!--        tools:visibility="visible"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_margin="16dp"-->
-    <!--        app:layout_anchorGravity="end|top"-->
-    <!--        android:translationY="-32dp"-->
-    <!--        android:src="@drawable/ic_heart"-->
-    <!--        android:contentDescription="@string/wpi_cart_add_manual" />-->
+        <com.google.android.material.button.MaterialButton
+            android:layout_marginTop="8dp"
+            android:id="@+id/small_table"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/wpi_cammie_small_table"
+            app:layout_constraintTop_toBottomOf="@id/big_table" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_marginTop="8dp"
+            android:id="@+id/sofa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/wpi_cammie_sofa"
+            app:layout_constraintTop_toBottomOf="@id/small_table" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_marginTop="8dp"
+            android:id="@+id/door"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            android:text="@string/wpi_cammie_door"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sofa" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
