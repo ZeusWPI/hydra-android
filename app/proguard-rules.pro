@@ -40,26 +40,11 @@
 # Keep all our classes
 -keep class be.ugent.zeus.hydra.** {*;}
 
-# Rules for apache
--dontwarn org.apache.oltu.**
--dontwarn org.slf4j.**
-
-# Disable proguard for ThreeTenABP, since it causes a lot of issues.
--keep class org.threeten.bp.** { *; }
-
-# Rules for OkHttp
--dontwarn okhttp3.**
--dontwarn okio.**
--dontwarn javax.annotation.**
+# OkHttp platform used only on JVM and when Conscrypt and other security providers are available.
+-dontwarn okhttp3.internal.platform.**
 -dontwarn org.conscrypt.**
-# A resource is loaded with a relative path so the package of this class must be preserved.
--keepnames class okhttp3.internal.publicsuffix.PublicSuffixDatabase
-
-# Rules for Moshi (duplicates from OkHttp are removed)
--keepclasseswithmembers class * {
-    @com.squareup.moshi.* <methods>;
-}
--keep @com.squareup.moshi.JsonQualifier interface *
+-dontwarn org.bouncycastle.**
+-dontwarn org.openjsse.**
 
 # Crashlytics settings.
 -keepattributes *Annotation*

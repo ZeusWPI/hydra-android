@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.wpi.door;
+package be.ugent.zeus.hydra.wpi.cammie;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -32,32 +32,47 @@ import be.ugent.zeus.hydra.common.network.NetworkState;
 import be.ugent.zeus.hydra.common.utils.ThreadingUtils;
 
 /**
- * Responsible for managing requests to operate on the door.
+ * Responsible for managing requests related to cammie.
  * <p>
  * There are a set of methods that return LiveData. Those should be
  * listened to to get the results.
  *
  * @author Niko Strijbol
  */
-public class DoorViewModel extends AndroidViewModel {
+public class CammieViewModel extends AndroidViewModel {
 
-    private final MutableLiveData<NetworkState> networkState;
+    private final MutableLiveData<NetworkState> controlNetworkState;
+    private final MutableLiveData<NetworkState> messageNetworkState;
 
-    public DoorViewModel(@NonNull Application application) {
+    public CammieViewModel(@NonNull Application application) {
         super(application);
-        networkState = new MutableLiveData<>(NetworkState.IDLE);
+        controlNetworkState = new MutableLiveData<>(NetworkState.IDLE);
+        messageNetworkState = new MutableLiveData<>(NetworkState.IDLE);
     }
 
-    public LiveData<NetworkState> getNetworkState() {
-        return networkState;
+    public LiveData<NetworkState> getControlNetworkState() {
+        return controlNetworkState;
     }
 
-    public void startRequest(DoorRequest.Command command) {
-        DoorRequest request = new DoorRequest(getApplication(), command);
-        networkState.postValue(NetworkState.BUSY);
+    public LiveData<NetworkState> getMessageNetworkState() {
+        return messageNetworkState;
+    }
+
+    public void startRequest(MoveRequest.Command command) {
+        MoveRequest request = new MoveRequest(getApplication(), command);
+        controlNetworkState.postValue(NetworkState.BUSY);
         ThreadingUtils.execute(() -> {
             request.execute();
-            networkState.postValue(NetworkState.IDLE);
+            controlNetworkState.postValue(NetworkState.IDLE);
+        });
+    }
+
+    public void sendMessage(String message) {
+        ChatRequest request = new ChatRequest(getApplication(), message);
+        messageNetworkState.postValue(NetworkState.BUSY);
+        ThreadingUtils.execute(() -> {
+            request.execute();
+            controlNetworkState.postValue(NetworkState.IDLE);
         });
     }
 }

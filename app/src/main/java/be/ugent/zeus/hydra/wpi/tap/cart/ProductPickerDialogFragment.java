@@ -52,12 +52,6 @@ public class ProductPickerDialogFragment extends DialogFragment implements Consu
 
     private CartInteraction interactor;
 
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        return super.onCreateDialog(savedInstanceState);
-    }
-
     @Override
     public void onAttach(@NonNull Context context) {
         interactor = (CartInteraction) context;

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2022 Niko Strijbol
- *
+ *  
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -20,14 +20,13 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.wpi.door;
+package be.ugent.zeus.hydra.wpi.cammie;
 
 import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 
 import java.io.IOException;
-import java.util.Locale;
 import java.util.Objects;
 
 import be.ugent.zeus.hydra.common.network.Endpoints;
@@ -35,76 +34,49 @@ import be.ugent.zeus.hydra.common.network.InvalidFormatException;
 import be.ugent.zeus.hydra.common.network.OkHttpRequest;
 import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.request.Result;
-import be.ugent.zeus.hydra.wpi.account.AccountManager;
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.JsonDataException;
 import okhttp3.*;
 
 /**
- * Send a request to the door.
- *
+ * Request to send a message to Cammie Chat.
+ * 
  * @author Niko Strijbol
  */
-public class DoorRequest extends OkHttpRequest<DoorRequestResult> {
+public class ChatRequest extends OkHttpRequest<String> {
+    
+    private static final String ENDPOINT = "messages/";
+    
+    private final String message;
 
-    private static final String ENDPOINT = "/api/door/%s/%s";
-    private static final RequestBody EMPTY_REQUEST = RequestBody.create(new byte[]{});
-
-    public enum Command {
-        OPEN("open"), CLOSE("lock"), STATUS("status");
-
-        String command;
-
-        Command(String value) {
-            this.command = value;
-        }
-
-        public static Command fromStringValue(String value) {
-            return Command.valueOf(value.toUpperCase(Locale.ROOT));
-        }
-    }
-
-    private final Context context;
-    private final Command command;
-
-    protected DoorRequest(@NonNull Context context, @NonNull Command command) {
+    public ChatRequest(@NonNull Context context, @NonNull String message) {
         super(context);
-        this.context = context;
-        this.command = command;
+        this.message = message;
     }
 
     @NonNull
     @Override
-    public Result<DoorRequestResult> execute(@NonNull Bundle args) {
-        String key = AccountManager.getDoorKey(context);
-        String url = Endpoints.MATTERMORE + String.format(ENDPOINT, key, command.command);
+    public Result<String> execute(@NonNull Bundle args) {
 
+        MediaType plainText = MediaType.get("plain/text");
+        
+        RequestBody body = RequestBody.create(message, plainText);
+
+        // Create the request itself.
         okhttp3.Request request = new Request.Builder()
                 .addHeader("Accept", "application/json")
-                .url(url)
-                .post(EMPTY_REQUEST)
+                .addHeader("Content-Type", plainText.toString())
+                .url(Endpoints.KELDER + ENDPOINT)
+                .post(body)
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
-                // If the body is null, this is unexpected.
-                ResponseBody responseBody = response.body();
-                if (responseBody == null) {
-                    throw new IOException("Unexpected null body for response 200");
-                }
-                JsonAdapter<DoorRequestResult> adapter = moshi.adapter(DoorRequestResult.class);
-                DoorRequestResult result = adapter.fromJson(responseBody.source());
-                return Result.Builder.fromData(Objects.requireNonNull(result));
-            } else if (response.code() == 400) {
-                return Result.Builder.fromException(new RequestException("Command " + this.command.command + " was not in (open,lock,status)"));
-            } else if (response.code() == 401) {
-                return Result.Builder.fromException(new RequestException("Authorization error, check the API key."));
+                return Result.Builder.fromData(Objects.requireNonNull(response.body()).string());
             } else {
-                throw new IOException("Unexpected state in request; not 200/400/401: got " + response.code());
+                throw new IOException("Unexpected response, got " + response.code());
             }
-        } catch (JsonDataException | NullPointerException e) {
+        } catch (NullPointerException e) {
             // Create, log and throw exception, since this is not normal.
-            String message = "Unexpected response for door request.";
+            String message = "Did not get a body when sending a request.";
             InvalidFormatException exception = new InvalidFormatException(message, e);
             tracker.logError(exception);
             return Result.Builder.fromException(exception);

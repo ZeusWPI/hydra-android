@@ -39,6 +39,7 @@
     <string name="action_search">Zoeken</string>
     <string name="action_add_to_calendar">Toevoegen aan agenda</string>
     <string name="action_undo">Ongedaan maken</string>
+    <string name="action_send">Versturen</string>
 
     <string name="select_all" translatable="false">@android:string/selectAll</string>
     <string name="select_none">Niets selecteren</string>
@@ -356,6 +357,7 @@
     </plurals>
     <string name="wpi_cart_clear">Leegmaken</string>
     <string name="wpi_cart_title">Tapbestelling</string>
+    <string name="wpi_cammie_title">Cammie</string>
     <string name="wpi_cart_item_menu_add">1 toevoegen</string>
     <string name="wpi_cart_item_menu_remove">1 verwijderen</string>
     <string name="wpi_cart_item_menu_clear">Product verwijderen</string>
@@ -377,6 +379,15 @@
     <string name="wpi_door_open">Open de deur</string>
     <string name="wpi_door_close">Sluit de deur</string>
     <string name="wpi_door_key_hint">API-sleutel voor de deur. Dit is optioneel.</string>
+    
+    <string name="wpi_cammie_fullscreen_menu">Openen in volledig scherm</string>
+    <string name="wpi_cammie_chat_dialog_title">Stuur een bericht</string>
+    <string name="wpi_cammie_chat_sent">Bericht gestuurd?</string>
+    <string name="wpi_door_sending_request">Verzoek voor "%1$s" sturen…</string>
+    <string name="wpi_cammie_big_table">Grote tafel</string>
+    <string name="wpi_cammie_small_table">Kleine tafel</string>
+    <string name="wpi_cammie_sofa">Zetel</string>
+    <string name="wpi_cammie_door">Deur</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_more">meer</string>

@@ -20,14 +20,14 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.wpi.door;
+package be.ugent.zeus.hydra.wpi.cammie;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import androidx.annotation.NonNull;
 
 import java.io.IOException;
-import java.util.Locale;
 import java.util.Objects;
 
 import be.ugent.zeus.hydra.common.network.Endpoints;
@@ -35,54 +35,68 @@ import be.ugent.zeus.hydra.common.network.InvalidFormatException;
 import be.ugent.zeus.hydra.common.network.OkHttpRequest;
 import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.request.Result;
-import be.ugent.zeus.hydra.wpi.account.AccountManager;
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.JsonDataException;
 import okhttp3.*;
 
 /**
- * Send a request to the door.
+ * Send a request to move cammie around.
  *
  * @author Niko Strijbol
  */
-public class DoorRequest extends OkHttpRequest<DoorRequestResult> {
+public class MoveRequest extends OkHttpRequest<String> {
 
-    private static final String ENDPOINT = "/api/door/%s/%s";
-    private static final RequestBody EMPTY_REQUEST = RequestBody.create(new byte[]{});
+    private static final String TAG = "MoveRequest";
+    private static final String ENDPOINT = "webcam/cgi/ptdc.cgi";
+    private static final String REL = "set_relative_pos";
+    private static final String ABS = "set_pos";
 
     public enum Command {
-        OPEN("open"), CLOSE("lock"), STATUS("status");
+        NORTH_WEST(REL, -10, 10),
+        NORTH(REL, 0, 10),
+        NORTH_EAST(REL, 10, 10),
+        WEST(REL, -10, 0),
+        EAST(REL, 10, 0),
+        SOUTH_WEST(REL, -10, -10),
+        SOUTH(REL, 0, -10),
+        SOUTH_EAST(REL, 10, -10),
+        SMALL_TABLE(ABS, 22, 12),
+        BIG_TABLE(ABS, 61, 10),
+        SOFA(ABS, 56, 24),
+        DOOR(ABS, 30, 4);
 
-        String command;
+        final String command;
+        final int x;
+        final int y;
 
-        Command(String value) {
-            this.command = value;
-        }
-
-        public static Command fromStringValue(String value) {
-            return Command.valueOf(value.toUpperCase(Locale.ROOT));
+        Command(String command, int x, int y) {
+            this.command = command;
+            this.x = x;
+            this.y = y;
         }
     }
 
-    private final Context context;
     private final Command command;
 
-    protected DoorRequest(@NonNull Context context, @NonNull Command command) {
+    protected MoveRequest(@NonNull Context context, @NonNull Command command) {
         super(context);
-        this.context = context;
         this.command = command;
     }
 
     @NonNull
     @Override
-    public Result<DoorRequestResult> execute(@NonNull Bundle args) {
-        String key = AccountManager.getDoorKey(context);
-        String url = Endpoints.MATTERMORE + String.format(ENDPOINT, key, command.command);
+    public Result<String> execute(@NonNull Bundle args) {
+        HttpUrl url = Objects.requireNonNull(HttpUrl.parse(Endpoints.KELDER))
+                .newBuilder()
+                .addPathSegments(ENDPOINT)
+                .addQueryParameter("command", command.command)
+                .addQueryParameter("posX", String.valueOf(command.x))
+                .addQueryParameter("posY", String.valueOf(command.y))
+                .build();
 
-        okhttp3.Request request = new Request.Builder()
-                .addHeader("Accept", "application/json")
+        Log.d(TAG, "execute: doing door request to: " + url.toString());
+
+        Request request = new Request.Builder()
                 .url(url)
-                .post(EMPTY_REQUEST)
+                .get()
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
@@ -92,19 +106,13 @@ public class DoorRequest extends OkHttpRequest<DoorRequestResult> {
                 if (responseBody == null) {
                     throw new IOException("Unexpected null body for response 200");
                 }
-                JsonAdapter<DoorRequestResult> adapter = moshi.adapter(DoorRequestResult.class);
-                DoorRequestResult result = adapter.fromJson(responseBody.source());
-                return Result.Builder.fromData(Objects.requireNonNull(result));
-            } else if (response.code() == 400) {
-                return Result.Builder.fromException(new RequestException("Command " + this.command.command + " was not in (open,lock,status)"));
-            } else if (response.code() == 401) {
-                return Result.Builder.fromException(new RequestException("Authorization error, check the API key."));
+                return Result.Builder.fromData(responseBody.string());
             } else {
-                throw new IOException("Unexpected state in request; not 200/400/401: got " + response.code());
+                throw new IOException("Unexpected error, " + response.code());
             }
-        } catch (JsonDataException | NullPointerException e) {
+        } catch (NullPointerException e) {
             // Create, log and throw exception, since this is not normal.
-            String message = "Unexpected response for door request.";
+            String message = "Unexpected response for cammie request.";
             InvalidFormatException exception = new InvalidFormatException(message, e);
             tracker.logError(exception);
             return Result.Builder.fromException(exception);

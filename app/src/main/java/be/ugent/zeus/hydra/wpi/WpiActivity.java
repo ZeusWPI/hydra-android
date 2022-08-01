@@ -46,6 +46,7 @@ import be.ugent.zeus.hydra.databinding.ActivityWpiBinding;
 import be.ugent.zeus.hydra.wpi.account.AccountManager;
 import be.ugent.zeus.hydra.wpi.account.ApiKeyManagementActivity;
 import be.ugent.zeus.hydra.wpi.account.CombinedUserViewModel;
+import be.ugent.zeus.hydra.wpi.cammie.CammieActivity;
 import be.ugent.zeus.hydra.wpi.door.DoorRequest;
 import be.ugent.zeus.hydra.wpi.door.DoorViewModel;
 import be.ugent.zeus.hydra.wpi.tab.create.FormActivity;
@@ -136,6 +137,11 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
             setTitle();
             syncDoorButtons();
         }));
+        
+        binding.profilePicture.setOnClickListener(v -> {
+            Intent intent = new Intent(WpiActivity.this, CammieActivity.class);
+            startActivity(intent);
+        });
 
         DoorViewModel doorViewModel = provider.get(DoorViewModel.class);
         doorViewModel.getNetworkState().observe(this, networkState -> {

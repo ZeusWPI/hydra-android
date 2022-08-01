@@ -120,9 +120,15 @@ public abstract class BaseActivity<B extends ViewBinding> extends AppCompatActiv
     }
 
     public void setContentView(Function<LayoutInflater, B> binder) {
+        setContentView(binder, true);
+    }
+
+    public void setContentView(Function<LayoutInflater, B> binder, boolean withToolbar) {
         this.binding = binder.apply(getLayoutInflater());
         setContentView(this.binding.getRoot());
-        setUpActionBar();
+        if (withToolbar) {
+            setUpActionBar();
+        }
     }
 
     /**
