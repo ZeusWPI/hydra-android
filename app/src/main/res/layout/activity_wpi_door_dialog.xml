@@ -28,7 +28,7 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:paddingStart="?dialogPreferredPadding"
-    tools:context=".wpi.door.nfc.IntentReceiverActivity">
+    tools:context=".wpi.door.NfcIntentReceiverActivity">
 
     <TextView
         android:id="@+id/door_status_text"

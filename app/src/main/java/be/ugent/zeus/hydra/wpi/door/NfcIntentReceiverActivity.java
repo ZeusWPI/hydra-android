@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.wpi.door.nfc;
+package be.ugent.zeus.hydra.wpi.door;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -46,9 +46,9 @@ import be.ugent.zeus.hydra.wpi.door.DoorViewModel;
  *
  * @author Niko Strijbol
  */
-public class IntentReceiverActivity extends BaseActivity<ActivityWpiDoorDialogBinding> {
+public class NfcIntentReceiverActivity extends BaseActivity<ActivityWpiDoorDialogBinding> {
 
-    private static final String TAG = "IntentReceiverActivity";
+    private static final String TAG = "NfcIntentReceiverActivity";
 
     private DoorViewModel vm;
     private boolean wasRequestSent;

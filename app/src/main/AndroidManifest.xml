@@ -191,7 +191,7 @@
             android:theme="@style/Zeus.Material.Cammie" />
 
         <activity
-            android:name=".wpi.door.nfc.IntentReceiverActivity"
+            android:name=".wpi.door.NfcIntentReceiverActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Dialog.Alert">
 
