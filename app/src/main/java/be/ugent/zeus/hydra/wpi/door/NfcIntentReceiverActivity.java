@@ -38,8 +38,6 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.network.NetworkState;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.databinding.ActivityWpiDoorDialogBinding;
-import be.ugent.zeus.hydra.wpi.door.DoorRequest;
-import be.ugent.zeus.hydra.wpi.door.DoorViewModel;
 
 /**
  * Receives the intent, and starts a service.
@@ -48,7 +46,7 @@ import be.ugent.zeus.hydra.wpi.door.DoorViewModel;
  */
 public class NfcIntentReceiverActivity extends BaseActivity<ActivityWpiDoorDialogBinding> {
 
-    private static final String TAG = "NfcIntentReceiverActivity";
+    private static final String TAG = "NfcIntentReceiver";
 
     private DoorViewModel vm;
     private boolean wasRequestSent;
@@ -59,11 +57,10 @@ public class NfcIntentReceiverActivity extends BaseActivity<ActivityWpiDoorDialo
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(ActivityWpiDoorDialogBinding::inflate, false);
 
-        Log.w(TAG, "onNewIntent: GOT NEW INTENT...");
+        Log.i(TAG, "onCreate: starting new request...");
 
         vm = new ViewModelProvider(this).get(DoorViewModel.class);
         vm.getNetworkState().observe(this, networkState -> {
-            Log.i(TAG, "onCreate: finish?");
             if (networkState == null || networkState == NetworkState.IDLE) {
                 // The network is back to idle, so we are done.
                 // TODO: show toast for errors maybe?
@@ -98,6 +95,8 @@ public class NfcIntentReceiverActivity extends BaseActivity<ActivityWpiDoorDialo
         NdefRecord record = records[0];
         Uri uri = record.toUri();
         String doorCommand = uri.getPath().substring(1);
+
+        Log.i(TAG, "handleRequest: path from URI was " + doorCommand);
 
         binding.doorStatusText.setText(getString(R.string.wpi_door_sending_request, doorCommand));
         DoorRequest.Command command = DoorRequest.Command.fromStringValue(doorCommand);
