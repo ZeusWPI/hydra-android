@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2022 The Hydra authors
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -55,9 +55,7 @@ public class NetworkUtils {
         }
 
         if (Build.VERSION.SDK_INT < 29) {
-            //noinspection deprecation
             NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-            //noinspection deprecation
             return (networkInfo != null && networkInfo.isConnected());
         } else {
             Network network = manager.getActiveNetwork();
@@ -89,11 +87,22 @@ public class NetworkUtils {
      * Opens a browser for the given url.
      *
      * @param context The context to launch from.
+     * @param uri     The uri to launch.
+     * @see #maybeLaunchIntent(Context, Intent)
+     */
+    public static void maybeLaunchBrowser(Context context, Uri uri) {
+        maybeLaunchIntent(context, new Intent(Intent.ACTION_VIEW, uri));
+    }
+
+    /**
+     * Opens a browser for the given url.
+     *
+     * @param context The context to launch from.
      * @param url     The url to launch.
      * @see #maybeLaunchIntent(Context, Intent)
      */
     public static void maybeLaunchBrowser(Context context, String url) {
-        maybeLaunchIntent(context, new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+        maybeLaunchBrowser(context, Uri.parse(url));
     }
 
     /**
