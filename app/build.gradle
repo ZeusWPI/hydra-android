@@ -37,8 +37,8 @@ android {
         applicationId "be.ugent.zeus.hydra"
         minSdkVersion 21
         targetSdkVersion 32
-        versionCode 33000
-        versionName "3.3.0"
+        versionCode 33010
+        versionName "3.3.1"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
