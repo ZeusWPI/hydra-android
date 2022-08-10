@@ -47,6 +47,7 @@
           sources-android-32
           emulator
           system-images-android-21-google-apis-x86
+          system-images-android-21-default-x86
         ]);
       in
       {
@@ -65,6 +66,10 @@
               {
                 name = "ANDROID_SDK_ROOT";
                 eval = "${android-sdk}/share/android-sdk";
+              }
+              {
+                name = "GRADLE_OPTS";
+                eval = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${android-sdk}/share/android-sdk/build-tools/32.0.0/aapt2";
               }
             ];
             commands = [
