@@ -1,8 +1,9 @@
 # Hydra (Android) ![Android CI](https://github.com/ZeusWPI/hydra-android/workflows/Android%20CI/badge.svg?branch=development)
 
-<a href='https://play.google.com/store/apps/details?id=be.ugent.zeus.hydra&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="80px"/></a>
+<a href='https://play.google.com/store/apps/details?id=be.ugent.zeus.hydra'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="80px"/></a>
+<a href='https://f-droid.org/packages/be.ugent.zeus.hydra.open/'><img alt='Get it on F-Droid' src='https://fdroid.gitlab.io/artwork/badge/get-it-on.png' height="80px"/></a>
 
-The Android version of the Hydra app, available for Jelly Bean and up. Available on [Google Play](https://play.google.com/store/apps/details?id=be.ugent.zeus.hydra) or as a download [here](https://github.com/ZeusWPI/hydra-android/releases) (apk file).
+The Android version of the Hydra app, available for Jelly Bean and up. Available on [Google Play](https://play.google.com/store/apps/details?id=be.ugent.zeus.hydra), on [F-Droid](https://f-droid.org/packages/be.ugent.zeus.hydra.open/) or as a download in the [release section](https://github.com/ZeusWPI/hydra-android/releases) (apk file).
 
 ## Contributing
 
