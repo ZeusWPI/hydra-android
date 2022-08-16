@@ -25,21 +25,29 @@ package be.ugent.zeus.hydra.common.ui;
 import android.app.Application;
 import android.os.Bundle;
 import android.util.Log;
-import androidx.lifecycle.*;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.request.Result;
 
 /**
+ * View model with support for refreshing.
+ *
  * @author Niko Strijbol
  */
-public abstract class RefreshViewModel<D> extends AndroidViewModel implements SwipeRefreshLayout.OnRefreshListener {
+public abstract class RefreshViewModel extends AndroidViewModel implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "RefreshViewModel";
 
+    private final Set<Integer> busyData = new HashSet<>();
     private LiveData<Boolean> refreshing;
-    private BaseLiveData<Result<D>> data;
+    private final List<BaseLiveData<? extends Result<?>>> registeredData = new ArrayList<>();
 
     public RefreshViewModel(Application application) {
         super(application);
@@ -56,51 +64,33 @@ public abstract class RefreshViewModel<D> extends AndroidViewModel implements Sw
         return refreshing;
     }
 
-    /**
-     * Internal get that exposes more implementation details than {@link #getData()}.
-     *
-     * @return The live data.
-     */
-    private BaseLiveData<Result<D>> internalGet() {
-        if (data == null) {
-            data = constructDataInstance();
-        }
-        return data;
-    }
-
-    /**
-     * @return The actual data.
-     */
-    public LiveData<Result<D>> getData() {
-        return internalGet();
-    }
-
-    /**
-     * Provide (and construct) a fresh instance of the data. The parent class manages access. Other classes should
-     * obtain the data by calling {@link #getData()}.
-     *
-     * @return The data.
-     */
-    protected abstract BaseLiveData<Result<D>> constructDataInstance();
-
     @Override
     protected void onCleared() {
         super.onCleared();
         Log.d(TAG, "Destroyed the view model.");
         refreshing = null;
-        data = null;
+        registeredData.clear();
+        busyData.clear();
     }
 
     public void requestRefresh() {
-        if (data != null) {
+        for (BaseLiveData<? extends Result<?>> data : registeredData) {
             data.flagForRefresh();
         }
     }
 
     public void requestRefresh(Bundle args) {
-        if (data != null) {
+        for (BaseLiveData<? extends Result<?>> data : registeredData) {
             data.flagForRefresh(args);
         }
+    }
+
+    protected <T extends Result<?>> BaseLiveData<T> registerSource(BaseLiveData<T> data) {
+        registeredData.add(data);
+        if (refreshing != null && refreshing.hasActiveObservers()) {
+            throw new IllegalStateException("You cannot add sources after observing has started.");
+        }
+        return data;
     }
 
     /**
@@ -111,17 +101,21 @@ public abstract class RefreshViewModel<D> extends AndroidViewModel implements Sw
         requestRefresh();
     }
 
-    /**
-     * Construct the refresh live data.
-     *
-     * @return The refresh live data.
-     */
     private LiveData<Boolean> buildRefreshLiveData() {
-        MediatorLiveData<Boolean> result = new MediatorLiveData<>();
-        MutableLiveData<Boolean> refreshLiveData = new MutableLiveData<>();
-        result.addSource(internalGet(), d -> result.setValue(d != null && !d.isDone()));
-        result.addSource(refreshLiveData, result::setValue);
-        internalGet().registerRefreshListener(() -> result.setValue(true));
-        return result;
+        busyData.clear();
+        busyData.addAll(registeredData.stream().map(Object::hashCode).collect(Collectors.toList()));
+        MediatorLiveData<Boolean> refreshing = new MediatorLiveData<>();
+        refreshing.setValue(true);
+        for (BaseLiveData<? extends Result<?>> data : registeredData) {
+            refreshing.addSource(data, result -> {
+                if (result.isDone()) {
+                    busyData.remove(data.hashCode());
+                } else {
+                    busyData.add(data.hashCode());
+                }
+                refreshing.setValue(busyData.size() != 0);
+            });
+        }
+        return refreshing;
     }
 }

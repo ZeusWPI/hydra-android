@@ -28,14 +28,14 @@ import java.time.LocalDate;
 
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.request.Result;
-import be.ugent.zeus.hydra.common.ui.RefreshViewModel;
+import be.ugent.zeus.hydra.common.ui.SingleRefreshViewModel;
 import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 
 /**
  * @author Niko Strijbol
  */
-public class SingleDayViewModel extends RefreshViewModel<RestoMenu> {
+public class SingleDayViewModel extends SingleRefreshViewModel<RestoMenu> {
 
     public SingleDayViewModel(Application application) {
         super(application);

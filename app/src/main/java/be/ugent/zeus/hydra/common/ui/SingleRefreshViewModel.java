@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2022 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,37 +23,57 @@
 package be.ugent.zeus.hydra.common.ui;
 
 import android.app.Application;
-import androidx.annotation.NonNull;
+import android.util.Log;
+import androidx.lifecycle.LiveData;
 
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
-import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
-import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
 
 /**
- * Generic view model with boilerplate for using a {@link Request} as data.
- * <p>
- * It also supports a refresh status.
- *
- * @param <D> The type of the data.
  * @author Niko Strijbol
  */
-public abstract class RequestViewModel<D> extends SingleRefreshViewModel<D> {
+public abstract class SingleRefreshViewModel<D> extends RefreshViewModel {
 
-    public RequestViewModel(Application application) {
+    private static final String TAG = "RefreshViewModel";
+
+    private BaseLiveData<Result<D>> data;
+
+    public SingleRefreshViewModel(Application application) {
         super(application);
+    }
+
+    /**
+     * Internal get that exposes more implementation details than {@link #getData()}.
+     *
+     * @return The live data.
+     */
+    private BaseLiveData<Result<D>> internalGet() {
+        if (data == null) {
+            data = registerSource(constructDataInstance());
+        }
+        return data;
     }
 
     /**
      * @return The actual data.
      */
-    protected BaseLiveData<Result<D>> constructDataInstance() {
-        return registerSource(new RequestLiveData<>(getApplication(), getRequest()));
+    public LiveData<Result<D>> getData() {
+        return internalGet();
     }
 
     /**
-     * @return The request to use.
+     * Provide (and construct) a fresh instance of the data. The parent class manages access. Other classes should
+     * obtain the data by calling {@link #getData()}.
+     *
+     * @return The data.
      */
-    @NonNull
-    protected abstract Request<D> getRequest();
+    protected abstract BaseLiveData<Result<D>> constructDataInstance();
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        Log.d(TAG, "Destroyed the view model.");
+        data = null;
+    }
 }
+

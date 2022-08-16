@@ -32,7 +32,7 @@ import java.util.List;
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.arch.data.Event;
 import be.ugent.zeus.hydra.common.request.Result;
-import be.ugent.zeus.hydra.common.ui.RefreshViewModel;
+import be.ugent.zeus.hydra.common.ui.SingleRefreshViewModel;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.commands.CommandResult;
 import be.ugent.zeus.hydra.feed.commands.FeedCommand;
@@ -40,7 +40,7 @@ import be.ugent.zeus.hydra.feed.commands.FeedCommand;
 /**
  * @author Niko Strijbol
  */
-public class FeedViewModel extends RefreshViewModel<List<Card>> {
+public class FeedViewModel extends SingleRefreshViewModel<List<Card>> {
 
     private MutableLiveData<Event<CommandResult>> commandLiveData;
 
