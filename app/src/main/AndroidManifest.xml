@@ -161,6 +161,7 @@
 
         <activity
             android:name=".wpi.WpiActivity"
+            android:label="@string/drawer_title_zeus"
             android:launchMode="singleTop"
             android:parentActivityName=".MainActivity"
             android:theme="@style/Zeus.Material" />

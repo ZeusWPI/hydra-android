@@ -20,32 +20,59 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.wpi.tab.list;
+package be.ugent.zeus.hydra.wpi.tap.order;
 
-import android.view.ViewGroup;
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DiffAdapter;
-import be.ugent.zeus.hydra.common.utils.ViewUtils;
+import com.squareup.moshi.Json;
+
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
+import java.util.List;
+
+import be.ugent.zeus.hydra.wpi.tap.product.Product;
 
 /**
+ * Represents an order on Tap.
+ * 
  * @author Niko Strijbol
  */
-public class TransactionAdapter extends DiffAdapter<Transaction, TransactionViewHolder> {
+public class Order {
+    private int id;
+    @Json(name = "price_cents")
+    private int price;
+    @Json(name = "created_at")
+    private OffsetDateTime createdAt;
+    @Json(name = "deletable_until")
+    private OffsetDateTime deletableUntil;
+    @Nullable
+    @Json(name = "transaction_id")
+    private Integer transactionId;
     
-    public TransactionAdapter() {
-        setHasStableIds(true);
+    private List<Product> products;
+
+    public int getId() {
+        return id;
     }
 
-    @Override
-    public long getItemId(int position) {
-        return getItem(position).getId();
+    @Nullable
+    public Integer getTransactionId() {
+        return transactionId;
     }
 
-    @NonNull
-    @Override
-    public TransactionViewHolder onCreateViewHolder(@NonNull ViewGroup p, int viewType) {
-        return new TransactionViewHolder(ViewUtils.inflate(p, R.layout.item_transaction));
+    public OffsetDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+    
+    public BigDecimal getTotal() {
+        return new BigDecimal(this.price).movePointLeft(2);
+    }
+
+    public OffsetDateTime getDeletableUntil() {
+        return deletableUntil;
     }
 }

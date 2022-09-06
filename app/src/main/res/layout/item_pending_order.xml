@@ -27,22 +27,8 @@
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true"
     android:gravity="center_vertical"
     android:orientation="horizontal">
-    
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/thumbnail"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="16dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        tools:ignore="ContentDescription"
-        app:shapeAppearanceOverlay="@style/circleImageView"
-        tools:src="@drawable/logo_hydra" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -51,35 +37,33 @@
         android:orientation="vertical"
         android:gravity="center_vertical"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/title"
+            android:id="@+id/order_description"
             style="?textAppearanceTitleMedium"
-            tools:text="Title of the list"
+            android:singleLine="true"
+            tools:text="€5,00 - Mate, cola, etc."
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/firstDescription"
-            style="?textAppearanceBodyMedium"
-            tools:text="Description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/secondDescription"
+            android:tooltipText="@string/wpi_tap_order_cancel_hint"
+            android:id="@+id/order_date"
             style="?textAppearanceBodySmall"
-            tools:text="Description"
+            tools:text="15 minuten geleden"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:targetApi="o" />
     </LinearLayout>
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/meta"
-        android:layout_margin="16dp"
-        style="?textAppearanceTitleMedium"
-        tools:text="Meta"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancel_button"
+        app:icon="@drawable/ic_cancel"
+        style="?attr/materialIconButtonStyle"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp" />
+
 </LinearLayout>

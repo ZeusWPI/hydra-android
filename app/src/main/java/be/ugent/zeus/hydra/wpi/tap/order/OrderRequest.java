@@ -20,13 +20,12 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.wpi.tab.list;
+package be.ugent.zeus.hydra.wpi.tap.order;
 
 import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
-
-import java.time.Duration;
+import androidx.annotation.Nullable;
 
 import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.common.network.JsonArrayRequest;
@@ -34,34 +33,37 @@ import be.ugent.zeus.hydra.wpi.account.AccountManager;
 import okhttp3.Request;
 
 /**
- * This should probably be paginated at some point.
- *
  * @author Niko Strijbol
  */
-public class TransactionRequest extends JsonArrayRequest<Transaction> {
+public class OrderRequest extends JsonArrayRequest<Order> {
 
+    private final String type;
     private final Context context;
 
-    public TransactionRequest(Context context) {
-        super(context, Transaction.class);
+    public OrderRequest(Context context, @Nullable String type) {
+        super(context, Order.class);
         this.context = context.getApplicationContext();
+        this.type = type;
+    }
+
+    public OrderRequest(Context context) {
+        this(context, "pending");
     }
 
     @Override
     protected Request.Builder constructRequest(@NonNull Bundle arguments) {
         Request.Builder builder = super.constructRequest(arguments);
-        builder.addHeader("Authorization", "Bearer " + AccountManager.getTabKey(context));
+        builder.addHeader("Authorization", "Bearer " + AccountManager.getTapKey(context));
         return builder;
     }
 
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.TAB + "users/" + AccountManager.getUsername(context) + "/transactions";
-    }
-
-    @Override
-    public Duration getCacheDuration() {
-        return Duration.ZERO;
+        String suffix = "";
+        if (type != null) {
+            suffix = "?state=" + type;
+        }
+        return Endpoints.TAP + "users/" + AccountManager.getUsername(context) + "/orders" + suffix;
     }
 }

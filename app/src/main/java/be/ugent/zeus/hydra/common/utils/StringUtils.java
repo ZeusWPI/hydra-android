@@ -22,8 +22,11 @@
 
 package be.ugent.zeus.hydra.common.utils;
 
+import android.icu.text.ListFormatter;
 import androidx.annotation.NonNull;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -39,5 +42,24 @@ public class StringUtils {
      */
     public static String capitaliseFirst(@NonNull String s) {
         return s.substring(0, 1).toUpperCase(Locale.getDefault()) + s.substring(1);
+    }
+
+    /**
+     * Format a set of elements into a textual list (e.g. "one, two and three").
+     * 
+     * On supported Android versions, this will use the ICU library to get a
+     * nicely formatted list. On older versions, the items will be joined using
+     * a comma.
+     * 
+     * @param elements The items of the list.
+     * @return The resulting list. Capitals are not touched.
+     */
+    public static String formatList(Collection<String> elements) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            ListFormatter listFormatter = ListFormatter.getInstance();
+            return listFormatter.format(elements);
+        } else {
+            return String.join(", ", elements);
+        }
     }
 }

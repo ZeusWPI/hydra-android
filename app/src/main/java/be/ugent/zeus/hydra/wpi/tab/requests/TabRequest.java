@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2022 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,24 +20,25 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.common.network;
+package be.ugent.zeus.hydra.wpi.tab.requests;
+
+import java.util.List;
+
+import be.ugent.zeus.hydra.wpi.tab.list.Transaction;
 
 /**
- * Hosts used in the APIs, together with some common API endpoints.
- *
+ * A Tab request, either because someone wants money from you,
+ * or you want money from someone else.
+ * 
+ * This is basically the same as a {@link Transaction}, except that
+ * this includes the allowed actions.
+ * 
  * @author Niko Strijbol
  */
-public interface Endpoints {
-    String DSA_V4 = "https://dsa.ugent.be/api/";
+public class TabRequest extends Transaction {
+    private List<String> actions;
 
-    String ZEUS_V1 = "https://hydra.ugent.be/api/1.0/";
-    String ZEUS_V2 = "https://hydra.ugent.be/api/2.0/";
-
-    String TAP = "https://tap.zeus.gent/";
-    String TAB = "https://tab.zeus.gent/api/v1/";
-    String MATTERMORE = "https://mattermore.zeus.gent/";
-    String KELDER = "https://kelder.zeus.ugent.be/";
-    String CAMMIE = "https://kelder.zeus.ugent.be/camera/cammie";
-
-    String LIBRARY = "https://widgets.lib.ugent.be/";
+    public List<String> getActions() {
+        return actions;
+    }
 }

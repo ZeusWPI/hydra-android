@@ -325,7 +325,6 @@
     <string name="wpi_pin_description">Favourite</string>
     <string name="wpi_pin_no_favourite">You don\'t have a favourite</string>
     <string name="wpi_pin_updated">Updated existing shortcut</string>
-    <string name="wpi_user_description">Balance: %1$s • Orders: %2$s</string>
     <string name="wpi_tap_tab">Products</string>
     <string name="wpi_tab_tab">Transactions</string>
     <string name="wpi_tab_form_title">Tab transfer</string>
@@ -373,7 +372,9 @@
     <string name="wpi_door_open">Open the door</string>
     <string name="wpi_door_close">Close the door</string>
     <string name="wpi_door_key_hint">API key for the door. This is optional.</string>
+    <string name="wpi_tab_balance_description">Your Tab balance is</string>
 
+    <string name="wpi_cammie_open">Open cammie</string>
     <string name="wpi_cammie_fullscreen_menu">Open in fullscreen</string>
     <string name="wpi_cammie_chat_dialog_title">Send a message</string>
     <string name="wpi_cammie_chat_sent">Message sent?</string>
@@ -382,6 +383,14 @@
     <string name="wpi_cammie_small_table">Small table</string>
     <string name="wpi_cammie_sofa">Sofa</string>
     <string name="wpi_cammie_door">Door</string>
+    <string name="wpi_tab_requests">Requests</string>
+    <string name="wpi_tab_transactions">Transactions</string>
+    <string name="wpi_tab_transaction_summary">%1$s to %2$s</string>
+    <string name="wpi_tap_order_description">%1$s • %2$s</string>
+    <string name="wpi_tap_order_cancel_hint">Cancel order</string>
+    <string name="wpi_tap_pending_order">Pending orders</string>
+    <string name="wpi_tap_order_cancelled">Order cancelled</string>
+    <string name="wpi_tap_order_too_late">Too late!</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_more">more</string>

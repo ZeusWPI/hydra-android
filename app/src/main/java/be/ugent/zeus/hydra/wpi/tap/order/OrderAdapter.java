@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2022 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,24 +20,38 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.common.network;
+package be.ugent.zeus.hydra.wpi.tap.order;
+
+import android.view.ViewGroup;
+import androidx.annotation.NonNull;
+
+import java.util.function.Consumer;
+
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DiffAdapter;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
 
 /**
- * Hosts used in the APIs, together with some common API endpoints.
- *
  * @author Niko Strijbol
  */
-public interface Endpoints {
-    String DSA_V4 = "https://dsa.ugent.be/api/";
+public class OrderAdapter extends DiffAdapter<Order, OrderViewHolder> {
 
-    String ZEUS_V1 = "https://hydra.ugent.be/api/1.0/";
-    String ZEUS_V2 = "https://hydra.ugent.be/api/2.0/";
+    private final Consumer<Order> onClickListener;
 
-    String TAP = "https://tap.zeus.gent/";
-    String TAB = "https://tab.zeus.gent/api/v1/";
-    String MATTERMORE = "https://mattermore.zeus.gent/";
-    String KELDER = "https://kelder.zeus.ugent.be/";
-    String CAMMIE = "https://kelder.zeus.ugent.be/camera/cammie";
+    public OrderAdapter(Consumer<Order> onClickListener) {
+        super();
+        this.onClickListener = onClickListener;
+        setHasStableIds(true);
+    }
 
-    String LIBRARY = "https://widgets.lib.ugent.be/";
+    @Override
+    public long getItemId(int position) {
+        return getItem(position).getId();
+    }
+
+    @NonNull
+    @Override
+    public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup p, int viewType) {
+        return new OrderViewHolder(ViewUtils.inflate(p, R.layout.item_pending_order), onClickListener);
+    }
 }

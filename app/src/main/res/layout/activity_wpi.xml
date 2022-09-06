@@ -1,4 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
   ~ Copyright (c) 2022 Niko Strijbol
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -39,19 +41,38 @@
             android:id="@+id/collapsing_toolbar"
             style="?attr/collapsingToolbarLayoutLargeStyle"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
+            android:paddingBottom="8dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlwaysCollapsed|snap"
             app:titleEnabled="false">
 
             <LinearLayout
-                android:id="@+id/accountDetails"
+                android:id="@+id/account_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingTop="?attr/actionBarSize"
                 app:layout_collapseMode="parallax">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/balance_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:text="@string/wpi_tab_balance_description"
+                    android:textAppearance="?textAppearanceTitleSmall" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tab_balance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:textAppearance="?textAppearanceDisplayMedium"
+                    tools:text="€ 15,00" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -60,45 +81,39 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/door_button_close"
-                        style="@style/IconOnlyOutlineButton"
+                        android:id="@+id/door_open"
+                        style="?materialIconButtonOutlinedStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="24dp"
-                        android:tooltipText="@string/wpi_door_close"
-                        app:icon="@drawable/ic_door_closed"
+                        android:layout_marginEnd="8dp"
+                        android:tooltipText="@string/wpi_door_open"
                         android:visibility="gone"
-                        tools:visibility="visible"
-                        tools:ignore="UnusedAttribute" />
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/profilePicture"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:scaleType="centerCrop"
-                        app:shapeAppearanceOverlay="@style/circleImageView"
-                        tools:src="@drawable/logo_hydra" />
+                        app:icon="@drawable/ic_lock_open"
+                        tools:ignore="UnusedAttribute"
+                        tools:visibility="visible" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/door_button_open"
-                        style="@style/IconOnlyOutlineButton"
+                        android:id="@+id/door_close"
+                        style="?materialIconButtonOutlinedStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:tooltipText="@string/wpi_door_open"
-                        app:icon="@drawable/ic_door_open"
+                        android:layout_marginEnd="8dp"
+                        android:tooltipText="@string/wpi_door_close"
                         android:visibility="gone"
-                        tools:visibility="visible"
+                        app:icon="@drawable/ic_lock"
+                        tools:ignore="UnusedAttribute"
+                        tools:visibility="visible" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/open_cammie"
+                        style="?materialIconButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tooltipText="@string/wpi_cammie_open"
+                        app:icon="@drawable/ic_videocam"
                         tools:ignore="UnusedAttribute" />
                 </LinearLayout>
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/profileDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
-                    android:textAlignment="center"
-                    tools:text="€ 25,63 - 123 transacties" />
             </LinearLayout>
 
             <com.google.android.material.appbar.MaterialToolbar
@@ -109,60 +124,79 @@
                 app:layout_collapseMode="pin"
                 app:titleCentered="true" />
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tab_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                app:tabMode="fixed" />
-
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/tabFab"
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="120dp"
+                android:scrollbarStyle="outsideOverlay"
+                android:scrollbars="vertical"
+                app:layoutManager="@string/app_layout_manager_normal"
+                app:spanCount="@integer/span_count_normal"
+                tools:listitem="@layout/item_product" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+
+        </FrameLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/tab_transaction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:text="@string/wpi_start_transfer"
-        android:visibility="gone"
-        app:icon="@drawable/ic_bank_transfer"
-        app:layout_behavior="be.ugent.zeus.hydra.common.ui.ShrinkExtendedFabBehavior"
-        tools:ignore="ContentDescription" />
+        android:contentDescription="@string/wpi_start_transfer"
+        android:src="@drawable/ic_bank_transfer"
+        android:tooltipText="@string/wpi_start_transfer"
+        android:translationY="-32dp"
+        app:fabSize="mini"
+        app:layout_anchor="@id/tap_add_favourite"
+        app:layout_anchorGravity="end|top"
+        tools:ignore="UnusedAttribute" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/tap_add_favourite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/wpi_cart_add_manual"
+        android:src="@drawable/ic_heart"
+        android:tooltipText="@string/wpi_cart_add_manual"
+        android:translationY="-32dp"
+        app:fabSize="mini"
+        app:layout_anchor="@id/tap_order"
+        app:layout_anchorGravity="end|top"
+        tools:ignore="UnusedAttribute" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/tapFab"
+        android:id="@+id/tap_order"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:text="@string/wpi_start_cart"
-        android:visibility="gone"
-        tools:visibility="visible"
         app:icon="@drawable/ic_shopping_cart"
         app:layout_behavior="be.ugent.zeus.hydra.common.ui.ShrinkExtendedFabBehavior"
         tools:ignore="ContentDescription" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/tap_add_favourite"
-        app:fabSize="mini"
-        android:visibility="gone"
-        tools:visibility="visible"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:layout_anchor="@id/tapFab"
-        app:layout_anchorGravity="end|top"
-        android:translationY="-32dp"
-        android:src="@drawable/ic_heart"
-        android:contentDescription="@string/wpi_cart_add_manual" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
