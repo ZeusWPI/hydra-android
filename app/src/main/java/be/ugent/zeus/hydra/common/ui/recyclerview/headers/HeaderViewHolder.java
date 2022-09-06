@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2022 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,40 +20,31 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.common.ui;
+package be.ugent.zeus.hydra.common.ui.recyclerview.headers;
 
-import android.app.Application;
-import androidx.annotation.NonNull;
+import android.view.View;
+import android.widget.TextView;
+import androidx.annotation.StringRes;
+import androidx.recyclerview.widget.RecyclerView;
 
-import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
-import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
-import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.common.request.Result;
+import be.ugent.zeus.hydra.R;
 
 /**
- * Generic view model with boilerplate for using a {@link Request} as data.
- * <p>
- * It also supports a refresh status.
+ * For simple headers.
  *
- * @param <D> The type of the data.
  * @author Niko Strijbol
  */
-public abstract class RequestViewModel<D> extends SingleRefreshViewModel<D> {
+public class HeaderViewHolder extends RecyclerView.ViewHolder {
 
-    public RequestViewModel(Application application) {
-        super(application);
+    public HeaderViewHolder(View v, String text) {
+        super(v);
+        TextView headerText = v.findViewById(R.id.header_text);
+        headerText.setText(text);
     }
 
-    /**
-     * @return The actual data.
-     */
-    protected BaseLiveData<Result<D>> constructDataInstance() {
-        return new RequestLiveData<>(getApplication(), getRequest());
+    public HeaderViewHolder(View v, @StringRes int text) {
+        super(v);
+        TextView headerText = v.findViewById(R.id.header_text);
+        headerText.setText(text);
     }
-
-    /**
-     * @return The request to use.
-     */
-    @NonNull
-    protected abstract Request<D> getRequest();
 }

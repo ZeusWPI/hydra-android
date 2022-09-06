@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2022 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,40 +20,25 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.common.ui;
+package be.ugent.zeus.hydra.wpi.tab.requests;
 
-import android.app.Application;
-import androidx.annotation.NonNull;
+import java.util.List;
 
-import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
-import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
-import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.common.request.Result;
+import be.ugent.zeus.hydra.wpi.tab.list.Transaction;
 
 /**
- * Generic view model with boilerplate for using a {@link Request} as data.
- * <p>
- * It also supports a refresh status.
- *
- * @param <D> The type of the data.
+ * A Tab request, either because someone wants money from you,
+ * or you want money from someone else.
+ * 
+ * This is basically the same as a {@link Transaction}, except that
+ * this includes the allowed actions.
+ * 
  * @author Niko Strijbol
  */
-public abstract class RequestViewModel<D> extends SingleRefreshViewModel<D> {
+public class TabRequest extends Transaction {
+    private List<String> actions;
 
-    public RequestViewModel(Application application) {
-        super(application);
+    public List<String> getActions() {
+        return actions;
     }
-
-    /**
-     * @return The actual data.
-     */
-    protected BaseLiveData<Result<D>> constructDataInstance() {
-        return new RequestLiveData<>(getApplication(), getRequest());
-    }
-
-    /**
-     * @return The request to use.
-     */
-    @NonNull
-    protected abstract Request<D> getRequest();
 }

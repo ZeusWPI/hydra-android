@@ -70,12 +70,12 @@ public abstract class JsonOkHttpRequest<D> extends OkHttpRequest<D> {
     private final Type typeToken;
 
     /**
-     * Construct a new request. As this constructor is not type-safe, it must only be used internally.
+     * Construct a new request. As this constructor is not type-safe, it should only be used as a last resort.
      *
      * @param context The context.
      * @param token   The type token of the return type.
      */
-    JsonOkHttpRequest(@NonNull Context context, @NonNull Type token) {
+    public JsonOkHttpRequest(@NonNull Context context, @NonNull Type token) {
         super(context);
         this.typeToken = token;
     }
@@ -146,6 +146,8 @@ public abstract class JsonOkHttpRequest<D> extends OkHttpRequest<D> {
         try (Response response = client.newCall(request).execute()) {
 
             if (!response.isSuccessful()) {
+                Log.i(TAG, "Unsuccessful call to " + request.url());
+                Log.i(TAG, "Got response code/message: " + response.code() + " / " + response.message());
                 throw new UnsuccessfulRequestException(response.code());
             }
 

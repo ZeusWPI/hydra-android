@@ -70,8 +70,6 @@ class DiffUpdate<D> implements AdapterUpdate<D> {
         }
 
         if (status.isEmpty()) {
-            assert existingData != null;
-            assert newData != null;
             // Else we calculate a diff, as both are non-empty.
             result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
                 @Override

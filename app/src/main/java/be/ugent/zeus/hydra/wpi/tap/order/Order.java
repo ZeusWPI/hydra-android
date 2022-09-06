@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2022 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,29 +20,59 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.resto.menu;
+package be.ugent.zeus.hydra.wpi.tap.order;
 
-import android.app.Application;
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
+import com.squareup.moshi.Json;
+
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 import java.util.List;
 
-import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.common.ui.RequestViewModel;
-import be.ugent.zeus.hydra.resto.RestoMenu;
+import be.ugent.zeus.hydra.wpi.tap.product.Product;
 
 /**
+ * Represents an order on Tap.
+ * 
  * @author Niko Strijbol
  */
-public class MenuViewModel extends RequestViewModel<List<RestoMenu>> {
+public class Order {
+    private int id;
+    @Json(name = "price_cents")
+    private int price;
+    @Json(name = "created_at")
+    private OffsetDateTime createdAt;
+    @Json(name = "deletable_until")
+    private OffsetDateTime deletableUntil;
+    @Nullable
+    @Json(name = "transaction_id")
+    private Integer transactionId;
+    
+    private List<Product> products;
 
-    public MenuViewModel(Application application) {
-        super(application);
+    public int getId() {
+        return id;
     }
 
-    @NonNull
-    @Override
-    protected Request<List<RestoMenu>> getRequest() {
-        return new MenuRequest(getApplication());
+    @Nullable
+    public Integer getTransactionId() {
+        return transactionId;
+    }
+
+    public OffsetDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+    
+    public BigDecimal getTotal() {
+        return new BigDecimal(this.price).movePointLeft(2);
+    }
+
+    public OffsetDateTime getDeletableUntil() {
+        return deletableUntil;
     }
 }

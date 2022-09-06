@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!--
   ~ Copyright (c) 2021 The Hydra authors
   ~
@@ -21,20 +22,15 @@
   ~ SOFTWARE.
   -->
 
-<resources>
-    <style name="Hydra.Text.Subhead" parent="TextAppearance.Material3.TitleSmall">
-        <item name="android:textColor">?colorOnSurface</item>
-    </style>
+<com.google.android.material.textview.MaterialTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/header_text"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:gravity="center_vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:textColor="?colorPrimary"
+    android:textAppearance="?textAppearanceTitleSmall"
+    tools:text="Een datum komt hier" />
 
-    <!-- Divider style -->
-    <style name="Divider">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1dp</item>
-        <item name="android:background">?android:attr/listDivider</item>
-    </style>
-
-    <style name="circleImageView" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">50%</item>
-    </style>
-</resources>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2022 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,40 +20,32 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.common.ui;
+package be.ugent.zeus.hydra.wpi.tab.requests;
 
-import android.app.Application;
+import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
-import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
-import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
-import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.common.request.Result;
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DiffAdapter;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
 
 /**
- * Generic view model with boilerplate for using a {@link Request} as data.
- * <p>
- * It also supports a refresh status.
- *
- * @param <D> The type of the data.
  * @author Niko Strijbol
  */
-public abstract class RequestViewModel<D> extends SingleRefreshViewModel<D> {
-
-    public RequestViewModel(Application application) {
-        super(application);
+public class TabRequestsAdapter extends DiffAdapter<TabRequest, AcceptableRequestsViewHolder> {
+    
+    public TabRequestsAdapter() {
+        setHasStableIds(true);
     }
 
-    /**
-     * @return The actual data.
-     */
-    protected BaseLiveData<Result<D>> constructDataInstance() {
-        return new RequestLiveData<>(getApplication(), getRequest());
+    @Override
+    public long getItemId(int position) {
+        return getItem(position).getId();
     }
 
-    /**
-     * @return The request to use.
-     */
     @NonNull
-    protected abstract Request<D> getRequest();
+    @Override
+    public AcceptableRequestsViewHolder onCreateViewHolder(@NonNull ViewGroup p, int viewType) {
+        return new AcceptableRequestsViewHolder(ViewUtils.inflate(p, R.layout.item_tab_request));
+    }
 }

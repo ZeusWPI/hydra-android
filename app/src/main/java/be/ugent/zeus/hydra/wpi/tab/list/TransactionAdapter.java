@@ -32,7 +32,17 @@ import be.ugent.zeus.hydra.common.utils.ViewUtils;
 /**
  * @author Niko Strijbol
  */
-class TransactionAdapter extends DiffAdapter<Transaction, TransactionViewHolder> {
+public class TransactionAdapter extends DiffAdapter<Transaction, TransactionViewHolder> {
+    
+    public TransactionAdapter() {
+        setHasStableIds(true);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return getItem(position).getId();
+    }
+
     @NonNull
     @Override
     public TransactionViewHolder onCreateViewHolder(@NonNull ViewGroup p, int viewType) {

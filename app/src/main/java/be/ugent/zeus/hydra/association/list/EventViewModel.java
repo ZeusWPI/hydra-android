@@ -23,21 +23,19 @@
 package be.ugent.zeus.hydra.association.list;
 
 import android.app.Application;
-import android.content.Context;
 import android.util.Pair;
+import androidx.annotation.NonNull;
 
 import java.util.List;
 
 import be.ugent.zeus.hydra.association.AssociationMap;
-import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
-import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
-import be.ugent.zeus.hydra.common.request.Result;
-import be.ugent.zeus.hydra.common.ui.RefreshViewModel;
+import be.ugent.zeus.hydra.common.request.Request;
+import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 
 /**
  * @author Niko Strijbol
  */
-public class EventViewModel extends RefreshViewModel<Pair<List<EventItem>, AssociationMap>> {
+public class EventViewModel extends RequestViewModel<Pair<List<EventItem>, AssociationMap>> {
 
     private Filter filter;
 
@@ -49,9 +47,9 @@ public class EventViewModel extends RefreshViewModel<Pair<List<EventItem>, Assoc
         this.filter = filter;
     }
 
+    @NonNull
     @Override
-    protected BaseLiveData<Result<Pair<List<EventItem>, AssociationMap>>> constructDataInstance() {
-        Context context = getApplication();
-        return new RequestLiveData<>(context, EventItem.request(context, filter));
+    protected Request<Pair<List<EventItem>, AssociationMap>> getRequest() {
+        return EventItem.request(getApplication(), filter);
     }
 }

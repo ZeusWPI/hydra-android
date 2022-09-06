@@ -30,37 +30,48 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.*;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.recyclerview.widget.ConcatAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.function.Consumer;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
-import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
+import be.ugent.zeus.hydra.common.arch.observers.*;
 import be.ugent.zeus.hydra.common.network.NetworkState;
+import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
+import be.ugent.zeus.hydra.common.ui.recyclerview.SpanItemSpacingDecoration;
+import be.ugent.zeus.hydra.common.ui.recyclerview.headers.HeaderAdapter;
+import be.ugent.zeus.hydra.common.utils.ColourUtils;
 import be.ugent.zeus.hydra.databinding.ActivityWpiBinding;
 import be.ugent.zeus.hydra.wpi.account.AccountManager;
 import be.ugent.zeus.hydra.wpi.account.ApiKeyManagementActivity;
-import be.ugent.zeus.hydra.wpi.account.CombinedUserViewModel;
 import be.ugent.zeus.hydra.wpi.cammie.CammieActivity;
 import be.ugent.zeus.hydra.wpi.door.DoorRequest;
 import be.ugent.zeus.hydra.wpi.door.DoorViewModel;
 import be.ugent.zeus.hydra.wpi.tab.create.FormActivity;
+import be.ugent.zeus.hydra.wpi.tab.create.TabRequestException;
+import be.ugent.zeus.hydra.wpi.tab.list.TransactionAdapter;
+import be.ugent.zeus.hydra.wpi.tab.requests.TabRequestsAdapter;
 import be.ugent.zeus.hydra.wpi.tap.cart.CartActivity;
+import be.ugent.zeus.hydra.wpi.tap.order.Order;
+import be.ugent.zeus.hydra.wpi.tap.order.OrderAdapter;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayoutMediator;
-import com.squareup.picasso.Picasso;
 
 /**
- * Activity that allows you to manage your API key.
- * <p>
- * This is a temporary solution; at some point, we'll need to implement
- * a proper login solution (or do we? it is Zeus after all).
+ * Main activity for Zeus mode.
+ * 
+ * Take care to look at the {@link #onCreate(Bundle)} function, as this
+ * activity sets up quite a few things that should go together.
  *
  * @author Niko Strijbol
  */
@@ -69,56 +80,21 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
     private static final String TAG = "ApiKeyManagementActivit";
     public static final int ACTIVITY_DO_REFRESH = 963;
 
-    private CombinedUserViewModel combinedUserViewModel;
-    private WpiPagerAdapter pageAdapter;
+    private WpiViewModel viewModel;
 
     private final NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
-    private final NumberFormat decimalFormatter = NumberFormat.getNumberInstance();
-    
-    private boolean shouldShowFavouriteFab = false;
-
-    private final ViewPager2.OnPageChangeCallback callback = new ViewPager2.OnPageChangeCallback() {
-        @Override
-        public void onPageSelected(int position) {
-            if (position == 0) {
-                binding.tabFab.hide();
-                binding.tapFab.show();
-                if (shouldShowFavouriteFab) {
-                    binding.tapAddFavourite.show();
-                }
-            } else if (position == 1) {
-                binding.tapFab.hide();
-                binding.tabFab.show();
-                shouldShowFavouriteFab = binding.tapAddFavourite.isOrWillBeShown();
-                binding.tapAddFavourite.hide();
-            }
-        }
-    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(ActivityWpiBinding::inflate);
-        setTitle();
 
-        pageAdapter = new WpiPagerAdapter(this);
-        ViewPager2 viewPager = binding.viewPager;
-        viewPager.setAdapter(pageAdapter);
-
-        TabLayoutMediator mediator = new TabLayoutMediator(binding.tabLayout, viewPager, (tab, position) -> {
-            if (position == 0) {
-                tab.setText(R.string.wpi_tap_tab);
-            } else if (position == 1) {
-                tab.setText(R.string.wpi_tab_tab);
-            }
-        });
-        mediator.attach();
-
-        binding.tabFab.setOnClickListener(v -> {
+        // Attach listeners to FABs.
+        binding.tabTransaction.setOnClickListener(v -> {
             Intent intent = new Intent(WpiActivity.this, FormActivity.class);
             startActivityForResult(intent, ACTIVITY_DO_REFRESH);
         });
-        binding.tapFab.setOnClickListener(v -> {
+        binding.tapOrder.setOnClickListener(v -> {
             Intent intent = new Intent(WpiActivity.this, CartActivity.class);
             startActivityForResult(intent, ACTIVITY_DO_REFRESH);
         });
@@ -126,19 +102,22 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
         syncDoorButtons();
 
         ViewModelProvider provider = new ViewModelProvider(this);
-
-        combinedUserViewModel = provider.get(CombinedUserViewModel.class);
-        combinedUserViewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
-        combinedUserViewModel.getData().observe(this, SuccessObserver.with(user -> {
-            Picasso.get().load(user.getProfilePicture()).into(binding.profilePicture);
+        viewModel = provider.get(WpiViewModel.class);
+        viewModel.getUserData().observe(this, PartialErrorObserver.with(this::onError));
+        viewModel.getUserData().observe(this, SuccessObserver.with(user -> {
             String balance = currencyFormatter.format(user.getBalanceDecimal());
-            String orders = decimalFormatter.format(user.getOrders());
-            binding.profileDescription.setText(getString(R.string.wpi_user_description, balance, orders));
-            setTitle();
+            binding.tabBalance.setText(balance);
+            int colour;
+            if (user.getBalanceDecimal().compareTo(BigDecimal.ONE) < 0) {
+                colour = ColourUtils.resolveColour(this, R.attr.colorError);
+            } else {
+                colour = ColourUtils.resolveColour(this, R.attr.colorOnSurface);
+            }
+            binding.tabBalance.setTextColor(colour);
             syncDoorButtons();
         }));
-        
-        binding.profilePicture.setOnClickListener(v -> {
+
+        binding.openCammie.setOnClickListener(v -> {
             Intent intent = new Intent(WpiActivity.this, CammieActivity.class);
             startActivity(intent);
         });
@@ -152,56 +131,113 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
             // This scenario is most likely after a button was pressed, but the HTTP call
             // is much faster than the actual lock.
             // In the other case, just do it.
-            if (enabled && (!binding.doorButtonOpen.isEnabled() || !binding.doorButtonClose.isEnabled())) {
+            if (enabled && (!binding.doorOpen.isEnabled() || !binding.doorClose.isEnabled())) {
                 new Handler().postDelayed(() -> {
-                    binding.doorButtonClose.setEnabled(true);
-                    binding.doorButtonOpen.setEnabled(true);
+                    binding.doorOpen.setEnabled(true);
+                    binding.doorClose.setEnabled(true);
                 }, 3000);
             } else {
-                binding.doorButtonClose.setEnabled(enabled);
-                binding.doorButtonOpen.setEnabled(enabled);
+                binding.doorOpen.setEnabled(enabled);
+                binding.doorClose.setEnabled(enabled);
             }
         });
 
-        binding.doorButtonClose.setOnClickListener(v -> new MaterialAlertDialogBuilder(WpiActivity.this)
+        binding.doorClose.setOnClickListener(v -> new MaterialAlertDialogBuilder(WpiActivity.this)
                 .setMessage(R.string.wpi_door_close)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> doorViewModel.startRequest(DoorRequest.Command.CLOSE))
                 .setNegativeButton(android.R.string.cancel, null)
                 .show());
-        binding.doorButtonOpen.setOnClickListener(v -> new MaterialAlertDialogBuilder(WpiActivity.this)
+        binding.doorOpen.setOnClickListener(v -> new MaterialAlertDialogBuilder(WpiActivity.this)
                 .setMessage(R.string.wpi_door_open)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> doorViewModel.startRequest(DoorRequest.Command.OPEN))
                 .setNegativeButton(android.R.string.cancel, null)
                 .show());
-    }
 
-    private void setTitle() {
-        setTitle(AccountManager.getUsername(this));
+        // Set up the adapters.
+        ConcatAdapter.Config config = new ConcatAdapter.Config.Builder()
+                .setStableIdMode(ConcatAdapter.Config.StableIdMode.ISOLATED_STABLE_IDS)
+                .build();
+        ConcatAdapter mainAdapter = new ConcatAdapter(config);
+
+        TabRequestsAdapter tabRequestsAdapter = new TabRequestsAdapter();
+        RecyclerView.Adapter<?> finalRequestAdapter = HeaderAdapter.makeHideable(R.string.wpi_tab_requests, tabRequestsAdapter);
+
+        OrderAdapter tapOrderAdapter = new OrderAdapter(order -> {
+            OffsetDateTime now = OffsetDateTime.now();
+            // We can no longer cancel the order...
+            if (now.isAfter(order.getDeletableUntil())) {
+                Toast.makeText(this, R.string.wpi_tap_order_too_late, Toast.LENGTH_SHORT)
+                        .show();
+                viewModel.onRefresh();
+            } else {
+                new MaterialAlertDialogBuilder(WpiActivity.this)
+                        .setMessage(R.string.wpi_tap_order_cancel_hint)
+                        .setPositiveButton(android.R.string.ok, (dialog, which) -> viewModel.cancelOrder(order))
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show();
+            }
+        });
+        RecyclerView.Adapter<?> finalOrderAdapter = HeaderAdapter.makeHideable(R.string.wpi_tap_pending_order, tapOrderAdapter);
+
+        TransactionAdapter transactionAdapter = new TransactionAdapter();
+        RecyclerView.Adapter<?> finalTransactionAdapter = HeaderAdapter.makeHideable(R.string.wpi_tab_transactions, transactionAdapter);
+
+        mainAdapter.addAdapter(finalRequestAdapter);
+        mainAdapter.addAdapter(finalOrderAdapter);
+        mainAdapter.addAdapter(finalTransactionAdapter);
+
+        // Show recycler view.
+        binding.recyclerView.setHasFixedSize(true);
+        binding.recyclerView.addItemDecoration(new SpanItemSpacingDecoration(this));
+        binding.recyclerView.setAdapter(mainAdapter);
+
+        viewModel.getRefreshing().observe(this, binding.swipeRefreshLayout::setRefreshing);
+
+        // Attach request data.
+//        viewModel.getRequestData().observe(this, PartialErrorObserver.with(this::onError));
+//        viewModel.getRequestData().observe(this, new ProgressObserver<>(binding.progressBar));
+//        viewModel.getRequestData().observe(this, new AdapterObserver<>(tabRequestsAdapter));
+
+        // Attach pending order data.
+        viewModel.getOrderData().observe(this, PartialErrorObserver.with(this::onError));
+        viewModel.getOrderData().observe(this, new ProgressObserver<>(binding.progressBar));
+        viewModel.getOrderData().observe(this, new AdapterObserver<>(tapOrderAdapter));
+
+        // Attach transaction data.
+        viewModel.getTransactionData().observe(this, PartialErrorObserver.with(this::onError));
+        viewModel.getTransactionData().observe(this, new ProgressObserver<>(binding.progressBar));
+        viewModel.getTransactionData().observe(this, new AdapterObserver<>(transactionAdapter));
+        
+        // Listen to network updates.
+        viewModel.getNetworkState().observe(this, networkState -> 
+                binding.progressBar.setEnabled(networkState == null || networkState == NetworkState.IDLE));
+
+        // Listen for updates on cancelled orders.
+        viewModel.getOrderRequestResult().observe(this, EventObserver.with(booleanResult -> {
+            if (booleanResult.isWithoutError()) {
+                Toast.makeText(WpiActivity.this, R.string.wpi_tap_order_cancelled, Toast.LENGTH_SHORT).show();
+            } else {
+                onError(booleanResult.getError());
+            }
+            viewModel.onRefresh();
+        }));
+        
+        // Fix color of swipe refresh layout.
+        binding.swipeRefreshLayout.setColorSchemeColors(ColourUtils.resolveColour(this, R.attr.colorSecondary));
+        binding.swipeRefreshLayout.setOnRefreshListener(viewModel);
     }
 
     private void syncDoorButtons() {
         boolean hasDoorKey = !TextUtils.isEmpty(AccountManager.getDoorKey(this));
-        binding.doorButtonOpen.setVisibility(hasDoorKey ? View.VISIBLE : View.GONE);
-        binding.doorButtonClose.setVisibility(hasDoorKey ? View.VISIBLE : View.GONE);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        binding.viewPager.registerOnPageChangeCallback(callback);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        binding.viewPager.unregisterOnPageChangeCallback(callback);
+        binding.doorOpen.setVisibility(hasDoorKey ? View.VISIBLE : View.GONE);
+        binding.doorClose.setVisibility(hasDoorKey ? View.VISIBLE : View.GONE);
     }
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
         // TODO: better error message.
         Snackbar.make(binding.getRoot(), getString(R.string.error_network), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.action_again), v -> combinedUserViewModel.onRefresh())
+                .setAction(getString(R.string.action_again), v -> viewModel.onRefresh())
                 .show();
     }
 
@@ -230,11 +266,7 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
 
         if (requestCode == ACTIVITY_DO_REFRESH && resultCode == Activity.RESULT_OK) {
             Log.i(TAG, "onActivityResult: refreshing for result...");
-            combinedUserViewModel.onRefresh();
-
-            if (pageAdapter != null) {
-                pageAdapter.notifyDataSetChanged();
-            }
+            viewModel.onRefresh();
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2022 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,40 +20,28 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.common.ui;
+package be.ugent.zeus.hydra.wpi.tab.requests;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
 
-import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
-import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
+import java.util.List;
+
 import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.common.request.Result;
+import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 
 /**
- * Generic view model with boilerplate for using a {@link Request} as data.
- * <p>
- * It also supports a refresh status.
- *
- * @param <D> The type of the data.
  * @author Niko Strijbol
  */
-public abstract class RequestViewModel<D> extends SingleRefreshViewModel<D> {
+public class TabRequestViewModel extends RequestViewModel<List<TabRequest>> {
 
-    public RequestViewModel(Application application) {
+    public TabRequestViewModel(Application application) {
         super(application);
     }
 
-    /**
-     * @return The actual data.
-     */
-    protected BaseLiveData<Result<D>> constructDataInstance() {
-        return new RequestLiveData<>(getApplication(), getRequest());
-    }
-
-    /**
-     * @return The request to use.
-     */
     @NonNull
-    protected abstract Request<D> getRequest();
+    @Override
+    protected Request<List<TabRequest>> getRequest() {
+        return TabRequestRequest.acceptableRequests(getApplication());
+    }
 }

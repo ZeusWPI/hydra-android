@@ -67,9 +67,13 @@ public class Transaction {
     public String getMessage() {
         return message;
     }
+    
+    public BigDecimal getBigAmount() {
+        return new BigDecimal(getAmount()).movePointLeft(2);
+    }
 
     public BigDecimal getAdjustedAmount(String fromPerspectiveOf) {
-        BigDecimal raw = new BigDecimal(getAmount()).movePointLeft(2);
+        BigDecimal raw = getBigAmount();
         if (fromPerspectiveOf.equals(getDebtor())) {
             return raw.negate();
         } else {
