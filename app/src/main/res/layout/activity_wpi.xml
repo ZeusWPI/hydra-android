@@ -143,7 +143,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
-                android:paddingBottom="120dp"
+                android:paddingBottom="160dp"
                 android:scrollbarStyle="outsideOverlay"
                 android:scrollbars="vertical"
                 app:layoutManager="@string/app_layout_manager_normal"
