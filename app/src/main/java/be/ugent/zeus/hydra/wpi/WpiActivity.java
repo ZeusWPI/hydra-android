@@ -68,10 +68,10 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 /**
- * Activity that allows you to manage your API key.
- * <p>
- * This is a temporary solution; at some point, we'll need to implement
- * a proper login solution (or do we? it is Zeus after all).
+ * Main activity for Zeus mode.
+ * 
+ * Take care to look at the {@link #onCreate(Bundle)} function, as this
+ * activity sets up quite a few things that should go together.
  *
  * @author Niko Strijbol
  */
