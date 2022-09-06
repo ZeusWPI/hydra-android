@@ -72,63 +72,63 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/move_north_west"
-                style="@style/IconOnlyOutlineButton"
+                style="?materialIconButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:icon="@drawable/ic_north_west" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/move_north"
-                style="@style/IconOnlyOutlineButton"
+                style="?materialIconButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:icon="@drawable/ic_north" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/move_north_east"
-                style="@style/IconOnlyOutlineButton"
+                style="?materialIconButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:icon="@drawable/ic_north_east" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/move_west"
-                style="@style/IconOnlyOutlineButton"
+                style="?materialIconButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:icon="@drawable/ic_west" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/message"
-                style="@style/IconOnlyOutlineButton"
+                style="?materialIconButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:icon="@drawable/ic_chat" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/move_east"
-                style="@style/IconOnlyOutlineButton"
+                style="?materialIconButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:icon="@drawable/ic_east" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/move_south_west"
-                style="@style/IconOnlyOutlineButton"
+                style="?materialIconButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:icon="@drawable/ic_south_west" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/move_south"
-                style="@style/IconOnlyOutlineButton"
+                style="?materialIconButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:icon="@drawable/ic_south" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/move_south_east"
-                style="@style/IconOnlyOutlineButton"
+                style="?materialIconButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:icon="@drawable/ic_south_east" />
