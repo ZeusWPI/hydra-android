@@ -169,7 +169,7 @@
         android:src="@drawable/ic_bank_transfer"
         android:tooltipText="@string/wpi_start_transfer"
         android:translationY="-32dp"
-        app:fabSize="mini"
+        style="?attr/floatingActionButtonSmallStyle"
         app:layout_anchor="@id/tap_add_favourite"
         app:layout_anchorGravity="end|top"
         tools:ignore="UnusedAttribute" />
@@ -183,7 +183,7 @@
         android:src="@drawable/ic_heart"
         android:tooltipText="@string/wpi_cart_add_manual"
         android:translationY="-32dp"
-        app:fabSize="mini"
+        style="?attr/floatingActionButtonSmallStyle"
         app:layout_anchor="@id/tap_order"
         app:layout_anchorGravity="end|top"
         tools:ignore="UnusedAttribute" />
@@ -196,7 +196,6 @@
         android:layout_margin="16dp"
         android:text="@string/wpi_start_cart"
         app:icon="@drawable/ic_shopping_cart"
-        app:layout_behavior="be.ugent.zeus.hydra.common.ui.ShrinkExtendedFabBehavior"
         tools:ignore="ContentDescription" />
-
+<!--    app:layout_behavior="be.ugent.zeus.hydra.common.ui.ShrinkExtendedFabBehavior"-->
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
