@@ -332,8 +332,6 @@
     <string name="wpi_pin_description">Dagschotel</string>
     <string name="wpi_pin_no_favourite">U heeft geen dagschotel</string>
     <string name="wpi_pin_updated">Bestaande snelkoppeling bijgewerkt</string>
-    <string name="wpi_tap_tab">Producten</string>
-    <string name="wpi_tab_tab">Transacties</string>
     <string name="wpi_tab_form_title">Tab-overschrijving</string>
     <string name="wpi_tab_form_to">Zeuslid</string>
     <string name="wpi_tab_form_to_helper">Aan wie u geld wilt geven of vragen. De Zeus-gebruikersnaam moet exact juist gespeld zijn. Door beperkingen in de API is nog geen automatische aanvulling in dit veld.</string>

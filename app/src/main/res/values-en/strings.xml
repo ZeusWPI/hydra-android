@@ -325,8 +325,6 @@
     <string name="wpi_pin_description">Favourite</string>
     <string name="wpi_pin_no_favourite">You don\'t have a favourite</string>
     <string name="wpi_pin_updated">Updated existing shortcut</string>
-    <string name="wpi_tap_tab">Products</string>
-    <string name="wpi_tab_tab">Transactions</string>
     <string name="wpi_tab_form_title">Tab transfer</string>
     <string name="wpi_tab_form_to">Zeus member</string>
     <string name="wpi_tab_form_to_helper">Who you want to give money to or request money from. The Zeus username must be spelled exactly correct. Due to limitations in the API, there is no autocomplete for this field yet.</string>
