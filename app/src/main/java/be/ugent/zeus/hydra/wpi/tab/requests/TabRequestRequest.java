@@ -25,22 +25,23 @@ package be.ugent.zeus.hydra.wpi.tab.requests;
 import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.common.network.Endpoints;
-import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
+import be.ugent.zeus.hydra.common.network.JsonArrayRequest;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.wpi.account.AccountManager;
-import be.ugent.zeus.hydra.wpi.tab.list.Transaction;
-import com.squareup.moshi.Types;
 
 /**
  * @author Niko Strijbol
  */
-public class TabRequestRequest extends JsonOkHttpRequest<Map<String, List<TabRequest>>> {
+public class TabRequestRequest extends JsonArrayRequest<TabRequest> {
 
+    private final String status;
     private final Context context;
 
     /**
@@ -48,15 +49,22 @@ public class TabRequestRequest extends JsonOkHttpRequest<Map<String, List<TabReq
      *
      * @param context The context.
      */
-    public TabRequestRequest(@NonNull Context context) {
-        super(context, Types.newParameterizedType(Map.class, String.class, Types.newParameterizedType(List.class, TabRequest.class)));
+    public TabRequestRequest(@NonNull Context context, @Nullable String status) {
+        super(context, TabRequest.class);
         this.context = context.getApplicationContext();
+        this.status = status;
     }
 
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.TAB + "users/" + AccountManager.getUsername(context) + "/requests";
+        String suffix;
+        if (status != null) {
+            suffix = "?state=" + this.status;
+        } else {
+            suffix = "";
+        }
+        return Endpoints.TAB + "users/" + AccountManager.getUsername(context) + "/requests" + suffix;
     }
 
     @Override
@@ -74,11 +82,11 @@ public class TabRequestRequest extends JsonOkHttpRequest<Map<String, List<TabReq
      *
      * @param context The context to use for the {@link Request}.
      * @return A request instance that returns the expected Tab requests.
-     *         The requests will be ordered with the newest first.
+     * The requests will be ordered with the newest first.
      */
     public static Request<List<TabRequest>> acceptableRequests(@NonNull Context context) {
-        return new TabRequestRequest(context).map(allRequests ->
-                Objects.requireNonNull(allRequests.getOrDefault("open", Collections.emptyList()))
+        return new TabRequestRequest(context, "open").map(allRequests ->
+                allRequests
                         .stream()
                         .filter(r -> r.getActions().contains("decline") || r.getActions().contains("confirm"))
                         .sorted(Comparator.comparing(TabRequest::getTime).reversed())

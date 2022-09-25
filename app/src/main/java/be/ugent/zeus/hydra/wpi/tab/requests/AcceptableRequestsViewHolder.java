@@ -26,10 +26,10 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.NumberFormat;
 import java.util.Currency;
+import java.util.function.Consumer;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
@@ -47,28 +47,38 @@ class AcceptableRequestsViewHolder extends DataViewHolder<TabRequest> {
     private final NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
     private final Button declineButton;
     private final Button acceptButton;
+    private final Consumer<TabRequest> acceptor;
+    private final Consumer<TabRequest> decliner;
 
-    AcceptableRequestsViewHolder(View v) {
+    AcceptableRequestsViewHolder(View v, Consumer<TabRequest> acceptor, Consumer<TabRequest> decliner) {
         super(v);
         this.summary = v.findViewById(R.id.request_summary);
         this.description = v.findViewById(R.id.request_description);
         this.currencyFormatter.setCurrency(Currency.getInstance("EUR"));
         this.declineButton = v.findViewById(R.id.decline_button);
         this.acceptButton = v.findViewById(R.id.accept_button);
-        
-        acceptButton.setOnClickListener(v1 -> Toast.makeText(v1.getContext(), "Pressed OK!", Toast.LENGTH_SHORT).show());
-        declineButton.setOnClickListener(v1 -> Toast.makeText(v1.getContext(), "Pressed NO!", Toast.LENGTH_SHORT).show());
+        this.acceptor = acceptor;
+        this.decliner = decliner;
     }
 
     @Override
     public void populate(final TabRequest tabrequest) {
         String amount = currencyFormatter.format(tabrequest.getBigAmount());
-        String to = tabrequest.getDebtor();
+        String to = tabrequest.getCreditor();
         summary.setText(summary.getContext().getString(R.string.wpi_tab_transaction_summary, amount, to));
         description.setText(tabrequest.getMessage());
-        
+
         acceptButton.setEnabled(tabrequest.getActions().contains("confirm"));
         declineButton.setEnabled(tabrequest.getActions().contains("decline"));
-    }
 
+        // We expect a refresh will happen anyway, so don't care about un-disabling.
+        acceptButton.setOnClickListener(v -> {
+            itemView.setEnabled(false);
+            acceptor.accept(tabrequest);
+        });
+        declineButton.setOnClickListener(v -> {
+            itemView.setEnabled(false);
+            decliner.accept(tabrequest);
+        });
+    }
 }

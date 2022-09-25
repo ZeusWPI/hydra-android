@@ -40,13 +40,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.time.OffsetDateTime;
-import java.util.List;
-import java.util.function.Consumer;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.*;
 import be.ugent.zeus.hydra.common.network.NetworkState;
-import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.recyclerview.SpanItemSpacingDecoration;
 import be.ugent.zeus.hydra.common.ui.recyclerview.headers.HeaderAdapter;
@@ -58,18 +55,16 @@ import be.ugent.zeus.hydra.wpi.cammie.CammieActivity;
 import be.ugent.zeus.hydra.wpi.door.DoorRequest;
 import be.ugent.zeus.hydra.wpi.door.DoorViewModel;
 import be.ugent.zeus.hydra.wpi.tab.create.FormActivity;
-import be.ugent.zeus.hydra.wpi.tab.create.TabRequestException;
 import be.ugent.zeus.hydra.wpi.tab.list.TransactionAdapter;
 import be.ugent.zeus.hydra.wpi.tab.requests.TabRequestsAdapter;
 import be.ugent.zeus.hydra.wpi.tap.cart.CartActivity;
-import be.ugent.zeus.hydra.wpi.tap.order.Order;
 import be.ugent.zeus.hydra.wpi.tap.order.OrderAdapter;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 /**
  * Main activity for Zeus mode.
- * 
+ * <p>
  * Take care to look at the {@link #onCreate(Bundle)} function, as this
  * activity sets up quite a few things that should go together.
  *
@@ -159,7 +154,18 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
                 .build();
         ConcatAdapter mainAdapter = new ConcatAdapter(config);
 
-        TabRequestsAdapter tabRequestsAdapter = new TabRequestsAdapter();
+        TabRequestsAdapter tabRequestsAdapter = new TabRequestsAdapter(
+                tabRequest -> new MaterialAlertDialogBuilder(WpiActivity.this)
+                        .setMessage(R.string.wpi_tab_request_accept_description)
+                        .setPositiveButton(android.R.string.ok, (dialog, which) -> viewModel.acceptRequest(tabRequest))
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show(),
+                tabRequest -> new MaterialAlertDialogBuilder(WpiActivity.this)
+                        .setMessage(R.string.wpi_tab_request_decline_description)
+                        .setPositiveButton(android.R.string.ok, (dialog, which) -> viewModel.declineRequest(tabRequest))
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show()
+        );
         RecyclerView.Adapter<?> finalRequestAdapter = HeaderAdapter.makeHideable(R.string.wpi_tab_requests, tabRequestsAdapter);
 
         OrderAdapter tapOrderAdapter = new OrderAdapter(order -> {
@@ -194,9 +200,9 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
         viewModel.getRefreshing().observe(this, binding.swipeRefreshLayout::setRefreshing);
 
         // Attach request data.
-//        viewModel.getRequestData().observe(this, PartialErrorObserver.with(this::onError));
-//        viewModel.getRequestData().observe(this, new ProgressObserver<>(binding.progressBar));
-//        viewModel.getRequestData().observe(this, new AdapterObserver<>(tabRequestsAdapter));
+        viewModel.getRequestData().observe(this, PartialErrorObserver.with(this::onError));
+        viewModel.getRequestData().observe(this, new ProgressObserver<>(binding.progressBar));
+        viewModel.getRequestData().observe(this, new AdapterObserver<>(tabRequestsAdapter));
 
         // Attach pending order data.
         viewModel.getOrderData().observe(this, PartialErrorObserver.with(this::onError));
@@ -207,9 +213,9 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
         viewModel.getTransactionData().observe(this, PartialErrorObserver.with(this::onError));
         viewModel.getTransactionData().observe(this, new ProgressObserver<>(binding.progressBar));
         viewModel.getTransactionData().observe(this, new AdapterObserver<>(transactionAdapter));
-        
+
         // Listen to network updates.
-        viewModel.getNetworkState().observe(this, networkState -> 
+        viewModel.getNetworkState().observe(this, networkState ->
                 binding.progressBar.setEnabled(networkState == null || networkState == NetworkState.IDLE));
 
         // Listen for updates on cancelled orders.
@@ -221,7 +227,16 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
             }
             viewModel.onRefresh();
         }));
-        
+
+        viewModel.getActionRequestResult().observe(this, EventObserver.with(booleanResult -> {
+            if (booleanResult.isWithoutError()) {
+                Toast.makeText(WpiActivity.this, R.string.wpi_tab_request_executed, Toast.LENGTH_SHORT).show();
+            } else {
+                onError(booleanResult.getError());
+            }
+            viewModel.onRefresh();
+        }));
+
         // Fix color of swipe refresh layout.
         binding.swipeRefreshLayout.setColorSchemeColors(ColourUtils.resolveColour(this, R.attr.colorSecondary));
         binding.swipeRefreshLayout.setOnRefreshListener(viewModel);

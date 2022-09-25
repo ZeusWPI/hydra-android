@@ -389,6 +389,9 @@
     <string name="wpi_tap_pending_order">Pending orders</string>
     <string name="wpi_tap_order_cancelled">Order cancelled</string>
     <string name="wpi_tap_order_too_late">Too late!</string>
+    <string name="wpi_tab_request_accept_description">Accept request</string>
+    <string name="wpi_tab_request_decline_description">Deny request</string>
+    <string name="wpi_tab_request_executed">Executed</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_more">more</string>
