@@ -25,6 +25,8 @@ package be.ugent.zeus.hydra.wpi.tab.requests;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
+import java.util.function.Consumer;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DiffAdapter;
 import be.ugent.zeus.hydra.common.utils.ViewUtils;
@@ -33,9 +35,14 @@ import be.ugent.zeus.hydra.common.utils.ViewUtils;
  * @author Niko Strijbol
  */
 public class TabRequestsAdapter extends DiffAdapter<TabRequest, AcceptableRequestsViewHolder> {
-    
-    public TabRequestsAdapter() {
+
+    private final Consumer<TabRequest> acceptor;
+    private final Consumer<TabRequest> decliner;
+
+    public TabRequestsAdapter(Consumer<TabRequest> acceptor, Consumer<TabRequest> decliner) {
         setHasStableIds(true);
+        this.acceptor = acceptor;
+        this.decliner = decliner;
     }
 
     @Override
@@ -46,6 +53,6 @@ public class TabRequestsAdapter extends DiffAdapter<TabRequest, AcceptableReques
     @NonNull
     @Override
     public AcceptableRequestsViewHolder onCreateViewHolder(@NonNull ViewGroup p, int viewType) {
-        return new AcceptableRequestsViewHolder(ViewUtils.inflate(p, R.layout.item_tab_request));
+        return new AcceptableRequestsViewHolder(ViewUtils.inflate(p, R.layout.item_tab_request), acceptor, decliner);
     }
 }

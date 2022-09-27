@@ -139,11 +139,9 @@ class Cart {
      */
     private OptionalInt getPosition(Product product) {
         // Find the position of an existing cart product if available.
-        // TODO: this is probably horribly inefficient
-        OptionalInt index = IntStream.range(0, orders.size())
+        return IntStream.range(0, orders.size())
                 .filter(i -> orders.get(i).getProductId() == product.getId())
                 .findFirst();
-        return index;
     }
 
     /**

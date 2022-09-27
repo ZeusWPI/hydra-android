@@ -42,6 +42,7 @@ import be.ugent.zeus.hydra.wpi.account.CombinedUser;
 import be.ugent.zeus.hydra.wpi.account.CombinedUserRequest;
 import be.ugent.zeus.hydra.wpi.tab.list.Transaction;
 import be.ugent.zeus.hydra.wpi.tab.list.TransactionRequest;
+import be.ugent.zeus.hydra.wpi.tab.requests.RequestActionRequest;
 import be.ugent.zeus.hydra.wpi.tab.requests.TabRequest;
 import be.ugent.zeus.hydra.wpi.tab.requests.TabRequestRequest;
 import be.ugent.zeus.hydra.wpi.tap.order.CancelOrderRequest;
@@ -57,17 +58,18 @@ public class WpiViewModel extends RefreshViewModel {
 
     private final MutableLiveData<NetworkState> networkState;
     private final MutableLiveData<Event<Result<Boolean>>> orderRequestState;
+    private final MutableLiveData<Event<Result<Boolean>>> actionRequestState;
 
     private LiveData<Result<List<TabRequest>>> requestData;
     private LiveData<Result<List<Transaction>>> transactionData;
     private LiveData<Result<CombinedUser>> userData;
     private LiveData<Result<List<Order>>> orderData;
-    
 
     public WpiViewModel(Application application) {
         super(application);
         networkState = new MutableLiveData<>(NetworkState.IDLE);
         orderRequestState = new MutableLiveData<>();
+        actionRequestState = new MutableLiveData<>();
     }
 
     public LiveData<NetworkState> getNetworkState() {
@@ -76,6 +78,10 @@ public class WpiViewModel extends RefreshViewModel {
 
     public LiveData<Event<Result<Boolean>>> getOrderRequestResult() {
         return orderRequestState;
+    }
+    
+    public LiveData<Event<Result<Boolean>>> getActionRequestResult() {
+        return actionRequestState;
     }
     
     public LiveData<Result<List<TabRequest>>> getRequestData() {
@@ -122,6 +128,26 @@ public class WpiViewModel extends RefreshViewModel {
             Result<Boolean> result = request.execute();
             networkState.postValue(NetworkState.IDLE);
             orderRequestState.postValue(new Event<>(result));
+        });
+    }
+    
+    public void acceptRequest(TabRequest tabRequest) {
+        RequestActionRequest request = new RequestActionRequest(getApplication(), "confirm", tabRequest);
+        networkState.postValue(NetworkState.BUSY);
+        ThreadingUtils.execute(() -> {
+            Result<Boolean> result = request.execute();
+            networkState.postValue(NetworkState.IDLE);
+            actionRequestState.postValue(new Event<>(result));
+        });
+    }
+
+    public void declineRequest(TabRequest tabRequest) {
+        RequestActionRequest request = new RequestActionRequest(getApplication(), "decline", tabRequest);
+        networkState.postValue(NetworkState.BUSY);
+        ThreadingUtils.execute(() -> {
+            Result<Boolean> result = request.execute();
+            networkState.postValue(NetworkState.IDLE);
+            actionRequestState.postValue(new Event<>(result));
         });
     }
 

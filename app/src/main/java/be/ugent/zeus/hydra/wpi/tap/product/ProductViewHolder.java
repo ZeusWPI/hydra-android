@@ -76,7 +76,6 @@ class ProductViewHolder extends DataViewHolder<Product> {
         }
         description.setText(itemView.getContext().getString(R.string.wpi_product_description, calories, product.getStock()));
         if (onClickListener != null) {
-            // TODO: should this move to the constructor?
             itemView.setOnClickListener(v -> onClickListener.accept(product));
         }
     }

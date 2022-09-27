@@ -76,7 +76,7 @@ public class FoodFragment extends Fragment {
 
         int position = requireArguments().getInt(ARG_POSITION);
 
-        viewModel = new ViewModelProvider(requireActivity()).get(ExtraFoodViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ExtraFoodViewModel.class);
         viewModel.getData().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
         viewModel.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
         viewModel.getData().observe(getViewLifecycleOwner(), new SuccessObserver<ExtraFood>() {
