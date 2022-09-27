@@ -76,6 +76,8 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
     public static final int ACTIVITY_DO_REFRESH = 963;
 
     private WpiViewModel viewModel;
+    // null => no favourite, e.g. either not loaded or not available.
+    private Integer favouriteProductId;
 
     private final NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
 
@@ -93,6 +95,15 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
             Intent intent = new Intent(WpiActivity.this, CartActivity.class);
             startActivityForResult(intent, ACTIVITY_DO_REFRESH);
         });
+        binding.tapAddFavourite.setOnClickListener(v -> {
+            if (favouriteProductId == null) {
+                // There is no favourite product, so don't do anything.
+                return;
+            }
+            Intent intent = new Intent(WpiActivity.this, CartActivity.class);
+            intent.putExtra(CartActivity.ARG_FAVOURITE_PRODUCT_ID, favouriteProductId);
+            startActivityForResult(intent, ACTIVITY_DO_REFRESH);
+        });
 
         syncDoorButtons();
 
@@ -108,6 +119,8 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
             } else {
                 colour = ColourUtils.resolveColour(this, R.attr.colorOnSurface);
             }
+            favouriteProductId = user.getFavourite();
+            binding.tapAddFavourite.setVisibility(favouriteProductId == null ? View.GONE : View.VISIBLE);
             binding.tabBalance.setTextColor(colour);
             syncDoorButtons();
         }));
