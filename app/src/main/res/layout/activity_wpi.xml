@@ -185,6 +185,8 @@
         android:translationY="-32dp"
         style="?attr/floatingActionButtonSmallStyle"
         app:layout_anchor="@id/tap_order"
+        tools:visibility="visible"
+        android:visibility="gone"
         app:layout_anchorGravity="end|top"
         tools:ignore="UnusedAttribute" />
 
