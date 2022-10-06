@@ -192,6 +192,14 @@ public class Result<D> {
         }
     }
 
+    public <T> Result<Pair<D, T>> andThen(Function<D, Result<T>> other) {
+        if (hasData()) {
+            return other.apply(getData()).map(t -> new Pair<>(data, t));
+        } else {
+            return Result.Builder.fromException(throwable);
+        }
+    }
+
     /**
      * This will merge this and another Result into one. The function tries to produce a sensible result:
      *

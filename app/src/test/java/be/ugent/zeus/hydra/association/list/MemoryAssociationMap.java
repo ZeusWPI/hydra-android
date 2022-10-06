@@ -25,12 +25,11 @@ package be.ugent.zeus.hydra.association.list;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
 import be.ugent.zeus.hydra.association.Association;
-import be.ugent.zeus.hydra.association.AssociationMap;
+import be.ugent.zeus.hydra.association.common.AssociationMap;
 
 /**
  * @author Niko Strijbol
@@ -57,5 +56,10 @@ public class MemoryAssociationMap implements AssociationMap {
     @Override
     public Stream<Association> associations() {
         return map.values().stream();
+    }
+
+    @Override
+    public boolean isRequested(@NonNull String abbreviation) {
+        return false;
     }
 }

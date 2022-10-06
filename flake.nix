@@ -56,7 +56,7 @@
           hydra-android = pkgs.devshell.mkShell {
             name = "hydra-android";
             packages = [
-              android-sdk pkgs.jdk11 pkgs.git pkgs.androidStudioPackages.beta
+              android-sdk pkgs.jdk11 pkgs.git pkgs.androidStudioPackages.dev
             ];
             env = [
               {

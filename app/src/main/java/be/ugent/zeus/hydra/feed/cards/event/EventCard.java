@@ -29,7 +29,7 @@ import java.time.ZonedDateTime;
 import java.util.Objects;
 
 import be.ugent.zeus.hydra.association.Association;
-import be.ugent.zeus.hydra.association.AssociationMap;
+import be.ugent.zeus.hydra.association.common.AssociationMap;
 import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;

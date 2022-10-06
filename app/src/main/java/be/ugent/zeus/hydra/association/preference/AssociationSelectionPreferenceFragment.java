@@ -33,11 +33,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.association.AssociationStore;
+import be.ugent.zeus.hydra.association.Association;
+import be.ugent.zeus.hydra.association.common.AssociationVisibilityStorage;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
@@ -49,7 +50,6 @@ import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity
  * Display a list of associations for which the user wants to see information.
  *
  * @author Niko Strijbol
- * @see AssociationStore The class responsible for the low level saving of these preferences.
  */
 public class AssociationSelectionPreferenceFragment extends Fragment {
 
@@ -113,14 +113,8 @@ public class AssociationSelectionPreferenceFragment extends Fragment {
     public void onPause() {
         super.onPause();
 
-        // Save the values.
-        Set<String> whitelist = adapter.getItemsAndState()
-                .stream()
-                .filter(pair -> pair.second)
-                .map(pair -> pair.first.getAbbreviation())
-                .collect(Collectors.toSet());
-
-        AssociationStore.replace(requireContext(), whitelist);
+        List<Association> associations = adapter.getItemsAndState().stream().map(p -> p.first).collect(Collectors.toList());
+        AssociationVisibilityStorage.calculateWhitelist(requireContext(), associations, adapter.getItemsAndState());
     }
 
     private void onError(Throwable throwable) {

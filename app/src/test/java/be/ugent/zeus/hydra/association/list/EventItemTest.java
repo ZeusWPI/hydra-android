@@ -22,6 +22,7 @@
 
 package be.ugent.zeus.hydra.association.list;
 
+import be.ugent.zeus.hydra.association.common.EventItem;
 import be.ugent.zeus.hydra.testing.Utils;
 import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;

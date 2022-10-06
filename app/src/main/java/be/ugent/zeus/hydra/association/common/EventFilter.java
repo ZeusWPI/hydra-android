@@ -20,42 +20,33 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.association.list;
+package be.ugent.zeus.hydra.association.common;
 
 import android.content.Context;
-import android.net.Uri;
 import android.util.Pair;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
 import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 
 import be.ugent.zeus.hydra.association.Association;
-import be.ugent.zeus.hydra.association.AssociationStore;
 
 /**
- * Search filter for events.
+ * Search filter for event requests.
  *
  * @author Niko Strijbol
  */
-public class Filter {
-
-    @Nullable
-    private Set<String> whitelist;
+public class EventFilter {
+    private List<Pair<Association, Boolean>> selectedAssociations;
     private OffsetDateTime after = OffsetDateTime.now();
     private OffsetDateTime before;
     private String term;
 
-    public Filter() {
-    }
-
-    @NonNull
-    public Optional<Set<String>> getWhitelist() {
-        return Optional.ofNullable(whitelist);
+    public EventFilter() {
     }
 
     public OffsetDateTime getAfter() {
@@ -69,49 +60,25 @@ public class Filter {
     public String getTerm() {
         return term;
     }
-
-    public void addStoredWhitelist(Context context) {
-        this.whitelist = AssociationStore.read(context);
+    
+    public EventRequest.Filter toRequestFilter(Context context, List<Association> associations) {
+        Set<String> whitelist = AssociationVisibilityStorage.calculateWhitelist(context, associations, this.selectedAssociations);
+        
+        EventRequest.Filter requestFilter = new EventRequest.Filter(whitelist);
+        requestFilter.setAfter(this.after);
+        requestFilter.setBefore(this.before);
+        requestFilter.setTerm(this.term);
+        
+        return requestFilter;
     }
 
-    public Uri.Builder appendParams(Uri.Builder builder) {
-        getWhitelist().ifPresent(strings -> {
-            for (String association : strings) {
-                builder.appendQueryParameter("association[]", association);
-            }
-            if (strings.isEmpty()) {
-                builder.appendQueryParameter("association[]", "");
-            }
-        });
-        if (getAfter() != null) {
-            builder.appendQueryParameter("start_time", getAfter().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-        }
-        if (getBefore() != null) {
-            builder.appendQueryParameter("end_time", getBefore().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-        }
-        if (getTerm() != null) {
-            builder.appendQueryParameter("search_string", getTerm());
-        }
-        return builder;
-    }
-
-    @Override
-    public String toString() {
-        return "Filter{" +
-                "after=" + after +
-                ", before=" + before +
-                ", whitelist=" + whitelist +
-                ", term='" + term + '\'' +
-                '}';
-    }
-
-    public static class Live extends LiveData<Filter> {
+    public static class Live extends LiveData<EventFilter> {
 
         @NonNull
-        public final Filter filter;
+        public final EventFilter filter;
 
         public Live() {
-            super(new Filter());
+            super(new EventFilter());
             assert getValue() != null;
             this.filter = getValue();
         }
@@ -126,12 +93,8 @@ public class Filter {
             setValue(filter);
         }
 
-        public boolean isWhitelisted(String abbreviation) {
-            return filter.getWhitelist().orElse(Collections.emptySet()).contains(abbreviation);
-        }
-        
-        public void setWhitelist(Set<String> whitelist) {
-            this.filter.whitelist = whitelist;
+        public void setSelectedAssociations(List<Pair<Association, Boolean>> selectedAssociations) {
+            this.filter.selectedAssociations = selectedAssociations;
             setValue(filter);
         }
 

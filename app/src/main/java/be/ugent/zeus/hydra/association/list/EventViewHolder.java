@@ -31,7 +31,8 @@ import java.time.format.DateTimeFormatter;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.Association;
-import be.ugent.zeus.hydra.association.AssociationMap;
+import be.ugent.zeus.hydra.association.common.AssociationMap;
+import be.ugent.zeus.hydra.association.common.EventItem;
 import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.association.event.EventDetailsActivity;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;

@@ -29,6 +29,7 @@ import java.time.LocalDate;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.Association;
+import be.ugent.zeus.hydra.association.common.EventItem;
 import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.association.event.EventDetailsActivity;
 import org.junit.Test;
