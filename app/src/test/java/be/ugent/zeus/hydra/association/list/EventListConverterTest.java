@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import be.ugent.zeus.hydra.association.common.EventItem;
 import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.association.event.EventList;
 import be.ugent.zeus.hydra.common.network.InstanceProvider;

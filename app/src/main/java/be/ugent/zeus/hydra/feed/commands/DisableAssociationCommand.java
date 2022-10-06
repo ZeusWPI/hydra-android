@@ -25,7 +25,7 @@ package be.ugent.zeus.hydra.feed.commands;
 import android.content.Context;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.association.AssociationStore;
+import be.ugent.zeus.hydra.association.common.AssociationVisibilityStorage;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.feed.cards.Card;
 
@@ -43,13 +43,13 @@ public class DisableAssociationCommand implements FeedCommand {
     @Override
     public int execute(Context context) {
         Reporting.getTracker(context).log(new DismissalEvent(association));
-        AssociationStore.blacklist(context, association);
+        AssociationVisibilityStorage.blacklist(context, association);
         return Card.Type.ACTIVITY;
     }
 
     @Override
     public int undo(Context context) {
-        AssociationStore.whitelist(context, association);
+        AssociationVisibilityStorage.whitelist(context, association);
         return Card.Type.ACTIVITY;
     }
 

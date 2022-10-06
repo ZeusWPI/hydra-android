@@ -96,4 +96,9 @@ public interface Request<T> {
     default <S> Request<Pair<T, S>> andThen(@NonNull Request<S> second) {
         return args -> execute(args).andThen(second.execute(args));
     }
+
+    @NonNull
+    default <S> Request<Pair<T, S>> andThen(@NonNull Function<T, Request<S>> second) {
+        return args -> execute(args).andThen(v -> second.apply(v).execute(args));
+    }
 }

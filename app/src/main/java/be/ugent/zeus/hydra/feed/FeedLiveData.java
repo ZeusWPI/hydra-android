@@ -37,7 +37,7 @@ import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.association.AssociationStore;
+import be.ugent.zeus.hydra.association.common.AssociationVisibilityStorage;
 import be.ugent.zeus.hydra.common.ExtendedSparseArray;
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.database.Database;
@@ -54,7 +54,6 @@ import be.ugent.zeus.hydra.feed.cards.schamper.SchamperRequest;
 import be.ugent.zeus.hydra.feed.cards.specialevent.LimitingSpecialEventRequest;
 import be.ugent.zeus.hydra.feed.cards.urgent.UrgentRequest;
 import be.ugent.zeus.hydra.feed.operations.FeedOperation;
-import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 
 import static be.ugent.zeus.hydra.feed.operations.OperationFactory.add;
 import static be.ugent.zeus.hydra.feed.operations.OperationFactory.get;
@@ -85,7 +84,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
     // For which settings the loader must refresh.
     private static final String[] watchedPreferences = {
             HomeFeedFragment.PREF_DISABLED_CARD_TYPES,
-            AssociationStore.PREF_WHITELIST,
+            AssociationVisibilityStorage.PREF_BLACKLIST,
             HomeFeedFragment.PREF_DISABLED_CARD_HACK
     };
     private final SharedPreferences.OnSharedPreferenceChangeListener restoListener = new RestoListener();

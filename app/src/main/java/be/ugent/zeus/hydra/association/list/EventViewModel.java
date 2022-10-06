@@ -28,28 +28,31 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
-import be.ugent.zeus.hydra.association.AssociationMap;
+import be.ugent.zeus.hydra.association.common.AssociationMap;
+import be.ugent.zeus.hydra.association.common.AssociationRequestBuilder;
+import be.ugent.zeus.hydra.association.common.EventFilter;
+import be.ugent.zeus.hydra.association.common.EventItem;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 
 /**
  * @author Niko Strijbol
  */
-public class EventViewModel extends RequestViewModel<Pair<List<EventItem>, AssociationMap>> {
+public class EventViewModel extends RequestViewModel<Pair<AssociationMap, List<EventItem>>> {
 
-    private Filter filter;
+    private EventFilter filter;
 
     public EventViewModel(Application application) {
         super(application);
     }
 
-    public void setParams(Filter filter) {
+    public void setParams(EventFilter filter) {
         this.filter = filter;
     }
 
     @NonNull
     @Override
-    protected Request<Pair<List<EventItem>, AssociationMap>> getRequest() {
-        return EventItem.request(getApplication(), filter);
+    protected Request<Pair<AssociationMap, List<EventItem>>> getRequest() {
+        return AssociationRequestBuilder.createItemFilteredEventRequest(getApplication(), filter);
     }
 }

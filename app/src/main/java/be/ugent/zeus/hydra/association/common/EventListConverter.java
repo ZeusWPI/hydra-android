@@ -20,15 +20,16 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.association.list;
+package be.ugent.zeus.hydra.association.common;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import be.ugent.zeus.hydra.association.common.EventItem;
 import be.ugent.zeus.hydra.association.event.Event;
 
 /**

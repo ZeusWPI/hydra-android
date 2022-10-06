@@ -20,22 +20,14 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.association.list;
-
-import android.content.Context;
-import android.util.Pair;
+package be.ugent.zeus.hydra.association.common;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.util.List;
 import java.util.Objects;
 
-import be.ugent.zeus.hydra.association.AssociationListRequest;
-import be.ugent.zeus.hydra.association.AssociationMap;
 import be.ugent.zeus.hydra.association.event.Event;
-import be.ugent.zeus.hydra.association.event.RawEventRequest;
-import be.ugent.zeus.hydra.common.request.Request;
 
 /**
  * Data structure for a list of events. The contains an item, a header or a footer, but only one of the elements.
@@ -55,19 +47,13 @@ public final class EventItem implements Comparable<EventItem> {
         this.header = header;
     }
 
-    EventItem(Event event, boolean isLastOfSection) {
+    public EventItem(Event event, boolean isLastOfSection) {
         this(event, null);
         this.isLastOfSection = isLastOfSection;
     }
 
-    EventItem(LocalDate header) {
+    public EventItem(LocalDate header) {
         this(null, header);
-    }
-
-    public static Request<Pair<List<EventItem>, AssociationMap>> request(Context context, Filter filter) {
-        return RawEventRequest.create(context, filter)
-                .map(new EventListConverter())
-                .andThen(AssociationListRequest.create(context));
     }
 
     public boolean isHeader() {

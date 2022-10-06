@@ -30,6 +30,7 @@ import androidx.annotation.VisibleForTesting;
 import java.time.LocalDate;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.association.common.EventItem;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 
 

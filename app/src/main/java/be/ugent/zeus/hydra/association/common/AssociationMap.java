@@ -20,12 +20,17 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.association;
+package be.ugent.zeus.hydra.association.common;
 
+import android.util.Pair;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import be.ugent.zeus.hydra.association.Association;
 
 /**
  * Represents a mapping of association abbreviation to their object.
@@ -50,4 +55,23 @@ public interface AssociationMap {
      * @return A stream of all known associations.
      */
     Stream<Association> associations();
+
+    /**
+     * Check if the associations was requested to be shown by the request that
+     * produced this association map.
+     * 
+     * @param abbreviation The abbreviation.
+     *                     
+     * @return True if requested to be shown, false otherwise.
+     */
+    boolean isRequested(@NonNull String abbreviation);
+
+    /**
+     * Combine the {@link #isRequested(String)} data with the association list.
+     */
+    default List<Pair<Association, Boolean>> getSelectedAssociations() {
+        return this.associations()
+                .map(a -> Pair.create(a, this.isRequested(a.getAbbreviation())))
+                .collect(Collectors.toList());
+    }
 }

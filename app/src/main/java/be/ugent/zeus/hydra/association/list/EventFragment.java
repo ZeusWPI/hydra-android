@@ -33,7 +33,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,13 +41,14 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Objects;
 
 import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.association.Association;
-import be.ugent.zeus.hydra.association.AssociationMap;
+import be.ugent.zeus.hydra.association.common.AssociationMap;
+import be.ugent.zeus.hydra.association.common.EventFilter;
+import be.ugent.zeus.hydra.association.common.EventItem;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
@@ -73,7 +73,7 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
     private static final String TAG = "EventFragment";
 
     private final EventAdapter adapter = new EventAdapter();
-    private final Filter.Live filter = new Filter.Live();
+    private final EventFilter.Live filter = new EventFilter.Live();
     private final AssociationsAdapter associationAdapter = new AssociationsAdapter();
     private EventViewModel viewModel;
     private FrameLayout bottomSheet;
@@ -160,24 +160,16 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(secondaryColour);
 
-        // Set default associations from preferences.
-        filter.filter.addStoredWhitelist(requireContext());
-
         viewModel = new ViewModelProvider(this).get(EventViewModel.class);
         viewModel.setParams(filter.getValue());
         viewModel.getData().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
         viewModel.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
-        viewModel.getData().observe(getViewLifecycleOwner(), new SuccessObserver<Pair<List<EventItem>, AssociationMap>>() {
+        viewModel.getData().observe(getViewLifecycleOwner(), new SuccessObserver<Pair<AssociationMap, List<EventItem>>>() {
             @Override
-            protected void onSuccess(@NonNull Pair<List<EventItem>, AssociationMap> data) {
-                adapter.setAssociationMap(data.second);
-                adapter.submitData(data.first);
-                List<Pair<Association, Boolean>> mapped = data.second.associations()
-                        .sorted(Comparator.comparing(Association::getName))
-                        .map(association -> new Pair<>(association, filter.isWhitelisted(association.getAbbreviation())))
-                        .sorted(Filter.selectionComparator())
-                        .collect(Collectors.toList());
-                associationAdapter.setItemsAndState(mapped);
+            protected void onSuccess(@NonNull Pair<AssociationMap, List<EventItem>> data) {
+                adapter.setAssociationMap(data.first);
+                adapter.submitData(data.second);
+                associationAdapter.setItemsAndState(data.first.getSelectedAssociations());
             }
         });
         viewModel.getRefreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
@@ -197,7 +189,7 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
         filter.observe(this.getViewLifecycleOwner(), this::filterToInputs);
     }
 
-    private void filterToInputs(Filter filter) {
+    private void filterToInputs(EventFilter filter) {
         assert startTime.getEditText() != null;
         if (filter.getAfter() != null) {
             startTime.getEditText().setText(DateUtils.getFriendlyDateTime(filter.getAfter()));
@@ -217,12 +209,7 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
     private void doFiltering() {
         // Time stuff is set by the callback.
         this.filter.setTerm(Objects.requireNonNull(searchTerm.getEditText()).getText().toString());
-        Set<String> enabled = associationAdapter.getItemsAndState()
-                .stream()
-                .filter(associationBooleanPair -> associationBooleanPair.second)
-                .map(associationBooleanPair -> associationBooleanPair.first.getAbbreviation())
-                .collect(Collectors.toSet());
-        this.filter.setWhitelist(enabled);
+        this.filter.setSelectedAssociations(associationAdapter.getItemsAndState());
         this.viewModel.requestRefresh();
         hideSheet();
     }
