@@ -40,6 +40,7 @@
     <string name="action_add_to_calendar">Toevoegen aan agenda</string>
     <string name="action_undo">Ongedaan maken</string>
     <string name="action_send">Versturen</string>
+    <string name="action_share">Delen</string>
 
     <string name="select_all" translatable="false">@android:string/selectAll</string>
     <string name="select_none">Niets selecteren</string>
@@ -391,7 +392,8 @@
     <string name="wpi_tap_pending_order">Annuleerbare bestellingen</string>
     <string name="wpi_tap_order_cancelled">Bestelling geannuleerd</string>
     <string name="wpi_tap_order_too_late">Te laat!</string>
-    <string name="wpi_tap_product_not_found">Product niet gevonden</string>
+    <string name="wpi_tap_product_not_found">Er werd geen product gevonden met barcode %1$s. Deel het met je favoriete bestuurslid om het in Tap toe te voegen.</string>
+    <string name="wpi_tap_too_quick">Te snel!</string>
     <string name="wpi_tab_request_accept_description">Verzoek aanvaarden</string>
     <string name="wpi_tab_request_decline_description">Verzoek weigeren</string>
     <string name="wpi_tab_request_executed">Uitgevoerd</string>
