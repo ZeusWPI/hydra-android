@@ -22,6 +22,7 @@
 
 package be.ugent.zeus.hydra.info;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -62,6 +63,7 @@ class InfoViewHolder extends DataViewHolder<InfoItem> {
 
         // If the item itself has an image.
         if (infoItem.getImage() != null) {
+            @SuppressLint("DiscouragedApi")
             int resId = c.getResources().getIdentifier(infoItem.getImage(), "drawable", c.getPackageName());
             if (resId == 0) {
                 Log.e(TAG, "Icon for info item " + infoItem.getImage() + " was not found!");
