@@ -46,6 +46,7 @@
 
     <string name="error_network">Netwerkfout</string>
     <string name="error_no_activity">Niets gevonden om dit te openen!</string>
+    <string name="error_no_api_key">Voeg je API keys toe om Zeus-modus volledig te kunnen gebruiken</string>
 
     <string name="drawer_title_feed">Overzicht</string>
     <string name="drawer_title_schamper">Schamper</string>

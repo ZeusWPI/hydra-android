@@ -40,6 +40,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.time.OffsetDateTime;
+import java.util.Objects;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.*;
@@ -78,6 +79,7 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
     private WpiViewModel viewModel;
     // null => no favourite, e.g. either not loaded or not available.
     private Integer favouriteProductId;
+    private boolean apiKeysPresent;
 
     private final NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
 
@@ -88,12 +90,20 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
 
         // Attach listeners to FABs.
         binding.tabTransaction.setOnClickListener(v -> {
-            Intent intent = new Intent(WpiActivity.this, FormActivity.class);
-            startActivityForResult(intent, ACTIVITY_DO_REFRESH);
+            if (Objects.requireNonNull(viewModel.getUserData().getValue()).hasData()) {
+                Intent intent = new Intent(WpiActivity.this, FormActivity.class);
+                startActivityForResult(intent, ACTIVITY_DO_REFRESH);    
+            } else {
+                onError(null);
+            }
         });
         binding.tapOrder.setOnClickListener(v -> {
-            Intent intent = new Intent(WpiActivity.this, CartActivity.class);
-            startActivityForResult(intent, ACTIVITY_DO_REFRESH);
+            if (Objects.requireNonNull(viewModel.getUserData().getValue()).hasData()) {
+                Intent intent = new Intent(WpiActivity.this, CartActivity.class);
+                startActivityForResult(intent, ACTIVITY_DO_REFRESH);
+            } else {
+                onError(null);
+            }
         });
         binding.tapAddFavourite.setOnClickListener(v -> {
             if (favouriteProductId == null) {
@@ -264,9 +274,15 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
         // TODO: better error message.
-        Snackbar.make(binding.getRoot(), getString(R.string.error_network), Snackbar.LENGTH_LONG)
+        if (!Objects.requireNonNull(viewModel.getUserData().getValue()).hasData()) {
+            Snackbar.make(binding.getRoot(), getString(R.string.error_no_api_key), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.action_again), v -> viewModel.onRefresh())
                 .show();
+        } else {
+            Snackbar.make(binding.getRoot(), getString(R.string.error_network), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.action_again), v -> viewModel.onRefresh())
+                .show();
+        }
     }
 
     @Override
