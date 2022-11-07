@@ -220,10 +220,6 @@
     <string name="resto_legend_asc_desc">Aquaculture Stewardship Council</string>
     <string name="resto_legend_gap_abbr">GAP</string>
     <string name="resto_legend_gap_desc">Goede Agrarische Productie</string>
-    <string name="resto_order_online">
-        Bestel vanaf nu je eten de dag zelf online om sneller te zijn. 
-        De deadline voor de middagdienst is 10 uur, voor de avonddienst 17 uur.
-    </string>
     <string name="resto_order_now">Bestel online</string>
 
     <!-- This is the endpoint for the Resto API. Must be one of the provided API endpoints. -->
