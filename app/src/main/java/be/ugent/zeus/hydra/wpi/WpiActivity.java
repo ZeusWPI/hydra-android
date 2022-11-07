@@ -40,7 +40,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.time.OffsetDateTime;
-import java.util.Objects;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.*;
@@ -79,7 +78,6 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
     private WpiViewModel viewModel;
     // null => no favourite, e.g. either not loaded or not available.
     private Integer favouriteProductId;
-    private boolean apiKeysPresent;
 
     private final NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
 
@@ -90,20 +88,12 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
 
         // Attach listeners to FABs.
         binding.tabTransaction.setOnClickListener(v -> {
-            if (Objects.requireNonNull(viewModel.getUserData().getValue()).hasData()) {
-                Intent intent = new Intent(WpiActivity.this, FormActivity.class);
-                startActivityForResult(intent, ACTIVITY_DO_REFRESH);    
-            } else {
-                onError(null);
-            }
+            Intent intent = new Intent(WpiActivity.this, FormActivity.class);
+            startActivityForResult(intent, ACTIVITY_DO_REFRESH);
         });
         binding.tapOrder.setOnClickListener(v -> {
-            if (Objects.requireNonNull(viewModel.getUserData().getValue()).hasData()) {
-                Intent intent = new Intent(WpiActivity.this, CartActivity.class);
-                startActivityForResult(intent, ACTIVITY_DO_REFRESH);
-            } else {
-                onError(null);
-            }
+            Intent intent = new Intent(WpiActivity.this, CartActivity.class);
+            startActivityForResult(intent, ACTIVITY_DO_REFRESH);
         });
         binding.tapAddFavourite.setOnClickListener(v -> {
             if (favouriteProductId == null) {
@@ -119,6 +109,11 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
 
         ViewModelProvider provider = new ViewModelProvider(this);
         viewModel = provider.get(WpiViewModel.class);
+        if (viewModel.getUserData().getValue() == null || !viewModel.getUserData().getValue().hasData()) {
+            binding.balanceDescription.setVisibility(View.GONE);
+            binding.tapOrder.setVisibility(View.GONE);
+            binding.tabTransaction.setVisibility(View.GONE);
+        }
         viewModel.getUserData().observe(this, PartialErrorObserver.with(this::onError));
         viewModel.getUserData().observe(this, SuccessObserver.with(user -> {
             String balance = currencyFormatter.format(user.getBalanceDecimal());
@@ -274,7 +269,7 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
         // TODO: better error message.
-        if (!Objects.requireNonNull(viewModel.getUserData().getValue()).hasData()) {
+        if (viewModel.getUserData().getValue() == null || !viewModel.getUserData().getValue().hasData()) {
             Snackbar.make(binding.getRoot(), getString(R.string.error_no_api_key), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.action_again), v -> viewModel.onRefresh())
                 .show();
