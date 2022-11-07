@@ -48,7 +48,6 @@ import be.ugent.zeus.hydra.databinding.FragmentMenuBinding;
 public class SingleDayFragment extends Fragment {
 
     private static final String ARG_DATA_MENU = "resto_menu";
-    private static final String URL = "https://studentenrestaurants.ugent.be/";
 
     private RestoMenu data;
     private FragmentMenuBinding binding;
@@ -83,10 +82,6 @@ public class SingleDayFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.menuTable.setMenu(data);
-        binding.orderButton.setOnClickListener(v -> {
-            String url = URL + v.getContext().getString(R.string.value_info_endpoint);
-            NetworkUtils.maybeLaunchBrowser(v.getContext(), url);
-        });
     }
 
     public RestoMenu getData() {

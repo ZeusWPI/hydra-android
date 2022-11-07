@@ -39,4 +39,9 @@
         android:orderInCategory="100"
         android:title="@string/action_view_website"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/resto_order_online"
+        android:orderInCategory="110"
+        android:title="@string/resto_order_now"
+        app:showAsAction="never" />
 </menu>
