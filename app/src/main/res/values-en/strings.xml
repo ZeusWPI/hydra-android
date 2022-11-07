@@ -324,7 +324,7 @@
     <string name="wpi_pin_updated">Updated existing shortcut</string>
     <string name="wpi_tab_form_title">Tab transfer</string>
     <string name="wpi_tab_form_to">Zeus member</string>
-    <string name="wpi_tab_form_to_helper">Who you want to give money to or request money from. The Zeus username must be spelled exactly correct. Due to limitations in the API, there is no autocomplete for this field yet.</string>
+    <string name="wpi_tab_form_to_helper">Who you want to give money to or request money from. The Zeus username must be spelled exactly correct.</string>
     <string name="wpi_tab_form_amount">Amount</string>
     <string name="wpi_tab_form_amount_helper">If the amount is negative and you are not an admin, this will become a request, not a transfer.</string>
     <string name="wpi_tab_form_message">Description</string>

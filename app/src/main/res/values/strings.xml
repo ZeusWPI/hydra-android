@@ -331,7 +331,7 @@
     <string name="wpi_pin_updated">Bestaande snelkoppeling bijgewerkt</string>
     <string name="wpi_tab_form_title">Tab-overschrijving</string>
     <string name="wpi_tab_form_to">Zeuslid</string>
-    <string name="wpi_tab_form_to_helper">Aan wie u geld wilt geven of vragen. De Zeus-gebruikersnaam moet exact juist gespeld zijn. Door beperkingen in de API is nog geen automatische aanvulling in dit veld.</string>
+    <string name="wpi_tab_form_to_helper">Aan wie u geld wilt geven of vragen. De Zeus-gebruikersnaam moet exact juist gespeld zijn.</string>
     <string name="wpi_tab_form_amount">Bedrag</string>
     <string name="wpi_tab_form_amount_helper">Als het bedrag negatief is, en u bent geen admin, dan zal dit een verzoek worden in plaats van een transactie.</string>
     <string name="wpi_tab_form_message">Beschrijving</string>

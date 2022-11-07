@@ -25,6 +25,7 @@ package be.ugent.zeus.hydra.wpi.tab.create;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -71,6 +72,9 @@ public class FormActivity extends BaseActivity<ActivityWpiTabTransactionFormBind
 
         TransactionViewModel model = new ViewModelProvider(this).get(TransactionViewModel.class);
 
+        ArrayAdapter<String> autocompleteAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line);
+        binding.formMember.setAdapter(autocompleteAdapter);
+
         model.getRequestResult().observe(this, EventObserver.with(booleanResult -> {
             if (booleanResult.isWithoutError()) {
                 int string;
@@ -112,6 +116,11 @@ public class FormActivity extends BaseActivity<ActivityWpiTabTransactionFormBind
             }
         });
 
+        model.getData().observe(this, members -> {
+            autocompleteAdapter.clear();
+            autocompleteAdapter.addAll(members.getData());
+        });
+
         // Set up sync between UI and object.
         binding.formAmount.addTextChangedListener((SimpleTextWatcher) newText -> {
             if (TextUtils.isEmpty(newText)) {
@@ -125,7 +134,7 @@ public class FormActivity extends BaseActivity<ActivityWpiTabTransactionFormBind
                 binding.formAmount.setError("Wrong format");
             }
         });
-        
+
         binding.confirmButton.setOnClickListener(v -> {
             syncData();
             String message;
