@@ -218,14 +218,14 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
         if (viewModel.getLastCart() == null) {
             // There is no cart yet.
             Log.w(TAG, "onCreate: cart not ready yet...");
-            Snackbar.make(binding.getRoot(), "Product niet gevonden.", Snackbar.LENGTH_LONG)
+            Snackbar.make(binding.getRoot(), getString(R.string.wpi_tap_product_not_found), Snackbar.LENGTH_LONG)
                     .show();
             return;
         }
         Product foundProduct = viewModel.getLastCart().getProductFor(barcode);
         if (foundProduct == null) {
             Log.w(TAG, "onCreate: barcode niet gevonden in map " + barcode);
-            Snackbar.make(binding.getRoot(), "Product niet gevonden.", Snackbar.LENGTH_LONG)
+            Snackbar.make(binding.getRoot(), getString(R.string.wpi_tap_product_not_found), Snackbar.LENGTH_LONG)
                     .show();
             return;
         }

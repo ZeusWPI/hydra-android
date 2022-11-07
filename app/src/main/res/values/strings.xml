@@ -395,6 +395,7 @@
     <string name="wpi_tap_pending_order">Annuleerbare bestellingen</string>
     <string name="wpi_tap_order_cancelled">Bestelling geannuleerd</string>
     <string name="wpi_tap_order_too_late">Te laat!</string>
+    <string name="wpi_tap_product_not_found">Product niet gevonden</string>
     <string name="wpi_tab_request_accept_description">Verzoek aanvaarden</string>
     <string name="wpi_tab_request_decline_description">Verzoek weigeren</string>
     <string name="wpi_tab_request_executed">Uitgevoerd</string>
