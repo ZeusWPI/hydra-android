@@ -56,7 +56,7 @@
         android:supportsRtl="false"
         android:theme="@style/Hydra.Material"
         android:localeConfig="@xml/locales_config"
-        tools:ignore="AllowBackup,GoogleAppIndexingWarning"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute"
         tools:replace="android:supportsRtl">
 
         <!-- Main activity -->
