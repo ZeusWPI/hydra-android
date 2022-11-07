@@ -38,6 +38,7 @@
     <string name="action_add_to_calendar">Add to calendar</string>
     <string name="action_undo">Undo</string>
     <string name="action_send">Send</string>
+    <string name="action_share">Share</string>
 
     <string name="select_none">Select none</string>
 
@@ -385,7 +386,8 @@
     <string name="wpi_tap_pending_order">Pending orders</string>
     <string name="wpi_tap_order_cancelled">Order cancelled</string>
     <string name="wpi_tap_order_too_late">Too late!</string>
-    <string name="wpi_tap_product_not_found">Product not found</string>
+    <string name="wpi_tap_product_not_found">A product with barcode %1$s could not be found. Share it with your favorite board member to get it added to Tap.</string>
+    <string name="wpi_tap_too_quick">Too quick!</string>
     <string name="wpi_tab_request_accept_description">Accept request</string>
     <string name="wpi_tab_request_decline_description">Deny request</string>
     <string name="wpi_tab_request_executed">Executed</string>
