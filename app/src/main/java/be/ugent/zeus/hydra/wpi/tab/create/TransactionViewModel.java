@@ -28,9 +28,15 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import be.ugent.zeus.hydra.common.arch.data.Event;
 import be.ugent.zeus.hydra.common.network.NetworkState;
+import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
+import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 import be.ugent.zeus.hydra.common.utils.ThreadingUtils;
 
 /**
@@ -41,7 +47,7 @@ import be.ugent.zeus.hydra.common.utils.ThreadingUtils;
  * 
  * @author Niko Strijbol
  */
-public class TransactionViewModel extends AndroidViewModel {
+public class TransactionViewModel extends RequestViewModel<List<String>> {
     
     private final MutableLiveData<NetworkState> networkState;
     private final MutableLiveData<Event<Result<Boolean>>> requestResult;
@@ -68,5 +74,16 @@ public class TransactionViewModel extends AndroidViewModel {
             networkState.postValue(NetworkState.IDLE);
             requestResult.postValue(new Event<>(result));
         });
+    }
+
+    @NonNull
+    @Override
+    protected Request<List<String>> getRequest() {
+        return new MemberRequest(getApplication())
+            .map(members -> members
+                 .stream()
+                 .sorted(Comparator.comparing(Member::getName))
+                 .map(Member::getName)
+                 .collect(Collectors.toList()));
     }
 }
