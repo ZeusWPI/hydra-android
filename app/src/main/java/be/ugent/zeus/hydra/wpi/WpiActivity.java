@@ -109,13 +109,11 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
 
         ViewModelProvider provider = new ViewModelProvider(this);
         viewModel = provider.get(WpiViewModel.class);
-        if (viewModel.getUserData().getValue() == null || !viewModel.getUserData().getValue().hasData()) {
-            binding.balanceDescription.setVisibility(View.GONE);
-            binding.tapOrder.setVisibility(View.GONE);
-            binding.tabTransaction.setVisibility(View.GONE);
-        }
         viewModel.getUserData().observe(this, PartialErrorObserver.with(this::onError));
         viewModel.getUserData().observe(this, SuccessObserver.with(user -> {
+            binding.balanceDescription.setVisibility(View.VISIBLE);
+            binding.tapOrder.setVisibility(View.VISIBLE);
+            binding.tabTransaction.setVisibility(View.VISIBLE);
             String balance = currencyFormatter.format(user.getBalanceDecimal());
             binding.tabBalance.setText(balance);
             int colour;

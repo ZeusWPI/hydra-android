@@ -60,6 +60,8 @@
                     android:id="@+id/balance_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    tools:visibility="visible"
+                    android:visibility="gone"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:text="@string/wpi_tab_balance_description"
@@ -188,6 +190,8 @@
         android:translationY="-32dp"
         style="?attr/floatingActionButtonSmallStyle"
         app:layout_anchor="@id/tap_order"
+        tools:visibility="visible"
+        android:visibility="gone"
         app:layout_anchorGravity="end|top"
         tools:ignore="UnusedAttribute" />
 
@@ -195,6 +199,8 @@
         android:id="@+id/tap_order"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        tools:visibility="visible"
+        android:visibility="gone"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:text="@string/wpi_start_cart"
