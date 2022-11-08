@@ -160,19 +160,6 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/tab_transaction"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:contentDescription="@string/wpi_start_transfer"
-        android:src="@drawable/ic_bank_transfer"
-        android:tooltipText="@string/wpi_start_transfer"
-        android:translationY="-32dp"
-        style="?attr/floatingActionButtonSmallStyle"
-        app:layout_anchor="@id/tap_add_favourite"
-        app:layout_anchorGravity="end|top"
-        tools:ignore="UnusedAttribute" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/tap_add_favourite"
@@ -184,9 +171,23 @@
         android:tooltipText="@string/wpi_cart_add_manual"
         android:translationY="-32dp"
         style="?attr/floatingActionButtonSmallStyle"
-        app:layout_anchor="@id/tap_order"
+        app:layout_anchor="@id/tab_transaction"
         tools:visibility="visible"
         android:visibility="gone"
+        app:layout_anchorGravity="end|top"
+        tools:ignore="UnusedAttribute" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/tab_transaction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/wpi_start_transfer"
+        android:src="@drawable/ic_bank_transfer"
+        android:tooltipText="@string/wpi_start_transfer"
+        android:translationY="-32dp"
+        style="?attr/floatingActionButtonSmallStyle"
+        app:layout_anchor="@id/tap_order"
         app:layout_anchorGravity="end|top"
         tools:ignore="UnusedAttribute" />
 

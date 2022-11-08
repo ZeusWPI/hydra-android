@@ -29,14 +29,14 @@ apply plugin: 'com.google.firebase.crashlytics'
 def props = loadProperties()
 
 android {
-    compileSdkVersion 32
-    buildToolsVersion "32.0.0"
+    compileSdkVersion 33
+    buildToolsVersion "33.0.0"
 
     //noinspection GroovyMissingReturnStatement
     defaultConfig {
         applicationId "be.ugent.zeus.hydra"
         minSdkVersion 21
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 34000
         versionName "3.4.0"
         vectorDrawables.useSupportLibrary = true
@@ -184,7 +184,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.google.android.material:material:1.7.0-rc01'
+    implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.browser:browser:1.4.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.5.1'

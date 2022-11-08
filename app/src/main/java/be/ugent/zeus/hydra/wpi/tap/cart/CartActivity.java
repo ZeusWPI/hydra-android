@@ -218,15 +218,26 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
         if (viewModel.getLastCart() == null) {
             // There is no cart yet.
             Log.w(TAG, "onCreate: cart not ready yet...");
-            Snackbar.make(binding.getRoot(), "Product niet gevonden.", Snackbar.LENGTH_LONG)
+            Snackbar.make(binding.getRoot(), getString(R.string.wpi_tap_too_quick), Snackbar.LENGTH_LONG)
                     .show();
             return;
         }
         Product foundProduct = viewModel.getLastCart().getProductFor(barcode);
         if (foundProduct == null) {
             Log.w(TAG, "onCreate: barcode niet gevonden in map " + barcode);
-            Snackbar.make(binding.getRoot(), "Product niet gevonden.", Snackbar.LENGTH_LONG)
-                    .show();
+
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, barcode);
+            sendIntent.setType("text/plain");
+
+            Intent shareIntent = Intent.createChooser(sendIntent, null);
+
+            new MaterialAlertDialogBuilder(CartActivity.this)
+                .setMessage(getString(R.string.wpi_tap_product_not_found, barcode))
+                .setPositiveButton(R.string.action_share, (dialog, which) -> startActivity(shareIntent))
+                .setNegativeButton(android.R.string.no, null)
+                .show();
             return;
         }
         Cart newCart = viewModel.getLastCart().addProduct(foundProduct);

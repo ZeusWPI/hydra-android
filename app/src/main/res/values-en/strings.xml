@@ -38,6 +38,7 @@
     <string name="action_add_to_calendar">Add to calendar</string>
     <string name="action_undo">Undo</string>
     <string name="action_send">Send</string>
+    <string name="action_share">Share</string>
 
     <string name="select_none">Select none</string>
 
@@ -215,10 +216,6 @@
     <string name="resto_legend_asc_desc">Aquaculture Stewardship Council</string>
     <string name="resto_legend_gap_abbr">GAP</string>
     <string name="resto_legend_gap_desc">Good Agricultural Practice</string>
-    <string name="resto_order_online">
-        From now on, you can order your food online for same day retrieval.
-        The deadline for the noon service is 10 AM and 5PM for the evening service
-    </string>
     <string name="resto_order_now">Order online</string>
 
     <!-- This is the endpoint for the Resto API. Must be one of the provided API endpoints. -->
@@ -328,7 +325,7 @@
     <string name="wpi_pin_updated">Updated existing shortcut</string>
     <string name="wpi_tab_form_title">Tab transfer</string>
     <string name="wpi_tab_form_to">Zeus member</string>
-    <string name="wpi_tab_form_to_helper">Who you want to give money to or request money from. The Zeus username must be spelled exactly correct. Due to limitations in the API, there is no autocomplete for this field yet.</string>
+    <string name="wpi_tab_form_to_helper">Who you want to give money to or request money from. The Zeus username must be spelled exactly correct.</string>
     <string name="wpi_tab_form_amount">Amount</string>
     <string name="wpi_tab_form_amount_helper">If the amount is negative and you are not an admin, this will become a request, not a transfer.</string>
     <string name="wpi_tab_form_message">Description</string>
@@ -390,6 +387,8 @@
     <string name="wpi_tap_pending_order">Pending orders</string>
     <string name="wpi_tap_order_cancelled">Order cancelled</string>
     <string name="wpi_tap_order_too_late">Too late!</string>
+    <string name="wpi_tap_product_not_found">A product with barcode %1$s could not be found. Share it with your favorite board member to get it added to Tap.</string>
+    <string name="wpi_tap_too_quick">Too quick!</string>
     <string name="wpi_tab_request_accept_description">Accept request</string>
     <string name="wpi_tab_request_decline_description">Deny request</string>
     <string name="wpi_tab_request_executed">Executed</string>

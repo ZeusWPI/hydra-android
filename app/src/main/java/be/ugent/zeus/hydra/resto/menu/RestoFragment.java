@@ -77,6 +77,7 @@ public class RestoFragment extends Fragment implements
     private static final String ARG_POSITION = "arg_pos";
 
     private static final String URL = "https://www.ugent.be/student/nl/meer-dan-studeren/resto";
+    private static final String ORDER_URL = "https://studentenrestaurants.ugent.be/";
     private MenuPagerAdapter pageAdapter;
     private ViewPager2 viewPager;
     private MenuViewModel menuViewModel;
@@ -226,6 +227,10 @@ public class RestoFragment extends Fragment implements
             return true;
         } else if (itemId == R.id.action_history) {
             startActivity(new Intent(getContext(), HistoryActivity.class));
+            return true;
+        } else if (itemId == R.id.resto_order_online) {
+            String url = ORDER_URL + getContext().getString(R.string.value_info_endpoint);
+            NetworkUtils.maybeLaunchBrowser(getContext(), url);
             return true;
         }
         return super.onOptionsItemSelected(item);

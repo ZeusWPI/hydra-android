@@ -41,13 +41,14 @@
         };
         android-sdk = android-nixpkgs.sdk.${system} (sdkPkgs: with sdkPkgs; [
           cmdline-tools-latest
-          build-tools-32-0-0
+          build-tools-33-0-0
           platform-tools
-          platforms-android-32
-          sources-android-32
+          platforms-android-33
+          sources-android-33
           emulator
           system-images-android-21-google-apis-x86
           system-images-android-21-default-x86
+          system-images-android-33-google-apis-x86-64
         ]);
       in
       {

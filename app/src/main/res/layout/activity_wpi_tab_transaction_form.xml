@@ -65,11 +65,12 @@
                 android:hint="@string/wpi_tab_form_to"
                 app:helperText="@string/wpi_tab_form_to_helper">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    style="@style/Widget.MaterialComponents.AutoCompleteTextView.OutlinedBox"
                     android:id="@+id/form_member"
                     android:inputType="text"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
