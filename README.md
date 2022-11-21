@@ -1,4 +1,4 @@
-# Hydra (Android) ![Android CI](https://github.com/ZeusWPI/hydra-android/workflows/Android%20CI/badge.svg?branch=development)
+# Hydra (Android) [![CI](https://github.com/ZeusWPI/hydra-android/actions/workflows/ci.yml/badge.svg)](https://github.com/ZeusWPI/hydra-android/actions/workflows/ci.yml)
 
 <a href='https://play.google.com/store/apps/details?id=be.ugent.zeus.hydra'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="80px"/></a>
 <a href='https://f-droid.org/packages/be.ugent.zeus.hydra.open/'><img alt='Get it on F-Droid' src='https://fdroid.gitlab.io/artwork/badge/get-it-on.png' height="80px"/></a>
@@ -41,19 +41,6 @@ The `store` variant is the main variant, and used for the Play Store and is the 
 
 * [Main repo](https://github.com/ZeusWPI/hydra) - contains the scrapers and APIs for the data and the shared resources
 * [iOS](https://github.com/ZeusWPI/hydra-iOS) - iOS app
-
-## Contributors
-* Tom 'silox' Naessens
-* Feliciaan 'felikaan' De Palmenaer
-* Titouan 'FlashYoshi' Vervack
-* Niels 'nieleken' De Graef
-* Mitch De Wilde
-* Mehmet 'eludum' Köse
-* Rien 'R13N' Maertens
-* Ellen Vanhove
-* Michiel 'Michilus' Van den Berghe
-* Niko 'niknetniko' Strijbol
-
 
 ## Credits
 
