@@ -47,6 +47,8 @@
 
     <string name="error_network">Netwerkfout</string>
     <string name="error_no_activity">Niets gevonden om dit te openen!</string>
+    <string name="error_user_not_found">Gebruiker niet gevonden. Controleer uw gebruikersnaam.</string>
+    <string name="error_no_api_key">Authenticatiefout. Controleer uw API-sleutels.</string>
 
     <string name="drawer_title_feed">Overzicht</string>
     <string name="drawer_title_schamper">Schamper</string>

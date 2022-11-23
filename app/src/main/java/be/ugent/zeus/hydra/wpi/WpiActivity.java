@@ -43,7 +43,9 @@ import java.time.OffsetDateTime;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.*;
+import be.ugent.zeus.hydra.common.network.IOFailureException;
 import be.ugent.zeus.hydra.common.network.NetworkState;
+import be.ugent.zeus.hydra.common.network.UnsuccessfulRequestException;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.recyclerview.SpanItemSpacingDecoration;
 import be.ugent.zeus.hydra.common.ui.recyclerview.headers.HeaderAdapter;
@@ -111,6 +113,9 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
         viewModel = provider.get(WpiViewModel.class);
         viewModel.getUserData().observe(this, PartialErrorObserver.with(this::onError));
         viewModel.getUserData().observe(this, SuccessObserver.with(user -> {
+            binding.balanceDescription.setVisibility(View.VISIBLE);
+            binding.tapOrder.setVisibility(View.VISIBLE);
+            binding.tabTransaction.setVisibility(View.VISIBLE);
             String balance = currencyFormatter.format(user.getBalanceDecimal());
             binding.tabBalance.setText(balance);
             int colour;
@@ -262,11 +267,37 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
     }
 
     private void onError(Throwable throwable) {
-        Log.e(TAG, "Error while getting data.", throwable);
-        // TODO: better error message.
-        Snackbar.make(binding.getRoot(), getString(R.string.error_network), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.action_again), v -> viewModel.onRefresh())
-                .show();
+        Log.w(TAG, "Error while getting data.", throwable);
+
+        boolean hasUsername = AccountManager.hasUsername(this);
+        boolean isNotFound = throwable instanceof IOFailureException
+                && throwable.getCause() instanceof UnsuccessfulRequestException
+                && ((UnsuccessfulRequestException) throwable.getCause()).getHttpCode() == 404;
+        boolean isAuthError = throwable instanceof IOFailureException
+                && throwable.getCause() instanceof UnsuccessfulRequestException
+                && ((UnsuccessfulRequestException) throwable.getCause()).getHttpCode() == 401;
+
+        String message;
+        boolean allowRefresh = false;
+
+        // If we don't have a username, log it.
+        if (!hasUsername || isNotFound) {
+            message = getString(R.string.error_user_not_found);
+        } else if (isAuthError) {
+            message = getString(R.string.error_no_api_key);
+        } else {
+            // We don't recognize the error, so show the generic message.
+            allowRefresh = true;
+            message = getString(R.string.error_network);
+        }
+
+        Snackbar snackbar = createSnackbar(message, Snackbar.LENGTH_LONG);
+        if (snackbar != null) {
+            if (allowRefresh) {
+                snackbar.setAction(getString(R.string.action_again), v -> viewModel.onRefresh());
+            }
+            snackbar.show();
+        }
     }
 
     @Override

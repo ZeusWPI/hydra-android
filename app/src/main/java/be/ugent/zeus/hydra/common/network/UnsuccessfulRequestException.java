@@ -36,7 +36,6 @@ public class UnsuccessfulRequestException extends IOException {
         this.httpCode = httpCode;
     }
 
-    @SuppressWarnings("unused")
     public int getHttpCode() {
         return httpCode;
     }

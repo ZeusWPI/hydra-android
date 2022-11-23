@@ -27,12 +27,16 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.viewbinding.ViewBinding;
+
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.function.Function;
 
@@ -61,6 +65,11 @@ import be.ugent.zeus.hydra.common.utils.ColourUtils;
 public abstract class BaseActivity<B extends ViewBinding> extends AppCompatActivity {
 
     protected B binding;
+    // A single snackbar, to prevent multiple bars with the same message from showing.
+    // See the createSnackbar method.
+    private Snackbar singleSnackbar;
+    // We can't get the text from the snackbar, sadly.
+    private String snackBarText;
 
     /**
      * Replace an icon with given ID by the same icon but in the correct colour.
@@ -146,5 +155,25 @@ public abstract class BaseActivity<B extends ViewBinding> extends AppCompatActiv
      */
     protected boolean hasParent() {
         return true;
+    }
+
+    /**
+     * Get a snackbar for a given message.
+     * <p>
+     * If the snackbar is already displayed with the same message, this
+     * will return null. In that case, you shouldn't show the a new snackbar.
+     * Otherwise, you will get a snackbar for the message and length. This is
+     * a new snackbar, which you can do with want you want.
+     */
+    @Nullable
+    protected Snackbar createSnackbar(String text, @BaseTransientBottomBar.Duration int duration) {
+        if (this.singleSnackbar != null && this.singleSnackbar.isShown() && text.equals(this.snackBarText)) {
+            return null;
+        }
+        
+        Snackbar snackbar = Snackbar.make(binding.getRoot(), text, duration);
+        this.singleSnackbar = snackbar;
+        this.snackBarText = text;
+        return snackbar;
     }
 }
