@@ -23,6 +23,7 @@ package be.ugent.zeus.hydra.wpi.account;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 import androidx.annotation.Nullable;
 import androidx.preference.PreferenceManager;
 
@@ -73,5 +74,10 @@ public class AccountManager {
     public static String getDoorKey(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         return preferences.getString(PREF_WPI_DOOR_API_KEY, null);
+    }
+    
+    public static boolean hasUsername(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return !TextUtils.isEmpty(preferences.getString(PREF_WPI_USERNAME, null));
     }
 }

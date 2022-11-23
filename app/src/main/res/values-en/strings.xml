@@ -44,7 +44,8 @@
 
     <string name="error_network">Network failure.</string>
     <string name="error_no_activity">Nothing found to open this!</string>
-    <string name="error_no_api_key">Please add your API keys to use all features of Zeus mode</string>
+    <string name="error_user_not_found">User not found. Check your username.</string>
+    <string name="error_no_api_key">Authentication error. Check your API keys.</string>
 
     <string name="drawer_title_feed">Overview</string>
     <string name="drawer_title_schamper">Schamper</string>
