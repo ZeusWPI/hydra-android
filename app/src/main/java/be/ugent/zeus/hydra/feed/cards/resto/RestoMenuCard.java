@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2022 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,9 +27,9 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
+import be.ugent.zeus.hydra.common.ui.widgets.MenuTable;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
-import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 
 /**
@@ -44,9 +45,10 @@ class RestoMenuCard extends Card {
     private static final LocalDateTime interestEnd = LocalDateTime.now().withHour(14).withMinute(30);
 
     private final RestoMenu restoMenu;
-    private final String feedRestoKind;
+    @MenuTable.DisplayKind
+    private final int feedRestoKind;
 
-    RestoMenuCard(RestoMenu restoMenu, String feedRestoKind) {
+    RestoMenuCard(RestoMenu restoMenu, @MenuTable.DisplayKind int feedRestoKind) {
         this.restoMenu = restoMenu;
         this.feedRestoKind = feedRestoKind;
     }

@@ -231,14 +231,12 @@
     <string name="feed_pref_clear_cards_title">Erase hidden cards</string>
     <string name="feed_pref_clear_cards_summary">Erase the list of hidden cards. Causes all cards to be displayed again.</string>
     <string name="feed_pref_hidden_cleared">Erased</string>
-    <string name="feed_pref_resto_kinds">What to show on the menu</string>
-    <string name="feed_pref_resto_kinds_main">Just main course</string>
-    <string name="feed_pref_resto_kinds_soup">Just soup</string>
-    <string name="feed_pref_resto_kinds_all">Both soup and main course</string>
     <string name="feed_pref_resto_show_soup">Show soup</string>
     <string name="feed_pref_resto_hide_soup">Hide soup</string>
-    <string name="feed_pref_resto_show_main">Show main course</string>
-    <string name="feed_pref_resto_hide_main">Hide main course</string>
+    <string name="feed_pref_resto_show_hot">Show hot meal</string>
+    <string name="feed_pref_resto_hide_hot">Hide hot meal</string>
+    <string name="feed_pref_resto_show_cold">Show cold meal</string>
+    <string name="feed_pref_resto_hide_cold">Hide cold meal</string>
 
     <string name="feed_card_type_title_resto">Resto menu</string>
     <string name="feed_card_type_title_events">Activities</string>
@@ -269,10 +267,12 @@
     <string name="feed_card_hidden_type">Undo successful</string>
     <string name="feed_card_hidden_association">Organisation was hidden</string>
     <string name="feed_card_hidden_single">Done with this card</string>
-    <string name="feed_card_hidden_menu_soup">Soup was hidden</string>
-    <string name="feed_card_hidden_menu_main">Main course was hidden</string>
-    <string name="feed_card_shown_menu_soup">Soup is shown</string>
-    <string name="feed_card_shown_menu_main">Main course is shown</string>
+    <string name="feed_card_hidden_menu_soup">Hidden soup</string>
+    <string name="feed_card_hidden_menu_hot">Hidden hot meals</string>
+    <string name="feed_card_hidden_menu_cold">Hidden cold meals</string>
+    <string name="feed_card_shown_menu_soup">Shown soup</string>
+    <string name="feed_card_shown_menu_hot">Shown hot meals</string>
+    <string name="feed_card_shown_menu_cold">Shown cold meals</string>
 
     <!-- Info -->
     <string name="info_sub_item_activity_title">More info</string>

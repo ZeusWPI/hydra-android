@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2022 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,10 +24,10 @@
 package be.ugent.zeus.hydra.feed.cards.resto;
 
 import android.content.Context;
-import android.util.SparseArray;
 import android.util.SparseIntArray;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.ui.widgets.MenuTable;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.commands.FeedCommand;
 import be.ugent.zeus.hydra.feed.preferences.HomeFragment;
@@ -41,44 +42,17 @@ import static be.ugent.zeus.hydra.feed.cards.resto.RestoCardViewHolder.KindMenu.
 class RestoKindCommand implements FeedCommand {
 
     /**
-     * Map the menu items to their resulting view state, i.e. what should be shown after the menu item is pressed.
-     * <p>
-     * For example, the {@link RestoCardViewHolder.KindMenu#HIDE_SOUP}
-     * menu item id is mapped to {@link HomeFragment.FeedRestoKind#MAIN}, meaning when the hide soup menu is pressed,
-     * the resulting menu type is one that only shows the main menu.
-     * <p>
-     * It is important to note that one of the two must always be shown, e.g. soup and/or main dishes, but not none.
-     */
-    private static final SparseArray<String> MENU_TO_FORWARD = new SparseArray<>();
-    /**
-     * The reverse mapping of {@link #MENU_TO_FORWARD}. This maps the menu items to their view state when the menu item
-     * was pressed, effectively reversing the action.
-     */
-    private static final SparseArray<String> MENU_TO_REVERSE = new SparseArray<>();
-    /**
      * Maps menu items to their message of completion, i.e. the message shown when the action has been performed.
      */
     private static final SparseIntArray MENU_TO_ITEM = new SparseIntArray();
 
     static {
-        // When hiding soup, only main dishes remain.
-        MENU_TO_FORWARD.append(HIDE_SOUP, HomeFragment.FeedRestoKind.MAIN);
-        // When showing soup, all is shown.
-        MENU_TO_FORWARD.append(SHOW_SOUP, HomeFragment.FeedRestoKind.ALL);
-        // When hiding main dishes, only soup remains.
-        MENU_TO_FORWARD.append(HIDE_MAIN, HomeFragment.FeedRestoKind.SOUP);
-        // When showing main dishes, all is shown.
-        MENU_TO_FORWARD.append(SHOW_MAIN, HomeFragment.FeedRestoKind.ALL);
-
-        MENU_TO_REVERSE.append(HIDE_SOUP, MENU_TO_FORWARD.get(SHOW_SOUP));
-        MENU_TO_REVERSE.append(SHOW_SOUP, MENU_TO_FORWARD.get(HIDE_SOUP));
-        MENU_TO_REVERSE.append(HIDE_MAIN, MENU_TO_FORWARD.get(SHOW_MAIN));
-        MENU_TO_REVERSE.append(SHOW_MAIN, MENU_TO_FORWARD.get(HIDE_MAIN));
-
         MENU_TO_ITEM.append(HIDE_SOUP, R.string.feed_card_hidden_menu_soup);
         MENU_TO_ITEM.append(SHOW_SOUP, R.string.feed_card_shown_menu_soup);
-        MENU_TO_ITEM.append(HIDE_MAIN, R.string.feed_card_hidden_menu_main);
-        MENU_TO_ITEM.append(SHOW_MAIN, R.string.feed_card_shown_menu_main);
+        MENU_TO_ITEM.append(HIDE_HOT, R.string.feed_card_hidden_menu_hot);
+        MENU_TO_ITEM.append(SHOW_HOT, R.string.feed_card_shown_menu_hot);
+        MENU_TO_ITEM.append(HIDE_COLD, R.string.feed_card_hidden_menu_cold);
+        MENU_TO_ITEM.append(SHOW_COLD, R.string.feed_card_shown_menu_cold);
     }
 
     @RestoCardViewHolder.KindMenu
@@ -91,19 +65,53 @@ class RestoKindCommand implements FeedCommand {
     @Override
     @Card.Type
     public int execute(Context context) {
-        HomeFragment.setFeedRestoKind(context, MENU_TO_FORWARD.get(selectedOption));
+        int flag = commandToFlag(selectedOption);
+        // The "flag" is negative, so we want to hide it.
+        if (flag < 0) {
+            // Convert the flag back to an actual flag before saving it.
+            HomeFragment.removeFlag(context, -flag);
+        } else {
+            HomeFragment.addFlag(context, flag);
+        }
         return Card.Type.RESTO;
     }
 
     @Override
     @Card.Type
     public int undo(Context context) {
-        HomeFragment.setFeedRestoKind(context, MENU_TO_REVERSE.get(selectedOption));
+        int flag = commandToFlag(selectedOption);
+        // The "flag" is negative, so we wanted to hide it, but show it again now.
+        if (flag < 0) {
+            // Convert the flag back to an actual flag before saving it.
+            HomeFragment.addFlag(context, -flag);
+        } else {
+            HomeFragment.removeFlag(context, flag);
+        }
         return Card.Type.RESTO;
     }
 
     @Override
     public int getCompleteMessage() {
         return MENU_TO_ITEM.get(selectedOption);
+    }
+    
+    // Get the flag for display kind, with negative flags indicating hiding.
+    private int commandToFlag(@RestoCardViewHolder.KindMenu int command) {
+        switch (command) {
+            case SHOW_HOT:
+                return MenuTable.DisplayKind.HOT;
+            case HIDE_HOT:
+                return -MenuTable.DisplayKind.HOT;
+            case SHOW_COLD:
+                return MenuTable.DisplayKind.COLD;
+            case HIDE_COLD:
+                return -MenuTable.DisplayKind.COLD;
+            case SHOW_SOUP:
+                return MenuTable.DisplayKind.SOUP;
+            case HIDE_SOUP:
+                return -MenuTable.DisplayKind.SOUP;
+            default:
+                throw new IllegalStateException("Unknown resto menu card command...");
+        }
     }
 }

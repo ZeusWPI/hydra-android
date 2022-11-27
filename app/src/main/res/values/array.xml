@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (c) 2021 The Hydra authors
+  ~ Copyright (c) 2022 Niko Strijbol
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -74,18 +75,4 @@
         <item>@string/pref_theme_night_mode_always</item>
         <item>@string/pref_theme_night_mode_never</item>
     </string-array>
-
-    <!-- These values are also defined in the feed preference fragment. -->
-    <string-array name="pref_feed_resto_kind_values" translatable="false">
-        <item>main</item>
-        <item>soup</item>
-        <item>all</item>
-    </string-array>
-
-    <string-array name="pref_feed_resto_kind" translatable="false">
-        <item>@string/feed_pref_resto_kinds_main</item>
-        <item>@string/feed_pref_resto_kinds_soup</item>
-        <item>@string/feed_pref_resto_kinds_all</item>
-    </string-array>
-
 </resources>
