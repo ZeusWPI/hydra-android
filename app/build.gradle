@@ -223,7 +223,7 @@ dependencies {
     testImplementation 'org.mockito:mockito-inline:4.11.0'
     testImplementation 'org.robolectric:robolectric:4.9'
     testImplementation 'androidx.test:core:1.5.0'
-    testImplementation 'androidx.test.ext:junit:1.1.3'
+    testImplementation 'androidx.test.ext:junit:1.1.5'
     testImplementation 'androidx.test:rules:1.5.0'
     testImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     testImplementation 'androidx.test.espresso:espresso-intents:3.5.0'
