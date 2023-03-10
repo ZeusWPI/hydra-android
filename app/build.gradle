@@ -229,7 +229,7 @@ dependencies {
     testImplementation 'androidx.test.espresso:espresso-intents:3.5.1'
     testImplementation 'androidx.test.espresso:espresso-contrib:3.5.1'
     testImplementation 'androidx.arch.core:core-testing:2.2.0'
-    testImplementation 'androidx.room:room-testing:2.4.3'
+    testImplementation 'androidx.room:room-testing:2.5.0'
     testImplementation 'com.squareup.okhttp3:mockwebserver:4.10.0'
     testImplementation 'nl.jqno.equalsverifier:equalsverifier:3.14'
     testImplementation 'com.shazam:shazamcrest:0.11'
