@@ -22,14 +22,13 @@
 
 package be.ugent.zeus.hydra.common.arch.data;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
+import be.ugent.zeus.hydra.common.utils.ThreadingUtils;
 
 /**
  * Live data for a {@link Request}.
@@ -59,21 +58,8 @@ public class RequestLiveData<M> extends BaseLiveData<Result<M>> {
      * @param bundle The arguments for the request.
      */
     @Override
-    @SuppressLint("StaticFieldLeak")
     protected void loadData(@NonNull Bundle bundle) {
-        new AsyncTask<Void, Void, Result<M>>() {
-
-            @Override
-            protected Result<M> doInBackground(Void... voids) {
-                return getRequest().execute(bundle);
-            }
-
-            @Override
-            protected void onPostExecute(Result<M> m) {
-                setValue(m);
-            }
-        }
-                .execute();
+        ThreadingUtils.executeWithResult(() -> getRequest().execute(bundle), this::setValue);
     }
 
     protected Context getContext() {

@@ -27,6 +27,8 @@ import androidx.annotation.*;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * Contains some utilities to run code in another thread.
@@ -53,14 +55,26 @@ public class ThreadingUtils {
      * @param afterExecution Runs in the UI thread, after execution has completed.
      */
     @MainThread
-    public static void execute(@NonNull @WorkerThread Runnable code, @Nullable @UiThread Runnable afterExecution) {
+    public static void execute(@NonNull @WorkerThread Runnable code, @Nullable @MainThread Runnable afterExecution) {
+        executeWithResult(() -> {
+            code.run();
+            return null;
+        }, unused -> {
+            if (afterExecution != null) {
+                afterExecution.run();
+            }
+        });
+    }
+
+    @MainThread
+    public static <R> void executeWithResult(@NonNull @WorkerThread Supplier<R> code, @MainThread Consumer<R> afterExecution) {
         // TODO: check if we need to cache the thread executor?
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
-            code.run();
+            R result = code.get();
             if (afterExecution != null) {
-                handler.post(afterExecution);
+                handler.post(() -> afterExecution.accept(result));
             }
         });
         executor.shutdown();
