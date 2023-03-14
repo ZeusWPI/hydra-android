@@ -66,16 +66,42 @@ public class ThreadingUtils {
         });
     }
 
+    /**
+     * Run a piece of code on a background thread.
+     *
+     * @param code           The code to run.
+     * @param afterExecution Run on the main thread after the code has run.
+     * @param <R>            The type of the result.
+     */
     @MainThread
-    public static <R> void executeWithResult(@NonNull @WorkerThread Supplier<R> code, @MainThread Consumer<R> afterExecution) {
+    public static <R> void executeWithResult(@NonNull @WorkerThread Supplier<R> code, @Nullable @MainThread Consumer<R> afterExecution) {
+        executeWithProgress(consumer -> {
+            R result = code.get();
+            consumer.accept(result);
+        }, afterExecution);
+    }
+
+    /**
+     * Run a piece of code on a background thread.
+     *
+     * @param code             The code to run. The argument is a function to publish progress.
+     * @param progressListener Receives progress updates on the main thread.
+     * @param <R>              The type of the result.
+     */
+    @MainThread
+    public static <R> void executeWithProgress(@NonNull Consumer<Consumer<R>> code, @Nullable @MainThread Consumer<R> progressListener) {
         // TODO: check if we need to cache the thread executor?
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
-            R result = code.get();
-            if (afterExecution != null) {
-                handler.post(() -> afterExecution.accept(result));
+            Consumer<R> progressReceiver;
+            if (progressListener != null) {
+                progressReceiver = r -> handler.post(() -> progressListener.accept(r));
+            } else {
+                progressReceiver = r -> {
+                };
             }
+            code.accept(progressReceiver);
         });
         executor.shutdown();
     }
