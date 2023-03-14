@@ -26,7 +26,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.support.v4.media.MediaMetadataCompat;
 import android.text.TextUtils;
 import androidx.annotation.NonNull;
@@ -39,6 +38,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.network.InstanceProvider;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
+import be.ugent.zeus.hydra.common.utils.ThreadingUtils;
 import be.ugent.zeus.hydra.urgent.ProgrammeInformation;
 import be.ugent.zeus.hydra.urgent.UrgentInfo;
 import be.ugent.zeus.hydra.urgent.UrgentInfoRequest;
@@ -65,20 +65,8 @@ public class UrgentTrackProvider {
             callback.accept(track);
             return;
         }
-
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... voids) {
-                loadData();
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                callback.accept(track);
-            }
-        }.execute();
+        
+        ThreadingUtils.execute(this::loadData, () -> callback.accept(track));
     }
 
     public boolean hasTrackInformation() {
