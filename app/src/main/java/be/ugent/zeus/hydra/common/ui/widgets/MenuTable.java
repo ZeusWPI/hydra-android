@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2022 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,14 +34,14 @@ import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
 import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import com.google.android.material.textview.MaterialTextView;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 
 import static be.ugent.zeus.hydra.common.utils.PreferencesUtils.isSetIn;
 
@@ -77,6 +78,8 @@ public class MenuTable extends TableLayout {
      */
     private void init(Context context, @Nullable AttributeSet attrs) {
 
+        // The warning is bogus, since it was only added in API 31.
+        @SuppressWarnings("resource")
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.MenuTable, 0, 0);
 
         try {
@@ -186,7 +189,6 @@ public class MenuTable extends TableLayout {
      * Add content.
      */
     private void populate() {
-
         setColumnStretchable(1, true);
         setColumnShrinkable(1, true);
 
@@ -205,19 +207,18 @@ public class MenuTable extends TableLayout {
             return;
         }
 
-        if (isSetIn(displayedKinds, DisplayKind.MAIN)) {
-            if (menu.hasMainDishes()) {
-                if (showTitles) {
-                    createTitle(getContext().getString(R.string.resto_menu_main_dish));
-                }
-                menu.addMainViews(this);
+        if (isSetIn(displayedKinds, DisplayKind.HOT) && menu.hasMainDishes()) {
+            if (showTitles) {
+                createTitle(getContext().getString(R.string.resto_menu_main_dish));
             }
-            if (menu.hasColdDishes()) {
-                if (showTitles) {
-                    createTitle(getContext().getString(R.string.resto_menu_cold_dish));
-                }
-                menu.addColdViews(this);
+            menu.addMainViews(this);
+        }
+
+        if (isSetIn(displayedKinds, DisplayKind.COLD) && menu.hasColdDishes()) {
+            if (showTitles) {
+                createTitle(getContext().getString(R.string.resto_menu_cold_dish));
             }
+            menu.addColdViews(this);
         }
 
         if (isSetIn(displayedKinds, DisplayKind.SOUP) && menu.hasSoup()) {
@@ -240,13 +241,14 @@ public class MenuTable extends TableLayout {
      */
     @IntDef(
             flag = true,
-            value = {DisplayKind.MAIN, DisplayKind.SOUP, DisplayKind.VEGETABLES, DisplayKind.ALL}
+            value = {DisplayKind.HOT, DisplayKind.COLD, DisplayKind.SOUP, DisplayKind.VEGETABLES, DisplayKind.ALL}
     )
     @Retention(RetentionPolicy.SOURCE)
     public @interface DisplayKind {
-        int MAIN = 1; // 001
-        int SOUP = 1 << 1; // 010
-        int VEGETABLES = 1 << 2; // 100
-        int ALL = 7; // 111
+        int HOT = 1;
+        int COLD = 1 << 1;
+        int SOUP = 1 << 2;
+        int VEGETABLES = 1 << 3;
+        int ALL = HOT | COLD | SOUP | VEGETABLES;
     }
 }

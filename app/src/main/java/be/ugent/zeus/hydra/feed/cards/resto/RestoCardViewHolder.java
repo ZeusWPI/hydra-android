@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2022 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +36,6 @@ import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.CardViewHolder;
 import be.ugent.zeus.hydra.feed.preferences.HomeFragment;
-import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.menu.RestoFragment;
 
@@ -84,32 +84,47 @@ public class RestoCardViewHolder extends CardViewHolder {
     public void onCreateMenu(Menu menu) {
         super.onCreateMenu(menu);
 
-        @HomeFragment.FeedRestoKind
-        String kind = HomeFragment.getFeedRestoKindRaw(itemView.getContext());
-
-        // The logic below represent the fact that we always want one thing in the menu: the soup, the main course
-        // or both, but never none.
-        switch (kind) {
-            case HomeFragment.FeedRestoKind.ALL:
-                menu.add(NONE, KindMenu.HIDE_MAIN, NONE, R.string.feed_pref_resto_hide_main);
+        // We always want at least one thing in the menu.
+        // So, if we only have one thing, the last item won't have the hide menu.
+        @MenuTable.DisplayKind
+        int kind = HomeFragment.getFeedRestoKind(itemView.getContext());
+        
+        int displayed = Integer.bitCount(kind);
+        
+        if ((kind & MenuTable.DisplayKind.SOUP) == MenuTable.DisplayKind.SOUP) {
+            if (displayed > 1) {
                 menu.add(NONE, KindMenu.HIDE_SOUP, NONE, R.string.feed_pref_resto_hide_soup);
-                break;
-            case HomeFragment.FeedRestoKind.MAIN:
-                // Main course is set, so offer to show the soup.
-                menu.add(NONE, KindMenu.SHOW_SOUP, NONE, R.string.feed_pref_resto_show_soup);
-                break;
-            case HomeFragment.FeedRestoKind.SOUP:
-                menu.add(NONE, KindMenu.SHOW_MAIN, NONE, R.string.feed_pref_resto_show_main);
+            }
+        } else {
+            menu.add(NONE, KindMenu.SHOW_SOUP, NONE, R.string.feed_pref_resto_show_soup);
+        }
+
+        if ((kind & MenuTable.DisplayKind.HOT) == MenuTable.DisplayKind.HOT) {
+            if (displayed > 1) {
+                menu.add(NONE, KindMenu.HIDE_HOT, NONE, R.string.feed_pref_resto_hide_hot);
+            }
+        } else {
+            menu.add(NONE, KindMenu.SHOW_HOT, NONE, R.string.feed_pref_resto_show_hot);
+        }
+
+        if ((kind & MenuTable.DisplayKind.COLD) == MenuTable.DisplayKind.COLD) {
+            if (displayed > 1) {
+                menu.add(NONE, KindMenu.HIDE_COLD, NONE, R.string.feed_pref_resto_hide_cold);
+            }
+        } else {
+            menu.add(NONE, KindMenu.SHOW_COLD, NONE, R.string.feed_pref_resto_show_cold);
         }
     }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case KindMenu.HIDE_MAIN:
+            case KindMenu.HIDE_HOT:
             case KindMenu.HIDE_SOUP:
-            case KindMenu.SHOW_MAIN:
+            case KindMenu.SHOW_HOT:
             case KindMenu.SHOW_SOUP:
+            case KindMenu.SHOW_COLD:
+            case KindMenu.HIDE_COLD:
                 adapter.getCompanion().executeCommand(new RestoKindCommand(item.getItemId()));
                 return true;
             default:
@@ -119,8 +134,10 @@ public class RestoCardViewHolder extends CardViewHolder {
 
     @interface KindMenu {
         int HIDE_SOUP = 1;
-        int HIDE_MAIN = 2;
+        int HIDE_HOT = 2;
         int SHOW_SOUP = 3;
-        int SHOW_MAIN = 4;
+        int SHOW_HOT = 4;
+        int HIDE_COLD = 5;
+        int SHOW_COLD = 6;
     }
 }

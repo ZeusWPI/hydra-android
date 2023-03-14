@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (c) 2021 The Hydra authors
+  ~ Copyright (c) 2022 Niko Strijbol
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -41,15 +42,6 @@
         app:persistent="false"
         app:summary="@string/feed_pref_clear_cards_summary"
         app:title="@string/feed_pref_clear_cards_title" />
-
-    <ListPreference
-        app:defaultValue="all"
-        app:entries="@array/pref_feed_resto_kind"
-        app:entryValues="@array/pref_feed_resto_kind_values"
-        app:iconSpaceReserved="false"
-        app:key="pref_feed_resto_kinds"
-        app:summary="%s"
-        app:title="@string/feed_pref_resto_kinds" />
 
     <CheckBoxPreference
         app:defaultValue="false"

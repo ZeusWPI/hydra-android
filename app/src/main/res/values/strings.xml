@@ -237,14 +237,12 @@
     <string name="feed_pref_clear_cards_title">Verborgen kaarten wissen</string>
     <string name="feed_pref_clear_cards_summary">Wis de lijst van verborgen kaarten. Hierdoor zullen alle kaarten opnieuw getoond worden.</string>
     <string name="feed_pref_hidden_cleared">Gewist</string>
-    <string name="feed_pref_resto_kinds">Wat te tonen op het menu</string>
-    <string name="feed_pref_resto_kinds_main">Enkel hoofdgerecht</string>
-    <string name="feed_pref_resto_kinds_soup">Enkel soep</string>
-    <string name="feed_pref_resto_kinds_all">Zowel soep als hoofdgerecht</string>
     <string name="feed_pref_resto_show_soup">Soep tonen</string>
     <string name="feed_pref_resto_hide_soup">Soep verbergen</string>
-    <string name="feed_pref_resto_show_main">Hoofdgerecht tonen</string>
-    <string name="feed_pref_resto_hide_main">Hoofdgerecht verbergen</string>
+    <string name="feed_pref_resto_show_hot">Warm gerecht tonen</string>
+    <string name="feed_pref_resto_hide_hot">Warm gerecht verbergen</string>
+    <string name="feed_pref_resto_show_cold">Koud gerecht tonen</string>
+    <string name="feed_pref_resto_hide_cold">Koud gerecht verbergen</string>
 
     <string name="feed_card_type_title_resto">Restomenu</string>
     <string name="feed_card_type_title_events">Activiteiten</string>
@@ -277,9 +275,11 @@
     <string name="feed_card_hidden_association">Vereniging verborgen</string>
     <string name="feed_card_hidden_single">Klaar met deze kaart</string>
     <string name="feed_card_hidden_menu_soup">Soep verborgen</string>
-    <string name="feed_card_hidden_menu_main">Hoofdgerecht verborgen</string>
-    <string name="feed_card_shown_menu_soup">Soep wordt getoond</string>
-    <string name="feed_card_shown_menu_main">Hoofdgerecht wordt getoond</string>
+    <string name="feed_card_hidden_menu_hot">Warm gerecht verborgen</string>
+    <string name="feed_card_hidden_menu_cold">Koud gerecht verborgen</string>
+    <string name="feed_card_shown_menu_soup">Soep getoond</string>
+    <string name="feed_card_shown_menu_hot">Warm gerecht getoond</string>
+    <string name="feed_card_shown_menu_cold">Koud gerecht getoond</string>
 
     <!-- Info -->
     <string name="info_sub_item_activity_title">Meer info</string>
