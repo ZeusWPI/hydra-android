@@ -16,18 +16,13 @@ android {
         }
     }
 
-    lintOptions {
-        warningsAsErrors true
-        showAll true
-        disable "Overdraw", // Allow overdraw, mainly used for selectable backgrounds
-                // We decide when we upgrade
-                "OldTargetApi",
-                // We use dependabot for dependencies
-                "GradleDependency",
-                "ObsoleteLintCustomCheck"
-        
-    }
     namespace 'com.heinrichreimersoftware.materialintro'
+
+    lint {
+        disable 'Overdraw', 'OldTargetApi', 'GradleDependency', 'ObsoleteLintCustomCheck'
+        showAll true
+        warningsAsErrors true
+    }
 }
 
 dependencies {

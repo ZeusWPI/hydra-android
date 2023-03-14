@@ -59,23 +59,6 @@ android {
         }
     }
 
-    lintOptions {
-        warningsAsErrors true
-        showAll true
-        // We don't support Right to Left layouts.
-        disable "RtlSymmetry",
-                // We don't care about long vector paths.
-                "VectorPath",
-                // Http is still allowed for now.
-                "InsecureBaseConfiguration",
-                // Allow overdraw, mainly used for selectable backgrounds
-                "Overdraw",
-                // We use dependabot for dependencies
-                "GradleDependency",
-                // We decide when we upgrade
-                "OldTargetApi",
-                "ObsoleteLintCustomCheck"
-    }
 
     if (props["signing"]) {
         signingConfigs {
@@ -172,6 +155,12 @@ android {
     }
 
     namespace 'be.ugent.zeus.hydra'
+
+    lint {
+        disable 'RtlSymmetry', 'VectorPath', 'InsecureBaseConfiguration', 'Overdraw', 'GradleDependency', 'OldTargetApi', 'ObsoleteLintCustomCheck'
+        showAll true
+        warningsAsErrors true
+    }
 }
 
 dependencies {
