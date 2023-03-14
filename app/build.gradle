@@ -41,7 +41,7 @@ android {
         versionName "3.5.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        resConfigs "nl", "en"
+        resConfigs 'nl', 'en'
 
         // For a description of what these do, see the config.properties file.
         buildConfigField "boolean", "DEBUG_HOME_STREAM_PRIORITY", props.getProperty('hydra.debug.home.stream.priority')
