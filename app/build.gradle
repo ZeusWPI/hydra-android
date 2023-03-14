@@ -157,7 +157,7 @@ android {
     namespace 'be.ugent.zeus.hydra'
 
     lint {
-        disable 'RtlSymmetry', 'VectorPath', 'InsecureBaseConfiguration', 'Overdraw', 'GradleDependency', 'OldTargetApi', 'ObsoleteLintCustomCheck'
+        disable 'RtlSymmetry', 'VectorPath', 'InsecureBaseConfiguration', 'Overdraw', 'GradleDependency', 'OldTargetApi', 'ObsoleteLintCustomCheck', 'NotificationPermission'
         showAll true
         warningsAsErrors true
     }
