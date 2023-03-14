@@ -23,8 +23,6 @@
 package be.ugent.zeus.hydra.onboarding;
 
 import android.os.Bundle;
-import android.util.TypedValue;
-import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.core.view.WindowCompat;
 
