@@ -29,6 +29,7 @@ android {
                 "ObsoleteLintCustomCheck"
         
     }
+    namespace 'com.heinrichreimersoftware.materialintro'
 }
 
 dependencies {

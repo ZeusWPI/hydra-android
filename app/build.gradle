@@ -167,6 +167,7 @@ android {
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/notice.txt'
     }
+    namespace 'be.ugent.zeus.hydra'
 }
 
 dependencies {
