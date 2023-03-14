@@ -109,7 +109,7 @@ public class UrgentFragment extends Fragment {
     private final MediaControllerCompat.Callback mediaControllerCallback = new MediaControllerCompat.Callback() {
         @Override
         public void onPlaybackStateChanged(@NonNull PlaybackStateCompat state) {
-            Log.d(TAG, "onPlaybackStateChanged: state is " + state.toString());
+            Log.d(TAG, "onPlaybackStateChanged: state is " + state);
             configureButtons();
         }
 
