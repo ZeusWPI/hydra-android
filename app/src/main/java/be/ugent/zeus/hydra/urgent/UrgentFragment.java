@@ -160,6 +160,8 @@ public class UrgentFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        requireActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
         albumImage = view.findViewById(R.id.albumImage);
         artistText = view.findViewById(R.id.artistText);
         titleText = view.findViewById(R.id.titleText);
@@ -217,12 +219,6 @@ public class UrgentFragment extends Fragment {
     private void hideMediaControls() {
         playPauseButton.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        requireActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
     }
 
     @SuppressLint("WrongConstant")
