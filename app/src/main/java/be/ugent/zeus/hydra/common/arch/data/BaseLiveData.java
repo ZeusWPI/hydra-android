@@ -42,8 +42,6 @@ public abstract class BaseLiveData<R> extends LiveData<R> {
     public static final String REFRESH_COLD = "be.ugent.zeus.hydra.data.refresh.cold";
     @Nullable
     private Bundle queuedRefresh;
-    @Nullable
-    private OnRefreshStartListener onRefreshStartListener;
 
     /**
      * Same as {@link #flagForRefresh(Bundle)}, using {@link Bundle#EMPTY} as argument.
@@ -66,9 +64,6 @@ public abstract class BaseLiveData<R> extends LiveData<R> {
         newArgs.putBoolean(REFRESH_COLD, true);
         if (hasActiveObservers()) {
             loadData(newArgs);
-            if (onRefreshStartListener != null) {
-                onRefreshStartListener.onRefreshStart();
-            }
         } else {
             this.queuedRefresh = newArgs;
         }
@@ -79,9 +74,6 @@ public abstract class BaseLiveData<R> extends LiveData<R> {
         super.onActive();
         if (queuedRefresh != null) {
             loadData(queuedRefresh);
-            if (onRefreshStartListener != null) {
-                onRefreshStartListener.onRefreshStart();
-            }
             queuedRefresh = null;
         }
     }
@@ -98,10 +90,6 @@ public abstract class BaseLiveData<R> extends LiveData<R> {
      */
     protected void loadData() {
         this.loadData(Bundle.EMPTY);
-    }
-
-    public void registerRefreshListener(OnRefreshStartListener listener) {
-        onRefreshStartListener = listener;
     }
 
     @FunctionalInterface
