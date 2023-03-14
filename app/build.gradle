@@ -29,19 +29,19 @@ apply plugin: 'com.google.firebase.crashlytics'
 def props = loadProperties()
 
 android {
-    compileSdkVersion 33
     buildToolsVersion "33.0.0"
 
-    //noinspection GroovyMissingReturnStatement
     defaultConfig {
+        compileSdk 33
+
         applicationId "be.ugent.zeus.hydra"
-        minSdkVersion 21
-        targetSdkVersion 33
+        minSdk 21
+        targetSdk 33
         versionCode 35000
         versionName "3.5.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        resConfigs 'nl', 'en'
+        resourceConfigurations += ['nl', 'en']
 
         // For a description of what these do, see the config.properties file.
         buildConfigField "boolean", "DEBUG_HOME_STREAM_PRIORITY", props.getProperty('hydra.debug.home.stream.priority')
