@@ -245,7 +245,6 @@ public class Player {
         if (Build.VERSION.SDK_INT >= 26) {
             result = requestAudioFocusOreo();
         } else {
-            //noinspection deprecation
             result = audioManager.requestAudioFocus(focusChangeListener,
                     audioAttributes.getLegacyStreamType(),
                     AudioManager.AUDIOFOCUS_GAIN);
@@ -264,7 +263,6 @@ public class Player {
         if (Build.VERSION.SDK_INT >= 26) {
             abandonAudioFocusOreo();
         } else {
-            //noinspection deprecation
             audioManager.abandonAudioFocus(focusChangeListener);
         }
     }

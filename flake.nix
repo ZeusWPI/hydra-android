@@ -36,7 +36,7 @@
       let
         pkgs = import nixpkgs { 
           inherit system;
-          overlays = [ devshell.overlay ];
+          overlays = [ devshell.overlays.default ];
           config.allowUnfree = true;
         };
         android-sdk = android-nixpkgs.sdk.${system} (sdkPkgs: with sdkPkgs; [
@@ -57,7 +57,7 @@
           hydra-android = pkgs.devshell.mkShell {
             name = "hydra-android";
             packages = [
-              android-sdk pkgs.jdk11 pkgs.git pkgs.androidStudioPackages.dev
+              android-sdk pkgs.jdk11 pkgs.git pkgs.androidStudioPackages.beta
             ];
             env = [
               {

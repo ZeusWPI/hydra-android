@@ -53,7 +53,7 @@ public class DoorRequest extends OkHttpRequest<DoorRequestResult> {
     public enum Command {
         OPEN("open"), CLOSE("lock"), STATUS("status");
 
-        String command;
+        final String command;
 
         Command(String value) {
             this.command = value;

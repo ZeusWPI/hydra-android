@@ -113,7 +113,6 @@ public class MusicService extends MediaBrowserServiceCompat implements
         // Create the WiFi lock we we will use later.
         WifiManager manager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (manager != null) {
-            //noinspection deprecation
             this.wifiLock = manager.createWifiLock(WifiManager.WIFI_MODE_FULL, WIFI_LOCK_TAG);
         }
 
@@ -216,6 +215,8 @@ public class MusicService extends MediaBrowserServiceCompat implements
         updateNotification();
     }
 
+    // Media sessions are exempt from this permission requirement.
+    @SuppressLint("MissingPermission")
     private void updateNotification() {
         Notification notification = constructNotification();
         if (notification != null) {

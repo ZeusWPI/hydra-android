@@ -36,7 +36,7 @@ import be.ugent.zeus.hydra.databinding.ActivityWpiApiKeyManagementBinding;
 
 /**
  * Activity that allows you to manage your API key.
- * 
+ * <p> 
  * This is a temporary solution; at some point, we'll need to implement
  * a proper login solution (or do we? it is Zeus after all).
  * 

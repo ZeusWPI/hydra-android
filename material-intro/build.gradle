@@ -1,14 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 33
     buildToolsVersion "33.0.0"
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 33
-        versionCode 1
-        versionName "1.0.0"
+        compileSdk 33
+        minSdk 21
+        targetSdk 33
     }
 
     buildTypes {
@@ -18,21 +16,17 @@ android {
         }
     }
 
-    lintOptions {
-        warningsAsErrors true
+    namespace 'com.heinrichreimersoftware.materialintro'
+
+    lint {
+        disable 'Overdraw', 'OldTargetApi', 'GradleDependency', 'ObsoleteLintCustomCheck'
         showAll true
-        disable "Overdraw", // Allow overdraw, mainly used for selectable backgrounds
-                // We decide when we upgrade
-                "OldTargetApi",
-                // We use dependabot for dependencies
-                "GradleDependency",
-                "ObsoleteLintCustomCheck"
-        
+        warningsAsErrors true
     }
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.android.material:material:1.8.0'
 }

@@ -25,7 +25,6 @@ package be.ugent.zeus.hydra.feed;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import androidx.annotation.NonNull;
@@ -33,6 +32,7 @@ import androidx.annotation.Nullable;
 import androidx.preference.PreferenceManager;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
 
@@ -43,6 +43,7 @@ import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.database.Database;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.common.utils.NetworkUtils;
+import be.ugent.zeus.hydra.common.utils.ThreadingUtils;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.debug.WaitRequest;
 import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDao;
@@ -172,10 +173,9 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
     @Override
     @SuppressLint("StaticFieldLeak")
     protected void loadData(@NonNull Bundle bundle) {
-        new AsyncTask<Void, Result<List<Card>>, Void>() {
-
+        ThreadingUtils.executeWithProgress(new Consumer<Consumer<Result<List<Card>>>>() {
             @Override
-            protected Void doInBackground(Void... voids) {
+            public void accept(Consumer<Result<List<Card>>> publishProgress) {
                 // Get the operations.
                 Log.d(TAG, "doInBackground: received load request with " + bundle);
                 Iterable<FeedOperation> operations = findOperations(scheduleOperations(), bundle);
@@ -195,10 +195,6 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
                 Result<List<Card>> result = null;
 
                 for (FeedOperation operation : operations) {
-                    if (isCancelled()) {
-                        return null;
-                    }
-
                     results = executeOperation(bundle, operation, errors, results);
 
                     List<Card> finalResults = new ArrayList<>(results);
@@ -212,24 +208,15 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
                     }
 
                     result = builder.buildPartial();
-                    //noinspection unchecked
-                    publishProgress(result);
+
+                    publishProgress.accept(result);
                 }
 
                 if (result != null) {
-                    //noinspection unchecked
-                    publishProgress(result.asCompleted());
+                    publishProgress.accept(result.asCompleted());
                 }
-
-                return null;
             }
-
-            @SafeVarargs
-            @Override
-            protected final void onProgressUpdate(Result<List<Card>>... values) {
-                setValue(values[0]);
-            }
-        }.execute();
+        }, this::setValue);
     }
 
     /**

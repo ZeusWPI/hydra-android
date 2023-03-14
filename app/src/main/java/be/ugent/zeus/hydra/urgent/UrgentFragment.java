@@ -109,7 +109,7 @@ public class UrgentFragment extends Fragment {
     private final MediaControllerCompat.Callback mediaControllerCallback = new MediaControllerCompat.Callback() {
         @Override
         public void onPlaybackStateChanged(@NonNull PlaybackStateCompat state) {
-            Log.d(TAG, "onPlaybackStateChanged: state is " + state.toString());
+            Log.d(TAG, "onPlaybackStateChanged: state is " + state);
             configureButtons();
         }
 
@@ -159,6 +159,8 @@ public class UrgentFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        requireActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         albumImage = view.findViewById(R.id.albumImage);
         artistText = view.findViewById(R.id.artistText);
@@ -217,12 +219,6 @@ public class UrgentFragment extends Fragment {
     private void hideMediaControls() {
         playPauseButton.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        requireActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
     }
 
     @SuppressLint("WrongConstant")
