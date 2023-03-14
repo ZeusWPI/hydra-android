@@ -102,11 +102,12 @@ public class UrgentTrackProvider {
                 okhttp3.Request request = new okhttp3.Request.Builder()
                         .url(information.getImageUrl())
                         .build();
-                Response response = InstanceProvider.getClient(context).newCall(request).execute();
-                assert response.body() != null;
-                InputStream inputStream = response.body().byteStream();
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, bitmap);
+                try (Response response = InstanceProvider.getClient(context).newCall(request).execute()) {
+                    assert response.body() != null;
+                    InputStream inputStream = response.body().byteStream();
+                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                    builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, bitmap);
+                }
             } else {
                 Bitmap albumArt = BitmapFactory.decodeResource(context.getResources(), R.drawable.logo_urgent);
                 builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, albumArt);
