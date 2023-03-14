@@ -64,7 +64,7 @@ public class RestoPreferenceFragment extends PreferenceFragment {
     }
 
     @Override
-    public void onDisplayPreferenceDialog(Preference preference) {
+    public void onDisplayPreferenceDialog(@NonNull Preference preference) {
         if (preference instanceof TimePreference) {
             DialogFragment f = TimePreferenceDialogFragmentCompat.newInstance(preference.getKey());
             f.setTargetFragment(this, 0);
