@@ -39,6 +39,7 @@ class LicenseMap {
             "https://opensource.org/licenses/Apache-2.0"           : "apache-2.0.txt",
             "https://api.github.com/licenses/apache-2.0"           : "apache-2.0.txt",
             "http://www.apache.org/licenses/LICENSE-2.0"           : "apache-2.0.txt",
+            "https://github.com/artem-zinnatullin/RxJavaProGuardRules/blob/master/LICENSE": "apache-2.0.txt",
 
             // MIT License
             // https://github.com/github/choosealicense.com/blob/gh-pages/_licenses/mit.txt
@@ -49,6 +50,8 @@ class LicenseMap {
             "http://opensource.org/licenses/mit-license.php"       : "mit.txt",
             "https://github.com/mockito/mockito/blob/main/LICENSE" : "mit.txt",
             "http://www.bouncycastle.org/licence.html"             : "mit.txt",
+            "https://www.bouncycastle.org/licence.html"            : "mit.txt",
+            "https://api.github.com/licenses/mit"                  : "mit.txt",
 
             // GPLv2 + Classpath Exception
             // https://github.com/github/choosealicense.com/blob/gh-pages/_licenses/mpl-2.0.txt
@@ -73,10 +76,12 @@ class LicenseMap {
             "https://fabric.io/terms"                              : null,
             "https://fabric.io/term"                               : null,
             "http://try.crashlytics.com/terms/terms-of-service.pdf": null,
+            "https://developers.google.com/ml-kit/terms"           : null,
 
             // Library specific licenses
             "org.threeten:threetenbp"                              : "threeten.txt",
             "com.heinrichreimersoftware:material-intro"            : "material-intro.txt",
-            "http://source.icu-project.org/repos/icu/icu/trunk/license.html": "icu.txt"
+            "http://source.icu-project.org/repos/icu/icu/trunk/license.html": "icu.txt",
+            "https://raw.githubusercontent.com/unicode-org/icu/main/icu4c/LICENSE": "icu.txt"
     ]
 }
