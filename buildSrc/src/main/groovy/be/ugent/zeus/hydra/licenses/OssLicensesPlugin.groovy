@@ -19,13 +19,14 @@ package be.ugent.zeus.hydra.licenses
 import com.android.build.gradle.api.BaseVariant
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.Task
 
 class OssLicensesPlugin implements Plugin<Project> {
 
     private static Tuple2<LicensesTask, File> generate(Project project, String variant) {
 
         def getDependencies = project.tasks.create("get${variant.capitalize()}Dependencies", DependencyTask)
-        def dependencyOutput = new File(project.buildDir, "generated/third_party_licenses")
+        def dependencyOutput = new File(project.buildDir, "generated/third_party_licenses/${variant}")
         def generatedJson = new File(dependencyOutput, "dependencies.json")
         getDependencies.setOutputFile(generatedJson)
         getDependencies.configurations = project.getConfigurations()
