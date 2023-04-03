@@ -70,7 +70,7 @@
               }
               {
                 name = "GRADLE_OPTS";
-                eval = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${android-sdk}/share/android-sdk/build-tools/32.0.0/aapt2";
+                eval = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${android-sdk}/share/android-sdk/build-tools/33.0.0/aapt2";
               }
             ];
             commands = [
