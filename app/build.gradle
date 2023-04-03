@@ -198,7 +198,7 @@ dependencies {
     // Dependencies for the Play Store version.
     storeImplementation 'com.google.android.gms:play-services-maps:18.1.0'
     storeImplementation 'com.google.firebase:firebase-analytics:21.2.0'
-    storeImplementation 'com.google.firebase:firebase-crashlytics:18.3.5'
+    storeImplementation 'com.google.firebase:firebase-crashlytics:18.3.6'
     storeImplementation 'com.google.android.gms:play-services-code-scanner:16.0.0-beta3'
 
     // Dependencies for open version.
