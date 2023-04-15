@@ -23,16 +23,18 @@
 package be.ugent.zeus.hydra.resto.menu;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
+import androidx.preference.PreferenceManager;
 
 import java.time.Duration;
 import java.util.Locale;
 
-import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.common.network.JsonArrayRequest;
 import be.ugent.zeus.hydra.resto.RestoMenu;
+import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 
 /**
  * Request for the menu's of the resto's.
@@ -44,17 +46,19 @@ public class MenuRequest extends JsonArrayRequest<RestoMenu> {
     @VisibleForTesting
     static final String OVERVIEW_URL = Endpoints.ZEUS_V2 + "resto/menu/%s/overview.json";
 
+    private final SharedPreferences preferences;
     private final Context context;
 
     public MenuRequest(Context context) {
         super(context, RestoMenu.class);
         this.context = context.getApplicationContext();
+        this.preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
     }
 
     @NonNull
     @Override
     protected String getAPIUrl() {
-        String resto = context.getString(R.string.value_resto_endpoint);
+        String resto = RestoPreferenceFragment.getRestoEndpoint(context, preferences);
         return String.format(Locale.ROOT, OVERVIEW_URL, resto);
     }
 

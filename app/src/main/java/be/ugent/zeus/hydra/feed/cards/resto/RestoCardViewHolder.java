@@ -36,6 +36,7 @@ import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.CardViewHolder;
 import be.ugent.zeus.hydra.feed.preferences.HomeFragment;
+import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.menu.RestoFragment;
 
@@ -62,8 +63,9 @@ public class RestoCardViewHolder extends CardViewHolder {
 
         RestoMenuCard menuCard = card.checkCard(Card.Type.RESTO);
         RestoMenu menu = menuCard.getRestoMenu();
+        RestoChoice choice = menuCard.getRestoChoice();
         String text = itemView.getResources().getString(R.string.feed_resto_menu_title);
-        toolbar.setTitle(String.format(text, DateUtils.getFriendlyDate(toolbar.getContext(), menu.getDate())));
+        toolbar.setTitle(String.format(text, DateUtils.getFriendlyDate(toolbar.getContext(), menu.getDate()), choice.getName()));
 
         // Get the mode.
         @MenuTable.DisplayKind

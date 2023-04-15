@@ -161,6 +161,9 @@
         Choose from which hour the menu for the next day will be displayed.
     </string>
 
+    <string name="resto_pref_choice">Resto</string>
+    <string name="resto_pref_choice_loading">Loading…</string>
+
     <string name="resto_extra_refresh_started">Refreshing…</string>
     <string name="resto_extra_breakfast">Breakfast</string>
     <string name="resto_extra_desserts">Desserts</string>
@@ -220,7 +223,8 @@
     <string name="resto_order_now">Order online</string>
 
     <!-- This is the endpoint for the Resto API. Must be one of the provided API endpoints. -->
-    <string name="value_resto_endpoint">en</string>
+    <string name="value_resto_default_endpoint">en</string>
+    <string name="resto_default_name">English menu</string>
 
     <!-- Home feed -->
     <string name="feed_pref_card_types_title">Card types</string>
@@ -253,7 +257,7 @@
     <string name="feed_card_type_desc_libraries">The opening hours of your favourite libraries.</string>
 
     <string name="feed_general_error">Could not get some cards.</string>
-    <string name="feed_resto_menu_title">Menu for %1$s</string>
+    <string name="feed_resto_menu_title">Menu for %1$s • %2$s</string>
 
     <string name="feed_urgent_player_desc">Go to the Urgent.fm player.</string>
 

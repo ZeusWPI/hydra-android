@@ -30,6 +30,7 @@ import java.util.Objects;
 import be.ugent.zeus.hydra.common.ui.widgets.MenuTable;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
+import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 
 /**
@@ -45,16 +46,22 @@ class RestoMenuCard extends Card {
     private static final LocalDateTime interestEnd = LocalDateTime.now().withHour(14).withMinute(30);
 
     private final RestoMenu restoMenu;
+    private final RestoChoice restoChoice;
     @MenuTable.DisplayKind
     private final int feedRestoKind;
 
-    RestoMenuCard(RestoMenu restoMenu, @MenuTable.DisplayKind int feedRestoKind) {
+    RestoMenuCard(RestoMenu restoMenu, RestoChoice choice, @MenuTable.DisplayKind int feedRestoKind) {
         this.restoMenu = restoMenu;
+        this.restoChoice = choice;
         this.feedRestoKind = feedRestoKind;
     }
 
     RestoMenu getRestoMenu() {
         return restoMenu;
+    }
+
+    RestoChoice getRestoChoice() {
+        return restoChoice;
     }
 
     @Override
@@ -86,11 +93,12 @@ class RestoMenuCard extends Card {
         if (o == null || getClass() != o.getClass()) return false;
         RestoMenuCard that = (RestoMenuCard) o;
         return Objects.equals(restoMenu, that.restoMenu) &&
+                Objects.equals(restoChoice, that.restoChoice) &&
                 Objects.equals(feedRestoKind, that.feedRestoKind);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(restoMenu, feedRestoKind);
+        return Objects.hash(restoMenu, restoChoice, feedRestoKind);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2023 The Hydra authors
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,7 @@ package be.ugent.zeus.hydra.resto;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -46,14 +47,37 @@ import be.ugent.zeus.hydra.resto.meta.selectable.SelectableMetaViewModel;
  * Preferences for the resto notification.
  *
  * @author Rien Maertens
+ * @author Niko Strijbol
  */
 public class RestoPreferenceFragment extends PreferenceFragment {
+    /**
+     * The key of the resto we want to show.
+     */
+    public static final String PREF_RESTO_KEY = "pref_resto_choice_3";
+    /**
+     * The name of the chosen resto. We keep this saved, as we then don't have to access to full file every time.
+     */
+    public static final String PREF_RESTO_NAME = "pref_resto_choice_name";
+    
     public static final String DEFAULT_CLOSING_TIME = "21:00";
     public static final String PREF_RESTO_CLOSING_HOUR = "pref_resto_closing_hour";
+
+    public static String getDefaultResto(Context context) {
+        return context.getString(R.string.value_resto_default_endpoint);
+    }
+
+    public static String getRestoEndpoint(Context context, SharedPreferences preferences) {
+        String defaultResto = getDefaultResto(context);
+        return preferences.getString(PREF_RESTO_KEY, defaultResto);
+    }
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.pref_resto, rootKey);
+        requirePreference("pref_choice_resto_select").setVisible(false);
+
+        SelectableMetaViewModel metaViewModel = new ViewModelProvider(this).get(SelectableMetaViewModel.class);
+        metaViewModel.getData().observe(this, SuccessObserver.with(this::receiveResto));
     }
 
     @Override
@@ -73,5 +97,32 @@ public class RestoPreferenceFragment extends PreferenceFragment {
         }
 
         super.onDisplayPreferenceDialog(preference);
+    }
+
+    // TODO: this is not very clean
+    private void receiveResto(@NonNull List<RestoChoice> restos) {
+        requirePreference("pref_choice_resto_select_loading").setVisible(false);
+        ListPreference selector = requirePreference("pref_choice_resto_select");
+        selector.setVisible(true);
+
+        String[] names = restos.stream()
+                .map(RestoChoice::getName)
+                .toArray(String[]::new);
+        selector.setEntries(names);
+        selector.setEntryValues(names);
+
+        SharedPreferences preferences = getPreferenceManager().getSharedPreferences();
+        String selected = preferences.getString(PREF_RESTO_NAME, getString(R.string.resto_default_name));
+        selector.setValue(selected);
+
+        selector.setOnPreferenceChangeListener((preference, newValue) -> {
+            String name = (String) newValue;
+            int index = Arrays.asList(names).indexOf(name);
+            preferences.edit()
+                    .putString(PREF_RESTO_NAME, name)
+                    .putString(PREF_RESTO_KEY, restos.get(index).getEndpoint())
+                    .apply();
+            return true;
+        });
     }
 }

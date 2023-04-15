@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2023 The Hydra authors
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,9 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
+import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.request.Request;
+import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 import be.ugent.zeus.hydra.resto.RestoChoice;
 
@@ -38,6 +40,11 @@ public class SelectableMetaViewModel extends RequestViewModel<List<RestoChoice>>
 
     public SelectableMetaViewModel(Application application) {
         super(application);
+    }
+
+    @Override
+    protected BaseLiveData<Result<List<RestoChoice>>> constructDataInstance() {
+        return new SelectableLiveData(getApplication());
     }
 
     @NonNull

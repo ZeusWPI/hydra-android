@@ -23,15 +23,16 @@
 package be.ugent.zeus.hydra.resto.menu;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
-import android.widget.AdapterView;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import java.time.LocalDate;
@@ -47,10 +48,14 @@ import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 import be.ugent.zeus.hydra.common.utils.DateUtils;
 import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 import be.ugent.zeus.hydra.common.utils.StringUtils;
+import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
+import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.resto.extrafood.ExtraFoodActivity;
 import be.ugent.zeus.hydra.resto.history.HistoryActivity;
 import be.ugent.zeus.hydra.resto.meta.RestoLocationActivity;
+import be.ugent.zeus.hydra.resto.meta.selectable.SelectableMetaViewModel;
+import be.ugent.zeus.hydra.resto.meta.selectable.SelectedResto;
 import be.ugent.zeus.hydra.resto.salad.SaladActivity;
 import be.ugent.zeus.hydra.resto.sandwich.SandwichActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -58,6 +63,8 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
 
 import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
 
@@ -67,7 +74,6 @@ import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity
  * @author Niko Strijbol
  */
 public class RestoFragment extends Fragment implements
-        AdapterView.OnItemSelectedListener,
         MainActivity.ArgumentsReceiver,
         NavigationBarView.OnItemSelectedListener,
         MainActivity.ScheduledRemovalListener {
@@ -81,6 +87,11 @@ public class RestoFragment extends Fragment implements
     private MenuPagerAdapter pageAdapter;
     private ViewPager2 viewPager;
     private MenuViewModel menuViewModel;
+    private SelectableMetaViewModel metaViewModel;
+    private TextInputLayout exposedDropdown;
+    private MaterialAutoCompleteTextView exposedDropdownContents;
+    private ProgressBar exposedDropdownProgress;
+    private View exposedDropdownWrapper;
     private TabLayout tabLayout;
     private BottomNavigationView bottomNavigation;
 
@@ -128,6 +139,16 @@ public class RestoFragment extends Fragment implements
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "receiveResto: on view created");
 
+        requireBaseActivity(this).requireToolbar().setDisplayShowTitleEnabled(false);
+        exposedDropdown = requireActivity().findViewById(R.id.exposed_dropdown);
+        exposedDropdown.setEnabled(false);
+        exposedDropdownContents = requireActivity().findViewById(R.id.exposed_dropdown_contents);
+        exposedDropdownContents.setText(getString(R.string.resto_spinner_loading), false);
+        exposedDropdownProgress = requireActivity().findViewById(R.id.exposed_dropdown_progress);
+        exposedDropdownProgress.setVisibility(View.VISIBLE);
+        exposedDropdownWrapper = requireActivity().findViewById(R.id.exposed_dropdown_wrapper);
+        exposedDropdownWrapper.setVisibility(View.VISIBLE);
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         pageAdapter = new MenuPagerAdapter(this);
@@ -168,6 +189,29 @@ public class RestoFragment extends Fragment implements
         menuViewModel.getData().observe(getViewLifecycleOwner(), ErrorObserver.with(this::onError));
         menuViewModel.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
         menuViewModel.getData().observe(getViewLifecycleOwner(), SuccessObserver.with(this::receiveData));
+        metaViewModel = provider.get(SelectableMetaViewModel.class);
+        metaViewModel.getData().observe(getViewLifecycleOwner(), SuccessObserver.with(this::receiveResto));
+    }
+
+    private void receiveResto(@NonNull List<RestoChoice> restos) {
+        SelectedResto selectedResto = new SelectedResto(requireContext());
+        selectedResto.setData(restos);
+
+        Log.d(TAG, "receiveResto: received resto data...");
+
+        // Set the things.
+        List<SelectedResto.Wrapper> wrappers = selectedResto.getAsWrappers();
+        ArrayAdapter<SelectedResto.Wrapper> items = new ArrayAdapter<>(requireBaseActivity(this).requireToolbar().getThemedContext(), R.layout.x_simple_spinner_dropdown_item);
+        items.addAll(wrappers);
+        exposedDropdownContents.setAdapter(items);
+        exposedDropdownContents.setText(selectedResto.getSelected().getName(), false);
+        exposedDropdownContents.setSelection(selectedResto.getSelectedIndex());
+        Log.d(TAG, "receiveResto: selected index is " + selectedResto.getSelectedIndex());
+        exposedDropdown.setEnabled(true);
+
+        exposedDropdownProgress.setVisibility(View.GONE);
+        // Add the listener here to prevent multiple calls
+        exposedDropdownContents.setOnItemClickListener(this::onRestoSelected);
     }
 
     private void receiveData(@NonNull List<RestoMenu> data) {
@@ -218,36 +262,49 @@ public class RestoFragment extends Fragment implements
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == R.id.action_refresh) {
-            Toast toast = Toast.makeText(getContext(), R.string.resto_extra_refresh_started, Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(requireContext(), R.string.resto_extra_refresh_started, Toast.LENGTH_SHORT);
             toast.show();
+            metaViewModel.onRefresh();
             menuViewModel.onRefresh();
             return true;
         } else if (itemId == R.id.resto_show_website) {
-            NetworkUtils.maybeLaunchBrowser(getContext(), URL);
+            NetworkUtils.maybeLaunchBrowser(requireContext(), URL);
             return true;
         } else if (itemId == R.id.action_history) {
-            startActivity(new Intent(getContext(), HistoryActivity.class));
+            startActivity(new Intent(requireContext(), HistoryActivity.class));
             return true;
         } else if (itemId == R.id.resto_order_online) {
-            String url = ORDER_URL + getContext().getString(R.string.value_info_endpoint);
-            NetworkUtils.maybeLaunchBrowser(getContext(), url);
+            String url = ORDER_URL + requireContext().getString(R.string.value_info_endpoint);
+            NetworkUtils.maybeLaunchBrowser(requireContext(), url);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onItemSelected(@NonNull AdapterView<?> parent, View view, int position, long id) {
+    public void onRestoSelected(@NonNull AdapterView<?> parent, View view, int position, long id) {
+        // Get the item we selected.
+        SelectedResto.Wrapper wrapper = (SelectedResto.Wrapper) parent.getItemAtPosition(position);
+        RestoChoice resto = wrapper.resto;
+        exposedDropdown.clearFocus();
+
+        if (resto == null || resto.getEndpoint() == null) {
+            // Do nothing, as this should not happen.
+            return;
+        }
+
+        Log.d(TAG, "onRestoSelected: saving new resto with endpoint at position " + position + " and " + resto.getEndpoint());
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        preferences.edit()
+                .putString(RestoPreferenceFragment.PREF_RESTO_KEY, resto.getEndpoint())
+                .putString(RestoPreferenceFragment.PREF_RESTO_NAME, resto.getName())
+                .apply();
+
         //The start should be the day we have currently selected.
         if (pageAdapter.getItemCount() > viewPager.getCurrentItem()) {
             startDate = pageAdapter.getTabDate(viewPager.getCurrentItem());
         }
+        requireView().findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
         menuViewModel.onRefresh();
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-        //Do nothing
     }
 
     private void onError(Throwable throwable) {
@@ -299,10 +356,14 @@ public class RestoFragment extends Fragment implements
     public void onDestroyView() {
         super.onDestroyView();
         tabLayout.setVisibility(View.GONE);
+        exposedDropdownContents.setOnItemClickListener(null);
     }
 
     private void hideExternalViews() {
         bottomNavigation.setVisibility(View.GONE);
         bottomNavigation.setOnNavigationItemSelectedListener(null);
+        exposedDropdownWrapper.setVisibility(View.GONE);
+        requireBaseActivity(this).requireToolbar().setDisplayShowTitleEnabled(true);
+        exposedDropdownProgress.setVisibility(View.GONE);
     }
 }

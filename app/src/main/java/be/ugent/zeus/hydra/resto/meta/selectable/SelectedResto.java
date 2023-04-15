@@ -24,10 +24,13 @@ package be.ugent.zeus.hydra.resto.meta.selectable;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.R;
@@ -51,7 +54,31 @@ public class SelectedResto {
 
     public void setData(List<RestoChoice> receivedRestos) {
         choices = receivedRestos;
-        selectedIndex = 0;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String selectedKey;
+        if (selected == null) {
+            selectedKey = RestoPreferenceFragment.getRestoEndpoint(context, preferences);
+        } else {
+            selectedKey = selected.getEndpoint();
+        }
+        String defaultName = context.getString(R.string.resto_default_name);
+        String selectedName;
+        if (selected == null) {
+            selectedName = preferences.getString(RestoPreferenceFragment.PREF_RESTO_NAME, defaultName);
+        } else {
+            selectedName = selected.getName();
+        }
+        if (selected == null) {
+            selected = new RestoChoice(selectedName, selectedKey);
+        }
+        RestoChoice selectedChoice = new RestoChoice(selectedName, selectedKey);
+        selectedIndex = receivedRestos.indexOf(selectedChoice);
+        if (selectedIndex == -1) {
+            // The key does not exist.
+            String defaultRestoEndpoint = RestoPreferenceFragment.getDefaultResto(context);
+            RestoChoice defaultChoice = new RestoChoice(defaultName, defaultRestoEndpoint);
+            selectedIndex = receivedRestos.indexOf(defaultChoice);
+        }
     }
 
     public int getSelectedIndex() {
@@ -85,6 +112,7 @@ public class SelectedResto {
             this.string = string;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return resto == null ? string : resto.getName();
