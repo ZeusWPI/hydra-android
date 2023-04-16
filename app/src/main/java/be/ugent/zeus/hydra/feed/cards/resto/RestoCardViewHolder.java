@@ -71,7 +71,7 @@ public class RestoCardViewHolder extends CardViewHolder {
         @MenuTable.DisplayKind
         int mode = HomeFragment.getFeedRestoKind(itemView.getContext());
 
-        table.setMenu(menu, mode);
+        table.setMenu(menu, mode, false);
 
         // click listener
         itemView.setOnClickListener(v -> {

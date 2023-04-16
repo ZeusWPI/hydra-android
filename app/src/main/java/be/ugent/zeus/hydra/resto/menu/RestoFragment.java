@@ -277,6 +277,10 @@ public class RestoFragment extends Fragment implements
             String url = ORDER_URL + requireContext().getString(R.string.value_info_endpoint);
             NetworkUtils.maybeLaunchBrowser(requireContext(), url);
             return true;
+        } else if (itemId == R.id.resto_show_allergens) {
+            item.setChecked(!item.isChecked());
+            pageAdapter.setShowAllergens(item.isChecked());
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

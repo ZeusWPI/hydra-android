@@ -221,6 +221,7 @@
     <string name="resto_legend_gap_abbr">GAP</string>
     <string name="resto_legend_gap_desc">Good Agricultural Practice</string>
     <string name="resto_order_now">Order online</string>
+    <string name="resto_show_allergens">Show allergens</string>
 
     <!-- This is the endpoint for the Resto API. Must be one of the provided API endpoints. -->
     <string name="value_resto_default_endpoint">en</string>

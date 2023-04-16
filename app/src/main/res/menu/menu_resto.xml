@@ -44,4 +44,11 @@
         android:orderInCategory="110"
         android:title="@string/resto_order_now"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/resto_show_allergens"
+        android:orderInCategory="120"
+        android:title="@string/resto_show_allergens"
+        android:checkable="true"
+        android:checked="false"
+        app:showAsAction="never" />
 </menu>

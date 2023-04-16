@@ -227,6 +227,7 @@
     <string name="resto_legend_gap_abbr">GAP</string>
     <string name="resto_legend_gap_desc">Goede Agrarische Productie</string>
     <string name="resto_order_now">Bestel online</string>
+    <string name="resto_show_allergens">Allergenen tonen</string>
 
     <!-- This is the endpoint for the Resto API. Must be one of the provided API endpoints. -->
     <string name="value_resto_default_endpoint">nl-debrug</string>
