@@ -196,9 +196,7 @@ public class RestoFragment extends Fragment implements
     private void receiveResto(@NonNull List<RestoChoice> restos) {
         SelectedResto selectedResto = new SelectedResto(requireContext());
         selectedResto.setData(restos);
-
-        Log.d(TAG, "receiveResto: received resto data...");
-
+        
         // Set the things.
         List<SelectedResto.Wrapper> wrappers = selectedResto.getAsWrappers();
         ArrayAdapter<SelectedResto.Wrapper> items = new ArrayAdapter<>(requireBaseActivity(this).requireToolbar().getThemedContext(), R.layout.x_simple_spinner_dropdown_item);
@@ -206,7 +204,6 @@ public class RestoFragment extends Fragment implements
         exposedDropdownContents.setAdapter(items);
         exposedDropdownContents.setText(selectedResto.getSelected().getName(), false);
         exposedDropdownContents.setSelection(selectedResto.getSelectedIndex());
-        Log.d(TAG, "receiveResto: selected index is " + selectedResto.getSelectedIndex());
         exposedDropdown.setEnabled(true);
 
         exposedDropdownProgress.setVisibility(View.GONE);
