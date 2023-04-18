@@ -106,8 +106,7 @@ public final class RestoMeal implements Parcelable {
         this.price = in.readString();
         this.type = in.readString();
         this.kind = in.readString();
-        this.allergens = new ArrayList<>();
-        in.readStringList(this.allergens);
+        this.allergens = in.createStringArrayList();
     }
 
     public static final Parcelable.Creator<RestoMeal> CREATOR = new Parcelable.Creator<RestoMeal>() {
