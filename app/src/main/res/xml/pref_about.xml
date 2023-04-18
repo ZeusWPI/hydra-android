@@ -75,7 +75,19 @@
         tools:ignore="UnusedAttribute">
         <intent
             android:action="android.intent.action.VIEW"
-            android:data="http://student.ugent.be" />
+            android:data="https://dsa.ugent.be" />
+    </Preference>
+
+    <Preference
+        app:iconSpaceReserved="true"
+        app:key="pref_about_creator_gsr"
+        app:persistent="false"
+        app:singleLineTitle="false"
+        app:title="@string/pref_about_creator_gsr"
+        tools:ignore="UnusedAttribute">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="https://gentsestudentenraad.be" />
     </Preference>
 
 </PreferenceScreen>
