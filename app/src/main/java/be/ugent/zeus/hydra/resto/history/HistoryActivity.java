@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2023 The Hydra authors
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -45,7 +45,6 @@ import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 import be.ugent.zeus.hydra.common.network.IOFailureException;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
-import be.ugent.zeus.hydra.common.ui.NoPaddingArrayAdapter;
 import be.ugent.zeus.hydra.common.utils.DateUtils;
 import be.ugent.zeus.hydra.databinding.ActivityRestoHistoryBinding;
 import be.ugent.zeus.hydra.resto.RestoChoice;
@@ -56,7 +55,7 @@ import be.ugent.zeus.hydra.resto.meta.selectable.SelectedResto;
 
 public class HistoryActivity
         extends BaseActivity<ActivityRestoHistoryBinding>
-        implements DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener {
+        implements DatePickerDialog.OnDateSetListener {
 
     private static final String ARG_DATE = "arg_date";
 
@@ -65,7 +64,6 @@ public class HistoryActivity
     private LocalDate localDate;
     private RestoChoice restoChoice;
     private SingleDayViewModel viewModel;
-    private ArrayAdapter<SelectedResto.Wrapper> restoAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,12 +77,9 @@ public class HistoryActivity
         } else {
             localDate = LocalDate.now();
         }
-
-        binding.restoSpinner.setEnabled(false);
-        restoAdapter = new NoPaddingArrayAdapter<>(binding.bottomToolbar.getContext(), R.layout.x_spinner_title_resto);
-        restoAdapter.add(new SelectedResto.Wrapper(getString(R.string.resto_spinner_loading)));
-        restoAdapter.setDropDownViewResource(R.layout.x_simple_spinner_dropdown_item);
-        binding.restoSpinner.setAdapter(restoAdapter);
+        
+        binding.exposedDropdown.setEnabled(false);
+        binding.exposedDropdownContents.setText(getString(R.string.resto_spinner_loading), false);
 
         final ViewModelProvider provider = new ViewModelProvider(this);
 
@@ -145,12 +140,13 @@ public class HistoryActivity
         viewModel.changeResto(selectedResto.getSelected());
 
         List<SelectedResto.Wrapper> wrappers = selectedResto.getAsWrappers();
-        restoAdapter.clear();
-        restoAdapter.addAll(wrappers);
-        binding.restoSpinner.setSelection(selectedResto.getSelectedIndex(), false);
-        binding.restoSpinner.setEnabled(true);
-        binding.restoProgressBar.setVisibility(View.GONE);
-        binding.restoSpinner.setOnItemSelectedListener(this);
+        ArrayAdapter<SelectedResto.Wrapper> items = new ArrayAdapter<>(this, R.layout.x_simple_spinner_dropdown_item);
+        items.addAll(wrappers);
+        binding.exposedDropdownContents.setAdapter(items);
+        binding.exposedDropdownContents.setText(selectedResto.getSelected().getName(), false);
+        binding.exposedDropdownContents.setSelection(selectedResto.getSelectedIndex());
+        binding.exposedDropdownContents.setEnabled(true);
+        binding.exposedDropdownContents.setOnItemClickListener(this::onRestoSelected);
     }
 
     private DatePickerDialog createAndSetupDialog() {
@@ -177,20 +173,15 @@ public class HistoryActivity
         viewModel.changeDate(localDate);
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    public void onRestoSelected(AdapterView<?> parent, View view, int position, long id) {
         SelectedResto.Wrapper wrapper = (SelectedResto.Wrapper) parent.getItemAtPosition(position);
         restoChoice = wrapper.resto;
+        binding.exposedDropdown.clearFocus();
 
         if (restoChoice == null || restoChoice.getEndpoint() == null) {
             // Do nothing, as this should not happen.
             return;
         }
         viewModel.changeResto(restoChoice);
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-        // Do nothing
     }
 }
