@@ -93,6 +93,8 @@ public class AboutFragment extends PreferenceFragment {
                 .setIcon(AppCompatResources.getDrawable(requireContext(), R.drawable.logo_zeus));
         requirePreference("pref_about_creator_dsa")
                 .setIcon(AppCompatResources.getDrawable(requireContext(), R.drawable.logo_ugent));
+        requirePreference("pref_about_creator_gsr")
+                .setIcon(AppCompatResources.getDrawable(requireContext(), R.drawable.logo_gsr));
     }
 
     @Override

@@ -97,6 +97,7 @@
     <string name="pref_about_changelog_summary">View what\'s new</string>
     <string name="pref_about_creator_zeus">Made by Zeus WPI</string>
     <string name="pref_about_creator_dsa">In collaboration with the Department of StudentActivities</string>
+    <string name="pref_about_creator_gsr">With the support of the Ghent Student Council</string>
     <string name="pref_about_issues_title">Feedback</string>
     <string name="pref_about_issues_summary">Report problems or give suggestions</string>
 

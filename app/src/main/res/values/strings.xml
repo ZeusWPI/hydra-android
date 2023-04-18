@@ -103,6 +103,7 @@
     <string name="pref_about_changelog_summary">Bekijk wat er nieuw is</string>
     <string name="pref_about_creator_zeus">Gemaakt door Zeus WPI</string>
     <string name="pref_about_creator_dsa">In samenwerking met de Dienst StudentenActiviteiten</string>
+    <string name="pref_about_creator_gsr">Met steun van de Gentse Studentenraad</string>
     <string name="pref_about_issues_title">Feedback</string>
     <string name="pref_about_issues_summary">Meld fouten of geef suggesties</string>
 
