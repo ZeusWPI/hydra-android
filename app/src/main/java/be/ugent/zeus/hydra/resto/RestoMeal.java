@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2023 The Hydra authors
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,8 @@ package be.ugent.zeus.hydra.resto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -34,14 +36,14 @@ import java.util.Objects;
  * @author Mitch
  */
 public final class RestoMeal implements Parcelable {
-    public static String MENU_TYPE_MAIN = "main";
-    public static String MENU_TYPE_SIDE = "side";
     public static String MENU_TYPE_COLD = "cold";
     
     private String name;
     private String price;
     private String type;
     private String kind;
+    
+    private List<String> allergens;
 
     public RestoMeal() {}
 
@@ -77,6 +79,14 @@ public final class RestoMeal implements Parcelable {
         this.type = type;
     }
 
+    public List<String> getAllergens() {
+        return allergens;
+    }
+
+    public void setAllergens(List<String> allergens) {
+        this.allergens = allergens;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -88,6 +98,7 @@ public final class RestoMeal implements Parcelable {
         dest.writeString(this.price);
         dest.writeString(this.type);
         dest.writeString(this.kind);
+        dest.writeStringList(this.allergens);
     }
 
     private RestoMeal(Parcel in) {
@@ -95,6 +106,7 @@ public final class RestoMeal implements Parcelable {
         this.price = in.readString();
         this.type = in.readString();
         this.kind = in.readString();
+        this.allergens = in.createStringArrayList();
     }
 
     public static final Parcelable.Creator<RestoMeal> CREATOR = new Parcelable.Creator<RestoMeal>() {
@@ -117,11 +129,12 @@ public final class RestoMeal implements Parcelable {
         return Objects.equals(name, restoMeal.name) &&
                 Objects.equals(price, restoMeal.price) &&
                 Objects.equals(type, restoMeal.type) &&
-                Objects.equals(kind, restoMeal.kind);
+                Objects.equals(kind, restoMeal.kind) &&
+                Objects.equals(allergens, restoMeal.allergens);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, price, type, kind);
+        return Objects.hash(name, price, type, kind, allergens);
     }
 }

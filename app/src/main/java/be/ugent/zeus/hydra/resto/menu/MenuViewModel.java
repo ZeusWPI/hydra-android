@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2023 The Hydra authors
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -41,7 +41,6 @@ public class MenuViewModel extends RequestViewModel<List<RestoMenu>> {
     }
 
     @NonNull
-    @Override
     protected Request<List<RestoMenu>> getRequest() {
         return new MenuRequest(getApplication());
     }

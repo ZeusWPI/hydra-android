@@ -35,6 +35,7 @@ import androidx.appcompat.content.res.AppCompatResources;
 import java.util.List;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.utils.StringUtils;
 import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.resto.RestoMeal;
 import be.ugent.zeus.hydra.resto.RestoMenu;
@@ -143,7 +144,7 @@ public class DisplayableMenu {
      *               ViewGroup#addView(View)}. This is also the view to get a context from.
      */
     void addSoupViews(ViewGroup parent) {
-        addMealViews(parent, menu.getSoups());
+        addMealViews(parent, menu.getSoups(), false);
     }
 
     /**
@@ -152,8 +153,8 @@ public class DisplayableMenu {
      * @param parent The view to which the child views will be added. This will be done by calling {@link
      *               ViewGroup#addView(View)}. This is also the view to get a context from.
      */
-    void addMainViews(ViewGroup parent) {
-        addMealViews(parent, menu.getMainDishes());
+    void addMainViews(ViewGroup parent, boolean showAllergens) {
+        addMealViews(parent, menu.getMainDishes(), showAllergens);
     }
 
     /**
@@ -162,8 +163,8 @@ public class DisplayableMenu {
      * @param parent The view to which the child views will be added. This will be done by calling {@link
      *               ViewGroup#addView(View)}. This is also the view to get a context from.
      */
-    void addColdViews(ViewGroup parent) {
-        addMealViews(parent, menu.getColdDishes());
+    void addColdViews(ViewGroup parent, boolean showAllergens) {
+        addMealViews(parent, menu.getColdDishes(), showAllergens);
     }
 
     /**
@@ -211,8 +212,7 @@ public class DisplayableMenu {
      * @param parent The parent view.
      * @param meals  The meals with dishes.
      */
-    private void addMealViews(ViewGroup parent, List<RestoMeal> meals) {
-
+    private void addMealViews(ViewGroup parent, List<RestoMeal> meals, boolean showAllergens) {
         final Context context = parent.getContext();
         final int rowPadding = ViewUtils.convertDpToPixelInt(ROW_PADDING_DP, context);
 
@@ -227,7 +227,8 @@ public class DisplayableMenu {
             @DrawableRes final int id = getDrawable(meal);
 
             ImageView imageView = makeImageView(context, id);
-            TextView tvCenter = makeCenterTextView(context, meal.getName(), lp);
+            String name = meal.getName();
+            TextView tvCenter = makeCenterTextView(context, name, lp);
             TextView tvRight = new MaterialTextView(context, null, normalStyle);
             tvRight.setLayoutParams(lp);
             tvRight.setText(meal.getPrice());
@@ -238,6 +239,22 @@ public class DisplayableMenu {
             tr.addView(tvRight);
 
             parent.addView(tr);
+            
+            // Add another row with allergens if required.
+            if (showAllergens && !meal.getAllergens().isEmpty()) {
+                TableRow allergenRow = new TableRow(context);
+                allergenRow.setPadding(0, rowPadding, 0, rowPadding);
+                allergenRow.setLayoutParams(lp);
+                
+                // First column is for the icon and empty.
+                allergenRow.addView(new View(context));
+                String allergens = StringUtils.formatList(meal.getAllergens());
+                TextView allergenView = makeCenterTextView(context, allergens, lp);
+                allergenView.setEnabled(false);
+                allergenRow.addView(allergenView);
+                allergenRow.addView(new View(context));
+                parent.addView(allergenRow);
+            }
         }
     }
 }

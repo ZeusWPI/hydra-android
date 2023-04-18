@@ -59,6 +59,8 @@ public class MenuTable extends TableLayout {
     private boolean showTitles;
     private boolean messagePaddingTop;
     private int normalStyle;
+    
+    private boolean showAllergens;
 
     public MenuTable(Context context) {
         super(context);
@@ -163,9 +165,10 @@ public class MenuTable extends TableLayout {
     /**
      * @param menu The menu to display.
      */
-    public void setMenu(RestoMenu menu, @DisplayKind int displayedKinds) {
+    public void setMenu(RestoMenu menu, @DisplayKind int displayedKinds, boolean showAllergens) {
         this.menu = new DisplayableMenu(getContext(), menu, selectable);
         this.displayedKinds = displayedKinds;
+        this.showAllergens = showAllergens;
         //Add data
         removeAllViewsInLayout();
         populate();
@@ -181,8 +184,8 @@ public class MenuTable extends TableLayout {
     /**
      * @param menu The menu to display.
      */
-    public void setMenu(RestoMenu menu) {
-        setMenu(menu, this.displayedKinds);
+    public void setMenu(RestoMenu menu, boolean showAllergens) {
+        setMenu(menu, this.displayedKinds, showAllergens);
     }
 
     /**
@@ -211,14 +214,14 @@ public class MenuTable extends TableLayout {
             if (showTitles) {
                 createTitle(getContext().getString(R.string.resto_menu_main_dish));
             }
-            menu.addMainViews(this);
+            menu.addMainViews(this, showAllergens);
         }
 
         if (isSetIn(displayedKinds, DisplayKind.COLD) && menu.hasColdDishes()) {
             if (showTitles) {
                 createTitle(getContext().getString(R.string.resto_menu_cold_dish));
             }
-            menu.addColdViews(this);
+            menu.addColdViews(this, showAllergens);
         }
 
         if (isSetIn(displayedKinds, DisplayKind.SOUP) && menu.hasSoup()) {

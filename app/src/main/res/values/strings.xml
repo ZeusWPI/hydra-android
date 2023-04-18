@@ -167,6 +167,9 @@
         Kies vanaf welk uur het menu voor de volgende dag getoond wordt.
     </string>
 
+    <string name="resto_pref_choice">Resto</string>
+    <string name="resto_pref_choice_loading">Laden…</string>
+
     <string name="resto_extra_refresh_started">Vernieuwen…</string>
     <string name="resto_extra_breakfast">Ontbijt</string>
     <string name="resto_extra_desserts">Desserts</string>
@@ -224,9 +227,11 @@
     <string name="resto_legend_gap_abbr">GAP</string>
     <string name="resto_legend_gap_desc">Goede Agrarische Productie</string>
     <string name="resto_order_now">Bestel online</string>
+    <string name="resto_show_allergens">Allergenen tonen</string>
 
     <!-- This is the endpoint for the Resto API. Must be one of the provided API endpoints. -->
-    <string name="value_resto_endpoint">nl</string>
+    <string name="value_resto_default_endpoint">nl-debrug</string>
+    <string name="resto_default_name">Resto De Brug</string>
 
     <!-- Home feed -->
     <string name="feed_pref_card_types_title">Soorten kaarten</string>
@@ -260,7 +265,7 @@
 
     <string name="feed_general_error">Ophalen sommige kaarten mislukt.</string>
 
-    <string name="feed_resto_menu_title">Menu van %1$s</string>
+    <string name="feed_resto_menu_title">Menu van %1$s • %2$s</string>
 
     <string name="feed_urgent_player_desc">Ga naar de Urgent.fm-speler.</string>
 

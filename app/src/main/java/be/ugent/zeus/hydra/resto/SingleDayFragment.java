@@ -22,8 +22,6 @@
 
 package be.ugent.zeus.hydra.resto;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,13 +29,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.preference.PreferenceManager;
 
-import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.reporting.BaseEvents;
 import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
-import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 import be.ugent.zeus.hydra.databinding.FragmentMenuBinding;
 
 /**
@@ -51,9 +46,16 @@ public class SingleDayFragment extends Fragment {
 
     private RestoMenu data;
     private FragmentMenuBinding binding;
-
+    
+    private boolean showAllergens;
+    
     public static SingleDayFragment newInstance(RestoMenu menu) {
+        return newInstance(menu, false);
+    }
+
+    public static SingleDayFragment newInstance(RestoMenu menu, boolean showAllergens) {
         SingleDayFragment fragment = new SingleDayFragment();
+        fragment.showAllergens = showAllergens;
         Bundle args = new Bundle();
         args.putParcelable(ARG_DATA_MENU, menu);
         fragment.setArguments(args);
@@ -81,7 +83,7 @@ public class SingleDayFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.menuTable.setMenu(data);
+        binding.menuTable.setMenu(data, showAllergens);
     }
 
     public RestoMenu getData() {

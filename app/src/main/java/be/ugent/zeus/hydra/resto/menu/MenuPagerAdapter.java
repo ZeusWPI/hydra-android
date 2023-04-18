@@ -31,7 +31,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.SingleDayFragment;
@@ -43,6 +43,8 @@ import be.ugent.zeus.hydra.resto.SingleDayFragment;
  */
 class MenuPagerAdapter extends FragmentStateAdapter {
     private static final int LEGEND = -63;
+    
+    private boolean showAllergens = false;
 
     private List<RestoMenu> data = Collections.emptyList();
 
@@ -53,6 +55,12 @@ class MenuPagerAdapter extends FragmentStateAdapter {
     @SuppressLint("NotifyDataSetChanged")
     public void setData(List<RestoMenu> data) {
         this.data = data;
+        notifyDataSetChanged();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void setShowAllergens(boolean showAllergens) {
+        this.showAllergens = showAllergens;
         notifyDataSetChanged();
     }
 
@@ -71,7 +79,7 @@ class MenuPagerAdapter extends FragmentStateAdapter {
         if (position == 0) {
             return new LegendFragment();
         } else {
-            return SingleDayFragment.newInstance(data.get(position - 1));
+            return SingleDayFragment.newInstance(data.get(position - 1), showAllergens);
         }
     }
 
@@ -90,7 +98,7 @@ class MenuPagerAdapter extends FragmentStateAdapter {
             return LEGEND;
         } else {
             RestoMenu menu = data.get(position - 1);
-            return menu.hashCode();
+            return Objects.hash(menu, showAllergens);
         }
     }
 
@@ -100,7 +108,12 @@ class MenuPagerAdapter extends FragmentStateAdapter {
             return true;
         }
 
-        List<Long> data = this.data.stream().map(restoMenu -> (long) restoMenu.hashCode()).collect(Collectors.toList());
-        return data.contains(itemId);
+        for (RestoMenu menu: this.data) {
+            if (Objects.hash(menu, showAllergens) == itemId) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

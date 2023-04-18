@@ -32,7 +32,6 @@
         <item>9</item>
         <item>11</item>
     </string-array>
-    -array>
 
     <string-array name="card_types_names" translatable="false">
         <item>@string/feed_card_type_title_resto</item>
