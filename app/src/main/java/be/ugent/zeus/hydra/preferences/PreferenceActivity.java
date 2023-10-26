@@ -28,6 +28,8 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.IntentCompat;
+import androidx.core.os.BundleCompat;
 import androidx.fragment.app.Fragment;
 
 import be.ugent.zeus.hydra.R;
@@ -71,13 +73,13 @@ public class PreferenceActivity extends BaseActivity<ActivityPreferencesBinding>
 
         if (savedInstanceState != null) {
             // If a specific screen is requested, use that one.
-            entry = savedInstanceState.getParcelable(ARG_FRAGMENT);
+            entry = BundleCompat.getParcelable(savedInstanceState, ARG_FRAGMENT, PreferenceEntry.class);
         } else if (Intent.ACTION_MANAGE_NETWORK_USAGE.equals(getIntent().getAction())) {
             // We come from the device data usage settings screen, show network options.
             entry = PreferenceEntry.HOME;
         } else {
             // Nothing was requested, show the overview.
-            entry = getIntent().getParcelableExtra(ARG_FRAGMENT);
+            entry = IntentCompat.getParcelableExtra(getIntent(), ARG_FRAGMENT, PreferenceEntry.class);
         }
 
         setFragment();
@@ -86,7 +88,7 @@ public class PreferenceActivity extends BaseActivity<ActivityPreferencesBinding>
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        entry = intent.getParcelableExtra(ARG_FRAGMENT);
+        entry = IntentCompat.getParcelableExtra(intent, ARG_FRAGMENT, PreferenceEntry.class);
         setFragment();
     }
 

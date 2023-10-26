@@ -91,13 +91,4 @@ public abstract class BaseLiveData<R> extends LiveData<R> {
     protected void loadData() {
         this.loadData(Bundle.EMPTY);
     }
-
-    @FunctionalInterface
-    public interface OnRefreshStartListener {
-
-        /**
-         * Starts when the refresh begins.
-         */
-        void onRefreshStart();
-    }
 }

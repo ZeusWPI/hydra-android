@@ -38,7 +38,7 @@ import be.ugent.zeus.hydra.common.request.Result;
 public abstract class SuccessObserver<D> implements Observer<Result<D>> {
 
     public static <D> SuccessObserver<D> with(Consumer<D> onSuccess) {
-        return new SuccessObserver<D>() {
+        return new SuccessObserver<>() {
             @Override
             protected void onSuccess(@NonNull D data) {
                 onSuccess.accept(data);

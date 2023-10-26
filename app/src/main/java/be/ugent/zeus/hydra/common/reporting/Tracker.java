@@ -57,7 +57,6 @@ public interface Tracker {
      * @param classOverride The name of the screen class. By default, this is the current activity.
      */
     @MainThread
-    @SuppressWarnings("EmptyMethod")
     void setCurrentScreen(@NonNull Activity activity, String screenName, String classOverride);
 
     /**

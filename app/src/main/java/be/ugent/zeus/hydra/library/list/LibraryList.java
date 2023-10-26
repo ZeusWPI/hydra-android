@@ -38,7 +38,7 @@ import com.squareup.moshi.Json;
  */
 public final class LibraryList implements Parcelable {
 
-    public static final Parcelable.Creator<LibraryList> CREATOR = new Parcelable.Creator<LibraryList>() {
+    public static final Parcelable.Creator<LibraryList> CREATOR = new Parcelable.Creator<>() {
         @Override
         public LibraryList createFromParcel(Parcel source) {
             return new LibraryList(source);

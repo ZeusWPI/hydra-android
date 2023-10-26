@@ -36,6 +36,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.IntentCompat;
 import androidx.core.text.util.LinkifyCompat;
 import androidx.core.view.WindowCompat;
 
@@ -80,8 +81,8 @@ public class EventDetailsActivity extends BaseActivity<ActivityEventDetailBindin
         boolean hasDescription = true;
 
         // Get data from saved instance, or from intent.
-        event = getIntent().getParcelableExtra(PARCEL_EVENT);
-        Association association = getIntent().getParcelableExtra(PARCEL_ASSOCIATION);
+        event = IntentCompat.getParcelableExtra(getIntent(), PARCEL_EVENT, Event.class);
+        Association association = IntentCompat.getParcelableExtra(getIntent(), PARCEL_ASSOCIATION, Association.class);
         assert event != null;
         assert association != null;
 
@@ -95,7 +96,7 @@ public class EventDetailsActivity extends BaseActivity<ActivityEventDetailBindin
 
         if (event.getDescription() != null && !event.getDescription().trim().isEmpty()) {
             binding.description.setText(event.getDescription());
-            LinkifyCompat.addLinks(binding.description, Linkify.ALL);
+            LinkifyCompat.addLinks(binding.description, Linkify.EMAIL_ADDRESSES | Linkify.WEB_URLS);
         } else {
             hasDescription = false;
             binding.eventDescriptionBlock.setVisibility(View.GONE);

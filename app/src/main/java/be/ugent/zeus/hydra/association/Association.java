@@ -52,6 +52,7 @@ public final class Association implements Parcelable {
         // Moshi uses this!
     }
 
+    /** @noinspection ProtectedMemberInFinalClass*/
     protected Association(Parcel in) {
         abbreviation = in.readString();
         name = in.readString();
@@ -86,7 +87,7 @@ public final class Association implements Parcelable {
         return 0;
     }
 
-    public static final Creator<Association> CREATOR = new Creator<Association>() {
+    public static final Creator<Association> CREATOR = new Creator<>() {
         @Override
         public Association createFromParcel(Parcel in) {
             return new Association(in);

@@ -95,7 +95,7 @@ public abstract class SearchableAdapter<D, VH extends DataViewHolder<D>> extends
 
     @Override
     public void submitData(List<D> data) {
-        this.allData = Collections.unmodifiableList(new ArrayList<>(data));
+        this.allData = List.copyOf(data);
         super.submitData(data);
     }
 

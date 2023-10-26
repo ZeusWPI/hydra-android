@@ -76,7 +76,7 @@ public class TimePreferenceDialogFragmentCompat extends PreferenceDialogFragment
     }
 
     @Override
-    public void onClick(DialogInterface dialog, int which) {
+    public void onClick(@NonNull DialogInterface dialog, int which) {
         super.onClick(dialog, which);
 
         if (which == DialogInterface.BUTTON_POSITIVE) {
@@ -97,6 +97,6 @@ public class TimePreferenceDialogFragmentCompat extends PreferenceDialogFragment
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         this.time = LocalTime.of(hourOfDay, minute);
-        super.onClick(getDialog(), DialogInterface.BUTTON_POSITIVE);
+        super.onClick(requireDialog(), DialogInterface.BUTTON_POSITIVE);
     }
 }

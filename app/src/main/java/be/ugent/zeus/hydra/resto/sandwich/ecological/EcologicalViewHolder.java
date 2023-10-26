@@ -24,7 +24,6 @@ package be.ugent.zeus.hydra.resto.sandwich.ecological;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -33,6 +32,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.common.utils.DateUtils;
+import be.ugent.zeus.hydra.common.utils.StringUtils;
 import net.cachapa.expandablelayout.ExpandableLayout;
 
 /**
@@ -69,7 +69,7 @@ class EcologicalViewHolder extends DataViewHolder<EcologicalSandwich> {
             name.setCompoundDrawables(null, null, null, null);
         }
         dates.setText(String.format(c.getString(R.string.date_between), start, end));
-        String ingredientsString = TextUtils.join(", ", sandwich.getIngredients());
+        String ingredientsString = StringUtils.formatList(sandwich.getIngredients());
         ingredients.setText(String.format(c.getString(R.string.resto_sandwich_ingredients), ingredientsString));
         expandableLayout.setExpanded(adapter.isChecked(getBindingAdapterPosition()), false);
         itemView.setOnClickListener(v -> {

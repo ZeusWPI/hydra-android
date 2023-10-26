@@ -45,11 +45,6 @@ final class FirebaseEvents implements BaseEvents {
     }
 
     @Override
-    public String search() {
-        return FirebaseAnalytics.Event.SEARCH;
-    }
-
-    @Override
     public String selectContent() {
         return FirebaseAnalytics.Event.SELECT_CONTENT;
     }
@@ -89,11 +84,6 @@ final class FirebaseEvents implements BaseEvents {
         @Override
         public String method() {
             return FirebaseAnalytics.Param.METHOD;
-        }
-
-        @Override
-        public String searchTerm() {
-            return FirebaseAnalytics.Param.SEARCH_TERM;
         }
 
         @Override

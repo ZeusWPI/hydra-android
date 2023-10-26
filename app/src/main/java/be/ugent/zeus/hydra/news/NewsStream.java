@@ -28,6 +28,7 @@ import java.util.Objects;
 
 /**
  * @author Niko Strijbol
+ * @noinspection unused
  */
 public final class NewsStream {
 

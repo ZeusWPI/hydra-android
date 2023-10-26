@@ -43,7 +43,6 @@ public class SpanItemSpacingDecoration extends RecyclerView.ItemDecoration {
 
     private final int spacing;
 
-    @SuppressWarnings("WeakerAccess")
     public SpanItemSpacingDecoration(int spacing) {
         this.spacing = spacing;
     }

@@ -23,7 +23,6 @@
 package be.ugent.zeus.hydra.common.database.migrations;
 
 import android.content.ContentValues;
-import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -110,32 +109,28 @@ public class Migration_10_11 extends Migration {
                 "CREATE TABLE `new_minerva_announcements` (`title` TEXT, `content` TEXT, `email_sent` INTEGER NOT NULL, `_id` INTEGER NOT NULL, `last_edit_user` TEXT, `date` TEXT, `read_at` TEXT, `course` TEXT, PRIMARY KEY(`_id`), FOREIGN KEY(`course`) REFERENCES `minerva_courses`(`_id`) ON UPDATE NO ACTION ON DELETE CASCADE)"
         );
         // We cannot just copy the data, since we need to modify the format of the data.
-        Cursor cursor = database.query("SELECT * FROM minerva_announcements");
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                ContentValues contentValues = new ContentValues();
-                DatabaseUtils.cursorRowToContentValues(cursor, contentValues);
-                // We need to adjust the 'date' and 'read_at' field.
-                ZonedDateTime originalDate = legacyUnserialize(contentValues.getAsLong("date"));
-                if (originalDate != null) {
-                    OffsetDateTime newDate = originalDate.toOffsetDateTime();
-                    contentValues.put("date", fromOffsetDateTime(newDate));
-                } else {
-                    contentValues.put("date", (String) null);
-                }
-                ZonedDateTime originalReadDate = legacyUnserialize(contentValues.getAsLong("read_at"));
-                if (originalReadDate != null) {
-                    Instant newReadDate = originalReadDate.toInstant();
-                    contentValues.put("read_at", fromInstant(newReadDate));
-                } else {
-                    contentValues.put("read_at", (String) null);
-                }
-
-                // Insert the row into the new table.
-                database.insert("new_minerva_announcements", SQLiteDatabase.CONFLICT_NONE, contentValues);
+        var cursor = database.query("SELECT * FROM minerva_announcements");
+        while (cursor.moveToNext()) {
+            ContentValues contentValues = new ContentValues();
+            DatabaseUtils.cursorRowToContentValues(cursor, contentValues);
+            // We need to adjust the 'date' and 'read_at' field.
+            ZonedDateTime originalDate = legacyUnserialize(contentValues.getAsLong("date"));
+            if (originalDate != null) {
+                OffsetDateTime newDate = originalDate.toOffsetDateTime();
+                contentValues.put("date", fromOffsetDateTime(newDate));
+            } else {
+                contentValues.put("date", (String) null);
             }
-        } else {
-            Log.w(TAG, "Cursor for announcements is null, skipping data conversion.");
+            ZonedDateTime originalReadDate = legacyUnserialize(contentValues.getAsLong("read_at"));
+            if (originalReadDate != null) {
+                Instant newReadDate = originalReadDate.toInstant();
+                contentValues.put("read_at", fromInstant(newReadDate));
+            } else {
+                contentValues.put("read_at", (String) null);
+            }
+
+            // Insert the row into the new table.
+            database.insert("new_minerva_announcements", SQLiteDatabase.CONFLICT_NONE, contentValues);
         }
         // Drop the old table.
         database.execSQL("DROP TABLE minerva_announcements");
@@ -150,39 +145,35 @@ public class Migration_10_11 extends Migration {
                 "CREATE TABLE `new_minerva_calendar` (`_id` INTEGER NOT NULL, `title` TEXT, `content` TEXT, `start_date` TEXT, `end_date` TEXT, `location` TEXT, `type` TEXT, `last_edit_user` TEXT, `last_edit` TEXT, `last_edit_type` TEXT, `course` TEXT, `calendar_id` INTEGER NOT NULL, `is_merged` INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(`_id`), FOREIGN KEY(`course`) REFERENCES `minerva_courses`(`_id`) ON UPDATE NO ACTION ON DELETE CASCADE)"
         );
         // We cannot just copy the data, since we need to modify the format of the data.
-        Cursor calendarCursor = database.query("SELECT * FROM minerva_calendar");
-        if (calendarCursor != null) {
-            while (calendarCursor.moveToNext()) {
-                ContentValues contentValues = new ContentValues();
-                DatabaseUtils.cursorRowToContentValues(calendarCursor, contentValues);
-                // We must convert the start_date and end_date.
-                ZonedDateTime originalStartDate = legacyUnserialize(contentValues.getAsLong("start_date"));
-                if (originalStartDate != null) {
-                    OffsetDateTime newStartDate = originalStartDate.toOffsetDateTime();
-                    contentValues.put("start_date", fromOffsetDateTime(newStartDate));
-                } else {
-                    contentValues.put("start_date", (String) null);
-                }
-                ZonedDateTime originalEndDate = legacyUnserialize(contentValues.getAsLong("end_date"));
-                if (originalEndDate != null) {
-                    OffsetDateTime newEndDate = originalEndDate.toOffsetDateTime();
-                    contentValues.put("end_date", fromOffsetDateTime(newEndDate));
-                } else {
-                    contentValues.put("end_date", (String) null);
-                }
-                ZonedDateTime originalEditDate = legacyUnserialize(contentValues.getAsLong("last_edit"));
-                if (originalEditDate != null) {
-                    OffsetDateTime newEditDate = originalEditDate.toOffsetDateTime();
-                    contentValues.put("last_edit", fromOffsetDateTime(newEditDate));
-                } else {
-                    contentValues.put("last_edit", (String) null);
-                }
-
-                // Insert the row into the new table.
-                database.insert("new_minerva_calendar", SQLiteDatabase.CONFLICT_NONE, contentValues);
+        var calendarCursor = database.query("SELECT * FROM minerva_calendar");
+        while (calendarCursor.moveToNext()) {
+            ContentValues contentValues = new ContentValues();
+            DatabaseUtils.cursorRowToContentValues(calendarCursor, contentValues);
+            // We must convert the start_date and end_date.
+            ZonedDateTime originalStartDate = legacyUnserialize(contentValues.getAsLong("start_date"));
+            if (originalStartDate != null) {
+                OffsetDateTime newStartDate = originalStartDate.toOffsetDateTime();
+                contentValues.put("start_date", fromOffsetDateTime(newStartDate));
+            } else {
+                contentValues.put("start_date", (String) null);
             }
-        } else {
-            Log.w(TAG, "Cursor for calendar is null, skipping data conversion.");
+            ZonedDateTime originalEndDate = legacyUnserialize(contentValues.getAsLong("end_date"));
+            if (originalEndDate != null) {
+                OffsetDateTime newEndDate = originalEndDate.toOffsetDateTime();
+                contentValues.put("end_date", fromOffsetDateTime(newEndDate));
+            } else {
+                contentValues.put("end_date", (String) null);
+            }
+            ZonedDateTime originalEditDate = legacyUnserialize(contentValues.getAsLong("last_edit"));
+            if (originalEditDate != null) {
+                OffsetDateTime newEditDate = originalEditDate.toOffsetDateTime();
+                contentValues.put("last_edit", fromOffsetDateTime(newEditDate));
+            } else {
+                contentValues.put("last_edit", (String) null);
+            }
+
+            // Insert the row into the new table.
+            database.insert("new_minerva_calendar", SQLiteDatabase.CONFLICT_NONE, contentValues);
         }
         // Drop the old table.
         database.execSQL("DROP TABLE minerva_calendar");

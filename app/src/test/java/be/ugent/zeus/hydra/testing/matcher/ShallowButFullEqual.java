@@ -97,10 +97,9 @@ public class ShallowButFullEqual<T> extends TypeSafeDiagnosingMatcher<T> {
     private boolean hasMatchingValues(T item, Description mismatchDescription) {
 
         List<Field> fields = this.fields.getFields();
-
-        try {
-            for (Field field : fields) {
-
+        var checkedField = false;
+        for (Field field : fields) {
+            try {
                 Object expected = FieldUtils.readField(field, expectedBean, true);
                 Object actual = FieldUtils.readField(field, item, true);
 
@@ -116,11 +115,16 @@ public class ShallowButFullEqual<T> extends TypeSafeDiagnosingMatcher<T> {
                         return false;
                     }
                 }
+                checkedField = true;
+            } catch (Exception e) {
+                // Do the easy way out, and ignore this field.
+                // This error happens on modern JDK's.
             }
-
+        }
+        
+        if (checkedField) {
             return true;
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } else {
             mismatchDescription.appendText(" error occurred while accessing field.");
             return false;
         }

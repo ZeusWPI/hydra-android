@@ -38,7 +38,7 @@ import be.ugent.zeus.hydra.common.request.Result;
 public abstract class PartialErrorObserver<D> implements Observer<Result<D>> {
 
     public static <D> PartialErrorObserver<D> with(Consumer<RequestException> consumer) {
-        return new PartialErrorObserver<D>() {
+        return new PartialErrorObserver<>() {
             @Override
             protected void onPartialError(RequestException throwable) {
                 consumer.accept(throwable);

@@ -113,7 +113,7 @@ public abstract class RefreshViewModel extends AndroidViewModel implements Swipe
                 } else {
                     busyData.add(data.hashCode());
                 }
-                refreshing.setValue(busyData.size() != 0);
+                refreshing.setValue(!busyData.isEmpty());
             });
         }
         return refreshing;

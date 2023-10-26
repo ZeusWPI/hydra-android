@@ -85,7 +85,7 @@ public class HistoryActivity
 
         viewModel = provider.get(SingleDayViewModel.class);
         viewModel.changeDate(localDate); // Set the initial date
-        viewModel.getData().observe(this, new SuccessObserver<RestoMenu>() {
+        viewModel.getData().observe(this, new SuccessObserver<>() {
             @Override
             protected void onSuccess(@NonNull RestoMenu data) {
                 // Add the fragment

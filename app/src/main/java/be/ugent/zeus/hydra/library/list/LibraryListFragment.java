@@ -28,6 +28,7 @@ import android.view.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -41,6 +42,7 @@ import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.utils.ColourUtils;
 import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 import com.google.android.material.snackbar.Snackbar;
+import org.jetbrains.annotations.NotNull;
 
 import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
 
@@ -55,12 +57,6 @@ public class LibraryListFragment extends Fragment {
     private LibraryListAdapter adapter;
     private LibraryViewModel viewModel;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -70,6 +66,32 @@ public class LibraryListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        requireActivity().addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater menuInflater) {
+                menuInflater.inflate(R.menu.menu_library_list, menu);
+                requireBaseActivity(LibraryListFragment.this).tintToolbarIcons(menu, R.id.library_visit_catalogue, R.id.action_refresh);
+                SearchView view = (SearchView) menu.findItem(R.id.action_search).getActionView();
+                view.setOnQueryTextListener(adapter);
+                view.setOnCloseListener(adapter);
+                view.setOnSearchClickListener(v -> adapter.onOpen());
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull @NotNull MenuItem menuItem) {
+                int itemId = menuItem.getItemId();
+                if (itemId == R.id.library_visit_catalogue) {
+                    NetworkUtils.maybeLaunchBrowser(getContext(), LIB_URL);
+                    return true;
+                } else if (itemId == R.id.action_refresh) {
+                    viewModel.onRefresh();
+                    return true;
+                }
+                return false;
+            }
+        }, getViewLifecycleOwner());
+
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
@@ -86,30 +108,6 @@ public class LibraryListFragment extends Fragment {
         viewModel.getData().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
         viewModel.getRefreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
         swipeRefreshLayout.setOnRefreshListener(viewModel);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_library_list, menu);
-        requireBaseActivity(this).tintToolbarIcons(menu, R.id.library_visit_catalogue, R.id.action_refresh);
-        SearchView view = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        view.setOnQueryTextListener(adapter);
-        view.setOnCloseListener(adapter);
-        view.setOnSearchClickListener(v -> adapter.onOpen());
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int itemId = item.getItemId();
-        if (itemId == R.id.library_visit_catalogue) {
-            NetworkUtils.maybeLaunchBrowser(getContext(), LIB_URL);
-            return true;
-        } else if (itemId == R.id.action_refresh) {
-            viewModel.onRefresh();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void onError(Throwable throwable) {

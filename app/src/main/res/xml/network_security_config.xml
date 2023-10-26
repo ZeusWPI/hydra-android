@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2021 The Hydra authors
+  ~ Copyright (c) 2023 The Hydra authors
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -21,34 +21,9 @@
   ~ SOFTWARE.
   -->
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <Preference
-        android:icon="@drawable/ic_info_outline"
-        app:persistent="false"
-        app:selectable="false"
-        app:summary="@string/resto_pref_closing_description" />
-
-    <!--suppress AndroidElementNotAllowed -->
-    <be.ugent.zeus.hydra.common.ui.widgets.TimePreference
-        app:allowDividerBelow="true"
-        app:defaultValue="21:00"
-        app:key="pref_resto_closing_hour"
-        app:title="@string/resto_pref_closing_title" />
-
-    <ListPreference
-        app:allowDividerAbove="true"
-        app:key="pref_choice_resto_select"
-        app:persistent="false"
-        app:summary="%s"
-        app:title="@string/resto_pref_choice" />
-
-    <Preference
-        app:allowDividerAbove="true"
-        app:key="pref_choice_resto_select_loading"
-        app:persistent="false"
-        app:summary="@string/resto_pref_choice_loading"
-        app:title="@string/resto_pref_choice" />
-
-</PreferenceScreen>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false" />
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">radiostudio.be</domain>
+    </domain-config>
+</network-security-config>

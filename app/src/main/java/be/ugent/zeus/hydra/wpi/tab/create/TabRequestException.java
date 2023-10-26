@@ -22,22 +22,21 @@
 
 package be.ugent.zeus.hydra.wpi.tab.create;
 
-import android.text.TextUtils;
-
 import java.util.List;
 
 import be.ugent.zeus.hydra.common.request.RequestException;
+import be.ugent.zeus.hydra.common.utils.StringUtils;
 
 /**
  * Error when posting a transaction results in 422.
- * 
+ *
  * @author Niko Strijbol
  */
 public class TabRequestException extends RequestException {
     private final List<String> messages;
 
     public TabRequestException(List<String> messages) {
-        super(TextUtils.join(", ", messages));
+        super(StringUtils.formatList(messages));
         this.messages = messages;
     }
 

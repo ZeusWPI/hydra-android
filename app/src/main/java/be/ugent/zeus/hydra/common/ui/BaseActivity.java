@@ -164,6 +164,7 @@ public abstract class BaseActivity<B extends ViewBinding> extends AppCompatActiv
      * will return null. In that case, you shouldn't show the a new snackbar.
      * Otherwise, you will get a snackbar for the message and length. This is
      * a new snackbar, which you can do with want you want.
+     * @noinspection SameParameterValue
      */
     @Nullable
     protected Snackbar createSnackbar(String text, @BaseTransientBottomBar.Duration int duration) {

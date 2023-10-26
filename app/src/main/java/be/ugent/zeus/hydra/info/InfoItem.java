@@ -35,8 +35,8 @@ import com.squareup.moshi.Json;
  *
  * @author Juta
  * @author Niko Strijbol
+ * @noinspection unused
  */
-@SuppressWarnings("unused")
 public final class InfoItem implements Parcelable {
     
     private String title;
@@ -52,6 +52,7 @@ public final class InfoItem implements Parcelable {
         // Used by Moshi.
     }
 
+    /** @noinspection ProtectedMemberInFinalClass*/
     protected InfoItem(Parcel in) {
         title = in.readString();
         image = in.readString();
@@ -61,7 +62,7 @@ public final class InfoItem implements Parcelable {
         subContent = in.createTypedArrayList(CREATOR);
     }
 
-    public static final Creator<InfoItem> CREATOR = new Creator<InfoItem>() {
+    public static final Creator<InfoItem> CREATOR = new Creator<>() {
         @Override
         public InfoItem createFromParcel(Parcel in) {
             return new InfoItem(in);

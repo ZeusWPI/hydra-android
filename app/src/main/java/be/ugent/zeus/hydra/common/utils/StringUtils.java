@@ -26,7 +26,6 @@ import android.icu.text.ListFormatter;
 import androidx.annotation.NonNull;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -46,7 +45,7 @@ public class StringUtils {
 
     /**
      * Format a set of elements into a textual list (e.g. "one, two and three").
-     * 
+     * <p> 
      * On supported Android versions, this will use the ICU library to get a
      * nicely formatted list. On older versions, the items will be joined using
      * a comma.

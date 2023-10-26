@@ -22,7 +22,6 @@
 
 package be.ugent.zeus.hydra.association.event;
 
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -30,6 +29,7 @@ import java.util.Objects;
  */
 public final class EventList {
 
+    /** @noinspection unused*/
     private EventPage page;
 
     public EventList() {

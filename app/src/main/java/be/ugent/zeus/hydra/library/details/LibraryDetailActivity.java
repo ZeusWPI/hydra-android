@@ -26,7 +26,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.util.Linkify;
@@ -39,7 +38,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
+import androidx.core.content.IntentCompat;
 import androidx.core.text.util.LinkifyCompat;
 import androidx.core.view.WindowCompat;
 import androidx.lifecycle.ViewModelProvider;
@@ -58,9 +57,7 @@ import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
-import be.ugent.zeus.hydra.common.utils.DateUtils;
-import be.ugent.zeus.hydra.common.utils.NetworkUtils;
-import be.ugent.zeus.hydra.common.utils.ViewUtils;
+import be.ugent.zeus.hydra.common.utils.*;
 import be.ugent.zeus.hydra.databinding.ActivityLibraryDetailsBinding;
 import be.ugent.zeus.hydra.library.Library;
 import be.ugent.zeus.hydra.library.favourites.FavouritesRepository;
@@ -94,7 +91,7 @@ public class LibraryDetailActivity extends BaseActivity<ActivityLibraryDetailsBi
         setContentView(ActivityLibraryDetailsBinding::inflate);
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
 
-        library = getIntent().getParcelableExtra(ARG_LIBRARY);
+        library = IntentCompat.getParcelableExtra(getIntent(), ARG_LIBRARY, Library.class);
 
         Picasso.get().load(library.getHeaderImage(this)).into(binding.headerImage);
 
@@ -167,7 +164,7 @@ public class LibraryDetailActivity extends BaseActivity<ActivityLibraryDetailsBi
 
     private void updateStatus(Library library, boolean isSelected) {
         FavouritesRepository repository = Database.get(this).getFavouritesRepository();
-        AsyncTask.execute(() -> {
+        ThreadingUtils.execute(() -> {
             if (isSelected) {
                 repository.delete(LibraryFavourite.from(library));
             } else {
@@ -187,7 +184,7 @@ public class LibraryDetailActivity extends BaseActivity<ActivityLibraryDetailsBi
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         // Restore the toggle button state.
-        if (savedInstanceState.get("button") != null) {
+        if (savedInstanceState.getString("button") != null) {
             binding.expandButton.setText(savedInstanceState.getString("button"));
         }
     }

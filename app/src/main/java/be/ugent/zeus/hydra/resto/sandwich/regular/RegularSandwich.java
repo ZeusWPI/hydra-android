@@ -28,6 +28,8 @@ import android.os.Parcelable;
 import java.util.List;
 import java.util.Objects;
 
+import androidx.annotation.NonNull;
+
 import com.squareup.moshi.Json;
 
 /**
@@ -35,11 +37,9 @@ import com.squareup.moshi.Json;
  */
 @SuppressWarnings("WeakerAccess")
 public final class RegularSandwich implements Parcelable {
-    
+
     private String name;
     private List<String> ingredients;
-    @Json(name = "price_small")
-    private String priceSmall;
     @Json(name = "price_medium")
     private String priceMedium;
 
@@ -51,7 +51,6 @@ public final class RegularSandwich implements Parcelable {
     public RegularSandwich(Parcel in) {
         this.name = in.readString();
         this.ingredients = in.createStringArrayList();
-        this.priceSmall = in.readString();
         this.priceMedium = in.readString();
     }
 
@@ -61,10 +60,6 @@ public final class RegularSandwich implements Parcelable {
 
     public List<String> getIngredients() {
         return ingredients;
-    }
-
-    public String getPriceSmall() {
-        return priceSmall;
     }
 
     public String getPriceMedium() {
@@ -80,7 +75,6 @@ public final class RegularSandwich implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.name);
         dest.writeStringList(this.ingredients);
-        dest.writeString(this.priceSmall);
         dest.writeString(this.priceMedium);
     }
 
@@ -91,16 +85,16 @@ public final class RegularSandwich implements Parcelable {
         RegularSandwich sandwich = (RegularSandwich) o;
         return Objects.equals(name, sandwich.name) &&
                 Objects.equals(ingredients, sandwich.ingredients) &&
-                Objects.equals(priceSmall, sandwich.priceSmall) &&
                 Objects.equals(priceMedium, sandwich.priceMedium);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, ingredients, priceSmall, priceMedium);
+        return Objects.hash(name, ingredients, priceMedium);
     }
 
     @Override
+    @NonNull
     public String toString() {
         return name;
     }

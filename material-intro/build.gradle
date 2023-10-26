@@ -1,12 +1,16 @@
 apply plugin: 'com.android.library'
 
+def versions = loadAndroidVersions()
+
 android {
-    buildToolsVersion "33.0.0"
+    // We need this for Nix flakes
+    //noinspection GrDeprecatedAPIUsage
+    buildToolsVersion versions.buildToolsVersions
 
     defaultConfig {
-        compileSdk 33
+        compileSdk versions.platformVersions as Integer
         minSdk 21
-        targetSdk 33
+        targetSdk 34
     }
 
     buildTypes {
@@ -19,7 +23,7 @@ android {
     namespace 'com.heinrichreimersoftware.materialintro'
 
     lint {
-        disable 'Overdraw', 'OldTargetApi', 'GradleDependency', 'ObsoleteLintCustomCheck'
+        disable 'Overdraw', 'OldTargetApi', 'GradleDependency'
         showAll true
         warningsAsErrors true
     }
@@ -28,5 +32,22 @@ android {
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'com.google.android.material:material:1.10.0'
+}
+
+// TODO: extract this duplicate code...
+/**
+ * Loads the default properties, and the user properties. This will also load the
+ * secret keys.
+ */
+def loadAndroidVersions() {
+    def defaultProps = new Properties()
+    defaultProps.load(file("../android-versions.toml").newReader())
+
+    def strippedProps = new Properties()
+    for (e in defaultProps) {
+        strippedProps.setProperty(e.key, e.value.replaceAll('"', ''))
+    }
+
+    return strippedProps
 }

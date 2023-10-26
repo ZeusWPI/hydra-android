@@ -25,7 +25,6 @@ package be.ugent.zeus.hydra.common.ui.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -33,6 +32,7 @@ import android.widget.TextView;
 import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
+import androidx.core.widget.TextViewCompat;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -59,7 +59,7 @@ public class MenuTable extends TableLayout {
     private boolean showTitles;
     private boolean messagePaddingTop;
     private int normalStyle;
-    
+
     private boolean showAllergens;
 
     public MenuTable(Context context) {
@@ -81,8 +81,7 @@ public class MenuTable extends TableLayout {
     private void init(Context context, @Nullable AttributeSet attrs) {
 
         // The warning is bogus, since it was only added in API 31.
-        @SuppressWarnings("resource")
-        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.MenuTable, 0, 0);
+        @SuppressWarnings("resource") TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.MenuTable, 0, 0);
 
         try {
             displayedKinds = a.getInt(R.styleable.MenuTable_showKind, DisplayKind.ALL);
@@ -122,11 +121,7 @@ public class MenuTable extends TableLayout {
         textParam.span = 3;
         final int textPaddingTop;
         if (isTitle) {
-            if (Build.VERSION.SDK_INT < 23) {
-                v.setTextAppearance(getContext(), R.style.Hydra_Text_Subhead);
-            } else {
-                v.setTextAppearance(R.style.Hydra_Text_Subhead);
-            }
+            TextViewCompat.setTextAppearance(v, R.style.Hydra_Text_Subhead);
             textPaddingTop = getContext().getResources().getDimensionPixelSize(R.dimen.vertical_padding);
         } else if (messagePaddingTop) {
             textPaddingTop = getContext().getResources().getDimensionPixelSize(R.dimen.vertical_padding);
@@ -136,12 +131,7 @@ public class MenuTable extends TableLayout {
         // If the text is a title, set the title padding.
         // Else if we set message padding, set the message padding.
         // Otherwise keep the existing padding.
-        v.setPadding(
-                v.getPaddingLeft(),
-                textPaddingTop,
-                v.getPaddingRight(),
-                v.getPaddingBottom()
-        );
+        v.setPadding(v.getPaddingLeft(), textPaddingTop, v.getPaddingRight(), v.getPaddingBottom());
         v.setLayoutParams(textParam);
         if (isHtml) {
             v.setText(Utils.fromHtml(text));
@@ -242,10 +232,7 @@ public class MenuTable extends TableLayout {
     /**
      * Flags to indicate what should be displayed by the menu.
      */
-    @IntDef(
-            flag = true,
-            value = {DisplayKind.HOT, DisplayKind.COLD, DisplayKind.SOUP, DisplayKind.VEGETABLES, DisplayKind.ALL}
-    )
+    @IntDef(flag = true, value = {DisplayKind.HOT, DisplayKind.COLD, DisplayKind.SOUP, DisplayKind.VEGETABLES, DisplayKind.ALL})
     @Retention(RetentionPolicy.SOURCE)
     public @interface DisplayKind {
         int HOT = 1;

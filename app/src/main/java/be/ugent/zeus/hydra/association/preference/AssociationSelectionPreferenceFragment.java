@@ -28,6 +28,7 @@ import android.view.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,6 +44,7 @@ import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 import com.google.android.material.snackbar.Snackbar;
+import org.jetbrains.annotations.NotNull;
 
 import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
 
@@ -57,12 +59,6 @@ public class AssociationSelectionPreferenceFragment extends Fragment {
 
     private final SearchableAssociationsAdapter adapter = new SearchableAssociationsAdapter();
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -72,6 +68,27 @@ public class AssociationSelectionPreferenceFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        requireActivity().addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater menuInflater) {
+                menuInflater.inflate(R.menu.menu_pref_selectors, menu);
+                requireBaseActivity(AssociationSelectionPreferenceFragment.this).tintToolbarIcons(menu, R.id.action_select_all, R.id.action_select_none);
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull @NotNull MenuItem menuItem) {
+                int itemId = menuItem.getItemId();
+                if (itemId == R.id.action_select_all) {
+                    adapter.setAllChecked(true);
+                    return true;
+                } else if (itemId == R.id.action_select_none) {
+                    adapter.setAllChecked(false);
+                    return true;
+                }
+                return false;
+            }
+        }, getViewLifecycleOwner());
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -87,26 +104,6 @@ public class AssociationSelectionPreferenceFragment extends Fragment {
         model.getData().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
         model.getData().observe(getViewLifecycleOwner(), SuccessObserver.with(adapter::submitData));
         model.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_pref_selectors, menu);
-        requireBaseActivity(this).tintToolbarIcons(menu, R.id.action_select_all, R.id.action_select_none);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int itemId = item.getItemId();
-        if (itemId == R.id.action_select_all) {
-            adapter.setAllChecked(true);
-            return true;
-        } else if (itemId == R.id.action_select_none) {
-            adapter.setAllChecked(false);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

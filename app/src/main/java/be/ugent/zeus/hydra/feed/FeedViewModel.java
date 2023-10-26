@@ -23,7 +23,6 @@
 package be.ugent.zeus.hydra.feed;
 
 import android.app.Application;
-import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -33,6 +32,7 @@ import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.arch.data.Event;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.common.ui.SingleRefreshViewModel;
+import be.ugent.zeus.hydra.common.utils.ThreadingUtils;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.commands.CommandResult;
 import be.ugent.zeus.hydra.feed.commands.FeedCommand;
@@ -61,14 +61,14 @@ public class FeedViewModel extends SingleRefreshViewModel<List<Card>> {
     }
 
     void execute(FeedCommand command) {
-        AsyncTask.execute(() -> {
+        ThreadingUtils.execute(() -> {
             int result = command.execute(getApplication());
             commandLiveData.postValue(new Event<>(CommandResult.forExecute(command, result)));
         });
     }
 
     void undo(FeedCommand command) {
-        AsyncTask.execute(() -> {
+        ThreadingUtils.execute(() -> {
             int result = command.undo(getApplication());
             commandLiveData.postValue(new Event<>(CommandResult.forUndo(result)));
         });

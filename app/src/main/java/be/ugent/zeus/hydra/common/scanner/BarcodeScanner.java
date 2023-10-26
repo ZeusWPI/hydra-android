@@ -31,7 +31,7 @@ import java.util.function.Consumer;
 
 /**
  * Ask some service to scan for barcodes.
- * 
+ * <p> 
  * TODO: this is an ugly interface.
  * 
  * @author Niko Strijbol
@@ -66,7 +66,7 @@ public interface BarcodeScanner {
 
     /**
      * Get a barcode without activity.
-     * 
+     * <p> 
      * Implementations should optimize, if possible, for scanning product barcodes.
      * This includes EAN/UPC codes.
      */

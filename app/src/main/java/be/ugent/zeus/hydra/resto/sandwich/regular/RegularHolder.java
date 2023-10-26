@@ -23,13 +23,13 @@
 package be.ugent.zeus.hydra.resto.sandwich.regular;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
+import be.ugent.zeus.hydra.common.utils.StringUtils;
 import net.cachapa.expandablelayout.ExpandableLayout;
 
 /**
@@ -38,7 +38,6 @@ import net.cachapa.expandablelayout.ExpandableLayout;
 class RegularHolder extends DataViewHolder<RegularSandwich> {
 
     private final TextView name;
-    private final TextView smallPrice;
     private final TextView mediumPrice;
     private final ExpandableLayout expandableLayout;
     private final TextView ingredients;
@@ -49,7 +48,6 @@ class RegularHolder extends DataViewHolder<RegularSandwich> {
 
         name = itemView.findViewById(R.id.sandwich_name);
         mediumPrice = itemView.findViewById(R.id.sandwich_price_medium);
-        smallPrice = itemView.findViewById(R.id.sandwich_price_small);
         expandableLayout = itemView.findViewById(R.id.expandable_layout);
         ingredients = itemView.findViewById(R.id.sandwich_ingredients);
         this.adapter = adapter;
@@ -60,9 +58,9 @@ class RegularHolder extends DataViewHolder<RegularSandwich> {
         Context c = itemView.getContext();
         name.setText(sandwich.getName());
         mediumPrice.setText(String.format(c.getString(R.string.resto_sandwich_price_medium), sandwich.getPriceMedium()));
-        smallPrice.setText(String.format(c.getString(R.string.resto_sandwich_price_small), sandwich.getPriceSmall()));
-        String ingredientsString = TextUtils.join(", ", sandwich.getIngredients());
-        ingredients.setText(String.format(c.getString(R.string.resto_sandwich_ingredients), ingredientsString));
+        String ingredientsString = StringUtils.formatList(sandwich.getIngredients());
+        String ingredientSentence = StringUtils.capitaliseFirst(ingredientsString) + ".";
+        ingredients.setText(ingredientSentence);
         expandableLayout.setExpanded(adapter.isChecked(getBindingAdapterPosition()), false);
         itemView.setOnClickListener(v -> {
             adapter.setChecked(getBindingAdapterPosition());

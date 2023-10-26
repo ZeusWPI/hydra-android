@@ -116,7 +116,7 @@ public enum PreferenceEntry implements Parcelable {
         return 0;
     }
 
-    public static final Parcelable.Creator<PreferenceEntry> CREATOR = new Parcelable.Creator<PreferenceEntry>() {
+    public static final Parcelable.Creator<PreferenceEntry> CREATOR = new Parcelable.Creator<>() {
         @Override
         public PreferenceEntry createFromParcel(Parcel in) {
             return PreferenceEntry.values()[in.readInt()];

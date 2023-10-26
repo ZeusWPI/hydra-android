@@ -42,9 +42,9 @@ import be.ugent.zeus.hydra.common.request.Request;
 
 /**
  * Get the events for all associations.
- * 
- * The general event flow it like this:
- * 
+ * <p> 
+ * The general event flow is like this:
+ * <p> 
  * 1. We get the list of associations from the server.
  * 2. Use the filter to update the blacklist.
  * 3. Use the blacklist to get a whitelist.

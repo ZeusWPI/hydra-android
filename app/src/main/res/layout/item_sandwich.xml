@@ -47,29 +47,14 @@
             android:layout_weight="1"
             tools:text="Naam van het broodje" />
 
-        <LinearLayout
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/sandwich_price_medium"
+            style="?textAppearanceBody1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:gravity="end"
-            android:orientation="vertical">
+            android:textIsSelectable="true"
+            tools:text="Prijs groot" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/sandwich_price_medium"
-                style="?textAppearanceBody1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textIsSelectable="true"
-                tools:text="Prijs groot" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/sandwich_price_small"
-                style="?textAppearanceBodyMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textIsSelectable="true"
-                tools:text="Prijs klein" />
-        </LinearLayout>
     </LinearLayout>
 
     <net.cachapa.expandablelayout.ExpandableLayout

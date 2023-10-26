@@ -46,7 +46,7 @@ import okhttp3.Response;
 /**
  * Common implementation base for requests that are network requests. This request provides built-in caching on the
  * networking level.
- *
+ * <p>
  * <h1>Caching</h1>
  * The caching implementation uses OkHttp's cache implementation. How long a response is cached is determined by
  * {@link #getCacheDuration()}. By default, requests are not cached.
@@ -54,13 +54,12 @@ import okhttp3.Response;
  * Additionally, stale data is always used by default if needed.
  * <p>
  * To disable the cache, pass {@link BaseLiveData#REFRESH_COLD} as an argument to the request.
- *
+ * <p>
  * <h1>Decode</h1>
  * The request uses Moshi to decode the json response into Java objects.
  *
  * @author Niko Strijbol
  */
-@SuppressWarnings("WeakerAccess")
 public abstract class JsonOkHttpRequest<D> extends OkHttpRequest<D> {
 
     private static final String TAG = "JsonOkHttpRequest";

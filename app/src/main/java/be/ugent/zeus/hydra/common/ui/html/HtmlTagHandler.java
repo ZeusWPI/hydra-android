@@ -43,7 +43,7 @@ import org.xml.sax.XMLReader;
  * More elements can be added. However, some elements, such as center, are no longer part of the HTML standard. Thus,
  * this is 'pseudo-HTML'.
  * <p>
- * This class is based on work in https://github.com/skimarxall/RealTextView.
+ * This class is based on work in <a href="https://github.com/skimarxall/RealTextView">RealTextView</a>.
  *
  * @author Niko Strijbol
  * @author Dominik Schürmann

@@ -32,7 +32,7 @@ import static be.ugent.zeus.hydra.feed.cards.Card.Type.*;
 
 /**
  * Every subclass should have a {@link Card.Type} associated with it. This is to facilitate working with adapters.
- *
+ * <p>
  * <h1>Priority</h1>
  * Every card must give itself a priority in [0,1000]. This defines the natural ordening of the cards; 0 is the
  * card with the highest priority, 1000 has the lowest priority. Cards should generally strive to produce unique
@@ -45,7 +45,7 @@ import static be.ugent.zeus.hydra.feed.cards.Card.Type.*;
  * special occasions, such as giving the resto card a temporarily higher score because it is eating time.
  * <p>
  * The negative values ]-Inf,0[ are reserved for use with special cards.
- *
+ * <p>
  * <h1>Identifier</h1>
  * Each card instance should have an unique identifier. The identifier must be unique within the card type.
  * <p>
