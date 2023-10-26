@@ -247,9 +247,10 @@ dependencies {
 
 
 // Disable Google services for open variant.
-android.applicationVariants.all { variant ->
-    def googleTask = tasks.findByName("process${variant.name.capitalize()}GoogleServices")
-    googleTask.enabled = "open" != variant.flavorName
+android.applicationVariants.configureEach { variant ->
+    tasks.named("process${variant.name.capitalize()}GoogleServices").configure {
+        it.enabled = "open" != variant.flavorName
+    }
 }
 
 /**
