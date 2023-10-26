@@ -38,11 +38,6 @@ class DummyHolder implements BaseEvents {
     }
 
     @Override
-    public String search() {
-        return "null";
-    }
-
-    @Override
     public String selectContent() {
         return "null";
     }
@@ -76,11 +71,6 @@ class DummyHolder implements BaseEvents {
 
         @Override
         public String method() {
-            return "null";
-        }
-
-        @Override
-        public String searchTerm() {
             return "null";
         }
 

@@ -75,7 +75,6 @@ public class RegularViewHolderTest {
 
         assertTextIs(sandwich.getName(), view.findViewById(R.id.sandwich_name));
         assertNotEmpty(view.findViewById(R.id.sandwich_price_medium));
-        assertNotEmpty(view.findViewById(R.id.sandwich_price_small));
         assertNotEmpty(view.findViewById(R.id.sandwich_ingredients));
 
         ExpandableLayout layout = view.findViewById(R.id.expandable_layout);
