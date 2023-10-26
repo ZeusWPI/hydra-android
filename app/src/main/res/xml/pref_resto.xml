@@ -35,9 +35,7 @@
         app:allowDividerBelow="true"
         app:defaultValue="21:00"
         app:key="pref_resto_closing_hour"
-        app:summary="@string/resto_pref_closing_description"
-        app:title="@string/resto_pref_closing_title"
-        app:useDefaultSummary="true" />
+        app:title="@string/resto_pref_closing_title" />
 
     <ListPreference
         app:allowDividerAbove="true"

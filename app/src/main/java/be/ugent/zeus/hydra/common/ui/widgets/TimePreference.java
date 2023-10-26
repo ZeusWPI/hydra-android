@@ -33,9 +33,6 @@ import androidx.preference.DialogPreference;
 
 import java.time.LocalTime;
 
-import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.utils.ViewUtils;
-
 /**
  * Custom dialog to select a time in the preferences.
  * <p>
@@ -48,36 +45,28 @@ import be.ugent.zeus.hydra.common.utils.ViewUtils;
  * @author Niko Strijbol
  * @see <a href="https://github.com/Gericop/Android-Support-Preference-V7-Fix">Based on this library</a>
  * @see LocalTime#toString() The exact documentation on how the value is saved.
+ * @noinspection unused
  */
-@SuppressWarnings({"WeakerAccess"})
 public class TimePreference extends DialogPreference {
 
     public TimePreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TimePreference, defStyleAttr, defStyleRes);
-
-        if (ViewUtils.getBoolean(a, R.styleable.TimePreference_useDefaultSummary,
-                R.styleable.TimePreference_useDefaultSummary, false)) {
-            setSummaryProvider(new TimeSummaryProvider());
-        }
-
-        a.recycle();
+        setSummaryProvider(new TimeSummaryProvider());
     }
 
     public TimePreference(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
+        super(context, attrs, defStyleAttr);
+        setSummaryProvider(new TimeSummaryProvider());
     }
 
     public TimePreference(Context context, AttributeSet attrs) {
-        this(context, attrs, ViewUtils.getAttr(context,
-                androidx.preference.R.attr.dialogPreferenceStyle,
-                android.R.attr.dialogPreferenceStyle));
+        super(context, attrs);
+        setSummaryProvider(new TimeSummaryProvider());
     }
 
-    @SuppressWarnings({"unused", "RedundantSuppression"})
     public TimePreference(Context context) {
-        this(context, null);
+        super(context);
+        setSummaryProvider(new TimeSummaryProvider());
     }
 
     @Nullable

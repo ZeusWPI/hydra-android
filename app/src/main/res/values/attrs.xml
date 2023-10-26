@@ -43,10 +43,6 @@
         <attr name="messagePaddingTop" format="boolean" />
     </declare-styleable>
 
-    <declare-styleable name="TimePreference">
-        <attr name="useDefaultSummary" format="boolean" />
-    </declare-styleable>
-
     <!--
     An attribute that is the primary colour in the light theme,
     but the secondary colour in the dark theme.
