@@ -58,11 +58,19 @@
               }
               {
                 name = "GRADLE_OPTS";
-                eval = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${androidComposition.androidsdk}/libexec/android-sdk/build-tools/34.0.0/aapt2";
+                eval = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${androidComposition.androidsdk}/libexec/android-sdk/build-tools/${androidVersions.buildToolsVersions}/aapt2";
+              }
+              {
+                name = "GRADLE_HOME";
+                eval = "$PRJ_DATA_DIR/.gradle";
               }
             ];
-            commands = [
-            ];
+            devshell.startup.link.text = ''
+              mkdir -p "$PRJ_DATA_DIR/.gradle"
+              cat <<EOF > "$PRJ_DATA_DIR/.gradle/gradle.properties"
+                org.gradle.jvmargs="$GRADLE_OPTS"
+              EOF
+            '';
           };
         };
       }
