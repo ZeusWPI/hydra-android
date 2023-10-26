@@ -29,14 +29,14 @@ apply plugin: 'com.google.firebase.crashlytics'
 def props = loadProperties()
 
 android {
-    buildToolsVersion "33.0.0"
+    buildToolsVersion "34.0.0"
 
     defaultConfig {
-        compileSdk 33
+        compileSdk 34
 
         applicationId "be.ugent.zeus.hydra"
         minSdk 21
-        targetSdk 33
+        targetSdk 34
         versionCode 36000
         versionName "3.6.0"
         vectorDrawables.useSupportLibrary = true

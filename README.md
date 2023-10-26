@@ -19,6 +19,7 @@ Alternatively, you can [checkout](https://www.jetbrains.com/help/idea/set-up-a-g
 
 People who use Nix(OS) can use the `flake.nix` file in the repo for a dev shell.
 Note that we don't build the app using flakes; it's only used for a dev shell.
+Additionally, the flake is very flaky, since Android development in Nixpkgs currently isn't the best.
 
 ### Keys
 If you want to use the Google Maps integration, you will need the API keys. You can contact us for more information and to obtain the keys. _This is not required to compile and build the app._
