@@ -23,19 +23,16 @@
 package be.ugent.zeus.hydra.common.converter;
 
 import android.util.Pair;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import com.squareup.moshi.*;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
+
+import com.squareup.moshi.*;
 
 /**
  * @author Niko Strijbol

@@ -86,7 +86,7 @@ public class HomeFragment extends PreferenceFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(DeleteViewModel.class);
-        viewModel.getLiveData().observe(getViewLifecycleOwner(), new EventObserver<Context>() {
+        viewModel.getLiveData().observe(getViewLifecycleOwner(), new EventObserver<>() {
             @Override
             protected void onUnhandled(Context data) {
                 Toast.makeText(data, R.string.feed_pref_hidden_cleared, Toast.LENGTH_SHORT).show();

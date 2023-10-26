@@ -29,7 +29,6 @@ import android.util.SparseBooleanArray;
 import androidx.annotation.NonNull;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 
@@ -37,8 +36,8 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
  * Adapter with items that are checkable. An item is considered checked if the state is {@code true}.
  *
  * @author Niko Strijbol
+ * @noinspection unused
  */
-@SuppressWarnings("WeakerAccess")
 public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolder<H>> {
 
     private static final String TAG = "MultiSelectAdapter";

@@ -27,6 +27,7 @@ import android.util.Log;
 import android.view.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,6 +42,7 @@ import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.SpanItemSpacingDecoration;
 import be.ugent.zeus.hydra.common.utils.ColourUtils;
 import com.google.android.material.snackbar.Snackbar;
+import org.jetbrains.annotations.NotNull;
 
 import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
 
@@ -61,7 +63,6 @@ public class NewsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         helper = CustomTabsHelper.initHelper(getActivity(), null);
         helper.setShareMenu();
-        setHasOptionsMenu(true);
     }
 
     @Override
@@ -72,6 +73,23 @@ public class NewsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        requireActivity().addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater menuInflater) {
+                menuInflater.inflate(R.menu.menu_refresh, menu);
+                requireBaseActivity(NewsFragment.this).tintToolbarIcons(menu, R.id.action_refresh);
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull @NotNull MenuItem menuItem) {
+                if (menuItem.getItemId() == R.id.action_refresh) {
+                    viewModel.onRefresh();
+                    return true;
+                }
+                return false;
+            }
+        }, getViewLifecycleOwner());
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -88,24 +106,6 @@ public class NewsFragment extends Fragment {
         viewModel.getData().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
         viewModel.getRefreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
         swipeRefreshLayout.setOnRefreshListener(viewModel);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_refresh, menu);
-        requireBaseActivity(this).tintToolbarIcons(menu, R.id.action_refresh);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.action_refresh) {
-            viewModel.onRefresh();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     private void onError(Throwable throwable) {

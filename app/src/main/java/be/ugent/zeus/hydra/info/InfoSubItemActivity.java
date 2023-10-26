@@ -27,6 +27,8 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
+import androidx.core.content.IntentCompat;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.databinding.ActivityInfoSubItemBinding;
@@ -50,7 +52,7 @@ public class InfoSubItemActivity extends BaseActivity<ActivityInfoSubItemBinding
         requireToolbar().setTitle(title);
 
         // Create bundle for fragment
-        ArrayList<InfoItem> infoList = intent.getParcelableArrayListExtra(INFO_ITEMS);
+        ArrayList<InfoItem> infoList = IntentCompat.getParcelableArrayListExtra(intent, INFO_ITEMS, InfoItem.class);
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(INFO_ITEMS, infoList);
         fragment.setArguments(bundle);

@@ -32,7 +32,7 @@ import java.util.function.Function;
 
 /**
  * The result of a {@link Request}.
- *
+ * <p>
  * <h1>Either-or-both</h1>
  * This class represents an "inclusive or" type, sometimes referred to as an "outer join" type.
  * This means the class holds either a value, an error or both. To prevent wrong usage, a builder is provided, while the
@@ -42,7 +42,7 @@ import java.util.function.Function;
  * exception. Note that implementing monad laws is not the goal of this class.
  * <p>
  * The class supports various methods for working with this, similar to {@link java.util.Optional}.
- *
+ * <p>
  * <h1>Status</h1>
  * In addition to data, this class has support for indicating the status of the request result. The
  * status is either done or continuing.
@@ -243,9 +243,7 @@ public class Result<D> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Result<?> result = (Result<?>) o;
-        return done == result.done &&
-                Objects.equals(data, result.data) &&
-                Objects.equals(throwable, result.throwable);
+        return done == result.done && Objects.equals(data, result.data) && Objects.equals(throwable, result.throwable);
     }
 
     @Override

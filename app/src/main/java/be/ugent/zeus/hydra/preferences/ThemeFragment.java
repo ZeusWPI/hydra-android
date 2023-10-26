@@ -37,6 +37,8 @@ import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.PreferenceFragment;
 
+import java.util.Objects;
+
 /**
  * Show preferences related to the theme of the app.
  *
@@ -78,7 +80,7 @@ public class ThemeFragment extends PreferenceFragment {
         setPreferencesFromResource(R.xml.pref_theme, rootKey);
 
         SharedPreferences preferences = getPreferenceManager().getSharedPreferences();
-        existing = preferences.getString(PREF_THEME_NIGHT_MODE, defaultValue());
+        existing = Objects.requireNonNull(preferences).getString(PREF_THEME_NIGHT_MODE, defaultValue());
 
         ListPreference listPreference = requirePreference(PREF_THEME_NIGHT_MODE);
         if (Build.VERSION.SDK_INT < 29) {

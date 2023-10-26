@@ -99,10 +99,6 @@ public final class EventItem implements Comparable<EventItem> {
     public int hashCode() {
         return Objects.hash(event, header, isLastOfSection);
     }
-
-    void markAsLastOfSection() {
-        this.isLastOfSection = true;
-    }
     
     public OffsetDateTime getDate() {
         if (isItem()) {

@@ -73,6 +73,7 @@ class RequestOperation implements FeedOperation {
         return request.getCardType();
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "REQUEST -> Card Type " + request.getCardType();

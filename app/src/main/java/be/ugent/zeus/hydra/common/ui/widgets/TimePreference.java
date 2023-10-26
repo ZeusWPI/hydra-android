@@ -29,6 +29,7 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.os.ParcelCompat;
 import androidx.preference.DialogPreference;
 
 import java.time.LocalTime;
@@ -43,9 +44,9 @@ import java.time.LocalTime;
  *
  * @author Rien Maertens
  * @author Niko Strijbol
+ * @noinspection unused
  * @see <a href="https://github.com/Gericop/Android-Support-Preference-V7-Fix">Based on this library</a>
  * @see LocalTime#toString() The exact documentation on how the value is saved.
- * @noinspection unused
  */
 public class TimePreference extends DialogPreference {
 
@@ -148,7 +149,7 @@ public class TimePreference extends DialogPreference {
 
         public SavedState(Parcel source) {
             super(source);
-            time = (LocalTime) source.readSerializable();
+            time = (LocalTime) ParcelCompat.readSerializable(source, LocalTime.class.getClassLoader(), LocalTime.class);
         }
 
         public SavedState(Parcelable superState) {
@@ -162,7 +163,7 @@ public class TimePreference extends DialogPreference {
         }
 
         public static final Parcelable.Creator<SavedState> CREATOR =
-                new Parcelable.Creator<SavedState>() {
+                new Parcelable.Creator<>() {
                     @Override
                     public SavedState createFromParcel(Parcel in) {
                         return new SavedState(in);

@@ -41,7 +41,7 @@ import be.ugent.zeus.hydra.common.request.Result;
 public abstract class ErrorObserver<D> implements Observer<Result<D>> {
 
     public static <D> ErrorObserver<D> with(Consumer<RequestException> consumer) {
-        return new ErrorObserver<D>() {
+        return new ErrorObserver<>() {
             @Override
             protected void onError(RequestException throwable) {
                 consumer.accept(throwable);

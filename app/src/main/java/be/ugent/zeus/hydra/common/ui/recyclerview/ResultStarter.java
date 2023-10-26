@@ -32,8 +32,8 @@ import androidx.annotation.Nullable;
  * {@link androidx.fragment.app.Fragment#startActivity(Intent, Bundle)}.
  *
  * @author Niko Strijbol
+ * @noinspection unused
  */
-@SuppressWarnings("unused")
 public interface ResultStarter {
 
     Context getContext();

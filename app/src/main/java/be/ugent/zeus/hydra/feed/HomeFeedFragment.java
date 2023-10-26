@@ -27,6 +27,7 @@ import android.util.Log;
 import android.view.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -44,6 +45,7 @@ import be.ugent.zeus.hydra.common.utils.ColourUtils;
 import be.ugent.zeus.hydra.feed.commands.CommandResult;
 import be.ugent.zeus.hydra.feed.commands.FeedCommand;
 import com.google.android.material.snackbar.Snackbar;
+import org.jetbrains.annotations.NotNull;
 
 import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
 import static be.ugent.zeus.hydra.feed.FeedLiveData.REFRESH_HOMECARD_TYPE;
@@ -80,7 +82,6 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
         helper = CustomTabsHelper.initHelper(getActivity(), null);
         helper.setShareMenu();
     }
@@ -98,6 +99,23 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        requireActivity().addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater menuInflater) {
+                menuInflater.inflate(R.menu.menu_refresh, menu);
+                requireBaseActivity(HomeFeedFragment.this).tintToolbarIcons(menu, R.id.action_refresh);
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull @NotNull MenuItem menuItem) {
+                if (menuItem.getItemId() == R.id.action_refresh) {
+                    onRefresh();
+                    return true;
+                }
+                return false;
+            }
+        }, getViewLifecycleOwner());
 
         RecyclerView recyclerView = view.findViewById(R.id.home_cards_view);
         recyclerView.setHasFixedSize(true);
@@ -160,23 +178,6 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         if (this.snackbar != null) {
             this.snackbar.dismiss();
         }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_refresh, menu);
-        requireBaseActivity(this).tintToolbarIcons(menu, R.id.action_refresh);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.action_refresh) {
-            onRefresh();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

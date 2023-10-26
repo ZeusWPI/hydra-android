@@ -39,6 +39,7 @@ public class FeedException extends RequestException {
         this.failedTypes = failedTypes;
     }
 
+    /** @noinspection unused*/
     public Set<Integer> getFailedTypes() {
         return failedTypes;
     }

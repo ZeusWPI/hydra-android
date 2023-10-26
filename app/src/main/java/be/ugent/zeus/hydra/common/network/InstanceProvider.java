@@ -60,6 +60,7 @@ public final class InstanceProvider {
 
     @VisibleForTesting
     public static OkHttpClient.Builder getBuilder(File cacheDir) {
+        //noinspection KotlinInternalInJava
         return new OkHttpClient.Builder().cache(new Cache(cacheDir, CACHE_SIZE));
     }
 

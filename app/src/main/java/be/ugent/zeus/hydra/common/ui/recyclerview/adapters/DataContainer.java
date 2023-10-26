@@ -84,8 +84,7 @@ public class DataContainer<D> {
      * @param update The update to apply.
      */
     @MainThread
-    public void submitUpdate(AdapterUpdate<D> update) {
-
+    void submitUpdate(AdapterUpdate<D> update) {
         int generation = ++maxScheduledGeneration;
 
         // Construct a unit of work for the update.
@@ -102,7 +101,7 @@ public class DataContainer<D> {
             // Schedule the update.
             backgroundExecutor.execute(work);
         } else {
-            // Just run execute the work if threading is not allowed.
+            // Just execute the work if threading is not allowed.
             work.run();
         }
     }

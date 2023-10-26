@@ -120,18 +120,13 @@ public class AssociationRequestBuilder {
     }
 
     @NonNull
-    public static Request<AssociationList> createRawAssociationRequest(@NonNull Context context) {
-        return new RawRequest(context);
-    }
-
-    @NonNull
     public static Request<List<Association>> createListRequest(@NonNull Context context) {
         return new RawRequest(context)
                 .map(AssociationList::getAssociations);
     }
 
     public static Request<Pair<AssociationMap, List<EventItem>>> createItemFilteredEventRequest(@NonNull Context context, EventFilter filter) {
-        return createRawAssociationRequest(context)
+        return new RawRequest(context)
                 .andThen((Function<AssociationList, Request<Pair<List<EventItem>, Set<String>>>>) data -> {
                     EventRequest.Filter newFilter = filter.toRequestFilter(context, data.getAssociations());
                     Set<String> requestedAssociations = newFilter.getRequestedAssociations();
@@ -144,7 +139,7 @@ public class AssociationRequestBuilder {
     }
 
     public static Request<Pair<AssociationMap, List<Event>>> createFilteredEventRequest(@NonNull Context context) {
-        return createRawAssociationRequest(context)
+        return new RawRequest(context)
                 .andThen((Function<AssociationList, Request<Pair<List<Event>, Set<String>>>>) data -> {
                     EventFilter eventFilter = new EventFilter();
                     EventRequest.Filter newFilter = eventFilter.toRequestFilter(context, data.getAssociations());

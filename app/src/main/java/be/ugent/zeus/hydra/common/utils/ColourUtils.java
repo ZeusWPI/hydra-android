@@ -47,6 +47,7 @@ public class ColourUtils {
     @ColorInt
     public static int resolveColour(Context context, @AttrRes int attribute) {
         int[] attrs = {attribute};
+        //noinspection resource
         @SuppressLint("ResourceType") // False positive I think.
         TypedArray ta = context.obtainStyledAttributes(attrs);
         try {

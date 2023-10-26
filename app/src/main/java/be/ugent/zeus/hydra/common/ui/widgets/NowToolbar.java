@@ -78,6 +78,8 @@ public class NowToolbar extends LinearLayout {
             return;
         }
 
+        // Cannot use try-with until min API = 31
+        //noinspection resource
         TypedArray a = getContext().getTheme().obtainStyledAttributes(set, R.styleable.NowToolbar, 0, 0);
 
         try {

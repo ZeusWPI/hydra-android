@@ -30,6 +30,7 @@ import java.util.Objects;
  */
 public final class EventPage {
 
+    /** @noinspection unused*/
     private List<Event> entries;
 
     public List<Event> getEntries() {

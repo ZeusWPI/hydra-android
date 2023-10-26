@@ -34,7 +34,7 @@ import be.ugent.zeus.hydra.common.utils.ViewUtils;
  *
  * @author Niko Strijbol
  */
-public class FoodAdapter extends DiffAdapter<Food, FoodViewHolder> {
+class FoodAdapter extends DiffAdapter<Food, FoodViewHolder> {
 
     @NonNull
     @Override

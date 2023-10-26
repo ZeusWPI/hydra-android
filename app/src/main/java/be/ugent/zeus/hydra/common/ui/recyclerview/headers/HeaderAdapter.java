@@ -56,15 +56,6 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
     private final int stringRes;
 
     /**
-     * @param text The string to display as header.
-     */
-    public HeaderAdapter(String text) {
-        this.rawString = text;
-        this.stringRes = -1;
-        setHasStableIds(true);
-    }
-
-    /**
      * @param string The string resource to display as header.
      */
     public HeaderAdapter(@StringRes int string) {
@@ -106,10 +97,10 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
         }
     }
 
-    static class HeaderViewHolder extends RecyclerView.ViewHolder {
+    public static class HeaderViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView;
 
-        public HeaderViewHolder(View v) {
+        HeaderViewHolder(View v) {
             super(v);
             textView = v.findViewById(R.id.header_text);
         }
@@ -171,7 +162,7 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
             }
         });
 
-        // Set initial state correctly.
+        // Set the initial state correctly.
         headerAdapter.setHidden(itemAdapter.getItemCount() == 0);
 
         return new ConcatAdapter(config, headerAdapter, itemAdapter);

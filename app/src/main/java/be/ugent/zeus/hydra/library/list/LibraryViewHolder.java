@@ -82,7 +82,7 @@ class LibraryViewHolder extends DataViewHolder<Pair<Library, Boolean>> implement
 
     @Override
     public void onChanged(@Nullable Result<Optional<OpeningHours>> result) {
-        if (result == null || !result.hasData() || !result.getData().isPresent()) {
+        if (result == null || !result.hasData() || result.getData().isEmpty()) {
             openingHours.setText(R.string.library_list_no_opening_hours);
         } else {
             OpeningHours hours = result.getData().get();

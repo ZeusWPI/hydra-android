@@ -32,7 +32,6 @@ import androidx.annotation.Nullable;
 import androidx.preference.PreferenceManager;
 
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
 
@@ -84,13 +83,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
 
     private static final String TAG = "HomeFeedLoader";
     // For which settings the loader must refresh.
-    private static final String[] watchedPreferences = {
-            HomeFeedFragment.PREF_DISABLED_CARD_TYPES,
-            AssociationVisibilityStorage.PREF_BLACKLIST,
-            RestoPreferenceFragment.PREF_RESTO_KEY,
-            RestoPreferenceFragment.PREF_RESTO_NAME,
-            HomeFeedFragment.PREF_DISABLED_CARD_HACK
-    };
+    private static final String[] watchedPreferences = {HomeFeedFragment.PREF_DISABLED_CARD_TYPES, AssociationVisibilityStorage.PREF_BLACKLIST, RestoPreferenceFragment.PREF_RESTO_KEY, RestoPreferenceFragment.PREF_RESTO_NAME, HomeFeedFragment.PREF_DISABLED_CARD_HACK};
     private final SharedPreferences.OnSharedPreferenceChangeListener restoListener = new RestoListener();
     private final Context applicationContext;
     private final Map<String, Object> oldPreferences = new HashMap<>();
@@ -100,10 +93,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
         loadData();
     }
 
-    private static List<Card> executeOperation(@Nullable Bundle args,
-                                               FeedOperation operation,
-                                               Collection<Integer> errors,
-                                               List<Card> results) {
+    private static List<Card> executeOperation(@Nullable Bundle args, FeedOperation operation, Collection<Integer> errors, List<Card> results) {
 
         Result<List<Card>> result = operation.transform(args, results);
 
@@ -176,48 +166,44 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
     @Override
     @SuppressLint("StaticFieldLeak")
     protected void loadData(@NonNull Bundle bundle) {
-        ThreadingUtils.executeWithProgress(new Consumer<Consumer<Result<List<Card>>>>() {
-            @Override
-            public void accept(Consumer<Result<List<Card>>> publishProgress) {
-                // Get the operations.
-                Log.d(TAG, "doInBackground: received load request with " + bundle);
-                Iterable<FeedOperation> operations = findOperations(scheduleOperations(), bundle);
+        ThreadingUtils.executeWithProgress(publishProgress -> {
+            // Get the operations.
+            Log.d(TAG, "doInBackground: received load request with " + bundle);
+            Iterable<FeedOperation> operations = findOperations(scheduleOperations(), bundle);
 
-                // Get existing value if needed.
-                Result<List<Card>> loaderResult = getValue();
-                //We initialize with a copy of the existing data; we do reset the errors.
-                List<Card> results;
+            // Get existing value if needed.
+            Result<List<Card>> loaderResult = getValue();
+            //We initialize with a copy of the existing data; we do reset the errors.
+            List<Card> results;
 
-                if (loaderResult == null) {
-                    results = Collections.emptyList();
-                } else {
-                    results = loaderResult.orElse(new ArrayList<>());
+            if (loaderResult == null) {
+                results = Collections.emptyList();
+            } else {
+                results = loaderResult.orElse(new ArrayList<>());
+            }
+
+            Set<Integer> errors = new HashSet<>();
+            Result<List<Card>> result = null;
+
+            for (FeedOperation operation : operations) {
+                results = executeOperation(bundle, operation, errors, results);
+
+                List<Card> finalResults = new ArrayList<>(results);
+                // Deliver intermediary results.
+                Log.d(TAG, "loadInBackground: Operation " + operation + " completed.");
+                Result.Builder<List<Card>> builder = new Result.Builder<List<Card>>().withData(finalResults);
+
+                if (!errors.isEmpty()) {
+                    builder.withError(new FeedException(errors));
                 }
 
-                Set<Integer> errors = new HashSet<>();
-                Result<List<Card>> result = null;
+                result = builder.buildPartial();
 
-                for (FeedOperation operation : operations) {
-                    results = executeOperation(bundle, operation, errors, results);
+                publishProgress.accept(result);
+            }
 
-                    List<Card> finalResults = new ArrayList<>(results);
-                    // Deliver intermediary results.
-                    Log.d(TAG, "loadInBackground: Operation " + operation + " completed.");
-                    Result.Builder<List<Card>> builder = new Result.Builder<List<Card>>()
-                            .withData(finalResults);
-
-                    if (!errors.isEmpty()) {
-                        builder.withError(new FeedException(errors));
-                    }
-
-                    result = builder.buildPartial();
-
-                    publishProgress.accept(result);
-                }
-
-                if (result != null) {
-                    publishProgress.accept(result.asCompleted());
-                }
+            if (result != null) {
+                publishProgress.accept(result.asCompleted());
             }
         }, this::setValue);
     }
@@ -232,11 +218,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
 
         FeedCollection operations = new FeedCollection();
         Context c = applicationContext;
-        Set<Integer> disabled = PreferenceManager.getDefaultSharedPreferences(c)
-                .getStringSet(HomeFeedFragment.PREF_DISABLED_CARD_TYPES, Collections.emptySet())
-                .stream()
-                .map(Integer::parseInt)
-                .collect(Collectors.toSet());
+        Set<Integer> disabled = PreferenceManager.getDefaultSharedPreferences(c).getStringSet(HomeFeedFragment.PREF_DISABLED_CARD_TYPES, Collections.emptySet()).stream().map(Integer::parseInt).collect(Collectors.toSet());
 
         // Don't do Urgent.fm if there is no network.
         if (!NetworkUtils.isConnected(c)) {

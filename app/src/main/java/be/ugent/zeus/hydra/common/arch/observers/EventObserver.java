@@ -36,7 +36,7 @@ import be.ugent.zeus.hydra.common.arch.data.Event;
 public abstract class EventObserver<D> implements Observer<Event<D>> {
 
     public static <D> EventObserver<D> with(Consumer<D> consumer) {
-        return new EventObserver<D>() {
+        return new EventObserver<>() {
             @Override
             protected void onUnhandled(D data) {
                 consumer.accept(data);

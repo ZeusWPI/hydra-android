@@ -45,7 +45,7 @@ import be.ugent.zeus.hydra.common.utils.ColourUtils;
 /**
  * Helper for activities that use custom tabs.
  * <p>
- * Taken from https://github.com/hitherejoe/Tabby
+ * Taken from <a href="https://github.com/hitherejoe/Tabby">Tabby</a>
  *
  * @author Niko Strijbol
  */

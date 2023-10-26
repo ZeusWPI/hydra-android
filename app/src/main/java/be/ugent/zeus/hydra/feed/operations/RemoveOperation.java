@@ -63,6 +63,7 @@ class RemoveOperation implements FeedOperation {
         return cardType;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "REMOVE -> Card Type " + cardType;

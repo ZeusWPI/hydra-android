@@ -22,17 +22,15 @@
 
 package be.ugent.zeus.hydra.common.ui.html;
 
-import android.annotation.SuppressLint;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.text.Html;
 import android.util.Log;
 import android.widget.TextView;
 
+import be.ugent.zeus.hydra.common.utils.ThreadingUtils;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -55,36 +53,25 @@ public class PicassoImageGetter implements Html.ImageGetter {
     @Override
     public Drawable getDrawable(final String source) {
         final DrawableWrapper result = new DrawableWrapper(new ColorDrawable());
-
-        // TODO: move out of async task?
-        @SuppressLint("StaticFieldLeak") // There is no leak
-        AsyncTask<Void, Void, Bitmap> t = new AsyncTask<Void, Void, Bitmap>() {
-            @Override
-            protected Bitmap doInBackground(final Void... meh) {
-                try {
-                    return Picasso.get().load(source).get();
-                } catch (Exception e) {
-                    return null;
-                }
+        ThreadingUtils.executeWithResult(() -> {
+            try {
+                return Picasso.get().load(source).get();
+            } catch (Exception e) {
+                return null;
             }
+        }, bitmap -> {
+            try {
+                final BitmapDrawable drawable = new BitmapDrawable(resources, bitmap);
+                drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+                result.setWrappedDrawable(drawable);
+                result.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+                result.invalidateSelf();
 
-            @Override
-            protected void onPostExecute(final Bitmap bitmap) {
-                try {
-                    final BitmapDrawable drawable = new BitmapDrawable(resources, bitmap);
-                    drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-                    result.setWrappedDrawable(drawable);
-                    result.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-                    result.invalidateSelf();
-
-                    view.setText(view.getText());
-                } catch (Exception e) {
-                    Log.w(TAG, "Error while setting image", e);
-                }
+                view.setText(view.getText());
+            } catch (Exception e) {
+                Log.w(TAG, "Error while setting image", e);
             }
-
-        };
-        t.execute();
+        });
 
         return result;
     }

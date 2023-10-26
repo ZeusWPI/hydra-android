@@ -32,8 +32,10 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuProvider;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -59,6 +61,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
+import org.jetbrains.annotations.NotNull;
 
 import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
 
@@ -83,12 +86,6 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
     private TextInputLayout startTime;
     private TextInputLayout endTime;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -98,6 +95,27 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        requireActivity().addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater menuInflater) {
+                menuInflater.inflate(R.menu.menu_main_events, menu);
+                requireBaseActivity(EventFragment.this).tintToolbarIcons(menu, R.id.action_refresh, R.id.action_search);
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull @NotNull MenuItem menuItem) {
+                int itemId = menuItem.getItemId();
+                if (itemId == R.id.action_refresh) {
+                    viewModel.onRefresh();
+                    return true;
+                } else if (itemId == R.id.action_search) {
+                    showSheet();
+                    return true;
+                }
+                return false;
+            }
+        }, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
 
         bottomSheet = requireActivity().findViewById(R.id.bottom_sheet);
         // Load the options.
@@ -219,26 +237,6 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
         Snackbar.make(requireView(), getString(R.string.error_network), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.action_again), v -> viewModel.onRefresh())
                 .show();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_main_events, menu);
-        requireBaseActivity(this).tintToolbarIcons(menu, R.id.action_refresh, R.id.action_search);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int itemId = item.getItemId();
-        if (itemId == R.id.action_refresh) {
-            viewModel.onRefresh();
-            return true;
-        } else if (itemId == R.id.action_search) {
-            showSheet();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

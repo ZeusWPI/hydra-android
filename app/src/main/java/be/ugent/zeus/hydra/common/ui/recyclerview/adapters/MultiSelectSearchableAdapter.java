@@ -80,7 +80,7 @@ public abstract class MultiSelectSearchableAdapter<D, VH extends DataViewHolder<
      * @param position The position.
      */
     public void setChecked(int position) {
-        dataContainer.submitUpdate(new AdapterUpdate<Pair<D, Boolean>>() {
+        dataContainer.submitUpdate(new AdapterUpdate<>() {
             @Override
             public List<Pair<D, Boolean>> getNewData(List<Pair<D, Boolean>> existingData) {
 
@@ -115,7 +115,7 @@ public abstract class MultiSelectSearchableAdapter<D, VH extends DataViewHolder<
      * @param checked The value.
      */
     public void setAllChecked(boolean checked) {
-        dataContainer.submitUpdate(new AdapterUpdate<Pair<D, Boolean>>() {
+        dataContainer.submitUpdate(new AdapterUpdate<>() {
             @Override
             @Nullable
             public List<Pair<D, Boolean>> getNewData(@Nullable List<Pair<D, Boolean>> existingData) {

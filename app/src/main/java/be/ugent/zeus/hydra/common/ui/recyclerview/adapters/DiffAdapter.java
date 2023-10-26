@@ -30,11 +30,11 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 
 /**
  * Generic adapter with support for calculating diffs on a background thread for data updates.
- *
+ * <p>
  * <h1>View types</h1>
  * By default, the adapter only supports one view type. Additional types must be implemented by the
  * subclasses.
- *
+ * <p>
  * <h1>Data updates</h1>
  * When calling {@link #submitData(List)}, a diff with the current data will be calculated on a background thread,
  * after which the changes will be dispatched to this adapter. This uses {@link androidx.recyclerview.widget.DiffUtil}

@@ -55,11 +55,13 @@ public class NetworkUtils {
         }
 
         if (Build.VERSION.SDK_INT < 29) {
-            NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+            //noinspection deprecation
+            var networkInfo = manager.getActiveNetworkInfo();
+            //noinspection deprecation
             return (networkInfo != null && networkInfo.isConnected());
         } else {
-            Network network = manager.getActiveNetwork();
-            NetworkCapabilities capabilities = manager.getNetworkCapabilities(network);
+            var network = manager.getActiveNetwork();
+            var capabilities = manager.getNetworkCapabilities(network);
             if (capabilities != null) {
                 return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
             } else {

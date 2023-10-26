@@ -45,16 +45,6 @@ public interface BaseEvents {
     String login();
 
     /**
-     * Search event. Apps that support search features can use this event to contextualize search operations by
-     * supplying the appropriate, corresponding parameters. This event can help you identify the most popular content in
-     * your app. Params:
-     * <ul>
-     * <li>{@link Params#searchTerm()}</li>
-     * </ul>
-     */
-    String search();
-
-    /**
      * Select Content event. This general purpose event signifies that a user has selected some content of a certain
      * type in an app. The content can be any object in your app. This event can help you identify popular content and
      * categories of content in your app. Params:
@@ -120,11 +110,6 @@ public interface BaseEvents {
          * login event (String).
          */
         String method();
-
-        /**
-         * The search string/keywords used (String).
-         */
-        String searchTerm();
 
         /**
          * Type of content selected (String).

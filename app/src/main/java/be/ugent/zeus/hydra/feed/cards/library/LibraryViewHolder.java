@@ -109,7 +109,7 @@ public class LibraryViewHolder extends CardViewHolder {
         }
         v.setLayoutParams(textParam);
 
-        if (!result.hasData() || !result.getData().isPresent()) {
+        if (!result.hasData() || result.getData().isEmpty()) {
             v.setText(R.string.library_list_no_opening_hours);
         } else {
             v.setText(context.getString(R.string.library_list_opening_hours_today, result.getData().get().getHours()));
