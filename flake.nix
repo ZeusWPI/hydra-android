@@ -19,13 +19,14 @@
           config.allowUnfree = true;
           config.android_sdk.accept_license = true;
         };
+        androidVersions = builtins.fromTOML (builtins.readFile ./android-versions.toml);
         androidComposition = pkgs.androidenv.composeAndroidPackages {
-            cmdLineToolsVersion = "12.0-rc15";
+            cmdLineToolsVersion = androidVersions.cmdLineToolsVersion;
             toolsVersion = null;
-            platformToolsVersion = "34.0.4";
-            buildToolsVersions = [ "34.0.0" ];
+            platformToolsVersion = androidVersions.platformToolsVersion;
+            buildToolsVersions = [ androidVersions.buildToolsVersions ];
             includeEmulator = false;
-            platformVersions = [ "34" ];
+            platformVersions = [ androidVersions.platformVersions ];
             # Enable once nixpkgs is fixed...
             includeSources = false;
             includeNDK = false;

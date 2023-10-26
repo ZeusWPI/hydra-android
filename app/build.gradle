@@ -27,12 +27,15 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 // Read our properties, see bottom for details.
 def props = loadProperties()
+def versions = loadAndroidVersions()
 
 android {
-    buildToolsVersion "34.0.0"
+    // We need this for Nix flakes
+    //noinspection GrDeprecatedAPIUsage
+    buildToolsVersion versions.buildToolsVersions
 
     defaultConfig {
-        compileSdk 34
+        compileSdk versions.platformVersions as Integer
 
         applicationId "be.ugent.zeus.hydra"
         minSdk 21
@@ -281,4 +284,20 @@ def loadProperties() {
     }
 
     return actualKeys
+}
+
+/**
+ * Loads the default properties, and the user properties. This will also load the
+ * secret keys.
+ */
+def loadAndroidVersions() {
+    def defaultProps = new Properties()
+    defaultProps.load(file("../android-versions.toml").newReader())
+    
+    def strippedProps = new Properties()
+    for (e in defaultProps) {
+        strippedProps.setProperty(e.key, e.value.replaceAll('"', ''))
+    }
+    
+    return strippedProps
 }
