@@ -27,6 +27,7 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ServiceInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.app.ServiceCompat;
 import androidx.core.content.ContextCompat;
 import androidx.media.MediaBrowserServiceCompat;
 import androidx.media.session.MediaButtonReceiver;
@@ -241,7 +243,14 @@ public class MusicService extends MediaBrowserServiceCompat implements
             ContextCompat.startForegroundService(getApplicationContext(), new Intent(getApplicationContext(), MusicService.class));
             mediaSession.setActive(true);
             Log.d(TAG, "onPlay: starting foreground service");
-            startForeground(MUSIC_SERVICE_ID, notification);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                // only for gingerbread and newer versions
+                ServiceCompat.startForeground(this, MUSIC_SERVICE_ID, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK);
+            } else {
+                // Last param is not used here.
+                ServiceCompat.startForeground(this, MUSIC_SERVICE_ID, notification, 0);
+            }
+            
             Reporting.getTracker(this).log(new MusicStartEvent());
             foreground = true;
         }
