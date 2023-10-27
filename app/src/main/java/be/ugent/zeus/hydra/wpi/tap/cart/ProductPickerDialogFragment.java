@@ -22,7 +22,6 @@
 
 package be.ugent.zeus.hydra.wpi.tap.cart;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;

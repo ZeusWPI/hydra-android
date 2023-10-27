@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.os.BundleCompat;
 import androidx.fragment.app.Fragment;
 
 import be.ugent.zeus.hydra.common.reporting.BaseEvents;
@@ -65,7 +66,7 @@ public class SingleDayFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        data = requireArguments().getParcelable(ARG_DATA_MENU);
+        data = BundleCompat.getParcelable(requireArguments(), ARG_DATA_MENU, RestoMenu.class);
     }
 
     @Override

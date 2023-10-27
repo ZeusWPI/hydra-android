@@ -25,10 +25,7 @@ package be.ugent.zeus.hydra.wpi.tap.product;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
-
-import org.w3c.dom.Text;
 
 import java.text.NumberFormat;
 import java.util.Currency;
@@ -43,7 +40,7 @@ import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
  *
  * @author Niko Strijbol
  */
-class ProductViewHolder extends DataViewHolder<Product> {
+public class ProductViewHolder extends DataViewHolder<Product> {
 
     private final ImageView thumbnail;
     private final TextView title;

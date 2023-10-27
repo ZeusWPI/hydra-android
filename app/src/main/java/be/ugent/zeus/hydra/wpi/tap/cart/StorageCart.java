@@ -33,7 +33,7 @@ import java.util.Objects;
  * 
  * @author Niko Strijbol
  */
-class StorageCart {
+public class StorageCart {
     
     private final List<Pair<Integer, Integer>> productIdsAndAmounts;
     private final OffsetDateTime lastEdited;

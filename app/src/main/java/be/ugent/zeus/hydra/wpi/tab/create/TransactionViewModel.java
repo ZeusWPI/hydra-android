@@ -24,7 +24,6 @@ package be.ugent.zeus.hydra.wpi.tab.create;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -47,7 +46,7 @@ import be.ugent.zeus.hydra.common.utils.ThreadingUtils;
  * 
  * @author Niko Strijbol
  */
-public class TransactionViewModel extends RequestViewModel<List<String>> {
+class TransactionViewModel extends RequestViewModel<List<String>> {
     
     private final MutableLiveData<NetworkState> networkState;
     private final MutableLiveData<Event<Result<Boolean>>> requestResult;

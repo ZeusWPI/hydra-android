@@ -26,7 +26,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import java.text.NumberFormat;
 import java.util.Currency;
@@ -45,7 +44,7 @@ import be.ugent.zeus.hydra.wpi.tap.product.Product;
  *
  * @author Niko Strijbol
  */
-class OrderViewHolder extends DataViewHolder<Order> {
+public class OrderViewHolder extends DataViewHolder<Order> {
 
     private final TextView orderDescription;
     private final TextView orderDate;

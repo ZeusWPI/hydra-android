@@ -40,7 +40,7 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
  * @author Niko Strijbol
  * @see TabRequestRequest#acceptableRequests(Context)
  */
-class AcceptableRequestsViewHolder extends DataViewHolder<TabRequest> {
+public class AcceptableRequestsViewHolder extends DataViewHolder<TabRequest> {
 
     private final TextView summary;
     private final TextView description;

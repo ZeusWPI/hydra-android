@@ -32,6 +32,7 @@ import android.os.Parcelable;
 import android.util.Log;
 import android.view.Window;
 import androidx.annotation.Nullable;
+import androidx.core.content.IntentCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import be.ugent.zeus.hydra.R;
@@ -80,9 +81,9 @@ public class NfcIntentReceiverActivity extends BaseActivity<ActivityWpiDoorDialo
             return;
         }
 
-        Parcelable[] rawMessages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+        Parcelable[] rawMessages = IntentCompat.getParcelableArrayExtra(intent, NfcAdapter.EXTRA_NDEF_MESSAGES, Parcelable.class);
         // We only expect one message, so we only listen for one message.
-        if (rawMessages.length != 1) {
+        if (rawMessages == null || rawMessages.length != 1) {
             return;
         }
 

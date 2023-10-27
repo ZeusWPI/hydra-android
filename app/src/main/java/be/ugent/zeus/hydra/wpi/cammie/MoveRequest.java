@@ -92,8 +92,9 @@ public class MoveRequest extends OkHttpRequest<String> {
                 .addQueryParameter("posY", String.valueOf(command.y))
                 .build();
 
-        Log.d(TAG, "execute: doing door request to: " + url.toString());
+        Log.d(TAG, "execute: doing door request to: " + url);
 
+        //noinspection KotlinInternalInJava
         Request request = new Request.Builder()
                 .url(url)
                 .get()

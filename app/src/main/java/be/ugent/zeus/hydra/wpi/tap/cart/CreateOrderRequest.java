@@ -24,7 +24,6 @@ package be.ugent.zeus.hydra.wpi.tap.cart;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.WorkerThread;
 

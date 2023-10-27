@@ -33,7 +33,7 @@ import com.squareup.moshi.Json;
  *
  * @author Niko Strijbol
  */
-class OrderResult {
+public class OrderResult {
     private Integer id;
     @Json(name = "user_id")
     private int userId;

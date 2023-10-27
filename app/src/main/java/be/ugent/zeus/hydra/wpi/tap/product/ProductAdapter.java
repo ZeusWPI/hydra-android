@@ -22,22 +22,15 @@
 
 package be.ugent.zeus.hydra.wpi.tap.product;
 
-import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
-import java.util.List;
 import java.util.Locale;
-import java.util.function.BiPredicate;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DiffAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.SearchableAdapter;
 import be.ugent.zeus.hydra.common.utils.ViewUtils;
-import be.ugent.zeus.hydra.news.NewsArticle;
 
 /**
  * @author Niko Strijbol

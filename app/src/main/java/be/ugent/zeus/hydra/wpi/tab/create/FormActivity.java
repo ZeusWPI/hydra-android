@@ -29,13 +29,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.os.BundleCompat;
 import androidx.lifecycle.ViewModelProvider;
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.R;
@@ -45,6 +46,7 @@ import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.SimpleTextWatcher;
 import be.ugent.zeus.hydra.databinding.ActivityWpiTabTransactionFormBinding;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 /**
  * Form where the user can create a new transaction.
@@ -65,14 +67,14 @@ public class FormActivity extends BaseActivity<ActivityWpiTabTransactionFormBind
         setContentView(ActivityWpiTabTransactionFormBinding::inflate);
 
         if (savedInstanceState != null && savedInstanceState.containsKey(KEY_FORM_OBJECT)) {
-            formObject = savedInstanceState.getParcelable(KEY_FORM_OBJECT);
+            formObject = BundleCompat.getParcelable(savedInstanceState, KEY_FORM_OBJECT, TransactionForm.class);
         } else {
             formObject = new TransactionForm();
         }
 
         TransactionViewModel model = new ViewModelProvider(this).get(TransactionViewModel.class);
 
-        ArrayAdapter<String> autocompleteAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line);
+        ArrayAdapter<String> autocompleteAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line);
         binding.formMember.setAdapter(autocompleteAdapter);
 
         model.getRequestResult().observe(this, EventObserver.with(booleanResult -> {

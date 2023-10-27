@@ -24,13 +24,12 @@ package be.ugent.zeus.hydra.wpi.tap.order;
 
 import androidx.annotation.Nullable;
 
-import com.squareup.moshi.Json;
-
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 
 import be.ugent.zeus.hydra.wpi.tap.product.Product;
+import com.squareup.moshi.Json;
 
 /**
  * Represents an order on Tap.

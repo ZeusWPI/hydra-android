@@ -27,7 +27,6 @@ import androidx.annotation.NonNull;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DiffAdapter;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.EqualsItemCallback;
 import be.ugent.zeus.hydra.common.utils.ViewUtils;
 
 /**

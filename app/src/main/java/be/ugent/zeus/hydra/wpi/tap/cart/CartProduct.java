@@ -23,28 +23,26 @@
 package be.ugent.zeus.hydra.wpi.tap.cart;
 
 import java.math.BigDecimal;
-import java.util.Locale;
 import java.util.Objects;
 
-import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.wpi.tap.product.Product;
 
 /**
  * Represents a product (or more than one) in the user's cart.
- * 
+ * <p> 
  * Various details about the product are also saved, but this is to reduce
- * the amount of network requests we need to make.
+ * the number of network requests we need to make.
  * 
  * @author Niko Strijbol
  */
-class CartProduct {
+public class CartProduct {
     private final int amount;
     private final int productId;
     private final String name;
     private final int price;
     private final String thumbnail;
     
-    public CartProduct(Product product, int amount) {
+    CartProduct(Product product, int amount) {
         this(amount, product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
     }
 

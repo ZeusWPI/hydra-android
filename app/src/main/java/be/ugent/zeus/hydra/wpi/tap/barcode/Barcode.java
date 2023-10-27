@@ -22,9 +22,9 @@
 
 package be.ugent.zeus.hydra.wpi.tap.barcode;
 
-import com.squareup.moshi.Json;
-
 import java.util.Objects;
+
+import com.squareup.moshi.Json;
 
 /**
  * A Tap barcode.

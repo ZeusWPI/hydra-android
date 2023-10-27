@@ -28,9 +28,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.Moshi;
-
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -39,6 +36,8 @@ import java.util.Objects;
 import be.ugent.zeus.hydra.common.network.InstanceProvider;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
 
 /**
  * Get an existing cart if there is one available.
@@ -63,11 +62,6 @@ class ExistingCartRequest implements Request<StorageCart> {
         p.edit()
                 .putString(PREF_CART_STORAGE, raw)
                 .apply();
-    }
-    
-    public static boolean hasExistingCart(@NonNull Context context) {
-        SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(context);
-        return p.contains(PREF_CART_STORAGE);
     }
 
     @NonNull

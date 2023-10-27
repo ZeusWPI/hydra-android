@@ -22,9 +22,6 @@
 
 package be.ugent.zeus.hydra.wpi.tap.cart;
 
-import static androidx.recyclerview.widget.RecyclerView.NO_POSITION;
-
-import android.util.Log;
 import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,6 +33,8 @@ import java.util.Currency;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
+
+import static androidx.recyclerview.widget.RecyclerView.NO_POSITION;
 
 /**
  * View holder for the products in the Tap cart.

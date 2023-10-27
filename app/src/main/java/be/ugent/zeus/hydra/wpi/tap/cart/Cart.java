@@ -48,7 +48,7 @@ import be.ugent.zeus.hydra.wpi.tap.product.Product;
  *
  * @author Niko Strijbol
  */
-class Cart {
+public class Cart {
     private static final String TAG = "Cart";
 
     private final List<CartProduct> orders;

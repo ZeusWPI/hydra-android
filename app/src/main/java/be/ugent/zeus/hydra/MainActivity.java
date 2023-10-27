@@ -74,13 +74,13 @@ import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireArguments;
  * <p>
  * The logic for handling the navigation drawer is not immediately obvious to those who do not work with it regularly.
  * Proceed with caution.
- *
+ * <p>
  * <h1>Navigation</h1>
  * <p>
  * One of the main responsibilities of this activity is managing navigation between the drawer, the fragments and the
  * fragments between each other. The navigation is built in two main components: navigation forward and navigating
  * backwards. Each component itself is not that difficult. Together the provide an intuitive navigation.
- *
+ * <p>
  * <h2>Forward navigation</h2>
  * <p>
  * When the user navigates to a new fragment in this activity, the back stack (of the {@link #getSupportFragmentManager()}
@@ -112,7 +112,7 @@ import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireArguments;
  * <p>
  * The third and last scenario is the easiest: nothing should be done when the activity is first started or recreated.
  * The fragments should not be added to the back stack.
- *
+ * <p>
  * <h2>Backwards navigation</h2>
  * <p>
  * The logic above makes the backwards navigation quite simple, and can be summarized as:
@@ -149,7 +149,7 @@ import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireArguments;
  * After this method call, the fragment can behave as if the arguments were directly set on the fragment itself.
  * <p>
  * This function will only be called when creating a fragment, not when popping from the back stack.
- *
+ * <p>
  * <h1>Common views and removal</h1>
  * <p>
  * The activity provides some common views:
@@ -172,7 +172,7 @@ import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireArguments;
  * <p>
  * The reason fragments cannot fully rely on the default lifecycle methods, such as {@link Fragment#onStop()}, is that
  * the fragment is not always removed immediately by the activity when it is hidden (this as to do with performance).
- *
+ * <p>
  * <h1>Arguments</h1>
  * <p>
  * The activity has one public argument: which child fragment to load. The preferred way of using it is

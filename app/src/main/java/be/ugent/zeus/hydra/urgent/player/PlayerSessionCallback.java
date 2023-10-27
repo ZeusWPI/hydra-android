@@ -24,6 +24,7 @@ package be.ugent.zeus.hydra.urgent.player;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
 import androidx.annotation.NonNull;
@@ -45,7 +46,7 @@ class PlayerSessionCallback extends MediaSessionCompat.Callback {
     private final Player player;
     private final BecomingNoisyReceiver receiver;
     private final PlayerSessionServiceCallback serviceCallback;
-    private final Handler handler = new Handler();
+    private final Handler handler = new Handler(Looper.getMainLooper());
 
     private Runnable nextUpdate;
 

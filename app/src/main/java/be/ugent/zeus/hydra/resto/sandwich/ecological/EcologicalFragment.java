@@ -24,7 +24,9 @@ package be.ugent.zeus.hydra.resto.sandwich.ecological;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -40,7 +42,7 @@ import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.utils.ColourUtils;
 import com.google.android.material.snackbar.Snackbar;
 
-import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
+import static be.ugent.zeus.hydra.common.utils.FragmentUtils.registerRefreshMenu;
 
 /**
  * Activity that shows a list of regular sandwiches.
@@ -53,27 +55,6 @@ public class EcologicalFragment extends Fragment {
 
     private final EcologicalAdapter adapter = new EcologicalAdapter();
     private EcologicalViewModel viewModel;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_refresh, menu);
-        requireBaseActivity(this).tintToolbarIcons(menu, R.id.action_refresh);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.action_refresh) {
-            viewModel.onRefresh();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Nullable
     @Override
@@ -99,6 +80,8 @@ public class EcologicalFragment extends Fragment {
         viewModel.getData().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
         viewModel.getRefreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
         swipeRefreshLayout.setOnRefreshListener(viewModel);
+
+        registerRefreshMenu(this, viewModel);
     }
 
     private void onError(Throwable throwable) {

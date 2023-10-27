@@ -43,6 +43,7 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.SpanItemSpacingDecoration;
 import be.ugent.zeus.hydra.common.utils.ColourUtils;
 import com.google.android.material.snackbar.Snackbar;
 
+import static be.ugent.zeus.hydra.common.utils.FragmentUtils.registerRefreshMenu;
 import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
 
 /**
@@ -68,7 +69,6 @@ public class SchamperFragment extends Fragment {
         super.onCreate(savedInstanceState);
         helper = CustomTabsHelper.initHelper(getActivity(), null);
         helper.setShareMenu();
-        setHasOptionsMenu(true);
     }
 
     @Override
@@ -90,25 +90,8 @@ public class SchamperFragment extends Fragment {
         viewModel.getData().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
         viewModel.getRefreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
         swipeRefreshLayout.setOnRefreshListener(viewModel);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_refresh, menu);
-        BaseActivity<?> activity = requireBaseActivity(this);
-        activity.tintToolbarIcons(menu, R.id.action_refresh);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.action_refresh) {
-            viewModel.onRefresh();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        
+        registerRefreshMenu(this, viewModel);
     }
 
     private void onError(Throwable throwable) {

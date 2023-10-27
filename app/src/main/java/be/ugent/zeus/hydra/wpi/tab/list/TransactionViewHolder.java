@@ -39,7 +39,7 @@ import be.ugent.zeus.hydra.wpi.account.AccountManager;
  *
  * @author Niko Strijbol
  */
-class TransactionViewHolder extends DataViewHolder<Transaction> {
+public class TransactionViewHolder extends DataViewHolder<Transaction> {
 
     private final ImageView thumbnail;
     private final TextView title;

@@ -66,6 +66,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
 
+import static be.ugent.zeus.hydra.common.utils.FragmentUtils.registerMenuProvider;
 import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
 
 /**
@@ -107,12 +108,6 @@ public class RestoFragment extends Fragment implements
     @Nullable
     private LocalDate startDate;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -138,6 +133,32 @@ public class RestoFragment extends Fragment implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "receiveResto: on view created");
+
+        registerMenuProvider(this, R.menu.menu_resto, new int[]{R.id.action_history}, menuItem -> {
+            int itemId = menuItem.getItemId();
+            if (itemId == R.id.action_refresh) {
+                Toast toast = Toast.makeText(requireContext(), R.string.resto_extra_refresh_started, Toast.LENGTH_SHORT);
+                toast.show();
+                metaViewModel.onRefresh();
+                menuViewModel.onRefresh();
+                return true;
+            } else if (itemId == R.id.resto_show_website) {
+                NetworkUtils.maybeLaunchBrowser(requireContext(), URL);
+                return true;
+            } else if (itemId == R.id.action_history) {
+                startActivity(new Intent(requireContext(), HistoryActivity.class));
+                return true;
+            } else if (itemId == R.id.resto_order_online) {
+                String url = ORDER_URL + requireContext().getString(R.string.value_info_endpoint);
+                NetworkUtils.maybeLaunchBrowser(requireContext(), url);
+                return true;
+            } else if (itemId == R.id.resto_show_allergens) {
+                menuItem.setChecked(!menuItem.isChecked());
+                pageAdapter.setShowAllergens(menuItem.isChecked());
+                return true;
+            }
+            return false;
+        });
 
         requireBaseActivity(this).requireToolbar().setDisplayShowTitleEnabled(false);
         exposedDropdown = requireActivity().findViewById(R.id.exposed_dropdown);
@@ -196,7 +217,7 @@ public class RestoFragment extends Fragment implements
     private void receiveResto(@NonNull List<RestoChoice> restos) {
         SelectedResto selectedResto = new SelectedResto(requireContext());
         selectedResto.setData(restos);
-        
+
         // Set the things.
         List<SelectedResto.Wrapper> wrappers = selectedResto.getAsWrappers();
         ArrayAdapter<SelectedResto.Wrapper> items = new ArrayAdapter<>(requireBaseActivity(this).requireToolbar().getThemedContext(), R.layout.x_simple_spinner_dropdown_item);
@@ -247,39 +268,6 @@ public class RestoFragment extends Fragment implements
                 }
             }
         }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_resto, menu);
-        requireBaseActivity(this).tintToolbarIcons(menu, R.id.action_history);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int itemId = item.getItemId();
-        if (itemId == R.id.action_refresh) {
-            Toast toast = Toast.makeText(requireContext(), R.string.resto_extra_refresh_started, Toast.LENGTH_SHORT);
-            toast.show();
-            metaViewModel.onRefresh();
-            menuViewModel.onRefresh();
-            return true;
-        } else if (itemId == R.id.resto_show_website) {
-            NetworkUtils.maybeLaunchBrowser(requireContext(), URL);
-            return true;
-        } else if (itemId == R.id.action_history) {
-            startActivity(new Intent(requireContext(), HistoryActivity.class));
-            return true;
-        } else if (itemId == R.id.resto_order_online) {
-            String url = ORDER_URL + requireContext().getString(R.string.value_info_endpoint);
-            NetworkUtils.maybeLaunchBrowser(requireContext(), url);
-            return true;
-        } else if (itemId == R.id.resto_show_allergens) {
-            item.setChecked(!item.isChecked());
-            pageAdapter.setShowAllergens(item.isChecked());
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     public void onRestoSelected(@NonNull AdapterView<?> parent, View view, int position, long id) {
@@ -362,7 +350,7 @@ public class RestoFragment extends Fragment implements
 
     private void hideExternalViews() {
         bottomNavigation.setVisibility(View.GONE);
-        bottomNavigation.setOnNavigationItemSelectedListener(null);
+        bottomNavigation.setOnItemSelectedListener(null);
         exposedDropdownWrapper.setVisibility(View.GONE);
         requireBaseActivity(this).requireToolbar().setDisplayShowTitleEnabled(true);
         exposedDropdownProgress.setVisibility(View.GONE);

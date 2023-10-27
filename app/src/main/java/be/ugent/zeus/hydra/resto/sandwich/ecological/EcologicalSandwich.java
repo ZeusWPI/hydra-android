@@ -24,6 +24,7 @@ package be.ugent.zeus.hydra.resto.sandwich.ecological;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import androidx.annotation.NonNull;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -105,6 +106,7 @@ public final class EcologicalSandwich implements Parcelable {
         return Objects.hash(name, ingredients, start, end, vegan);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return name;

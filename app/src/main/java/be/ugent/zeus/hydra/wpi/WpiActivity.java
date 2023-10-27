@@ -27,6 +27,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.*;
@@ -145,7 +146,7 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
             // is much faster than the actual lock.
             // In the other case, just do it.
             if (enabled && (!binding.doorOpen.isEnabled() || !binding.doorClose.isEnabled())) {
-                new Handler().postDelayed(() -> {
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
                     binding.doorOpen.setEnabled(true);
                     binding.doorClose.setEnabled(true);
                 }, 3000);

@@ -24,10 +24,7 @@ package be.ugent.zeus.hydra.wpi.account;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Pair;
 import androidx.annotation.NonNull;
-
-import java.util.function.Function;
 
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;

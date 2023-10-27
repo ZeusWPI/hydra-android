@@ -23,7 +23,6 @@
 package be.ugent.zeus.hydra.wpi.tap.cart;
 
 import android.app.Application;
-import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.*;
 

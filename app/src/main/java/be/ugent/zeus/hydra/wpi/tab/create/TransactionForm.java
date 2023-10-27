@@ -118,7 +118,7 @@ class TransactionForm implements Parcelable {
         this.description = in.readString();
     }
 
-    public static final Parcelable.Creator<TransactionForm> CREATOR = new Parcelable.Creator<TransactionForm>() {
+    public static final Parcelable.Creator<TransactionForm> CREATOR = new Parcelable.Creator<>() {
         @Override
         public TransactionForm createFromParcel(Parcel source) {
             return new TransactionForm(source);

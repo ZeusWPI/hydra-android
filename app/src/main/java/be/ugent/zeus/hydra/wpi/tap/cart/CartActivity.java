@@ -236,7 +236,7 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
             new MaterialAlertDialogBuilder(CartActivity.this)
                 .setMessage(getString(R.string.wpi_tap_product_not_found, barcode))
                 .setPositiveButton(R.string.action_share, (dialog, which) -> startActivity(shareIntent))
-                .setNegativeButton(android.R.string.no, null)
+                .setNegativeButton(android.R.string.cancel, null)
                 .show();
             return;
         }
