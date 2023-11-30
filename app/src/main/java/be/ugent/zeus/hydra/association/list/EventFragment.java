@@ -28,6 +28,7 @@ import android.view.*;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -68,7 +69,7 @@ import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity
  * @author ellen
  * @author Niko Strijbol
  */
-public class EventFragment extends Fragment implements MainActivity.ScheduledRemovalListener, MainActivity.OnBackPressed {
+public class EventFragment extends Fragment implements MainActivity.ScheduledRemovalListener {
 
     private static final String TAG = "EventFragment";
 
@@ -194,6 +195,30 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
                 .setOnClickListener(v -> viewModel.onRefresh());
         view.<Button>findViewById(R.id.events_no_data_button_filters)
                 .setOnClickListener(v -> showSheet());
+
+        var callback = new OnBackPressedCallback(false) {
+            @Override
+            public void handleOnBackPressed() {
+                hideSheet();
+            }
+        };
+        var behavior = BottomSheetBehavior.from(bottomSheet);
+        behavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull @NotNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN || newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    callback.setEnabled(false);
+                } else if (newState == BottomSheetBehavior.STATE_EXPANDED || newState == BottomSheetBehavior.STATE_HALF_EXPANDED) {
+                    callback.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull @NotNull View bottomSheet, float slideOffset) {
+                // Do nothing.
+            }
+        });
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
     }
 
     private void setupBottomSheet() {
@@ -261,15 +286,5 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
 
     private void showSheet() {
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-    }
-
-    @Override
-    public boolean onBackPressed() {
-        if (behavior.getState() != BottomSheetBehavior.STATE_HIDDEN) {
-            Log.d(TAG, "onBackPressed: hiding sheet");
-            hideSheet();
-            return true;
-        }
-        return false;
     }
 }
