@@ -84,7 +84,7 @@ public class FragmentUtils {
     }
 
     public static void registerRefreshMenu(@NonNull Fragment fragment, @NonNull RefreshViewModel viewModel) {
-        registerMenuProvider(fragment, R.menu.menu_resto, new int[]{R.id.action_refresh}, menuItem -> {
+        registerMenuProvider(fragment, R.menu.menu_refresh, new int[]{R.id.action_refresh}, menuItem -> {
             if (menuItem.getItemId() == R.id.action_refresh) {
                 viewModel.onRefresh();
                 return true;
