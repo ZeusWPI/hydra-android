@@ -54,12 +54,12 @@ public class BarcodeRequest extends JsonArrayRequest<Barcode> {
     
     @NonNull
     @Override
-    protected String getAPIUrl() {
+    protected String apiUrl() {
         return Endpoints.TAP + "barcodes";
     }
 
     @Override
-    protected Duration getCacheDuration() {
+    protected Duration cacheDuration() {
         return Duration.ofDays(1);
     }
 }

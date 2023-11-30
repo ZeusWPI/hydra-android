@@ -59,7 +59,7 @@ class DismissalEvent implements Event {
 
     @Nullable
     @Override
-    public Bundle getParams() {
+    public Bundle params() {
         Bundle bundle = new Bundle();
         BaseEvents.Params names = Reporting.getEvents().params();
         bundle.putString(names.dismissalType(), this.dismissalType);
@@ -70,7 +70,7 @@ class DismissalEvent implements Event {
 
     @Nullable
     @Override
-    public String getEventName() {
+    public String eventName() {
         return Reporting.getEvents().cardDismissal();
     }
 }

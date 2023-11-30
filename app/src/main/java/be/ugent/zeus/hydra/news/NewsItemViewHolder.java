@@ -56,24 +56,24 @@ class NewsItemViewHolder extends DataViewHolder<NewsArticle> {
 
     @Override
     public void populate(final NewsArticle newsItem) {
-        title.setText(newsItem.getTitle());
+        title.setText(newsItem.title());
 
         CharSequence dateString;
-        if (newsItem.getPublished().toLocalDate().isEqual(newsItem.getUpdated().toLocalDate())) {
-            dateString = DateUtils.relativeDateTimeString(newsItem.getPublished(), itemView.getContext());
+        if (newsItem.published().toLocalDate().isEqual(newsItem.updated().toLocalDate())) {
+            dateString = DateUtils.relativeDateTimeString(newsItem.published(), itemView.getContext());
         } else {
             dateString = itemView.getContext().getString(R.string.article_date_changed,
-                    DateUtils.relativeDateTimeString(newsItem.getPublished(), itemView.getContext(), true),
-                    DateUtils.relativeDateTimeString(newsItem.getUpdated(), itemView.getContext(), true)
+                    DateUtils.relativeDateTimeString(newsItem.published(), itemView.getContext(), true),
+                    DateUtils.relativeDateTimeString(newsItem.updated(), itemView.getContext(), true)
             );
         }
 
         info.setText(dateString);
 
-        if (TextUtils.isEmpty(newsItem.getSummary())) {
-            excerpt.setText(Utils.fromHtml(newsItem.getContent()).toString().trim());
+        if (TextUtils.isEmpty(newsItem.summary())) {
+            excerpt.setText(Utils.fromHtml(newsItem.content()).toString().trim());
         } else {
-            excerpt.setText(newsItem.getSummary());
+            excerpt.setText(newsItem.summary());
         }
 
         itemView.setOnClickListener(v -> ArticleViewer.viewArticle(v.getContext(), newsItem, helper));

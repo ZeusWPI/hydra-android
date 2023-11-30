@@ -22,35 +22,10 @@
 
 package be.ugent.zeus.hydra.wpi.tab.create;
 
-import java.util.Objects;
-
 /**
  * Member on Tab.
  *
  * @author Charlotte Van Petegem
  */
-public class Member {
-    private int id;
-    private String name;
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Member that = (Member) o;
-        return id == that.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
+public record Member(int id, String name) {
 }

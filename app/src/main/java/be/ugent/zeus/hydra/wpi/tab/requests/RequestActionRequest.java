@@ -71,7 +71,7 @@ public class RequestActionRequest extends OkHttpRequest<Boolean> {
                 .addHeader("Accept", "application/json")
                 .addHeader("Content-Type", json.toString())
                 .addHeader("Authorization", "Bearer " + AccountManager.getTabKey(context))
-                .url(Endpoints.TAB + "requests/" + this.request.getId() + "/" + this.action)
+                .url(Endpoints.TAB + "requests/" + this.request.id() + "/" + this.action)
                 .post(okhttp3.RequestBody.create("", null))
                 .build();
 

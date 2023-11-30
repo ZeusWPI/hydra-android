@@ -103,10 +103,10 @@ public class LibraryListFragment extends Fragment {
         adapter = new LibraryListAdapter(viewModel);
         recyclerView.setAdapter(adapter);
 
-        viewModel.getData().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
-        viewModel.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
-        viewModel.getData().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
-        viewModel.getRefreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
+        viewModel.data().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
+        viewModel.data().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
+        viewModel.data().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
+        viewModel.refreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
         swipeRefreshLayout.setOnRefreshListener(viewModel);
     }
 

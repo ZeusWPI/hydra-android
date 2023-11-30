@@ -66,7 +66,7 @@ public class DisableIndividualCardTest {
 
         List<CardDismissal> dismissals = repository.getForType(Card.Type.DEBUG);
         assertEquals(1, dismissals.size());
-        assertEquals(identifier.getIdentifier(), dismissals.get(0).getIdentifier().getIdentifier());
+        assertEquals(identifier.getIdentifier(), dismissals.get(0).identifier().getIdentifier());
 
         disableIndividualCard.undo(context);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2023 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,24 +20,36 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.feed.specialevent;
+package be.ugent.zeus.hydra.wpi.tap;
 
-import be.ugent.zeus.hydra.specialevent.SpecialEvent;
-import be.ugent.zeus.hydra.testing.Utils;
-import nl.jqno.equalsverifier.Warning;
-import org.junit.Test;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import java.util.Locale;
+
+import be.ugent.zeus.hydra.common.network.Endpoints;
 
 /**
+ * Product from Tab
+ *
  * @author Niko Strijbol
  */
-public class SpecialEventTest {
+public class TapUtils {
 
-    @Test
-    public void equalsAndHash() {
-        Utils.defaultVerifier(SpecialEvent.class)
-                .withIgnoredFields("development")
-                .suppress(Warning.NONFINAL_FIELDS)
-                .verify();
+    private TapUtils() {
+        // No.
     }
 
+    @Nullable
+    public static String createImageUrl(int id, @NonNull String urlTemplate, @Nullable String filename) {
+        if (filename == null) {
+            return null;
+        }
+        String paddedID = String.format(Locale.ROOT, "%09d", id);
+        String first = paddedID.substring(0, 3);
+        String second = paddedID.substring(3, 6);
+        String third = paddedID.substring(6, 9);
+
+        return Endpoints.TAP + String.format(Locale.ROOT, urlTemplate, first, second, third, filename);
+    }
 }

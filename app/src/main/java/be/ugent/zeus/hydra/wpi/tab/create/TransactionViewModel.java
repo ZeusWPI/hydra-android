@@ -40,7 +40,7 @@ import be.ugent.zeus.hydra.common.utils.ThreadingUtils;
 
 /**
  * Responsible for managing requests to create transactions.
- * 
+ * <p> 
  * There are a set of methods that return LiveData. Those should be
  * listened to to get the results.
  * 
@@ -77,12 +77,12 @@ class TransactionViewModel extends RequestViewModel<List<String>> {
 
     @NonNull
     @Override
-    protected Request<List<String>> getRequest() {
+    protected Request<List<String>> request() {
         return new MemberRequest(getApplication())
             .map(members -> members
                  .stream()
-                 .sorted(Comparator.comparing(Member::getName))
-                 .map(Member::getName)
+                 .sorted(Comparator.comparing(Member::name))
+                 .map(Member::name)
                  .collect(Collectors.toList()));
     }
 }

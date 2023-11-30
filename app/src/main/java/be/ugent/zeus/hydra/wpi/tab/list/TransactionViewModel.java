@@ -43,11 +43,11 @@ public class TransactionViewModel extends RequestViewModel<List<Transaction>> {
 
     @NonNull
     @Override
-    protected Request<List<Transaction>> getRequest() {
+    protected Request<List<Transaction>> request() {
         return new TransactionRequest(getApplication())
                 .map(transactions -> transactions
                         .stream()
-                        .sorted(Comparator.comparing(Transaction::getTime).reversed())
+                        .sorted(Comparator.comparing(Transaction::time).reversed())
                         .collect(Collectors.toList()));
     }
 }

@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.association.common;
+package be.ugent.zeus.hydra.association;
 
 import android.content.Context;
 import android.net.Uri;
@@ -33,8 +33,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
 
-import be.ugent.zeus.hydra.association.event.Event;
-import be.ugent.zeus.hydra.association.event.EventList;
 import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
 import be.ugent.zeus.hydra.common.request.Request;
@@ -85,25 +83,19 @@ class EventRequest extends JsonOkHttpRequest<EventList> {
 
     private final Filter filter;
 
-    public EventRequest(Context context, Filter filter) {
+    private EventRequest(Context context, Filter filter) {
         super(context, EventList.class);
         this.filter = filter;
     }
     
-    public static Request<List<EventItem>> createItemRequest(Context context, Filter filter) {
+    public static Request<List<Event>> eventRequest(Context context, Filter filter) {
         return new EventRequest(context, filter)
-                .map(e -> e.getPage().getEntries())
-                .map(new EventListConverter());
-    }
-    
-    public static Request<List<Event>> createRequest(Context context, Filter filter) {
-        return new EventRequest(context, filter)
-                .map(e -> e.getPage().getEntries());
+                .map(e -> e.page().entries());
     }
 
     @NonNull
     @Override
-    protected String getAPIUrl() {
+    protected String apiUrl() {
         Uri.Builder uri = Uri.parse(Endpoints.DSA_V4 + FILENAME).buildUpon();
         
         for (String association : filter.requestedAssociations) {
@@ -125,12 +117,12 @@ class EventRequest extends JsonOkHttpRequest<EventList> {
         }
         
         String t = uri.appendQueryParameter("page_size", "50").build().toString();
-        Log.d("TAG", "getAPIUrl: " + t);
+        Log.d("TAG", "apiUrl: " + t);
         return t;
     }
 
     @Override
-    public Duration getCacheDuration() {
+    public Duration cacheDuration() {
         return Duration.ofHours(1);
     }
 }

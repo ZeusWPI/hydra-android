@@ -44,12 +44,12 @@ public class MetaRequest extends JsonOkHttpRequest<RestoMeta> {
 
     @NonNull
     @Override
-    protected String getAPIUrl() {
+    protected String apiUrl() {
         return Endpoints.ZEUS_V2 + "resto/meta.json";
     }
 
     @Override
-    public Duration getCacheDuration() {
+    public Duration cacheDuration() {
         return ChronoUnit.MONTHS.getDuration();
     }
 }

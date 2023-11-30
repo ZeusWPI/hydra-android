@@ -70,7 +70,7 @@ class MenuPagerAdapter extends FragmentStateAdapter {
 
     @Nullable
     LocalDate getTabDate(int position) {
-        return position == 0 ? null : data.get(position - 1).getDate();
+        return position == 0 ? null : data.get(position - 1).date();
     }
 
     @NonNull

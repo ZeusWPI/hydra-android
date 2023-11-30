@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.association.common;
+package be.ugent.zeus.hydra.association;
 
 import android.content.Context;
 import android.util.Pair;
@@ -32,8 +32,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
-
-import be.ugent.zeus.hydra.association.Association;
 
 /**
  * Search filter for event requests.
@@ -49,15 +47,15 @@ public class EventFilter {
     public EventFilter() {
     }
 
-    public OffsetDateTime getAfter() {
+    public OffsetDateTime after() {
         return after;
     }
 
-    public OffsetDateTime getBefore() {
+    public OffsetDateTime before() {
         return before;
     }
 
-    public String getTerm() {
+    public String term() {
         return term;
     }
     
@@ -83,22 +81,22 @@ public class EventFilter {
             this.filter = getValue();
         }
 
-        public void setAfter(OffsetDateTime after) {
+        public void after(OffsetDateTime after) {
             this.filter.after = after;
             setValue(filter);
         }
 
-        public void setBefore(OffsetDateTime before) {
+        public void before(OffsetDateTime before) {
             this.filter.before = before;
             setValue(filter);
         }
 
-        public void setSelectedAssociations(List<Pair<Association, Boolean>> selectedAssociations) {
+        public void selectedAssociations(List<Pair<Association, Boolean>> selectedAssociations) {
             this.filter.selectedAssociations = selectedAssociations;
             setValue(filter);
         }
 
-        public void setTerm(String term) {
+        public void term(String term) {
             this.filter.term = term;
             setValue(filter);
         }
@@ -107,6 +105,6 @@ public class EventFilter {
     public static Comparator<Pair<Association, Boolean>> selectionComparator() {
         return Comparator.comparing((Function<Pair<Association, Boolean>, Boolean>) p -> p.second)
                 .reversed()
-                .thenComparing(p -> p.first.getAbbreviation());
+                .thenComparing(p -> p.first.abbreviation());
     }
 }

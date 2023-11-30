@@ -53,7 +53,7 @@ public class FeedViewModel extends SingleRefreshViewModel<List<Card>> {
         return new FeedLiveData(getApplication());
     }
 
-    LiveData<Event<CommandResult>> getCommandLiveData() {
+    LiveData<Event<CommandResult>> commandLiveData() {
         if (commandLiveData == null) {
             commandLiveData = new MutableLiveData<>();
         }

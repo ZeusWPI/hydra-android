@@ -69,7 +69,7 @@ public class FavouriteDaoTest {
     public InstantTaskExecutorRule executorRule = new InstantTaskExecutorRule();
 
     private Database database;
-    private FavouritesRepository favouritesDao;
+    private FavouriteRepository favouritesDao;
     private List<Pair<Library, Boolean>> libraries;
 
     @Before
@@ -79,7 +79,7 @@ public class FavouriteDaoTest {
                 .allowMainThreadQueries()
                 .build();
         fillData();
-        favouritesDao = database.getFavouritesRepository();
+        favouritesDao = database.getFavouriteRepository();
     }
 
     @After
@@ -90,12 +90,11 @@ public class FavouriteDaoTest {
 
     private void fillData() throws IOException {
         libraries = new ArrayList<>();
-        List<Library> rawData = generate(Library.class, 5, "code", "name")
-                .collect(Collectors.toList());
+        var rawData = generate(Library.class, 5).toList();
         for (int i = 0; i < rawData.size(); i++) {
-            Library library = rawData.get(i);
-            library.setCode("test" + i);
-            library.setTestName("Lib" + i);
+            Library library = rawData.get(i)
+                    .withCode("test" + i)
+                    .withName("Lib" + i);
             libraries.add(Pair.create(library, true));
         }
 
@@ -110,25 +109,23 @@ public class FavouriteDaoTest {
     public void shouldDelete_WhenDeleting() {
         Library deletable = getRandom(libraries).first;
         favouritesDao.delete(deletable);
-        assertFalse(favouritesDao.getFavouriteIds().contains(deletable.getCode()));
+        assertFalse(favouritesDao.getFavouriteIds().contains(deletable.code()));
     }
 
     @Test
     public void shouldInsert_WhenInsertingNew() {
         Library library = generate(Library.class);
-        library.setTestName("New");
-        library.setCode("new1");
         favouritesDao.insert(library);
 
-        assertTrue(favouritesDao.getFavouriteIds().contains(library.getCode()));
+        assertTrue(favouritesDao.getFavouriteIds().contains(library.code()));
     }
 
     @Test
     public void shouldOverwrite_WhenInsertingExisting() {
         Library library = getRandom(libraries).first;
-        String old = library.getName();
-        library.setTestName("New2");
-        favouritesDao.insert(library);
+        String old = library.name();
+        var newLib = library.withName("New2");
+        favouritesDao.insert(newLib);
 
         assertFalse(favouritesDao.getAll().stream()
                 .map(LibraryFavourite::getName).collect(Collectors.toList()).contains(old));

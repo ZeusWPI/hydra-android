@@ -67,7 +67,7 @@ public class ExtendedSparseArray<E> extends SparseArray<E> implements Iterable<E
      *
      * @return The list of keys used by this array.
      */
-    public List<Integer> getKeys() {
+    public List<Integer> keys() {
         List<Integer> keys = new ArrayList<>(size());
         for (int i = 0; i < size(); i++) {
             keys.add(keyAt(i));

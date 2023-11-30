@@ -67,7 +67,7 @@ public class DayRequest extends JsonOkHttpRequest<RestoMenu> {
 
     @NonNull
     @Override
-    protected String getAPIUrl() {
+    protected String apiUrl() {
         if (date == null) {
             throw new IllegalStateException("The date MUST be set before using the request.");
         }
@@ -75,6 +75,6 @@ public class DayRequest extends JsonOkHttpRequest<RestoMenu> {
             throw new IllegalStateException("The resto choice MUST be set before using the request.");
         }
 
-        return String.format(Locale.ROOT, OVERVIEW_URL, choice.getEndpoint(), date.getYear(), date.getMonthValue(), date.getDayOfMonth());
+        return String.format(Locale.ROOT, OVERVIEW_URL, choice.endpoint(), date.getYear(), date.getMonthValue(), date.getDayOfMonth());
     }
 }

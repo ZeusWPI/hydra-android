@@ -56,9 +56,9 @@ class RegularHolder extends DataViewHolder<RegularSandwich> {
     @Override
     public void populate(RegularSandwich sandwich) {
         Context c = itemView.getContext();
-        name.setText(sandwich.getName());
-        mediumPrice.setText(String.format(c.getString(R.string.resto_sandwich_price_medium), sandwich.getPriceMedium()));
-        String ingredientsString = StringUtils.formatList(sandwich.getIngredients());
+        name.setText(sandwich.name());
+        mediumPrice.setText(String.format(c.getString(R.string.resto_sandwich_price_medium), sandwich.priceMedium()));
+        String ingredientsString = StringUtils.formatList(sandwich.ingredients());
         String ingredientSentence = StringUtils.capitaliseFirst(ingredientsString) + ".";
         ingredients.setText(ingredientSentence);
         expandableLayout.setExpanded(adapter.isChecked(getBindingAdapterPosition()), false);

@@ -43,7 +43,7 @@ public abstract class SingleRefreshViewModel<D> extends RefreshViewModel {
     }
 
     /**
-     * Internal get that exposes more implementation details than {@link #getData()}.
+     * Internal get that exposes more implementation details than {@link #data()}.
      *
      * @return The live data.
      */
@@ -57,13 +57,13 @@ public abstract class SingleRefreshViewModel<D> extends RefreshViewModel {
     /**
      * @return The actual data.
      */
-    public LiveData<Result<D>> getData() {
+    public LiveData<Result<D>> data() {
         return internalGet();
     }
 
     /**
      * Provide (and construct) a fresh instance of the data. The parent class manages access. Other classes should
-     * obtain the data by calling {@link #getData()}.
+     * obtain the data by calling {@link #data()}.
      *
      * @return The data.
      */

@@ -55,7 +55,7 @@ public class HomeFragment extends PreferenceFragment {
     private DeleteViewModel viewModel;
 
     @MenuTable.DisplayKind
-    public static int getFeedRestoKind(Context context) {
+    public static int feedRestoKind(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         return pref.getInt(PREF_RESTO_KINDS, PREF_RESTO_KINDS_DEFAULT);
     }
@@ -86,7 +86,7 @@ public class HomeFragment extends PreferenceFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(DeleteViewModel.class);
-        viewModel.getLiveData().observe(getViewLifecycleOwner(), new EventObserver<>() {
+        viewModel.liveData().observe(getViewLifecycleOwner(), new EventObserver<>() {
             @Override
             protected void onUnhandled(Context data) {
                 Toast.makeText(data, R.string.feed_pref_hidden_cleared, Toast.LENGTH_SHORT).show();

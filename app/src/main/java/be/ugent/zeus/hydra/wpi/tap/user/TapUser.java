@@ -26,79 +26,27 @@ import androidx.annotation.Nullable;
 
 import com.squareup.moshi.Json;
 
-import java.util.Locale;
-import java.util.Objects;
-
-import be.ugent.zeus.hydra.common.network.Endpoints;
+import static be.ugent.zeus.hydra.wpi.tap.TapUtils.createImageUrl;
 
 /**
  * Represents the Tap user.
- * 
+ *
  * @author Niko Strijbol
  */
-public class TapUser {
-    
+public record TapUser(
+        int id,
+        @Json(name = "avatar_file_name")
+        String avatarFileName,
+        @Json(name = "orders_count")
+        int orderCount,
+        String name,
+        @Json(name = "dagschotel_id")
+        Integer favourite) {
+
     private static final String IMAGE_URL = "system/users/avatars/%s/%s/%s/medium/%s";
-    
-    private int id;
-    @Json(name = "avatar_file_name")
-    private String avatarFileName;
-    @Json(name = "orders_count")
-    private int orderCount;
-    private String name;
-    @Json(name = "dagschotel_id")
-    private Integer favourite;
-    
-    public TapUser() {
-        // Needed for Moshi
-    }
 
-    public int getId() {
-        return id;
-    }
-    
-    public String getAvatarFileName() {
-        return avatarFileName;
-    }
-    
-    public int getOrderCount() {
-        return orderCount;
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public String getProfileImageUrl() {
-        if (this.avatarFileName == null) {
-            return null;
-        }
-        String paddedID = String.format(Locale.ROOT, "%09d", id);
-        String first = paddedID.substring(0, 3);
-        String second = paddedID.substring(3, 6);
-        String third = paddedID.substring(6, 9);
-
-        return Endpoints.TAP + String.format(Locale.ROOT, IMAGE_URL, first, second, third, this.avatarFileName);
-    }
-
-    /**
-     * @return The ID of the dagschotel product or null if there is no dagschotel.
-     */
     @Nullable
-    public Integer getFavourite() {
-        return favourite;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TapUser tapUser = (TapUser) o;
-        return id == tapUser.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public String profileImageUrl() {
+        return createImageUrl(id, IMAGE_URL, avatarFileName());
     }
 }

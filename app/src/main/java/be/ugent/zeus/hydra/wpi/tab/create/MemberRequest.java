@@ -56,12 +56,12 @@ public class MemberRequest extends JsonArrayRequest<Member> {
 
     @NonNull
     @Override
-    protected String getAPIUrl() {
+    protected String apiUrl() {
         return Endpoints.TAB + "users/";
     }
 
     @Override
-    public Duration getCacheDuration() {
+    public Duration cacheDuration() {
         return Duration.ZERO;
     }
 }

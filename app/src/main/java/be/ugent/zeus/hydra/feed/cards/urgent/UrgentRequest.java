@@ -37,7 +37,7 @@ import be.ugent.zeus.hydra.feed.cards.Card;
 public class UrgentRequest implements HomeFeedRequest {
 
     @Override
-    public int getCardType() {
+    public int cardType() {
         return Card.Type.URGENT_FM;
     }
 

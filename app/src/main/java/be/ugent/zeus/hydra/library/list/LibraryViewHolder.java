@@ -67,8 +67,8 @@ class LibraryViewHolder extends DataViewHolder<Pair<Library, Boolean>> implement
     public void populate(Pair<Library, Boolean> data) {
         visible = data.second;
         openingHours.setVisibility(visible ? View.VISIBLE : View.GONE);
-        title.setText(data.first.getName());
-        subtitle.setText(data.first.getCampus());
+        title.setText(data.first.name());
+        subtitle.setText(data.first.campus());
         itemView.setOnClickListener(v -> LibraryDetailActivity.launchActivity(v.getContext(), data.first));
         favourite.setVisibility(visible ? View.VISIBLE : View.GONE);
         adapter.registerListener(data.first, this);
@@ -82,13 +82,13 @@ class LibraryViewHolder extends DataViewHolder<Pair<Library, Boolean>> implement
 
     @Override
     public void onChanged(@Nullable Result<Optional<OpeningHours>> result) {
-        if (result == null || !result.hasData() || result.getData().isEmpty()) {
+        if (result == null || !result.hasData() || result.data().isEmpty()) {
             openingHours.setText(R.string.library_list_no_opening_hours);
         } else {
-            OpeningHours hours = result.getData().get();
+            OpeningHours hours = result.data().get();
             if (visible) {
                 openingHours.setText(openingHours.getContext()
-                        .getString(R.string.library_list_opening_hours_today, hours.getHours()));
+                        .getString(R.string.library_list_opening_hours_today, hours.hours()));
             }
         }
     }

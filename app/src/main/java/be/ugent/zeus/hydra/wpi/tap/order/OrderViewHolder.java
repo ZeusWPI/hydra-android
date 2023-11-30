@@ -63,13 +63,13 @@ public class OrderViewHolder extends DataViewHolder<Order> {
 
     @Override
     public void populate(final Order order) {
-        String total = currencyFormatter.format(order.getTotal());
-        List<String> productNames = order.getProducts().stream().map(Product::getName).collect(Collectors.toList());
+        String total = currencyFormatter.format(order.total());
+        List<String> productNames = order.products().stream().map(Product::name).collect(Collectors.toList());
         String formattedProducts = StringUtils.formatList(productNames);
         String description = itemView.getContext().getString(R.string.wpi_tap_order_description, total, formattedProducts); 
         orderDescription.setText(description);
         
-        CharSequence friendlyDate = DateUtils.relativeDateTimeString(order.getCreatedAt(), itemView.getContext());
+        CharSequence friendlyDate = DateUtils.relativeDateTimeString(order.createdAt(), itemView.getContext());
         orderDate.setText(friendlyDate);
 
         // We expect a refresh will happen anyway, so don't care about un-disabling.

@@ -41,7 +41,7 @@ public class NewsViewModel extends RequestViewModel<List<NewsArticle>> {
 
     @NonNull
     @Override
-    protected Request<List<NewsArticle>> getRequest() {
-        return new NewsRequest(getApplication()).map(NewsStream::getEntries);
+    protected Request<List<NewsArticle>> request() {
+        return new NewsRequest(getApplication()).map(NewsStream::entries);
     }
 }

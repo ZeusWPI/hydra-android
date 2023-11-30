@@ -44,7 +44,7 @@ public class ProductAdapter extends SearchableAdapter<Product, ProductViewHolder
     }
     
     public ProductAdapter(Consumer<Product> onClickListener) {
-        super(p -> p.getName().toLowerCase(Locale.getDefault()));
+        super(p -> p.name().toLowerCase(Locale.getDefault()));
         this.onClickListener = onClickListener;
     }
 

@@ -31,10 +31,9 @@ import java.time.format.DateTimeFormatter;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.Association;
-import be.ugent.zeus.hydra.association.common.AssociationMap;
-import be.ugent.zeus.hydra.association.common.EventItem;
-import be.ugent.zeus.hydra.association.event.Event;
-import be.ugent.zeus.hydra.association.event.EventDetailsActivity;
+import be.ugent.zeus.hydra.association.AssociationMap;
+import be.ugent.zeus.hydra.association.EventItem;
+import be.ugent.zeus.hydra.association.EventDetailsActivity;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import com.google.android.material.card.MaterialCardView;
@@ -69,11 +68,11 @@ class EventViewHolder extends DataViewHolder<EventItem> {
 
     @Override
     public void populate(final EventItem eventItem) {
-        Event event = eventItem.getItem();
-        Association assoc = map.get(event.getAssociation());
-        title.setText(event.getTitle());
-        association.setText(assoc.getName());
-        start.setText(event.getLocalStart().format(HOUR_FORMATTER));
+        var event = eventItem.event();
+        Association assoc = map.get(event.association());
+        title.setText(event.title());
+        association.setText(assoc.name());
+        start.setText(event.localStart().format(HOUR_FORMATTER));
         cardView.setOnClickListener(v -> {
             Intent intent = EventDetailsActivity.start(v.getContext(), event, assoc);
             v.getContext().startActivity(intent);

@@ -61,7 +61,7 @@ public class RestoRequest extends HideableHomeFeedRequest {
     }
 
     @Override
-    public int getCardType() {
+    public int cardType() {
         return Card.Type.RESTO;
     }
 
@@ -72,7 +72,7 @@ public class RestoRequest extends HideableHomeFeedRequest {
         String restoKey = RestoPreferenceFragment.getRestoEndpoint(context, preferences);
         String restoName = preferences.getString(RestoPreferenceFragment.PREF_RESTO_NAME, context.getString(R.string.resto_default_name));
         RestoChoice choice = new RestoChoice(restoName, restoKey);
-        int feedRestoKind = HomeFragment.getFeedRestoKind(context);
+        int feedRestoKind = HomeFragment.feedRestoKind(context);
         return request.execute(args).map(restoMenus -> restoMenus.stream()
                 .map(restoMenu -> new RestoMenuCard(restoMenu, choice, feedRestoKind)));
     }

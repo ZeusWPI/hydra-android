@@ -25,25 +25,12 @@
 
 package com.heinrichreimersoftware.materialintro.app;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ArgbEvaluator;
-import android.animation.ValueAnimator;
-import android.app.ActivityManager;
+import android.animation.*;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -51,27 +38,20 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextSwitcher;
-
-import androidx.annotation.ColorInt;
-import androidx.annotation.ColorRes;
-import androidx.annotation.IntDef;
-import androidx.annotation.IntRange;
-import androidx.annotation.InterpolatorRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
+import androidx.annotation.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.ColorUtils;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.util.Pair;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import com.google.android.material.button.MaterialButton;
 import com.heinrichreimersoftware.materialintro.R;
@@ -83,12 +63,6 @@ import com.heinrichreimersoftware.materialintro.util.CheatSheet;
 import com.heinrichreimersoftware.materialintro.view.FadeableViewPager;
 import com.heinrichreimersoftware.materialintro.view.InkPageIndicator;
 import com.heinrichreimersoftware.materialintro.view.parallax.Parallaxable;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class IntroActivity extends AppCompatActivity implements IntroNavigation {
     private static final String KEY_CURRENT_ITEM =

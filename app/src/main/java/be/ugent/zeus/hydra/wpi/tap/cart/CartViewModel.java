@@ -62,7 +62,7 @@ public class CartViewModel extends RequestViewModel<Cart> {
 
     @NonNull
     @Override
-    protected Request<Cart> getRequest() {
+    protected Request<Cart> request() {
         return new CartRequest(getApplication(), initialProductId);
     }
 

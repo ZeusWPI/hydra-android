@@ -29,11 +29,12 @@ import be.ugent.zeus.hydra.wpi.tab.list.Transaction;
 /**
  * A Tab request, either because someone wants money from you,
  * or you want money from someone else.
- * 
+ * <p> 
  * This is basically the same as a {@link Transaction}, except that
  * this includes the allowed actions.
  * 
  * @author Niko Strijbol
+ * @noinspection unused
  */
 public class TabRequest extends Transaction {
     private List<String> actions;

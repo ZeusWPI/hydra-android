@@ -58,7 +58,7 @@ class AssociationViewHolder extends DataViewHolder<Association> {
 
     @Override
     public void populate(Association data) {
-        title.setText(data.getName());
+        title.setText(data.name());
         checkBox.setChecked(adapter.isChecked(getBindingAdapterPosition()));
         parent.setOnClickListener(v -> {
             adapter.setChecked(getBindingAdapterPosition());

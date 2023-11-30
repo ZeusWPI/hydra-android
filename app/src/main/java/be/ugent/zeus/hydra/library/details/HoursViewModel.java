@@ -48,7 +48,7 @@ public class HoursViewModel extends RequestViewModel<List<OpeningHours>> {
 
     @NonNull
     @Override
-    protected Request<List<OpeningHours>> getRequest() {
+    protected Request<List<OpeningHours>> request() {
         if (library == null) {
             throw new IllegalStateException("You must set the library before using it.");
         }

@@ -61,7 +61,7 @@ public class DayRequestTest extends AbstractJsonRequestTest<RestoMenu> {
         DayRequest request = new DayRequest(context);
         request.setChoice(new RestoChoice("test", "test"));
         request.setDate(now);
-        assertThat(request.getAPIUrl(), endsWith("test/" + now.getYear() + "/" + now.getMonthValue() + "/" + now.getDayOfMonth() + ".json"));
+        assertThat(request.apiUrl(), endsWith("test/" + now.getYear() + "/" + now.getMonthValue() + "/" + now.getDayOfMonth() + ".json"));
     }
 
     @Test(expected = IllegalStateException.class)

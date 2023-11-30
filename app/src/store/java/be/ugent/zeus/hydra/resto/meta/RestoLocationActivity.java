@@ -71,9 +71,9 @@ public class RestoLocationActivity extends BaseActivity<ActivityRestoLocationBin
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
         viewModel = new ViewModelProvider(this).get(MetaViewModel.class);
-        viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
-        viewModel.getData().observe(this, new ProgressObserver<>(binding.progressBar));
-        viewModel.getData().observe(this, SuccessObserver.with(this::receiveData));
+        viewModel.data().observe(this, PartialErrorObserver.with(this::onError));
+        viewModel.data().observe(this, new ProgressObserver<>(binding.progressBar));
+        viewModel.data().observe(this, SuccessObserver.with(this::receiveData));
     }
 
     /**
@@ -86,7 +86,7 @@ public class RestoLocationActivity extends BaseActivity<ActivityRestoLocationBin
      * installed Google Play services and returned to the app.
      */
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
         if (meta != null) {
             addData();
@@ -132,13 +132,13 @@ public class RestoLocationActivity extends BaseActivity<ActivityRestoLocationBin
 
         map.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.maps));
         map.getUiSettings().setMyLocationButtonEnabled(true);
-        for (Resto location : meta.locations) {
-            LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
+        for (Resto location : meta.locations()) {
+            LatLng pos = new LatLng(location.latitude(), location.longitude());
             map.addMarker(
                     new MarkerOptions()
                             .position(pos)
-                            .title(location.getName())
-                            .snippet(location.getAddress())
+                            .title(location.name())
+                            .snippet(location.address())
             );
         }
         centerDefault();

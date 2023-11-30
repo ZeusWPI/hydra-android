@@ -87,7 +87,7 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     @Override
-    public ActivityHelper getHelper() {
+    public ActivityHelper helper() {
         return helper;
     }
 
@@ -133,13 +133,13 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         model = new ViewModelProvider(this).get(FeedViewModel.class);
         // Basically the same as PartialErrorObserver, but we only observe at the end.
-        model.getData().observe(getViewLifecycleOwner(), result -> {
+        model.data().observe(getViewLifecycleOwner(), result -> {
             if (result != null && result.isDone() && result.hasException()) {
-                onError(result.getError());
+                onError(result.error());
             }
         });
-        model.getData().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
-        model.getData().observe(getViewLifecycleOwner(), data -> {
+        model.data().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
+        model.data().observe(getViewLifecycleOwner(), data -> {
             if (data != null && data.hasData()) {
                 if (data.isDone()) {
                     firstRun = false;
@@ -152,10 +152,10 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
             }
         });
 
-        model.getRefreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
+        model.refreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
 
         // Monitor commands
-        model.getCommandLiveData().observe(getViewLifecycleOwner(), EventObserver.with(this::onCommandExecuted));
+        model.commandLiveData().observe(getViewLifecycleOwner(), EventObserver.with(this::onCommandExecuted));
 
         firstRun = true;
     }
@@ -196,7 +196,7 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     @Override
-    public int getRequestCode() {
+    public int requestCode() {
         return REQUEST_HOMECARD_ID;
     }
 
@@ -207,7 +207,7 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private void onCommandExecuted(CommandResult result) {
         Bundle extras = new Bundle();
-        extras.putInt(REFRESH_HOMECARD_TYPE, result.getCardType());
+        extras.putInt(REFRESH_HOMECARD_TYPE, result.cardType());
         model.requestRefresh(extras);
 
         // If it is the undoing, don't show a snackbar, otherwise do show it.
@@ -217,8 +217,8 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
             }
             FeedCommand command = result.getCommand();
             assert getView() != null;
-            snackbar = Snackbar.make(getView(), command.getCompleteMessage(), Snackbar.LENGTH_LONG)
-                    .setAction(command.getUndoMessage(), view -> model.undo(command));
+            snackbar = Snackbar.make(getView(), command.completeMessage(), Snackbar.LENGTH_LONG)
+                    .setAction(command.undoMessage(), view -> model.undo(command));
             snackbar.show();
         }
     }

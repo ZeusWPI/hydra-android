@@ -25,52 +25,15 @@ package be.ugent.zeus.hydra.resto.extrafood;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Objects;
-
 /**
- * Represents a food item. A food item is defined by the tuple ({@link #name}, {@link #price}). The {@link #equals(Object)} and
- * {@link #hashCode()} methods are implemented according to that tuple.
+ * Represents a food item.
  *
  * @author Niko Strijbol
  */
-public final class Food implements Parcelable {
-    
-    private String name;
-    private String price;
+public record Food(String name, String price) implements Parcelable {
 
-    protected Food(Parcel in) {
-        this.name = in.readString();
-        this.price = in.readString();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Food food = (Food) o;
-        return Objects.equals(name, food.name) &&
-                Objects.equals(price, food.price);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, price);
+    private Food(Parcel in) {
+        this(in.readString(), in.readString());
     }
 
     @Override
@@ -84,7 +47,7 @@ public final class Food implements Parcelable {
         dest.writeString(this.price);
     }
 
-    public static final Parcelable.Creator<Food> CREATOR = new Parcelable.Creator<Food>() {
+    public static final Parcelable.Creator<Food> CREATOR = new Parcelable.Creator<>() {
         @Override
         public Food createFromParcel(Parcel source) {
             return new Food(source);

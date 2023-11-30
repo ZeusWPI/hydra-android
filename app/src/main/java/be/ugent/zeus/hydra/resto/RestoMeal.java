@@ -25,9 +25,7 @@ package be.ugent.zeus.hydra.resto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Represents a meal.
@@ -35,56 +33,12 @@ import java.util.Objects;
  * @author Niko Strijbol
  * @author Mitch
  */
-public final class RestoMeal implements Parcelable {
-    public static String MENU_TYPE_COLD = "cold";
-    
-    private String name;
-    private String price;
-    private String type;
-    private String kind;
-    
-    private List<String> allergens;
+public record RestoMeal(String name, String price, String type, String kind,
+                        List<String> allergens) implements Parcelable {
+    public static final String MENU_TYPE_COLD = "cold";
 
-    public RestoMeal() {}
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    public String getKind() {
-        return kind;
-    }
-
-    public void setKind(String kind) {
-        this.kind = kind;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public List<String> getAllergens() {
-        return allergens;
-    }
-
-    public void setAllergens(List<String> allergens) {
-        this.allergens = allergens;
+    private RestoMeal(Parcel in) {
+        this(in.readString(), in.readString(), in.readString(), in.readString(), in.createStringArrayList());
     }
 
     @Override
@@ -101,15 +55,8 @@ public final class RestoMeal implements Parcelable {
         dest.writeStringList(this.allergens);
     }
 
-    private RestoMeal(Parcel in) {
-        this.name = in.readString();
-        this.price = in.readString();
-        this.type = in.readString();
-        this.kind = in.readString();
-        this.allergens = in.createStringArrayList();
-    }
 
-    public static final Parcelable.Creator<RestoMeal> CREATOR = new Parcelable.Creator<RestoMeal>() {
+    public static final Parcelable.Creator<RestoMeal> CREATOR = new Parcelable.Creator<>() {
         @Override
         public RestoMeal createFromParcel(Parcel source) {
             return new RestoMeal(source);
@@ -120,21 +67,4 @@ public final class RestoMeal implements Parcelable {
             return new RestoMeal[size];
         }
     };
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RestoMeal restoMeal = (RestoMeal) o;
-        return Objects.equals(name, restoMeal.name) &&
-                Objects.equals(price, restoMeal.price) &&
-                Objects.equals(type, restoMeal.type) &&
-                Objects.equals(kind, restoMeal.kind) &&
-                Objects.equals(allergens, restoMeal.allergens);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, price, type, kind, allergens);
-    }
 }

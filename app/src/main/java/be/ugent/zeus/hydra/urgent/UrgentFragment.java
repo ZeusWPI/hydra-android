@@ -62,7 +62,7 @@ public class UrgentFragment extends Fragment {
 
     private static final String FACEBOOK_URL = "https://www.facebook.com/urgent.fm";
     private static final String YOUTUBE_URL = "https://www.youtube.com/channel/UCZgOQzaJUeIlvS5R7pqFsqQ";
-    private static final String URGENT_URL = "http://www.urgent.fm/";
+    private static final String URGENT_URL = "https://www.urgent.fm/";
     private static final String INSTAGRAM_URL = "https://www.instagram.com/urgent.fm/";
 
     @DrawableRes

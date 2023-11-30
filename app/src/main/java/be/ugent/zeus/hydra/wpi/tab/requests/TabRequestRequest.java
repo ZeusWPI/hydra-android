@@ -57,7 +57,7 @@ public class TabRequestRequest extends JsonArrayRequest<TabRequest> {
 
     @NonNull
     @Override
-    protected String getAPIUrl() {
+    protected String apiUrl() {
         String suffix;
         if (status != null) {
             suffix = "?state=" + this.status;
@@ -89,7 +89,7 @@ public class TabRequestRequest extends JsonArrayRequest<TabRequest> {
                 allRequests
                         .stream()
                         .filter(r -> r.getActions().contains("decline") || r.getActions().contains("confirm"))
-                        .sorted(Comparator.comparing(TabRequest::getTime).reversed())
+                        .sorted(Comparator.comparing(TabRequest::time).reversed())
                         .collect(Collectors.toList()));
     }
 }

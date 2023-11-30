@@ -58,9 +58,9 @@ public class SchamperViewHolderTest {
         Article article = generate(Article.class, "categoryColour");
         viewHolder.populate(article);
 
-        assertTextIs(article.getTitle(), view.findViewById(R.id.title));
+        assertTextIs(article.title(), view.findViewById(R.id.title));
         assertNotEmpty(view.findViewById(R.id.date));
-        assertTextIs(article.getAuthor(), view.findViewById(R.id.author));
+        assertTextIs(article.author(), view.findViewById(R.id.author));
         // Ignore other fields, maybe one day somebody wants to test them.
         assertTrue(view.hasOnClickListeners());
     }

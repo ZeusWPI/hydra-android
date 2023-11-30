@@ -73,7 +73,7 @@ public class RegularViewHolderTest {
         RegularHolder viewHolder = new RegularHolder(view, adapter);
         viewHolder.populate(sandwich);
 
-        assertTextIs(sandwich.getName(), view.findViewById(R.id.sandwich_name));
+        assertTextIs(sandwich.name(), view.findViewById(R.id.sandwich_name));
         assertNotEmpty(view.findViewById(R.id.sandwich_price_medium));
         assertNotEmpty(view.findViewById(R.id.sandwich_ingredients));
 

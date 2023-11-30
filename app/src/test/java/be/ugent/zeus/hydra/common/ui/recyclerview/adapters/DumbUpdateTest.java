@@ -49,7 +49,7 @@ public class DumbUpdateTest {
     public void testNonNull() {
         List<Integer> data = generate(Integer.class, 20).collect(Collectors.toList());
         DumbUpdate<Integer> update = new DumbUpdate<>(data);
-        assertEquals(data, update.getNewData(null));
+        assertEquals(data, update.newData(null));
         update.applyUpdatesTo(callback);
         verify(callback, times(1)).onDataSetChanged();
     }
@@ -57,7 +57,7 @@ public class DumbUpdateTest {
     @Test
     public void testNull() {
         DumbUpdate<Integer> update = new DumbUpdate<>(null);
-        assertNull(update.getNewData(null));
+        assertNull(update.newData(null));
         update.applyUpdatesTo(callback);
         verify(callback, times(1)).onDataSetChanged();
     }

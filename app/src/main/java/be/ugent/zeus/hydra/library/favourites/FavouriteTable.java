@@ -20,26 +20,26 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.association.common;
-
-import be.ugent.zeus.hydra.common.network.AbstractJsonRequestTest;
-import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
+package be.ugent.zeus.hydra.library.favourites;
 
 /**
+ * Contract for the table with favourite libraries. This represents the current table and column names. These might
+ * changes, so you CANNOT use this class in migrations.
+ * <p>
+ * For a description of the fields, see {@link LibraryFavourite}.
+ *
  * @author Niko Strijbol
  */
-@RunWith(RobolectricTestRunner.class)
-public class AssociationsRequestTest extends AbstractJsonRequestTest<AssociationRequestBuilder.AssociationList> {
+public final class FavouriteTable {
 
-    @Override
-    protected String getRelativePath() {
-        return "associations.json";
+    public static final String TABLE_NAME = "library_favourites";
+
+    private FavouriteTable() {
+        // No instances.
     }
 
-    @Override
-    protected JsonOkHttpRequest<AssociationRequestBuilder.AssociationList> getRequest() {
-        return new AssociationRequestBuilder.RawRequest(context);
+    public interface Columns {
+        String LIBRARY_ID = "id";
+        String LIBRARY_NAME = "name";
     }
 }

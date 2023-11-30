@@ -49,7 +49,7 @@ public class DateHeaderViewHolder extends DataViewHolder<OffsetDateTime> {
     }
 
     public static String format(Context context, LocalDate localDate) {
-        String date = DateUtils.getFriendlyDate(context, localDate, FormatStyle.LONG);
+        String date = DateUtils.friendlyDate(context, localDate, FormatStyle.LONG);
         date = StringUtils.capitaliseFirst(date);
         return date;
     }

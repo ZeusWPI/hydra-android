@@ -57,20 +57,12 @@ class ExtraFoodPagerAdapter extends FragmentStateAdapter implements TabLayoutMed
 
     @Override
     public void onConfigureTab(@NonNull @NotNull TabLayout.Tab tab, int position) {
-        @StringRes int string;
-        switch (position) {
-            case 0:
-                string = R.string.resto_extra_breakfast;
-                break;
-            case 1:
-                string = R.string.resto_extra_desserts;
-                break;
-            case 2:
-                string = R.string.resto_extra_drinks;
-                break;
-            default:
-                throw new AdapterOutOfBoundsException(position, getItemCount());
-        }
+        @StringRes int string = switch (position) {
+            case 0 -> R.string.resto_extra_breakfast;
+            case 1 -> R.string.resto_extra_desserts;
+            case 2 -> R.string.resto_extra_drinks;
+            default -> throw new AdapterOutOfBoundsException(position, getItemCount());
+        };
 
         tab.setText(string);
     }

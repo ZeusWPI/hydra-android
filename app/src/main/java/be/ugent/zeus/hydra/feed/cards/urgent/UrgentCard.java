@@ -36,17 +36,17 @@ class UrgentCard extends Card {
     private static final String TAG = "UrgentCard";
 
     @Override
-    public int getPriority() {
+    public int priority() {
         return PriorityUtils.FEED_SPECIAL_SHIFT + 2;
     }
 
     @Override
-    public String getIdentifier() {
+    public String identifier() {
         return TAG;
     }
 
     @Override
-    public int getCardType() {
+    public int cardType() {
         return Card.Type.URGENT_FM;
     }
 

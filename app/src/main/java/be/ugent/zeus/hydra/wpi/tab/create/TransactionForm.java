@@ -103,12 +103,6 @@ class TransactionForm implements Parcelable {
         dest.writeString(this.description);
     }
 
-    public void readFromParcel(Parcel source) {
-        this.destination = source.readString();
-        this.amount = source.readInt();
-        this.description = source.readString();
-    }
-
     public TransactionForm() {
     }
 

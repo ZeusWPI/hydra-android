@@ -85,26 +85,16 @@ public class DisplayableMenu {
     public static int getDrawable(RestoMeal meal) {
         //Set the correct image.
         @DrawableRes int id;
-        if (meal.getKind() == null) {
+        if (meal.kind() == null) {
             return R.drawable.resto_meat;
         }
-        switch (meal.getKind()) {
-            case "fish":
-                id = R.drawable.resto_fish;
-                break;
-            case "vegan":
-                id = R.drawable.resto_vegan;
-                break;
-            case "vegetarian":
-                id = R.drawable.resto_vegetarian;
-                break;
-            case "soup":
-                id = R.drawable.resto_soup;
-                break;
-            default:
-            case "meat":
-                id = R.drawable.resto_meat;
-        }
+        id = switch (meal.kind()) {
+            case "fish" -> R.drawable.resto_fish;
+            case "vegan" -> R.drawable.resto_vegan;
+            case "vegetarian" -> R.drawable.resto_vegetarian;
+            case "soup" -> R.drawable.resto_soup;
+            default -> R.drawable.resto_meat;
+        };
         return id;
     }
 
@@ -119,7 +109,7 @@ public class DisplayableMenu {
         final Context context = parent.getContext();
         final int rowPadding = ViewUtils.convertDpToPixelInt(ROW_PADDING_DP, context);
 
-        for (String vegetable : menu.getVegetables()) {
+        for (String vegetable : menu.vegetables()) {
 
             TableRow tr = new TableRow(context);
             TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
@@ -144,7 +134,7 @@ public class DisplayableMenu {
      *               ViewGroup#addView(View)}. This is also the view to get a context from.
      */
     void addSoupViews(ViewGroup parent) {
-        addMealViews(parent, menu.getSoups(), false);
+        addMealViews(parent, menu.soups(), false);
     }
 
     /**
@@ -154,7 +144,7 @@ public class DisplayableMenu {
      *               ViewGroup#addView(View)}. This is also the view to get a context from.
      */
     void addMainViews(ViewGroup parent, boolean showAllergens) {
-        addMealViews(parent, menu.getMainDishes(), showAllergens);
+        addMealViews(parent, menu.mainDishes(), showAllergens);
     }
 
     /**
@@ -164,30 +154,30 @@ public class DisplayableMenu {
      *               ViewGroup#addView(View)}. This is also the view to get a context from.
      */
     void addColdViews(ViewGroup parent, boolean showAllergens) {
-        addMealViews(parent, menu.getColdDishes(), showAllergens);
+        addMealViews(parent, menu.coldDishes(), showAllergens);
     }
 
     /**
      * @return True if this menu has main dishes.
      */
     boolean hasMainDishes() {
-        return !menu.getMainDishes().isEmpty();
+        return !menu.mainDishes().isEmpty();
     }
 
     boolean hasSoup() {
-        return !menu.getSoups().isEmpty();
+        return !menu.soups().isEmpty();
     }
 
     boolean hasMessage() {
-        return menu.getMessage() != null && !menu.getMessage().isEmpty();
+        return menu.message() != null && !menu.message().isEmpty();
     }
 
     boolean hasVegetables() {
-        return !menu.getVegetables().isEmpty();
+        return !menu.vegetables().isEmpty();
     }
     
     boolean hasColdDishes() {
-        return !menu.getColdDishes().isEmpty();
+        return !menu.coldDishes().isEmpty();
     }
 
     /**
@@ -227,11 +217,11 @@ public class DisplayableMenu {
             @DrawableRes final int id = getDrawable(meal);
 
             ImageView imageView = makeImageView(context, id);
-            String name = meal.getName();
+            String name = meal.name();
             TextView tvCenter = makeCenterTextView(context, name, lp);
             TextView tvRight = new MaterialTextView(context, null, normalStyle);
             tvRight.setLayoutParams(lp);
-            tvRight.setText(meal.getPrice());
+            tvRight.setText(meal.price());
             tvRight.setGravity(Gravity.END);
 
             tr.addView(imageView);
@@ -241,14 +231,14 @@ public class DisplayableMenu {
             parent.addView(tr);
             
             // Add another row with allergens if required.
-            if (showAllergens && !meal.getAllergens().isEmpty()) {
+            if (showAllergens && !meal.allergens().isEmpty()) {
                 TableRow allergenRow = new TableRow(context);
                 allergenRow.setPadding(0, rowPadding, 0, rowPadding);
                 allergenRow.setLayoutParams(lp);
                 
                 // First column is for the icon and empty.
                 allergenRow.addView(new View(context));
-                String allergens = StringUtils.formatList(meal.getAllergens());
+                String allergens = StringUtils.formatList(meal.allergens());
                 TextView allergenView = makeCenterTextView(context, allergens, lp);
                 allergenView.setEnabled(false);
                 allergenRow.addView(allergenView);

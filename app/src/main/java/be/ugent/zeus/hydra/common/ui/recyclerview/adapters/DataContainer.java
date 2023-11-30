@@ -41,7 +41,7 @@ public class DataContainer<D> {
 
     private static Executor backgroundExecutorSingleton;
     // Threading-related stuff.
-    private final Executor backgroundExecutor = getDefaultBackgroundExecutor();
+    private final Executor backgroundExecutor = defaultBackgroundExecutor();
     private final Handler handler = new Handler(Looper.getMainLooper());
     private final Executor mainThreadExecutor = handler::post;
     private final ListUpdateCallback callback;
@@ -68,7 +68,7 @@ public class DataContainer<D> {
      *
      * @return The executor.
      */
-    private static Executor getDefaultBackgroundExecutor() {
+    private static Executor defaultBackgroundExecutor() {
         if (backgroundExecutorSingleton == null) {
             backgroundExecutorSingleton = new ThreadPoolExecutor(2, 2,
                     0, TimeUnit.MILLISECONDS,
@@ -89,7 +89,7 @@ public class DataContainer<D> {
 
         // Construct a unit of work for the update.
         Runnable work = () -> {
-            List<D> newData = update.getNewData(internalData);
+            List<D> newData = update.newData(internalData);
             mainThreadExecutor.execute(() -> {
                 if (maxScheduledGeneration == generation) {
                     applyResult(newData, update);
@@ -122,7 +122,7 @@ public class DataContainer<D> {
      * this may or may not be updated.
      */
     @NonNull
-    public List<D> getData() {
+    public List<D> data() {
         return readOnly;
     }
 }

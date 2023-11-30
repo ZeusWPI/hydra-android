@@ -43,12 +43,12 @@ public class SchamperArticlesRequest extends JsonArrayRequest<Article> {
 
     @NonNull
     @Override
-    protected String getAPIUrl() {
+    protected String apiUrl() {
         return Endpoints.ZEUS_V1 + "schamper/daily_android.json";
     }
 
     @Override
-    public Duration getCacheDuration() {
+    public Duration cacheDuration() {
         return Duration.ofDays(1);
     }
 }

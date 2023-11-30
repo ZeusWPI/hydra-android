@@ -55,7 +55,7 @@ public class LibraryViewModel extends SingleRefreshViewModel<List<Pair<Library, 
     }
 
     LiveData<Result<Optional<OpeningHours>>> getOpeningHours(Library library) {
-        return mapping.computeIfAbsent(library.getCode(), s -> {
+        return mapping.computeIfAbsent(library.code(), s -> {
             OpeningHoursRequest request = new OpeningHoursRequest(getApplication(), library);
             LocalDate today = LocalDate.now();
             return new RequestLiveData<>(getApplication(), request.forDay(today));

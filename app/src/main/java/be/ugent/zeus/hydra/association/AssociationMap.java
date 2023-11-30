@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2023 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,24 +20,41 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.association.common;
+package be.ugent.zeus.hydra.association;
 
 import android.util.Pair;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import be.ugent.zeus.hydra.association.Association;
-
 /**
- * Represents a mapping of association abbreviation to their object.
+ * A class representing a map of associations.
  *
- * @author Niko Strijbol
+ * <p>
+ * The AssociationMap class provides methods to access associations based on their abbreviation,
+ * check if an association was requested to be shown, and combine the requested associations with
+ * the association list.
+ * </p>
  */
-public interface AssociationMap {
+public class AssociationMap {
+
+    private final Map<String, Association> associationMap;
+    private final Set<String> associationRequested;
+    
+    public AssociationMap() {
+        this(Collections.emptyList(), Collections.emptySet());
+    }
+
+    public AssociationMap(@NonNull List<Association> list, @NonNull Set<String> requestedAssociations) {
+        this.associationMap = new HashMap<>();
+        for (var association : list) {
+            associationMap.put(association.abbreviation(), association);
+        }
+        this.associationRequested = requestedAssociations;
+    }
 
     /**
      * Get the association linked to the specified mapping.
@@ -49,29 +66,35 @@ public interface AssociationMap {
      * @return The association.
      */
     @NonNull
-    Association get(@Nullable String abbreviation);
+    public Association get(@Nullable String abbreviation) {
+        return associationMap.computeIfAbsent(abbreviation, Association::unknown);
+    }
 
     /**
      * @return A stream of all known associations.
      */
-    Stream<Association> associations();
+    @NonNull
+    public Stream<Association> associations() {
+        return associationMap.values().stream();
+    }
 
     /**
-     * Check if the associations was requested to be shown by the request that
+     * Check if the association was requested to be shown by the request that
      * produced this association map.
-     * 
+     *
      * @param abbreviation The abbreviation.
-     *                     
      * @return True if requested to be shown, false otherwise.
      */
-    boolean isRequested(@NonNull String abbreviation);
+    public boolean isRequested(@NonNull String abbreviation) {
+        return associationRequested.contains(abbreviation);
+    }
 
     /**
      * Combine the {@link #isRequested(String)} data with the association list.
      */
-    default List<Pair<Association, Boolean>> getSelectedAssociations() {
+    public List<Pair<Association, Boolean>> requestedAssociations() {
         return this.associations()
-                .map(a -> Pair.create(a, this.isRequested(a.getAbbreviation())))
+                .map(a -> Pair.create(a, this.isRequested(a.abbreviation())))
                 .collect(Collectors.toList());
     }
 }

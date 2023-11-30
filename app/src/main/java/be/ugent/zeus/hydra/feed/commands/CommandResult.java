@@ -32,10 +32,11 @@ import be.ugent.zeus.hydra.feed.cards.Card;
 /**
  * @author Niko Strijbol
  */
-public class CommandResult {
+public final class CommandResult {
 
     @Card.Type
     private final int cardType;
+    @Nullable
     private final FeedCommand command;
 
     private CommandResult(@Card.Type int cardType, @Nullable FeedCommand command) {
@@ -52,7 +53,7 @@ public class CommandResult {
     }
 
     @Card.Type
-    public int getCardType() {
+    public int cardType() {
         return cardType;
     }
 
@@ -62,7 +63,6 @@ public class CommandResult {
 
     @NonNull
     public FeedCommand getCommand() {
-        //noinspection ConstantConditions
         return Objects.requireNonNull(command);
     }
 }

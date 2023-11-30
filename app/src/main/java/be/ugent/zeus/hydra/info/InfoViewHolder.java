@@ -56,17 +56,17 @@ class InfoViewHolder extends DataViewHolder<InfoItem> {
     @Override
     public void populate(final InfoItem infoItem) {
         Context c = itemView.getContext();
-        title.setText(infoItem.getTitle());
+        title.setText(infoItem.title());
         itemView.setOnClickListener(v -> infoItem.getType().doOnClick(v.getContext(), helper, infoItem));
 
         Drawable more = infoItem.getType().getDrawable(itemView.getContext(), R.attr.colorPrimary);
 
         // If the item itself has an image.
-        if (infoItem.getImage() != null) {
+        if (infoItem.image() != null) {
             @SuppressLint("DiscouragedApi")
-            int resId = c.getResources().getIdentifier(infoItem.getImage(), "drawable", c.getPackageName());
+            int resId = c.getResources().getIdentifier(infoItem.image(), "drawable", c.getPackageName());
             if (resId == 0) {
-                Log.e(TAG, "Icon for info item " + infoItem.getImage() + " was not found!");
+                Log.e(TAG, "Icon for info item " + infoItem.image() + " was not found!");
                 title.setCompoundDrawablesWithIntrinsicBounds(null, null, more, null);
             } else {
                 try {

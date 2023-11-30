@@ -22,15 +22,12 @@
 
 package be.ugent.zeus.hydra.resto.sandwich;
 
-import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-
 import androidx.viewpager2.adapter.FragmentStateAdapter;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.AdapterOutOfBoundsException;
 import be.ugent.zeus.hydra.resto.sandwich.ecological.EcologicalFragment;
@@ -52,14 +49,11 @@ class SandwichPagerAdapter extends FragmentStateAdapter implements TabLayoutMedi
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        switch (position) {
-            case 0:
-                return new RegularFragment();
-            case 1:
-                return new EcologicalFragment();
-            default:
-                throw new AdapterOutOfBoundsException(position, getItemCount());
-        }
+        return switch (position) {
+            case 0 -> new RegularFragment();
+            case 1 -> new EcologicalFragment();
+            default -> throw new AdapterOutOfBoundsException(position, getItemCount());
+        };
     }
 
     @Override
@@ -69,17 +63,11 @@ class SandwichPagerAdapter extends FragmentStateAdapter implements TabLayoutMedi
 
     @Override
     public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-        @StringRes int string;
-        switch (position) {
-            case 0:
-                string = R.string.resto_main_view_sandwiches_regular;
-                break;
-            case 1:
-                string = R.string.resto_main_view_sandwiches_ecological;
-                break;
-            default:
-                throw new AdapterOutOfBoundsException(position, getItemCount());
-        }
+        @StringRes int string = switch (position) {
+            case 0 -> R.string.resto_main_view_sandwiches_regular;
+            case 1 -> R.string.resto_main_view_sandwiches_ecological;
+            default -> throw new AdapterOutOfBoundsException(position, getItemCount());
+        };
         tab.setText(string);
     }
 }

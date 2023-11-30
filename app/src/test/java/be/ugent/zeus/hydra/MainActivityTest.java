@@ -59,9 +59,9 @@ public class MainActivityTest {
 
     @Before
     public void setUp() {
-        OkHttpClient.Builder builder = InstanceProvider.getBuilder(ApplicationProvider.getApplicationContext().getCacheDir());
+        OkHttpClient.Builder builder = InstanceProvider.builder(ApplicationProvider.getApplicationContext().getCacheDir());
         builder.addInterceptor(new NoNetworkInterceptor());
-        InstanceProvider.setClient(builder.build());
+        InstanceProvider.client(builder.build());
         Intents.init();
     }
 

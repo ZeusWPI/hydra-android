@@ -39,6 +39,10 @@ allprojects {
         google()
         // Other libraries
         mavenCentral()
+        // Snapshots
+        maven {
+            url("https://oss.sonatype.org/content/repositories/snapshots")
+        }
         // Some custom libraries
         maven { url 'https://jitpack.io' }
     }

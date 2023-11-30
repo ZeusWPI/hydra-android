@@ -64,13 +64,13 @@ public class SpecialEventCardViewHolder extends DataViewHolder<Card> implements 
     public void populate(Card card) {
 
         SpecialEventCard eventCard = card.checkCard(Card.Type.SPECIAL_EVENT);
-        event = eventCard.getSpecialEvent();
+        event = eventCard.specialEvent;
 
-        title.setText(event.getName());
-        text.setText(event.getSimpleText());
-        Picasso.get().load(event.getImage()).into(image);
+        title.setText(event.name());
+        text.setText(event.simpleText());
+        Picasso.get().load(event.image()).into(image);
 
-        itemView.setOnClickListener(v -> NetworkUtils.maybeLaunchIntent(v.getContext(), event.getViewIntent(v.getContext())));
+        itemView.setOnClickListener(v -> NetworkUtils.maybeLaunchBrowser(v.getContext(), event.link()));
 
         this.card = card;
     }

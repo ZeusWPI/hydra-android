@@ -36,18 +36,18 @@ import be.ugent.zeus.hydra.library.Library;
  * @author Niko Strijbol
  */
 @Dao
-public abstract class FavouritesRepository {
+public abstract class FavouriteRepository {
 
-    @Query("SELECT COUNT(*) FROM " + FavouritesTable.TABLE_NAME + " WHERE " + FavouritesTable.Columns.LIBRARY_ID + " = :libraryId")
+    @Query("SELECT COUNT(*) FROM " + FavouriteTable.TABLE_NAME + " WHERE " + FavouriteTable.Columns.LIBRARY_ID + " = :libraryId")
     abstract LiveData<Integer> findRowsWith(String libraryId);
 
-    @Query("SELECT " + FavouritesTable.Columns.LIBRARY_ID + " FROM " + FavouritesTable.TABLE_NAME)
+    @Query("SELECT " + FavouriteTable.Columns.LIBRARY_ID + " FROM " + FavouriteTable.TABLE_NAME)
     public abstract List<String> getFavouriteIds();
 
-    @Query("SELECT * FROM " + FavouritesTable.TABLE_NAME)
+    @Query("SELECT * FROM " + FavouriteTable.TABLE_NAME)
     public abstract List<LibraryFavourite> getAll();
 
-    @Query("SELECT count(*) FROM " + FavouritesTable.TABLE_NAME)
+    @Query("SELECT count(*) FROM " + FavouriteTable.TABLE_NAME)
     public abstract LiveData<Integer> count();
 
     public LiveData<Boolean> isAsyncFavourite(String libraryId) {

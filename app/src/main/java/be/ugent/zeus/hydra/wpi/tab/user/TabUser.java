@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2022 Niko Strijbol
- *  
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -22,42 +22,8 @@
 
 package be.ugent.zeus.hydra.wpi.tab.user;
 
-import java.util.Objects;
-
 /**
  * @author Niko Strijbol
  */
-public class TabUser {
-    private int id;
-    private String name;
-    private int balance;
-    
-    public TabUser() {
-        // Moshi.
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getBalance() {
-        return balance;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TabUser tabUser = (TabUser) o;
-        return id == tabUser.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
+public record TabUser(int id, String name, int balance) {
 }

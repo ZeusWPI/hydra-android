@@ -29,19 +29,19 @@ import androidx.lifecycle.LiveData;
 
 import be.ugent.zeus.hydra.common.database.Database;
 import be.ugent.zeus.hydra.library.Library;
-import be.ugent.zeus.hydra.library.favourites.FavouritesRepository;
+import be.ugent.zeus.hydra.library.favourites.FavouriteRepository;
 
 /**
  * @author Niko Strijbol
  */
 public class FavouriteViewModel extends AndroidViewModel {
 
-    private final FavouritesRepository repository;
+    private final FavouriteRepository repository;
     private Library library;
 
     public FavouriteViewModel(@NonNull Application application) {
         super(application);
-        this.repository = Database.get(application).getFavouritesRepository();
+        this.repository = Database.get(application).getFavouriteRepository();
     }
 
     public void setLibrary(Library library) {
@@ -49,6 +49,6 @@ public class FavouriteViewModel extends AndroidViewModel {
     }
 
     public LiveData<Boolean> getData() {
-        return repository.isAsyncFavourite(library.getCode());
+        return repository.isAsyncFavourite(library.code());
     }
 }

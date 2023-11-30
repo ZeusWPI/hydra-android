@@ -29,8 +29,8 @@ import java.time.ZonedDateTime;
 import java.util.Objects;
 
 import be.ugent.zeus.hydra.association.Association;
-import be.ugent.zeus.hydra.association.common.AssociationMap;
-import be.ugent.zeus.hydra.association.event.Event;
+import be.ugent.zeus.hydra.association.AssociationMap;
+import be.ugent.zeus.hydra.association.Event;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
 
@@ -51,24 +51,24 @@ class EventCard extends Card {
     }
 
     @Override
-    public int getPriority() {
-        Duration duration = Duration.between(ZonedDateTime.now(), event.getStart());
+    public int priority() {
+        Duration duration = Duration.between(ZonedDateTime.now(), event.start());
         //Add some to 24*30 for better ordering
         return PriorityUtils.lerp((int) duration.toHours(), 0, 744);
     }
 
     @Override
-    public String getIdentifier() {
-        return event.getIdentifier();
+    public String identifier() {
+        return event.identifier();
     }
 
     @Override
-    public int getCardType() {
+    public int cardType() {
         return Card.Type.ACTIVITY;
     }
 
     public Pair<Event, Association> getEvent() {
-        return new Pair<>(event, map.get(event.getAssociation()));
+        return new Pair<>(event, map.get(event.association()));
     }
 
     @Override

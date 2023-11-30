@@ -49,7 +49,7 @@ public class SelectableMetaViewModel extends RequestViewModel<List<RestoChoice>>
 
     @NonNull
     @Override
-    protected Request<List<RestoChoice>> getRequest() {
+    protected Request<List<RestoChoice>> request() {
         return new SelectableMetaRequest(getApplication());
     }
 }

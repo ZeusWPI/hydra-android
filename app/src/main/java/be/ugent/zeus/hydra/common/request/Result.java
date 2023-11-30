@@ -38,7 +38,7 @@ import java.util.function.Function;
  * This means the class holds either a value, an error or both. To prevent wrong usage, a builder is provided, while the
  * constructor is private.
  * <p>
- * Accessing values when there are none, e.g. calling {@link #getData()} when there is no data, will result in an
+ * Accessing values when there are none, e.g. calling {@link #data()} when there is no data, will result in an
  * exception. Note that implementing monad laws is not the goal of this class.
  * <p>
  * The class supports various methods for working with this, similar to {@link java.util.Optional}.
@@ -94,7 +94,7 @@ public class Result<D> {
      * @return The data.
      * @throws NoSuchElementException If there is no data.
      */
-    public D getData() {
+    public D data() {
         if (data == null) {
             throw new NoSuchElementException("The Result does not contain data.");
         }
@@ -105,7 +105,7 @@ public class Result<D> {
      * @return The exception.
      * @throws NoSuchElementException If there is no exception.
      */
-    public RequestException getError() {
+    public RequestException error() {
         if (throwable == null) {
             throw new NoSuchElementException("The Result does not contain an exception.");
         }
@@ -194,7 +194,7 @@ public class Result<D> {
 
     public <T> Result<Pair<D, T>> andThen(Function<D, Result<T>> other) {
         if (hasData()) {
-            return other.apply(getData()).map(t -> new Pair<>(data, t));
+            return other.apply(data()).map(t -> new Pair<>(data, t));
         } else {
             return Result.Builder.fromException(throwable);
         }

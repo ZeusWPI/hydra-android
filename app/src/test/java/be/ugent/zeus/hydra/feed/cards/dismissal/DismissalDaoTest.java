@@ -110,7 +110,7 @@ public class DismissalDaoTest {
     @Test
     public void shouldGetOneType_WhenRequestingOneType() {
         List<CardDismissal> expected = cards.stream()
-                .filter(c -> c.getIdentifier().getCardType() == Card.Type.RESTO)
+                .filter(c -> c.identifier().getCardType() == Card.Type.RESTO)
                 .collect(Collectors.toList());
         List<CardDismissal> actual = dismissalDao.getForType(Card.Type.RESTO);
 
@@ -121,16 +121,16 @@ public class DismissalDaoTest {
     public void shouldSaveDismissal_WhenInsertingDismissal() {
         CardDismissal dismissal = generate(CardDismissal.class);
         dismissalDao.insert(dismissal);
-        List<CardDismissal> dismissals = dismissalDao.getForType(dismissal.getIdentifier().getCardType());
+        List<CardDismissal> dismissals = dismissalDao.getForType(dismissal.identifier().getCardType());
         assertTrue(dismissals.contains(dismissal));
     }
 
     @Test
     public void shouldSaveDismissal_WhenUpdatingDismissal() {
         CardDismissal random = getRandom(cards);
-        CardDismissal update = new CardDismissal(random.getIdentifier(), random.getDismissalDate().plusSeconds(60));
+        CardDismissal update = new CardDismissal(random.identifier(), random.dismissalDate().plusSeconds(60));
         dismissalDao.update(update);
-        List<CardDismissal> dismissals = dismissalDao.getForType(random.getIdentifier().getCardType());
+        List<CardDismissal> dismissals = dismissalDao.getForType(random.identifier().getCardType());
         assertTrue(dismissals.contains(update));
         // Find the actual update.
         CardDismissal found = null;
@@ -140,14 +140,14 @@ public class DismissalDaoTest {
             }
         }
         assertNotNull(found);
-        assertThat(update, samePropertyValuesAs(found));
+        assertEquals(update, found);
     }
 
     @Test
     public void shouldDeleteDismissal_WhenDeletingDismissal() {
         CardDismissal dismissal = getRandom(cards);
         dismissalDao.delete(dismissal);
-        List<CardDismissal> dismissals = dismissalDao.getForType(dismissal.getIdentifier().getCardType());
+        List<CardDismissal> dismissals = dismissalDao.getForType(dismissal.identifier().getCardType());
         assertFalse(dismissals.contains(dismissal));
     }
 
@@ -156,7 +156,7 @@ public class DismissalDaoTest {
         dismissalDao.deleteAll();
         // Get the types.
         List<Integer> cardTypes = cards.stream()
-                .map(d -> d.getIdentifier().getCardType())
+                .map(d -> d.identifier().getCardType())
                 .distinct()
                 .collect(Collectors.toList());
         for (int cardType : cardTypes) {
@@ -167,18 +167,18 @@ public class DismissalDaoTest {
     @Test
     public void shouldDeleteDismissalsOfType_WhenDeletingDismissalsOfThoseTypes() {
         List<CardIdentifier> dismissals = getRandom(cards, 2).stream()
-                .map(CardDismissal::getIdentifier)
+                .map(CardDismissal::identifier)
                 .collect(Collectors.toList());
 
         // Get the expected result.
         List<CardIdentifier> expectedType1 = cards.stream()
-                .map(CardDismissal::getIdentifier)
+                .map(CardDismissal::identifier)
                 .filter(i -> i.getCardType() == dismissals.get(0).getCardType())
                 .filter(i -> !i.equals(dismissals.get(0)))
                 .collect(Collectors.toCollection(ArrayList::new));
 
         List<CardIdentifier> expectedType2 = cards.stream()
-                .map(CardDismissal::getIdentifier)
+                .map(CardDismissal::identifier)
                 .filter(i -> i.getCardType() == dismissals.get(1).getCardType())
                 .filter(i -> !i.equals(dismissals.get(1)))
                 .collect(Collectors.toCollection(ArrayList::new));
@@ -186,10 +186,10 @@ public class DismissalDaoTest {
         dismissalDao.deleteByIdentifier(dismissals);
 
         List<CardIdentifier> forType1 = dismissalDao.getForType(dismissals.get(0).getCardType()).stream()
-                .map(CardDismissal::getIdentifier)
+                .map(CardDismissal::identifier)
                 .collect(Collectors.toList());
         List<CardIdentifier> forType2 = dismissalDao.getForType(dismissals.get(1).getCardType()).stream()
-                .map(CardDismissal::getIdentifier)
+                .map(CardDismissal::identifier)
                 .collect(Collectors.toList());
 
         assertCollectionEquals(expectedType1, forType1);

@@ -49,7 +49,7 @@ public abstract class PartialErrorObserver<D> implements Observer<Result<D>> {
     @Override
     public void onChanged(@Nullable Result<D> e) {
         if (e != null && e.hasException()) {
-            onPartialError(e.getError());
+            onPartialError(e.error());
         }
     }
 

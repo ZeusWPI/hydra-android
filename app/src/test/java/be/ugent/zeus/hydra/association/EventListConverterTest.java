@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.association.list;
+package be.ugent.zeus.hydra.association;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -29,9 +29,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import be.ugent.zeus.hydra.association.common.EventItem;
-import be.ugent.zeus.hydra.association.event.Event;
-import be.ugent.zeus.hydra.association.event.EventList;
 import be.ugent.zeus.hydra.common.network.InstanceProvider;
 import be.ugent.zeus.hydra.testing.Utils;
 import com.squareup.moshi.Moshi;
@@ -50,14 +47,14 @@ public class EventListConverterTest {
 
     @Before
     public void setUp() throws IOException {
-        Moshi moshi = InstanceProvider.getMoshi();
-        data = Utils.readJson(moshi, "activiteiten.json", EventList.class).getPage().getEntries();
+        Moshi moshi = InstanceProvider.moshi();
+        data = Utils.readJson(moshi, "activiteiten.json", EventList.class).page().entries();
     }
 
     @Test
     public void testConversion() {
 
-        List<EventItem> result = new EventListConverter().apply(data);
+        List<EventItem> result = EventItem.fromEvents(data);
 
         assertTrue(result.size() > data.size());
 
@@ -88,7 +85,7 @@ public class EventListConverterTest {
         // Assert the events are sorted by date. Extract all dates.
         List<LocalDate> dates = result.stream()
                 .filter(EventItem::isHeader)
-                .map(EventItem::getHeader)
+                .map(EventItem::header)
                 .collect(Collectors.toList());
 
         List<LocalDate> sorted = new ArrayList<>(dates);
@@ -100,9 +97,8 @@ public class EventListConverterTest {
 
     @Test
     public void testEmpty() {
-        EventListConverter converter = new EventListConverter();
         List<Event> empty = Collections.emptyList();
-        List<EventItem> result = converter.apply(empty);
+        List<EventItem> result = EventItem.fromEvents(empty);
         assertTrue(result.isEmpty());
     }
 }

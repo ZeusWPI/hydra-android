@@ -52,7 +52,7 @@ public enum InfoType {
     EXTERNAL_LINK(R.drawable.ic_open_in_browser) {
         @Override
         public void doOnClick(Context context, ActivityHelper helper, InfoItem infoItem) {
-            helper.openCustomTab(Uri.parse(infoItem.getUrl()));
+            helper.openCustomTab(Uri.parse(infoItem.url()));
         }
     },
 
@@ -65,7 +65,7 @@ public enum InfoType {
         @Override
         public void doOnClick(Context context, ActivityHelper helper, InfoItem infoItem) {
 
-            String androidUrl = infoItem.getUrlAndroid();
+            String androidUrl = infoItem.urlAndroid();
 
             try {
                 context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(PLAY_STORE + androidUrl)));
@@ -80,9 +80,9 @@ public enum InfoType {
         @Override
         public void doOnClick(Context context, ActivityHelper helper, InfoItem infoItem) {
             Intent intent = new Intent(context, WebViewActivity.class);
-            String baseUrl = InfoRequest.getBaseApiUrl(context);
-            intent.putExtra(WebViewActivity.URL, baseUrl + infoItem.getHtml());
-            intent.putExtra(WebViewActivity.TITLE, infoItem.getTitle());
+            String baseUrl = InfoRequest.baseApiUrl(context);
+            intent.putExtra(WebViewActivity.URL, baseUrl + infoItem.html());
+            intent.putExtra(WebViewActivity.TITLE, infoItem.title());
             context.startActivity(intent);
         }
     },
@@ -92,8 +92,8 @@ public enum InfoType {
         @Override
         public void doOnClick(Context context, ActivityHelper helper, InfoItem infoItem) {
             Intent intent = new Intent(context, InfoSubItemActivity.class);
-            intent.putParcelableArrayListExtra(InfoSubItemActivity.INFO_ITEMS, new ArrayList<>(infoItem.getSubContent()));
-            intent.putExtra(InfoSubItemActivity.INFO_TITLE, infoItem.getTitle());
+            intent.putParcelableArrayListExtra(InfoSubItemActivity.INFO_ITEMS, new ArrayList<>(infoItem.subContent()));
+            intent.putExtra(InfoSubItemActivity.INFO_TITLE, infoItem.title());
             context.startActivity(intent);
         }
     };

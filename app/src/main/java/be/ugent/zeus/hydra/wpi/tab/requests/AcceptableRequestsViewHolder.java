@@ -63,10 +63,10 @@ public class AcceptableRequestsViewHolder extends DataViewHolder<TabRequest> {
 
     @Override
     public void populate(final TabRequest tabrequest) {
-        String amount = currencyFormatter.format(tabrequest.getBigAmount());
-        String to = tabrequest.getCreditor();
+        String amount = currencyFormatter.format(tabrequest.bigAmount());
+        String to = tabrequest.creditor();
         summary.setText(summary.getContext().getString(R.string.wpi_tab_transaction_summary, amount, to));
-        description.setText(tabrequest.getMessage());
+        description.setText(tabrequest.message());
 
         acceptButton.setEnabled(tabrequest.getActions().contains("confirm"));
         declineButton.setEnabled(tabrequest.getActions().contains("decline"));

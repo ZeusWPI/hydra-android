@@ -61,7 +61,7 @@ class RequestOperation implements FeedOperation {
 
         // Filter existing cards away.
         Stream<Card> temp = current.stream()
-                .filter(c -> c.getCardType() != request.getCardType());
+                .filter(c -> c.cardType() != request.cardType());
 
         return request.execute(args).map(homeCardStream ->
                 Stream.concat(temp, homeCardStream).sorted().collect(Collectors.toList())
@@ -69,13 +69,13 @@ class RequestOperation implements FeedOperation {
     }
 
     @Override
-    public int getCardType() {
-        return request.getCardType();
+    public int cardType() {
+        return request.cardType();
     }
 
     @NonNull
     @Override
     public String toString() {
-        return "REQUEST -> Card Type " + request.getCardType();
+        return "REQUEST -> Card Type " + request.cardType();
     }
 }

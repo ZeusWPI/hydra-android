@@ -130,6 +130,7 @@ public class MockParcel {
 
     /**
      * Mock read operations.
+     * @noinspection resource, deprecation
      */
     private void setupReads() {
         Answer<Object> answer = i -> objects.get(position++);

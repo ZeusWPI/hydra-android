@@ -96,7 +96,7 @@ public abstract class DismissalDao {
         Set<CardIdentifier> dismissals = new HashSet<>(getIdsForType(type));
 
         Set<CardIdentifier> retained = allCards.stream()
-                .map(c -> new CardIdentifier(c.getCardType(), c.getIdentifier()))
+                .map(c -> new CardIdentifier(c.cardType(), c.identifier()))
                 .collect(Collectors.toSet());
 
         // Retain only the ones that are no longer in the list of all cards.

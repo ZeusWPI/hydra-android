@@ -20,40 +20,38 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.association.event;
+package be.ugent.zeus.hydra.association;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import be.ugent.zeus.hydra.common.ModelTest;
 import be.ugent.zeus.hydra.common.utils.DateUtils;
 import be.ugent.zeus.hydra.testing.Utils;
 import org.junit.Test;
 
+import static be.ugent.zeus.hydra.testing.Assert.assertRecordParcelable;
 import static org.junit.Assert.*;
 
-/**
- * @author Niko Strijbol
- */
-public class EventTest extends ModelTest<Event> {
-    public EventTest() {
-        super(Event.class);
+public class EventTest {
+    
+    @Test
+    public void parcelable() {
+        assertRecordParcelable(Utils.generate(Event.class));
     }
 
     @Test
     public void shouldReturnNull_whenEndIsNull() {
-        Event event = Utils.generate(Event.class, "end");
-        assertNull(event.getLocalEnd());
+        Event event = Utils.generate(Event.class).withEnd(null);
+        assertNull(event.localEnd());
     }
 
     @Test
     public void shouldReturnLocal_whenEndIsNotNull() {
         OffsetDateTime offsetDateTime = Utils.generate(OffsetDateTime.class);
-        Event event = Utils.generate(Event.class, "end");
-        Utils.setField(event, "end", offsetDateTime);
-        LocalDateTime localDateTime = event.getLocalEnd();
+        Event event = Utils.generate(Event.class).withEnd(offsetDateTime);
+        LocalDateTime localDateTime = event.localEnd();
         assertNotNull(localDateTime);
         assertEquals(DateUtils.toLocalDateTime(offsetDateTime), localDateTime);
     }
@@ -61,16 +59,15 @@ public class EventTest extends ModelTest<Event> {
     @Test
     public void shouldReturnLocal_whenStart() {
         OffsetDateTime offsetDateTime = Utils.generate(OffsetDateTime.class);
-        Event event = Utils.generate(Event.class, "start");
-        Utils.setField(event, "start", offsetDateTime);
-        LocalDateTime localDateTime = event.getLocalStart();
+        Event event = Utils.generate(Event.class).withStart(offsetDateTime);
+        LocalDateTime localDateTime = event.localStart();
         assertEquals(DateUtils.toLocalDateTime(offsetDateTime), localDateTime);
     }
 
     @Test
     public void shouldHaveUniqueIdentifier_whenDataIsUnique() {
         long resulting = Utils.generate(Event.class, 10)
-                .map(Event::getIdentifier)
+                .map(Event::identifier)
                 .distinct()
                 .count();
         assertEquals(10, resulting);
@@ -80,7 +77,7 @@ public class EventTest extends ModelTest<Event> {
     public void shouldBeSortedOnStartDate() {
         List<Event> events = Utils.generate(Event.class, 10).collect(Collectors.toList());
         List<Event> expected = new ArrayList<>(events);
-        expected.sort(Comparator.comparing(Event::getStart));
+        expected.sort(Comparator.comparing(Event::start));
         List<Event> actual = new ArrayList<>(events);
         Collections.sort(actual);
         assertEquals(expected, actual);
@@ -88,15 +85,13 @@ public class EventTest extends ModelTest<Event> {
 
     @Test
     public void shouldNotHaveLocation_whenThereIsNoLocation() {
-        Event event = Utils.generate(Event.class, "location");
+        Event event = Utils.generate(Event.class).withLocation(null);
         assertFalse(event.hasLocation());
-        Utils.setField(event, "location", "");
     }
 
     @Test
     public void shouldNotHaveLocation_whenThereIsEmptyLocation() {
-        Event event = Utils.generate(Event.class, "location");
-        Utils.setField(event, "location", "");
+        Event event = Utils.generate(Event.class).withLocation("");
         assertFalse(event.hasLocation());
     }
 
@@ -114,14 +109,13 @@ public class EventTest extends ModelTest<Event> {
 
     @Test
     public void shouldNotHaveUrl_whenThereIsNoUrl() {
-        Event event = Utils.generate(Event.class, "url");
+        Event event = Utils.generate(Event.class).withUrl(null);
         assertFalse(event.hasUrl());
     }
 
     @Test
     public void shouldNotHaveUrl_whenThereIsEmptyUrl() {
-        Event event = Utils.generate(Event.class, "url");
-        Utils.setField(event, "url", "");
+        Event event = Utils.generate(Event.class, "url").withUrl("");
         assertFalse(event.hasUrl());
     }
 
@@ -129,10 +123,5 @@ public class EventTest extends ModelTest<Event> {
     public void shouldHaveUrl_whenThereIsUrl() {
         Event event = Utils.generate(Event.class);
         assertTrue(event.hasUrl());
-    }
-
-    @Test
-    public void equalsAndHash() {
-        Utils.defaultVerifier(Event.class).withOnlyTheseFields("id").verify();
     }
 }

@@ -49,7 +49,7 @@ public class TabUserRequest extends JsonOkHttpRequest<TabUser> {
 
     @NonNull
     @Override
-    protected String getAPIUrl() {
+    protected String apiUrl() {
         return Endpoints.TAB + "users/" + AccountManager.getUsername(context);
     }
 
@@ -61,7 +61,7 @@ public class TabUserRequest extends JsonOkHttpRequest<TabUser> {
     }
 
     @Override
-    public Duration getCacheDuration() {
+    public Duration cacheDuration() {
         // Do not cache this at the moment.
         return Duration.ZERO;
     }

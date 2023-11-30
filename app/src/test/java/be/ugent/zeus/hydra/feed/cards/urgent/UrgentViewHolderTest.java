@@ -45,7 +45,7 @@ public class UrgentViewHolderTest extends AbstractFeedViewHolderTest {
     @Test
     public void populate() {
         View view = inflate(activityContext, R.layout.home_card_urgent);
-        UrgentViewHolder viewHolder = new UrgentViewHolder(view, adapter);
+        new UrgentViewHolder(view, adapter);
         view.performClick();
 
         Intent expected = new Intent(view.getContext(), MainActivity.class);

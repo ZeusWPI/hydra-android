@@ -44,7 +44,7 @@ class RemoveOperation implements FeedOperation {
     private final Predicate<Card> predicate;
 
     RemoveOperation(@Card.Type int cardType) {
-        this(cardType, c -> c.getCardType() == cardType);
+        this(cardType, c -> c.cardType() == cardType);
     }
 
     private RemoveOperation(@Card.Type int cardType, Predicate<Card> predicate) {
@@ -59,7 +59,7 @@ class RemoveOperation implements FeedOperation {
     }
 
     @Override
-    public int getCardType() {
+    public int cardType() {
         return cardType;
     }
 

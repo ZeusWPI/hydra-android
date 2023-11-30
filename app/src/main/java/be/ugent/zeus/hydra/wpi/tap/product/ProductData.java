@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 
 /**
  * Wrapper for all data related to the product list.
- * 
+ * <p> 
  * This contains two product lists: one with all data and one that
  * is potentially filtered. This is for performance reasons; we need
  * access to the raw data, but we don't want to filter on the main
@@ -47,7 +47,7 @@ public class ProductData {
         allData = products;
         boolean show = preferences.getBoolean(PREF_SHOW_ONLY_IN_STOCK, true);
         if (show) {
-            filteredData = products.stream().filter(p -> p.getStock() > 0).collect(Collectors.toList());
+            filteredData = products.stream().filter(p -> p.stock() > 0).collect(Collectors.toList());
         } else {
             filteredData = products;
         }

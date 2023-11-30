@@ -36,30 +36,26 @@ import be.ugent.zeus.hydra.specialevent.SpecialEvent;
  */
 class SpecialEventCard extends Card {
 
-    private final SpecialEvent specialEvent;
+    final SpecialEvent specialEvent;
 
     SpecialEventCard(SpecialEvent specialEvent) {
         this.specialEvent = specialEvent;
     }
 
-    SpecialEvent getSpecialEvent() {
-        return specialEvent;
-    }
-
     @Override
-    public int getPriority() {
+    public int priority() {
         //We get the complement, as the server assumes 1000 = highest priority. This is for
         //historical reasons.
-        return PriorityUtils.FEED_MAX_VALUE - specialEvent.getPriority() - 2 * PriorityUtils.FEED_SPECIAL_SHIFT;
+        return PriorityUtils.FEED_MAX_VALUE - specialEvent.priority() - 2 * PriorityUtils.FEED_SPECIAL_SHIFT;
     }
 
     @Override
-    public String getIdentifier() {
-        return String.valueOf(specialEvent.getId());
+    public String identifier() {
+        return String.valueOf(specialEvent.id());
     }
 
     @Override
-    public int getCardType() {
+    public int cardType() {
         return Card.Type.SPECIAL_EVENT;
     }
 

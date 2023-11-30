@@ -55,18 +55,18 @@ public abstract class HideableHomeFeedRequest implements HomeFeedRequest {
         return performRequestCards(args).map(cardsStream -> {
             List<Card> cards = cardsStream.collect(Collectors.toList());
             // Remove all stale hidden cards.
-            dismissalDao.prune(getCardType(), cards);
+            dismissalDao.prune(cardType(), cards);
 
-            // Hide cards that we don't want to show anymore.
-            List<CardIdentifier> hiddenList = dismissalDao.getIdsForType(getCardType());
+            // Hide cards that we don't want to show any more.
+            var hiddenList = dismissalDao.getIdsForType(cardType());
             // If hidden is empty, we don't do anything for performance reasons.
             if (hiddenList.isEmpty()) {
                 return cards.stream();
             } else {
-                // Wrap in a set for fast contains.
+                // Wrap in a set for fast contains operator.
                 Collection<CardIdentifier> fastHidden = new HashSet<>(hiddenList);
                 return cards.stream()
-                        .filter(card -> !fastHidden.contains(new CardIdentifier(card.getCardType(), card.getIdentifier())));
+                        .filter(card -> !fastHidden.contains(new CardIdentifier(card.cardType(), card.identifier())));
             }
         });
     }

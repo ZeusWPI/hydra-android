@@ -38,7 +38,6 @@ import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.HomeFeedRequest;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.library.details.OpeningHoursRequest;
-import be.ugent.zeus.hydra.library.favourites.FavouritesRepository;
 import be.ugent.zeus.hydra.library.favourites.LibraryFavourite;
 
 /**
@@ -61,7 +60,7 @@ public class LibraryRequest implements HomeFeedRequest {
     }
 
     @Override
-    public int getCardType() {
+    public int cardType() {
         return Card.Type.LIBRARY;
     }
 
@@ -70,7 +69,7 @@ public class LibraryRequest implements HomeFeedRequest {
     public Result<Stream<Card>> execute(@NonNull Bundle args) {
 
         // Get which libraries we want.
-        FavouritesRepository repository = Database.get(context).getFavouritesRepository();
+        var repository = Database.get(context).getFavouriteRepository();
         List<LibraryFavourite> favourites = repository.getAll();
 
         if (favourites.isEmpty()) {

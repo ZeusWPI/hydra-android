@@ -41,7 +41,7 @@ class DumbUpdate<D> implements AdapterUpdate<D> {
 
     @Nullable
     @Override
-    public List<D> getNewData(@Nullable List<D> existingData) {
+    public List<D> newData(@Nullable List<D> existingData) {
         return newData;
     }
 

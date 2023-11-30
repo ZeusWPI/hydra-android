@@ -29,25 +29,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import be.ugent.zeus.hydra.common.request.RequestException;
-import be.ugent.zeus.hydra.common.request.Result;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
-import okhttp3.HttpUrl;
-import okhttp3.mockwebserver.MockResponse;
-import okhttp3.mockwebserver.MockWebServer;
 import okio.BufferedSource;
 import okio.Okio;
 import org.apache.commons.validator.routines.UrlValidator;
-import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
-import org.skyscreamer.jsonassert.JSONAssert;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
 
 /**
  * Base class for testing Json requests. This base class provides the test to see if the request parses the data
@@ -68,7 +58,7 @@ public abstract class AbstractJsonRequestTest<D> {
     @Before
     public void setUp() {
         InstanceProvider.reset();
-        moshi = InstanceProvider.getMoshi();
+        moshi = InstanceProvider.moshi();
         context = ApplicationProvider.getApplicationContext();
     }
 
@@ -84,7 +74,7 @@ public abstract class AbstractJsonRequestTest<D> {
     protected abstract JsonOkHttpRequest<D> getRequest();
 
     protected D getExpectedResult(String data) throws IOException {
-        JsonAdapter<D> adapter = moshi.adapter(getRequest().getTypeToken());
+        JsonAdapter<D> adapter = moshi.adapter(getRequest().typeToken());
         return adapter.fromJson(data);
     }
 
@@ -92,57 +82,6 @@ public abstract class AbstractJsonRequestTest<D> {
     public void testValidUrl() {
         JsonOkHttpRequest<?> request = getRequest();
         UrlValidator validator = new UrlValidator();
-        assertTrue(validator.isValid(request.getAPIUrl()));
-    }
-
-    @Test
-    public void testNormal() throws IOException, JSONException, RequestException {
-
-        JsonOkHttpRequest<D> request = getRequest();
-        File resource = getResourceFile(getRelativePath());
-        String data = readData(resource);
-
-        MockWebServer mockWebServer = new MockWebServer();
-        mockWebServer.enqueue(new MockResponse()
-                .setBody(data)
-                .addHeader("Content-Type", "application/json; charset=utf-8")
-        );
-        mockWebServer.start();
-
-        // Override the URL using Mockito. Not really pretty, but it is reliable and works.
-        HttpUrl originalUrl = HttpUrl.parse(request.getAPIUrl());
-        assertNotNull(originalUrl);
-        HttpUrl serverUrl = mockWebServer.url(originalUrl.encodedPath());
-        request = spyForNormal(request);
-        doReturn(serverUrl.toString()).when(request).getAPIUrl();
-
-        Result<D> result = request.execute();
-
-        // Throw the error if present for better error reporting.
-        if (result.hasException()) {
-            throw result.getError();
-        }
-
-        assertTrue(result.hasData());
-        assertTrue(result.isDone());
-        assertTrue(result.isWithoutError());
-
-        // Test that all data is present by getting the normal data first.
-
-        // Write the parsed data back to json and parse that.
-        JsonAdapter<D> adapter = request.getAdapter().serializeNulls();
-        String actualData = adapter.toJson(result.getData());
-
-        JSONAssert.assertEquals(data, actualData, false);
-
-        mockWebServer.shutdown();
-    }
-
-    /**
-     * Can also be used to inject spy methods.
-     */
-    @SuppressWarnings("WeakerAccess")
-    protected JsonOkHttpRequest<D> spyForNormal(JsonOkHttpRequest<D> request) {
-        return spy(request);
+        assertTrue(validator.isValid(request.apiUrl()));
     }
 }

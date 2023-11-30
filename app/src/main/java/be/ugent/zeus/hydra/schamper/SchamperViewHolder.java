@@ -84,15 +84,15 @@ class SchamperViewHolder extends DataViewHolder<Article> {
 
     @Override
     public void populate(final Article article) {
-        title.setText(article.getTitle());
-        date.setText(DateUtils.relativeDateTimeString(article.getPubDate(), itemView.getContext()));
-        author.setText(article.getAuthor());
-        category.setText(article.getCategory());
+        title.setText(article.title());
+        date.setText(DateUtils.relativeDateTimeString(article.pubDate(), itemView.getContext()));
+        author.setText(article.author());
+        category.setText(article.category());
 
         if (article.hasCategoryColour()) {
-            int colour = Color.parseColor(article.getCategoryColour());
+            int colour = Color.parseColor(article.categoryColour());
             if (ColourUtils.isDark(colour)) {
-                schamperCardView.setCardBackgroundColor(Color.parseColor(article.getCategoryColour()));
+                schamperCardView.setCardBackgroundColor(Color.parseColor(article.categoryColour()));
                 title.setTextColor(Color.WHITE);
                 date.setTextColor(Color.WHITE);
                 author.setTextColor(Color.WHITE);
@@ -105,9 +105,9 @@ class SchamperViewHolder extends DataViewHolder<Article> {
         }
 
         if (NetworkUtils.isMeteredConnection(itemView.getContext())) {
-            Picasso.get().load(article.getImage()).into(image);
+            Picasso.get().load(article.image()).into(image);
         } else {
-            Picasso.get().load(article.getLargeImage()).into(image);
+            Picasso.get().load(article.largeImage()).into(image);
         }
 
         this.itemView.setOnClickListener(v -> ArticleViewer.viewArticle(v.getContext(), article, helper));

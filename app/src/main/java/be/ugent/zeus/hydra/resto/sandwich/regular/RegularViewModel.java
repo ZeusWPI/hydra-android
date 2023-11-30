@@ -41,7 +41,7 @@ public class RegularViewModel extends RequestViewModel<List<RegularSandwich>> {
 
     @NonNull
     @Override
-    protected Request<List<RegularSandwich>> getRequest() {
+    protected Request<List<RegularSandwich>> request() {
         return new RegularRequest(getApplication());
     }
 }

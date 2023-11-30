@@ -52,7 +52,7 @@ public class DiffUpdateTest {
         List<Integer> expectedData = Utils.generate(Integer.class, 20).collect(Collectors.toList());
 
         DiffUpdate<Integer> update = new DiffUpdate<>(expectedData);
-        List<Integer> actualNewData = update.getNewData(null);
+        List<Integer> actualNewData = update.newData(null);
         assertEquals(expectedData, actualNewData);
         update.applyUpdatesTo(callback);
 
@@ -69,7 +69,7 @@ public class DiffUpdateTest {
         List<Integer> expectedData = Utils.generate(Integer.class, 20).collect(Collectors.toList());
 
         DiffUpdate<Integer> update = new DiffUpdate<>(expectedData);
-        List<Integer> actualNewData = update.getNewData(Collections.emptyList());
+        List<Integer> actualNewData = update.newData(Collections.emptyList());
         assertEquals(expectedData, actualNewData);
         update.applyUpdatesTo(callback);
 
@@ -86,7 +86,7 @@ public class DiffUpdateTest {
         List<Integer> existingData = Utils.generate(Integer.class, 20).collect(Collectors.toList());
 
         DiffUpdate<Integer> update = new DiffUpdate<>(null);
-        List<Integer> actualNewData = update.getNewData(existingData);
+        List<Integer> actualNewData = update.newData(existingData);
         assertNull(actualNewData);
         update.applyUpdatesTo(callback);
 
@@ -103,7 +103,7 @@ public class DiffUpdateTest {
         List<Integer> existingData = Utils.generate(Integer.class, 20).collect(Collectors.toList());
 
         DiffUpdate<Integer> update = new DiffUpdate<>(Collections.emptyList());
-        List<Integer> actualNewData = update.getNewData(existingData);
+        List<Integer> actualNewData = update.newData(existingData);
         assertEquals(Collections.emptyList(), actualNewData);
         update.applyUpdatesTo(callback);
 
@@ -121,7 +121,7 @@ public class DiffUpdateTest {
         List<Integer> newData = Collections.emptyList();
 
         DiffUpdate<Integer> update = new DiffUpdate<>(newData);
-        List<Integer> actualNewData = update.getNewData(existingData);
+        List<Integer> actualNewData = update.newData(existingData);
         assertEquals(newData, actualNewData);
         update.applyUpdatesTo(callback);
 
@@ -131,7 +131,7 @@ public class DiffUpdateTest {
     @Test
     public void testBothNull() {
         DiffUpdate<Integer> update = new DiffUpdate<>(null);
-        List<Integer> actualNewData = update.getNewData(null);
+        List<Integer> actualNewData = update.newData(null);
         assertNull(actualNewData);
         update.applyUpdatesTo(callback);
         verifyNoInteractions(callback);
@@ -143,7 +143,7 @@ public class DiffUpdateTest {
         List<Integer> newData = Arrays.asList(1, 3, 4, 5);
 
         DiffUpdate<Integer> update = new DiffUpdate<>(newData);
-        List<Integer> actualNewData = update.getNewData(existingData);
+        List<Integer> actualNewData = update.newData(existingData);
         assertEquals(newData, actualNewData);
         update.applyUpdatesTo(callback);
 

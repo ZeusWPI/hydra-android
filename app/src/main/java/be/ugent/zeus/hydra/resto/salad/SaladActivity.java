@@ -62,10 +62,10 @@ public class SaladActivity extends BaseActivity<ActivityRestoSaladBinding> {
 
         binding.swipeRefreshLayout.setColorSchemeColors(ColourUtils.resolveColour(this, R.attr.colorSecondary));
 
-        viewModel.getData().observe(this, new AdapterObserver<>(adapter));
-        viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
-        viewModel.getRefreshing().observe(this, binding.swipeRefreshLayout::setRefreshing);
-        viewModel.getData().observe(this, new ProgressObserver<>(binding.progressBar));
+        viewModel.data().observe(this, new AdapterObserver<>(adapter));
+        viewModel.data().observe(this, PartialErrorObserver.with(this::onError));
+        viewModel.refreshing().observe(this, binding.swipeRefreshLayout::setRefreshing);
+        viewModel.data().observe(this, new ProgressObserver<>(binding.progressBar));
         binding.swipeRefreshLayout.setOnRefreshListener(viewModel);
     }
 

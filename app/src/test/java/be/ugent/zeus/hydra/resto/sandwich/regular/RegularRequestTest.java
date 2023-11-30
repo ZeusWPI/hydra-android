@@ -50,7 +50,7 @@ public class RegularRequestTest extends AbstractJsonRequestTest<List<RegularSand
     @Override
     protected List<RegularSandwich> getExpectedResult(String data) throws IOException {
         List<RegularSandwich> result = super.getExpectedResult(data);
-        result.sort(Comparator.comparing(RegularSandwich::getName, String.CASE_INSENSITIVE_ORDER));
+        result.sort(Comparator.comparing(RegularSandwich::name, String.CASE_INSENSITIVE_ORDER));
         return result;
     }
 }

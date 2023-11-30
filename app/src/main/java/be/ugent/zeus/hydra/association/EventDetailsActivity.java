@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.association.event;
+package be.ugent.zeus.hydra.association;
 
 import android.content.Context;
 import android.content.Intent;
@@ -43,7 +43,6 @@ import androidx.core.view.WindowCompat;
 import java.time.format.DateTimeFormatter;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.common.reporting.BaseEvents;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
@@ -86,39 +85,39 @@ public class EventDetailsActivity extends BaseActivity<ActivityEventDetailBindin
         assert event != null;
         assert association != null;
 
-        if (event.getTitle() != null) {
-            requireToolbar().setTitle(event.getTitle());
+        if (event.title() != null) {
+            requireToolbar().setTitle(event.title());
         }
 
-        if (event.getAssociation() != null) {
-            binding.eventOrganisatorMain.setText(association.getName());
+        if (event.association() != null) {
+            binding.eventOrganisatorMain.setText(association.name());
         }
 
-        if (event.getDescription() != null && !event.getDescription().trim().isEmpty()) {
-            binding.description.setText(event.getDescription());
+        if (event.description() != null && !event.description().trim().isEmpty()) {
+            binding.description.setText(event.description());
             LinkifyCompat.addLinks(binding.description, Linkify.EMAIL_ADDRESSES | Linkify.WEB_URLS);
         } else {
             hasDescription = false;
             binding.eventDescriptionBlock.setVisibility(View.GONE);
         }
 
-        if (association.getDescription() != null && !association.getDescription().trim().isEmpty()) {
-            binding.eventOrganisatorSmall.setText(association.getDescription());
+        if (association.description() != null && !association.description().trim().isEmpty()) {
+            binding.eventOrganisatorSmall.setText(association.description());
             // If there is no event description, allow the association description to be longer.
             if (!hasDescription) {
                 binding.eventOrganisatorSmall.setMaxLines(Integer.MAX_VALUE);
             }
         }
 
-        if (association.getWebsite() != null) {
-            binding.eventOrganizer.setOnClickListener(v -> NetworkUtils.maybeLaunchBrowser(v.getContext(), association.getWebsite()));
+        if (association.website() != null) {
+            binding.eventOrganizer.setOnClickListener(v -> NetworkUtils.maybeLaunchBrowser(v.getContext(), association.website()));
         }
 
         if (event.hasPreciseLocation() || event.hasLocation()) {
             if (event.hasLocation()) {
-                binding.location.setText(event.getLocation());
+                binding.location.setText(event.location());
             } else {
-                binding.location.setText(event.getAddress());
+                binding.location.setText(event.address());
             }
             // Make location clickable
             binding.locationRow.setOnClickListener(view -> NetworkUtils.maybeLaunchIntent(this, getLocationIntent()));
@@ -126,16 +125,17 @@ public class EventDetailsActivity extends BaseActivity<ActivityEventDetailBindin
             binding.location.setText(R.string.event_detail_no_location);
         }
 
-        binding.timeStart.setText(event.getLocalStart().format(format));
+        binding.timeStart.setText(event.localStart().format(format));
 
-        if (event.getLocalEnd() != null) {
-            binding.timeEnd.setText(event.getLocalEnd().format(format));
+        var localEnd = event.localEnd();
+        if (localEnd != null) {
+            binding.timeEnd.setText(localEnd.format(format));
         } else {
             binding.timeEnd.setText(R.string.event_detail_date_unknown);
         }
 
-        if (event.getAssociation() != null) {
-            Picasso.get().load(association.getImageLink()).into(binding.eventOrganisatorImage, new EventCallback(binding.eventOrganisatorImage));
+        if (event.association() != null) {
+            Picasso.get().load(association.logo()).into(binding.eventOrganisatorImage, new EventCallback(binding.eventOrganisatorImage));
         } else {
             binding.eventOrganisatorImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
         }
@@ -152,8 +152,8 @@ public class EventDetailsActivity extends BaseActivity<ActivityEventDetailBindin
             supportFinishAfterTransition();
             return true;
         } else if (itemId == R.id.event_link) {
-            NetworkUtils.maybeLaunchBrowser(this, event.getUrl());
-            return true; 
+            NetworkUtils.maybeLaunchBrowser(this, event.url());
+            return true;
         } else if (itemId == R.id.menu_event_add_to_calendar) {
             addToCalendar();
 
@@ -180,14 +180,14 @@ public class EventDetailsActivity extends BaseActivity<ActivityEventDetailBindin
     private void addToCalendar() {
         Intent intent = new Intent(Intent.ACTION_INSERT)
                 .setData(CalendarContract.Events.CONTENT_URI)
-                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, event.getStart().toInstant().toEpochMilli())
-                .putExtra(CalendarContract.Events.TITLE, event.getTitle())
-                .putExtra(CalendarContract.Events.EVENT_LOCATION, event.getLocation())
-                .putExtra(CalendarContract.Events.DESCRIPTION, event.getDescription())
+                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, event.start().toInstant().toEpochMilli())
+                .putExtra(CalendarContract.Events.TITLE, event.title())
+                .putExtra(CalendarContract.Events.EVENT_LOCATION, event.location())
+                .putExtra(CalendarContract.Events.DESCRIPTION, event.description())
                 .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_TENTATIVE);
 
-        if (event.getEnd() != null) {
-            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, event.getEnd().toInstant().toEpochMilli());
+        if (event.end() != null) {
+            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, event.end().toInstant().toEpochMilli());
         }
 
         NetworkUtils.maybeLaunchIntent(this, intent);
@@ -218,9 +218,9 @@ public class EventDetailsActivity extends BaseActivity<ActivityEventDetailBindin
 
         //If there is a precise location, use that.
         if (event.hasPreciseLocation()) {
-            uriLocation = Uri.parse("geo:" + GENT + "?q=" + event.getAddress());
+            uriLocation = Uri.parse("geo:" + GENT + "?q=" + event.address());
         } else {
-            uriLocation = Uri.parse("geo:" + GENT + "?q=" + event.getLocation());
+            uriLocation = Uri.parse("geo:" + GENT + "?q=" + event.location());
         }
 
         Intent intent = new Intent(Intent.ACTION_VIEW, uriLocation);
@@ -244,27 +244,21 @@ public class EventDetailsActivity extends BaseActivity<ActivityEventDetailBindin
         }
     }
 
-    private static final class EventViewedEvent implements be.ugent.zeus.hydra.common.reporting.Event {
-
-        private final Event event;
-
-        private EventViewedEvent(Event event) {
-            this.event = event;
-        }
+    private record EventViewedEvent(Event event) implements be.ugent.zeus.hydra.common.reporting.Event {
 
         @Override
-        public Bundle getParams() {
+        public Bundle params() {
             BaseEvents.Params names = Reporting.getEvents().params();
             Bundle params = new Bundle();
             params.putString(names.itemCategory(), Event.class.getSimpleName());
-            params.putString(names.itemId(), event.getIdentifier());
-            params.putString(names.itemName(), event.getTitle());
+            params.putString(names.itemId(), event.identifier());
+            params.putString(names.itemName(), event.title());
             return params;
         }
 
         @Nullable
         @Override
-        public String getEventName() {
+        public String eventName() {
             return Reporting.getEvents().viewItem();
         }
     }

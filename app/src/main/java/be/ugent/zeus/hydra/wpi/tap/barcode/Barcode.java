@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2022 Niko Strijbol
- *  
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -22,48 +22,18 @@
 
 package be.ugent.zeus.hydra.wpi.tap.barcode;
 
-import java.util.Objects;
-
 import com.squareup.moshi.Json;
 
 /**
  * A Tap barcode.
- * 
+ *
  * @author Niko Strijbol
  */
-public class Barcode {
-    
-    private int id;
-    @Json(name = "product_id")
-    private int productId;
-    private String code;
-    
-    public Barcode() {
-        // Moshi.
-    }
-
-    public int getProductId() {
-        return productId;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Barcode barcode = (Barcode) o;
-        return id == barcode.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
+@Json
+public record Barcode(
+        int id,
+        @Json(name = "product_id")
+        int productId,
+        String code
+) {
 }

@@ -46,16 +46,16 @@ public interface BarcodeScanner {
      * Get an activity to launch, which will give the barcode
      * as a result.
      */
-    Intent getActivityIntent(Activity activity);
+    Intent activityIntent(Activity activity);
 
     /**
      * @return Get the request code to use when launching an activity.
      */
-    int getRequestCode();
+    int requestCode();
 
     /**
      * Get the barcode from the activity launch from the intent from
-     * {@link #getActivityIntent(Activity)}.
+     * {@link #activityIntent(Activity)}.
      * 
      * @param data The result data.
      *             
@@ -70,5 +70,5 @@ public interface BarcodeScanner {
      * Implementations should optimize, if possible, for scanning product barcodes.
      * This includes EAN/UPC codes.
      */
-    void getBarcode(Context context, Consumer<String> onSuccess, Consumer<Exception> onError);
+    void barcode(Context context, Consumer<String> onSuccess, Consumer<Exception> onError);
 }

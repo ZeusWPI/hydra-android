@@ -44,12 +44,12 @@ class ExtraFoodRequest extends JsonOkHttpRequest<ExtraFood> {
 
     @NonNull
     @Override
-    protected String getAPIUrl() {
+    protected String apiUrl() {
         return Endpoints.ZEUS_V2 + "resto/extrafood.json";
     }
 
     @Override
-    public Duration getCacheDuration() {
+    public Duration cacheDuration() {
         return ChronoUnit.WEEKS.getDuration();
     }
 }

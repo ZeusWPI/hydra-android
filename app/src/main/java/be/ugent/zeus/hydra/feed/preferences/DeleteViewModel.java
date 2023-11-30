@@ -65,7 +65,7 @@ public class DeleteViewModel extends AndroidViewModel {
         });
     }
 
-    LiveData<Event<Context>> getLiveData() {
+    LiveData<Event<Context>> liveData() {
         return deleteLiveData;
     }
 }

@@ -29,6 +29,7 @@ import androidx.test.core.app.ApplicationProvider;
 
 import java.io.IOException;
 import java.time.*;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -68,34 +69,35 @@ public class MenuFilterTest {
 
     @Test
     public void testDefaults() throws IOException {
-        Moshi moshi = InstanceProvider.getMoshi();
+        Moshi moshi = InstanceProvider.moshi();
         List<RestoMenu> menus = Utils.readJson(moshi, "resto/menu_default.json", Types.newParameterizedType(List.class, RestoMenu.class));
         // Set half of the restos to before, half after.
+        var newMenus = new ArrayList<RestoMenu>();
         for (int i = 0; i < menus.size(); i++) {
+            var oldMenu = menus.get(i);
+            LocalDate date;
             if (i < menus.size() / 2) {
-                menus.get(i).setDate(LocalDateTime.ofInstant(cutOff, ZoneId.systemDefault()).toLocalDate().minusDays(menus.size() / 2 - i));
+                date = LocalDateTime.ofInstant(cutOff, ZoneId.systemDefault()).toLocalDate().minusDays(menus.size() / 2 - i);
             } else {
-                menus.get(i).setDate(LocalDateTime.ofInstant(cutOff, ZoneId.systemDefault()).toLocalDate().plusDays(i - menus.size() / 2));
+                date = LocalDateTime.ofInstant(cutOff, ZoneId.systemDefault()).toLocalDate().plusDays(i - menus.size() / 2);
             }
+            newMenus.add(oldMenu.withDate(date));
         }
 
         MenuFilter filter = new MenuFilter(context, clock);
-        List<RestoMenu> result = filter.apply(menus);
-        assertThat(result, hasSize(menus.size() / 2));
-        assertTrue(result.stream().noneMatch(restoMenu -> restoMenu.getDate().isBefore(cutOff.atZone(ZoneId.systemDefault()).toLocalDate())));
+        List<RestoMenu> result = filter.apply(newMenus);
+        assertThat(result, hasSize(newMenus.size() / 2));
+        assertTrue(result.stream().noneMatch(restoMenu -> restoMenu.date().isBefore(cutOff.atZone(ZoneId.systemDefault()).toLocalDate())));
     }
 
     @Test
     public void testSameDayBefore() {
 
-        RestoMenu restoMenu = generate(RestoMenu.class);
-        restoMenu.setDate(LocalDateTime.ofInstant(cutOff, ZoneId.systemDefault()).toLocalDate());
+        RestoMenu restoMenu = generate(RestoMenu.class).withDate(LocalDateTime.ofInstant(cutOff, ZoneId.systemDefault()).toLocalDate());
 
         // If the time in the settings is after the current time, the resto must be allowed to pass.
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        preferences.edit()
-                .putString(RestoPreferenceFragment.PREF_RESTO_CLOSING_HOUR, "11:00")
-                .apply();
+        preferences.edit().putString(RestoPreferenceFragment.PREF_RESTO_CLOSING_HOUR, "11:00").apply();
 
         MenuFilter filter = new MenuFilter(context, clock);
         List<RestoMenu> result = filter.apply(Collections.singletonList(restoMenu));
@@ -105,14 +107,11 @@ public class MenuFilterTest {
 
     @Test
     public void testSameDayAfter() {
-        RestoMenu restoMenu = generate(RestoMenu.class);
-        restoMenu.setDate(LocalDateTime.ofInstant(cutOff, ZoneId.systemDefault()).toLocalDate());
+        RestoMenu restoMenu = generate(RestoMenu.class).withDate(LocalDateTime.ofInstant(cutOff, ZoneId.systemDefault()).toLocalDate());
 
         // If the time in the settings is after the current time, the resto must be allowed to pass.
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        preferences.edit()
-                .putString(RestoPreferenceFragment.PREF_RESTO_CLOSING_HOUR, "09:00")
-                .apply();
+        preferences.edit().putString(RestoPreferenceFragment.PREF_RESTO_CLOSING_HOUR, "09:00").apply();
 
         MenuFilter filter = new MenuFilter(context, clock);
         List<RestoMenu> result = filter.apply(Collections.singletonList(restoMenu));
@@ -122,14 +121,11 @@ public class MenuFilterTest {
 
     @Test
     public void testSameDayOnMoment() {
-        RestoMenu restoMenu = generate(RestoMenu.class);
-        restoMenu.setDate(LocalDateTime.ofInstant(cutOff, ZoneId.systemDefault()).toLocalDate());
+        RestoMenu restoMenu = generate(RestoMenu.class).withDate(LocalDateTime.ofInstant(cutOff, ZoneId.systemDefault()).toLocalDate());
 
         // If the time in the settings is after the current time, the resto must be allowed to pass.
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        preferences.edit()
-                .putString(RestoPreferenceFragment.PREF_RESTO_CLOSING_HOUR, "10:15")
-                .apply();
+        preferences.edit().putString(RestoPreferenceFragment.PREF_RESTO_CLOSING_HOUR, "10:15").apply();
 
         // TODO: for some weird reason, if we do not pass the same preference, it doesn't work, even if the debugger
         // says they are the same instance and all that. Perhaps this is a bug in Robolectric?

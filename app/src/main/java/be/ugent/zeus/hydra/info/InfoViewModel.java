@@ -41,7 +41,7 @@ public class InfoViewModel extends RequestViewModel<List<InfoItem>> {
 
     @NonNull
     @Override
-    protected Request<List<InfoItem>> getRequest() {
+    protected Request<List<InfoItem>> request() {
         return new InfoRequest(getApplication());
     }
 }

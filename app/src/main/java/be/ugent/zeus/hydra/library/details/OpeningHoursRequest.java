@@ -44,7 +44,7 @@ public class OpeningHoursRequest extends JsonArrayRequest<OpeningHours> {
     private final String libraryCode;
 
     public OpeningHoursRequest(Context context, Library library) {
-        this(context, library.getCode());
+        this(context, library.code());
     }
 
     public OpeningHoursRequest(Context context, String libraryCode) {
@@ -53,19 +53,19 @@ public class OpeningHoursRequest extends JsonArrayRequest<OpeningHours> {
     }
 
     @Override
-    public Duration getCacheDuration() {
+    public Duration cacheDuration() {
         return Duration.ofDays(4);
     }
 
     @NonNull
     @Override
-    protected String getAPIUrl() {
+    protected String apiUrl() {
         return Endpoints.LIBRARY + "libraries/" + libraryCode + "/calendar.json";
     }
 
     public Request<Optional<OpeningHours>> forDay(LocalDate date) {
         return map(openingHours -> openingHours.stream()
-                .filter(o -> date.equals(o.getDate()))
+                .filter(o -> date.equals(o.date()))
                 .findFirst());
     }
 }

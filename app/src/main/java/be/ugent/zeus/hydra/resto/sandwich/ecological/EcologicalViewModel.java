@@ -41,7 +41,7 @@ public class EcologicalViewModel extends RequestViewModel<List<EcologicalSandwic
 
     @NonNull
     @Override
-    protected Request<List<EcologicalSandwich>> getRequest() {
+    protected Request<List<EcologicalSandwich>> request() {
         return new EcologicalRequest(getApplication());
     }
 }

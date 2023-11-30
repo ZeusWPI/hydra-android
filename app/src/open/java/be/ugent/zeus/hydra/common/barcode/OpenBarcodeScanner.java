@@ -44,14 +44,15 @@ class OpenBarcodeScanner implements BarcodeScanner {
     }
 
     @Override
-    public Intent getActivityIntent(Activity activity) {
+    public Intent activityIntent(Activity activity) {
         IntentIntegrator integrator = new IntentIntegrator(activity);
         integrator.setDesiredBarcodeFormats(IntentIntegrator.PRODUCT_CODE_TYPES);
         integrator.setBeepEnabled(false);
         return integrator.createScanIntent();
     }
     
-    public int getRequestCode() {
+    @Override
+    public int requestCode() {
         return IntentIntegrator.REQUEST_CODE;
     }
     
@@ -63,7 +64,7 @@ class OpenBarcodeScanner implements BarcodeScanner {
     }
 
     @Override
-    public void getBarcode(Context context, Consumer<String> onSuccess, Consumer<Exception> onError) {
+    public void barcode(Context context, Consumer<String> onSuccess, Consumer<Exception> onError) {
         throw new UnsupportedOperationException("This Barcode Scanner requires an activity.");
     }
 }

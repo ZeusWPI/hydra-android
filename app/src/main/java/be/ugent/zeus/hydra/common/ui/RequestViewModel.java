@@ -48,12 +48,12 @@ public abstract class RequestViewModel<D> extends SingleRefreshViewModel<D> {
      * @return The actual data.
      */
     protected BaseLiveData<Result<D>> constructDataInstance() {
-        return new RequestLiveData<>(getApplication(), getRequest());
+        return new RequestLiveData<>(getApplication(), request());
     }
 
     /**
      * @return The request to use.
      */
     @NonNull
-    protected abstract Request<D> getRequest();
+    protected abstract Request<D> request();
 }

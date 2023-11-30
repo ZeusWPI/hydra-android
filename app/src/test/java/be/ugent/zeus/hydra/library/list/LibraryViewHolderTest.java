@@ -54,8 +54,8 @@ public class LibraryViewHolderTest {
         LibraryViewHolder viewHolder = new LibraryViewHolder(view, adapter);
         viewHolder.populate(Pair.create(library, true));
 
-        assertTextIs(library.getName(), view.findViewById(R.id.title));
-        assertTextIs(library.getCampus(), view.findViewById(R.id.subtitle));
+        assertTextIs(library.name(), view.findViewById(R.id.title));
+        assertTextIs(library.campus(), view.findViewById(R.id.subtitle));
 
         view.performClick();
 
@@ -63,7 +63,7 @@ public class LibraryViewHolderTest {
         Intent actual = getShadowApplication().getNextStartedActivity();
 
         assertEquals(expected.getComponent(), actual.getComponent());
-        assertEquals(library, actual.getParcelableExtra(LibraryDetailActivity.ARG_LIBRARY));
+        assertEquals(library, actual.getParcelableExtra(LibraryDetailActivity.ARG_LIBRARY, Library.class));
     }
 
     @Test

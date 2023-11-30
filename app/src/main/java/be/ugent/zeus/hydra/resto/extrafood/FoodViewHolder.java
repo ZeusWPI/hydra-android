@@ -45,7 +45,7 @@ class FoodViewHolder extends DataViewHolder<Food> {
 
     @Override
     public void populate(Food food) {
-        name.setText(food.getName());
-        price.setText(itemView.getContext().getString(R.string.resto_extra_food_price, food.getPrice()));
+        name.setText(food.name());
+        price.setText(itemView.getContext().getString(R.string.resto_extra_food_price, food.price()));
     }
 }

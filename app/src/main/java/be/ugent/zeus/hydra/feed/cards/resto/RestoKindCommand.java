@@ -91,27 +91,20 @@ class RestoKindCommand implements FeedCommand {
     }
 
     @Override
-    public int getCompleteMessage() {
+    public int completeMessage() {
         return MENU_TO_ITEM.get(selectedOption);
     }
     
     // Get the flag for display kind, with negative flags indicating hiding.
     private int commandToFlag(@RestoCardViewHolder.KindMenu int command) {
-        switch (command) {
-            case SHOW_HOT:
-                return MenuTable.DisplayKind.HOT;
-            case HIDE_HOT:
-                return -MenuTable.DisplayKind.HOT;
-            case SHOW_COLD:
-                return MenuTable.DisplayKind.COLD;
-            case HIDE_COLD:
-                return -MenuTable.DisplayKind.COLD;
-            case SHOW_SOUP:
-                return MenuTable.DisplayKind.SOUP;
-            case HIDE_SOUP:
-                return -MenuTable.DisplayKind.SOUP;
-            default:
-                throw new IllegalStateException("Unknown resto menu card command...");
-        }
+        return switch (command) {
+            case SHOW_HOT -> MenuTable.DisplayKind.HOT;
+            case HIDE_HOT -> -MenuTable.DisplayKind.HOT;
+            case SHOW_COLD -> MenuTable.DisplayKind.COLD;
+            case HIDE_COLD -> -MenuTable.DisplayKind.COLD;
+            case SHOW_SOUP -> MenuTable.DisplayKind.SOUP;
+            case HIDE_SOUP -> -MenuTable.DisplayKind.SOUP;
+            default -> throw new IllegalStateException("Unknown resto menu card command...");
+        };
     }
 }

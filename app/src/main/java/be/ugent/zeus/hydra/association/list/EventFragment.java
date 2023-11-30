@@ -24,7 +24,6 @@ package be.ugent.zeus.hydra.association.list;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Pair;
 import android.view.*;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -43,14 +42,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.util.List;
 import java.util.Objects;
 
 import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.association.common.AssociationMap;
-import be.ugent.zeus.hydra.association.common.EventFilter;
-import be.ugent.zeus.hydra.association.common.EventItem;
+import be.ugent.zeus.hydra.association.AssociationRequest;
+import be.ugent.zeus.hydra.association.EventFilter;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
@@ -77,7 +74,7 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
 
     private final EventAdapter adapter = new EventAdapter();
     private final EventFilter.Live filter = new EventFilter.Live();
-    private final AssociationsAdapter associationAdapter = new AssociationsAdapter();
+    private final AssociationAdapter associationAdapter = new AssociationAdapter();
     private EventViewModel viewModel;
     private FrameLayout bottomSheet;
     private BottomSheetBehavior<FrameLayout> behavior;
@@ -140,7 +137,7 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
                     .build();
             picker.addOnPositiveButtonClickListener(selection -> {
                 OffsetDateTime offsetDateTime = Instant.ofEpochMilli(selection).atOffset(ZoneOffset.UTC);
-                filter.setAfter(offsetDateTime);
+                filter.after(offsetDateTime);
             });
             picker.show(getChildFragmentManager(), picker.toString());
         });
@@ -152,7 +149,7 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
                     .build();
             picker.addOnPositiveButtonClickListener(selection -> {
                 OffsetDateTime offsetDateTime = Instant.ofEpochMilli(selection).atOffset(ZoneOffset.UTC);
-                filter.setBefore(offsetDateTime);
+                filter.before(offsetDateTime);
             });
             picker.show(getChildFragmentManager(), picker.toString());
         });
@@ -179,18 +176,18 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
         swipeRefreshLayout.setColorSchemeColors(secondaryColour);
 
         viewModel = new ViewModelProvider(this).get(EventViewModel.class);
-        viewModel.setParams(filter.getValue());
-        viewModel.getData().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
-        viewModel.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
-        viewModel.getData().observe(getViewLifecycleOwner(), new SuccessObserver<Pair<AssociationMap, List<EventItem>>>() {
+        viewModel.params(filter.getValue());
+        viewModel.data().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
+        viewModel.data().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
+        viewModel.data().observe(getViewLifecycleOwner(), new SuccessObserver<>() {
             @Override
-            protected void onSuccess(@NonNull Pair<AssociationMap, List<EventItem>> data) {
-                adapter.setAssociationMap(data.first);
-                adapter.submitData(data.second);
-                associationAdapter.setItemsAndState(data.first.getSelectedAssociations());
+            protected void onSuccess(@NonNull AssociationRequest.EventItemsAndAssociations data) {
+                adapter.setAssociationMap(data.associations());
+                adapter.submitData(data.events());
+                associationAdapter.itemsAndState(data.associations().requestedAssociations());
             }
         });
-        viewModel.getRefreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
+        viewModel.refreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
         swipeRefreshLayout.setOnRefreshListener(viewModel);
 
         view.<Button>findViewById(R.id.events_no_data_button_refresh)
@@ -209,25 +206,25 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
 
     private void filterToInputs(EventFilter filter) {
         assert startTime.getEditText() != null;
-        if (filter.getAfter() != null) {
-            startTime.getEditText().setText(DateUtils.getFriendlyDateTime(filter.getAfter()));
+        if (filter.after() != null) {
+            startTime.getEditText().setText(DateUtils.friendlyDateTime(filter.after()));
         } else {
             startTime.getEditText().setText(null);
         }
         assert endTime.getEditText() != null;
-        if (filter.getBefore() != null) {
-            endTime.getEditText().setText(DateUtils.getFriendlyDateTime(filter.getBefore()));
+        if (filter.before() != null) {
+            endTime.getEditText().setText(DateUtils.friendlyDateTime(filter.before()));
         } else {
             endTime.getEditText().setText(null);
         }
         assert searchTerm.getEditText() != null;
-        searchTerm.getEditText().setText(filter.getTerm());
+        searchTerm.getEditText().setText(filter.term());
     }
 
     private void doFiltering() {
         // Time stuff is set by the callback.
-        this.filter.setTerm(Objects.requireNonNull(searchTerm.getEditText()).getText().toString());
-        this.filter.setSelectedAssociations(associationAdapter.getItemsAndState());
+        this.filter.term(Objects.requireNonNull(searchTerm.getEditText()).getText().toString());
+        this.filter.selectedAssociations(associationAdapter.itemsAndState());
         this.viewModel.requestRefresh();
         hideSheet();
     }

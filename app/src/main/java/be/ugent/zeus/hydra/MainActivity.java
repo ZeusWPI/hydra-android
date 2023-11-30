@@ -683,24 +683,14 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     private static final class TutorialEndEvent implements Event {
         @Nullable
         @Override
-        public String getEventName() {
+        public String eventName() {
             return Reporting.getEvents().tutorialComplete();
         }
     }
 
     /**
-     * Groups an update for the navigation drawer.
-     */
-    private static class DrawerUpdate {
-        @NavigationSource
-        final int navigationSource;
-        final Fragment fragment;
-        final MenuItem menuItem;
-
-        private DrawerUpdate(int navigationSource, Fragment fragment, MenuItem menuItem) {
-            this.navigationSource = navigationSource;
-            this.fragment = fragment;
-            this.menuItem = menuItem;
+         * Groups an update for the navigation drawer.
+         */
+        private record DrawerUpdate(@NavigationSource int navigationSource, Fragment fragment, MenuItem menuItem) {
         }
-    }
 }

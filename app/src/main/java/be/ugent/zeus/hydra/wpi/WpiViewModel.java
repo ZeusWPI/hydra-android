@@ -96,7 +96,7 @@ public class WpiViewModel extends RefreshViewModel {
             Request<List<Transaction>> request = new TransactionRequest(getApplication())
                     .map(transactions -> transactions
                             .stream()
-                            .sorted(Comparator.comparing(Transaction::getTime).reversed())
+                            .sorted(Comparator.comparing(Transaction::time).reversed())
                             .collect(Collectors.toList()));
             transactionData = constructDataInstance(request);
         }

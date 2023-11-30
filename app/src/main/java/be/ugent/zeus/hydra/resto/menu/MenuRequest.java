@@ -57,13 +57,13 @@ public class MenuRequest extends JsonArrayRequest<RestoMenu> {
 
     @NonNull
     @Override
-    protected String getAPIUrl() {
+    protected String apiUrl() {
         String resto = RestoPreferenceFragment.getRestoEndpoint(context, preferences);
         return String.format(Locale.ROOT, OVERVIEW_URL, resto);
     }
 
     @Override
-    public Duration getCacheDuration() {
+    public Duration cacheDuration() {
         return Duration.ofMinutes(10);
     }
 }

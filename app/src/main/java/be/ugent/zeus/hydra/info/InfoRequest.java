@@ -49,19 +49,19 @@ class InfoRequest extends JsonArrayRequest<InfoItem> {
     /**
      * Get the base API path for information. This is locale aware.
      */
-    static String getBaseApiUrl(Context context) {
+    static String baseApiUrl(Context context) {
         String infoEndpoint = context.getString(R.string.value_info_endpoint);
         return Endpoints.ZEUS_V2 + "info/" + infoEndpoint + "/";
     }
 
     @NonNull
     @Override
-    protected String getAPIUrl() {
-        return getBaseApiUrl(context) + "info-content.json";
+    protected String apiUrl() {
+        return baseApiUrl(context) + "info-content.json";
     }
 
     @Override
-    public Duration getCacheDuration() {
+    public Duration cacheDuration() {
         return ChronoUnit.WEEKS.getDuration().multipliedBy(4);
     }
 }

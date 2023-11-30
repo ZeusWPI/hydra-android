@@ -43,7 +43,7 @@ public class UrgentInfoRequest extends JsonOkHttpRequest<UrgentInfo> {
 
     @NonNull
     @Override
-    protected String getAPIUrl() {
+    protected String apiUrl() {
         return Endpoints.ZEUS_V2 + "urgentfm/status.json";
     }
 

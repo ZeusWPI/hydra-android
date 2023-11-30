@@ -57,7 +57,7 @@ class DiffUpdate<D> implements AdapterUpdate<D> {
     @Nullable
     @Override
     @WorkerThread
-    public List<D> getNewData(@Nullable List<D> existingData) {
+    public List<D> newData(@Nullable List<D> existingData) {
 
         if (existingData == null || existingData.isEmpty()) {
             status.add(Empty.OLD_DATA);

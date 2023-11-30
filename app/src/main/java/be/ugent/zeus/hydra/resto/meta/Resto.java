@@ -26,35 +26,29 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.Nullable;
 
-import java.util.Objects;
-
 /**
  * A restaurant.
  *
  * @author feliciaan
  */
-@SuppressWarnings("WeakerAccess")
-public final class Resto implements Parcelable {
-    
-    private String name;
-    private String address;
-    private double latitude;
-    private double longitude;
-    private String type;
-    @Nullable
-    private String endpoint;
+public record Resto(
+        String name,
+        String address,
+        double latitude,
+        double longitude,
+        String type,
+        @Nullable String endpoint
+) implements Parcelable {
 
-    protected Resto(Parcel in) {
-        name = in.readString();
-        address = in.readString();
-        latitude = in.readDouble();
-        longitude = in.readDouble();
-        type = in.readString();
-        endpoint = in.readString();
-    }
-
-    public Resto() {
-
+    private Resto(Parcel in) {
+        this(
+                in.readString(),
+                in.readString(),
+                in.readDouble(),
+                in.readDouble(),
+                in.readString(),
+                in.readString()
+        );
     }
 
     @Override
@@ -72,50 +66,7 @@ public final class Resto implements Parcelable {
         return 0;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    @Nullable
-    public String getEndpoint() {
-        return endpoint;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Resto resto = (Resto) o;
-        return Double.compare(resto.latitude, latitude) == 0 &&
-                Double.compare(resto.longitude, longitude) == 0 &&
-                Objects.equals(name, resto.name) &&
-                Objects.equals(address, resto.address) &&
-                Objects.equals(type, resto.type) &&
-                Objects.equals(endpoint, resto.endpoint);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, address, latitude, longitude, type, endpoint);
-    }
-
-    public static final Creator<Resto> CREATOR = new Creator<Resto>() {
+    public static final Creator<Resto> CREATOR = new Creator<>() {
         @Override
         public Resto createFromParcel(Parcel in) {
             return new Resto(in);

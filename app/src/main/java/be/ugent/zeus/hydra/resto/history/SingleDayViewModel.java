@@ -42,12 +42,12 @@ public class SingleDayViewModel extends SingleRefreshViewModel<RestoMenu> {
     }
 
     public void changeDate(LocalDate date) {
-        SingleDayLiveData dayLiveData = (SingleDayLiveData) getData();
+        SingleDayLiveData dayLiveData = (SingleDayLiveData) data();
         dayLiveData.changeDate(date);
     }
 
     public void changeResto(RestoChoice choice) {
-        SingleDayLiveData dayLiveData = (SingleDayLiveData) getData();
+        SingleDayLiveData dayLiveData = (SingleDayLiveData) data();
         dayLiveData.changeResto(choice);
     }
 

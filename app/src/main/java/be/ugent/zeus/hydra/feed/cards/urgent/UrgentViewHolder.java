@@ -49,7 +49,7 @@ public class UrgentViewHolder extends CardViewHolder {
 
     @Override
     public void onSwiped() {
-        adapter.getCompanion().executeCommand(new DisableTypeCommand(Card.Type.URGENT_FM));
+        adapter.companion().executeCommand(new DisableTypeCommand(Card.Type.URGENT_FM));
     }
 
     @Override

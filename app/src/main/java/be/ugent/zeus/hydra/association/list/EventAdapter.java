@@ -28,8 +28,8 @@ import androidx.annotation.NonNull;
 import java.util.Objects;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.association.common.AssociationMap;
-import be.ugent.zeus.hydra.association.common.EventItem;
+import be.ugent.zeus.hydra.association.AssociationMap;
+import be.ugent.zeus.hydra.association.EventItem;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DiffAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.common.utils.ViewUtils;
@@ -63,7 +63,7 @@ class EventAdapter extends DiffAdapter<EventItem, DataViewHolder<EventItem>> {
 
     @Override
     public int getItemViewType(int position) {
-        if (getItem(position).isHeader()) {
+        if (item(position).isHeader()) {
             return HEADER_TYPE;
         } else {
             return super.getItemViewType(position);

@@ -98,24 +98,24 @@ public class ProductFragment extends Fragment {
         swipeRefreshLayout.setColorSchemeColors(ColourUtils.resolveColour(requireContext(), R.attr.colorSecondary));
 
         viewModel = new ViewModelProvider(this).get(ProductViewModel.class);
-        viewModel.getData().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
-        viewModel.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
+        viewModel.data().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
+        viewModel.data().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
         viewModel.getFilteredData().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
-        viewModel.getRefreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
+        viewModel.refreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
 
         // For refreshing, we request a refresh from the parent activity.
         // We then listen to the parent refresh state and refresh this fragment when the parent is refreshing.
         CombinedUserViewModel activityViewModel = new ViewModelProvider(requireActivity()).get(CombinedUserViewModel.class);
         swipeRefreshLayout.setOnRefreshListener(activityViewModel);
-        activityViewModel.getRefreshing().observe(getViewLifecycleOwner(), refreshing -> {
+        activityViewModel.refreshing().observe(getViewLifecycleOwner(), refreshing -> {
             if (refreshing) {
                 viewModel.onRefresh();
             }
         });
 
         // Attach both to the combiner.
-        viewModel.getData().observe(getViewLifecycleOwner(), SuccessObserver.with(products -> viewModel.updateValue(products.getAllData())));
-        activityViewModel.getData().observe(getViewLifecycleOwner(), SuccessObserver.with(combinedUser -> viewModel.updateValue(combinedUser.getFavourite())));
+        viewModel.data().observe(getViewLifecycleOwner(), SuccessObserver.with(products -> viewModel.updateValue(products.getAllData())));
+        activityViewModel.data().observe(getViewLifecycleOwner(), SuccessObserver.with(combinedUser -> viewModel.updateValue(combinedUser.favourite())));
 
         // Listen to both.
         viewModel.getFavouriteProduct().observe(getViewLifecycleOwner(), pf -> {
@@ -123,7 +123,7 @@ public class ProductFragment extends Fragment {
             if (pf.first == null || pf.second == null) {
                 fab.hide();
             } else {
-                Optional<Product> product = pf.first.stream().filter(p -> p.getId() == pf.second).findFirst();
+                Optional<Product> product = pf.first.stream().filter(p -> p.id() == pf.second).findFirst();
                 if (product.isEmpty()) {
                     // Oops.
                     fab.hide();
@@ -133,10 +133,10 @@ public class ProductFragment extends Fragment {
                     return;
                 }
                 Product favourite = product.get();
-                favouriteProductId = favourite.getId();
+                favouriteProductId = favourite.id();
                 fab.setOnClickListener(v -> {
                     Intent intent = new Intent(requireActivity(), CartActivity.class);
-                    intent.putExtra(CartActivity.ARG_FAVOURITE_PRODUCT_ID, favourite.getId());
+                    intent.putExtra(CartActivity.ARG_FAVOURITE_PRODUCT_ID, favourite.id());
                     startActivityForResult(intent, ACTIVITY_DO_REFRESH);
                 });
                 fab.show();

@@ -40,7 +40,7 @@ public class TransactionAdapter extends DiffAdapter<Transaction, TransactionView
 
     @Override
     public long getItemId(int position) {
-        return getItem(position).getId();
+        return item(position).id();
     }
 
     @NonNull

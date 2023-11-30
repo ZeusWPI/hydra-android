@@ -25,9 +25,9 @@ package be.ugent.zeus.hydra.feed.cards.dismissal;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 
-import java.util.Objects;
-
 import be.ugent.zeus.hydra.feed.cards.Card;
+
+import java.util.Objects;
 
 /**
  * Identifies a single card in the home feed.
@@ -36,6 +36,7 @@ import be.ugent.zeus.hydra.feed.cards.Card;
  * an identifier can be used with multiple card types. It is not unique.
  *
  * @author Niko Strijbol
+ * @noinspection ClassCanBeRecord
  */
 public final class CardIdentifier {
 

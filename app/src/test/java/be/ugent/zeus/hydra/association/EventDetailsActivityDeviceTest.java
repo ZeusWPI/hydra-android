@@ -20,49 +20,56 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.association.event;
+package be.ugent.zeus.hydra.association;
 
-import android.content.Intent;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
-import be.ugent.zeus.hydra.association.Association;
+import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.network.InstanceProvider;
 import be.ugent.zeus.hydra.testing.NoNetworkInterceptor;
-import be.ugent.zeus.hydra.testing.RobolectricUtils;
 import be.ugent.zeus.hydra.testing.Utils;
 import okhttp3.OkHttpClient;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
 
-import static org.junit.Assert.assertEquals;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 /**
  * @author Niko Strijbol
  */
-@Ignore("Race conditions make these tests unreliable")
-@RunWith(RobolectricTestRunner.class)
-public class EventDetailsActivityTest {
+@RunWith(AndroidJUnit4.class)
+public class EventDetailsActivityDeviceTest {
+
+    private final Event event = Utils.generate(Event.class);
+    private final Association association = Utils.generate(Association.class);
+
+    @Rule
+    public ActivityScenarioRule<EventDetailsActivity> rule = new ActivityScenarioRule<>(EventDetailsActivity.start(InstrumentationRegistry.getInstrumentation().getTargetContext(), event, association));
 
     @Before
     public void setUp() {
-        OkHttpClient.Builder builder = InstanceProvider.getBuilder(ApplicationProvider.getApplicationContext().getCacheDir());
+        OkHttpClient.Builder builder = InstanceProvider.builder(ApplicationProvider.getApplicationContext().getCacheDir());
         builder.addInterceptor(new NoNetworkInterceptor());
-        InstanceProvider.setClient(builder.build());
+        InstanceProvider.client(builder.build());
         Intents.init();
     }
 
-    @Test
-    public void shouldReturnCorrectIntent_whenStartIsCalled() {
-        Event e = Utils.generate(Event.class);
-        Association a = Utils.generate(Association.class);
-        Intent actual = EventDetailsActivity.start(RobolectricUtils.getActivityContext(), e, a);
-        Intent expected = new Intent(RobolectricUtils.getActivityContext(), EventDetailsActivity.class);
+    @After
+    public void cleanup() {
+        InstanceProvider.reset();
+        Intents.release();
+    }
 
-        assertEquals(expected.getComponent(), actual.getComponent());
-        assertEquals(e, actual.getParcelableExtra(EventDetailsActivity.PARCEL_EVENT));
+    @Test
+    public void shouldDisplayDescription() {
+        onView(withId(R.id.description))
+                .check(matches(withText(event.description())));
     }
 }

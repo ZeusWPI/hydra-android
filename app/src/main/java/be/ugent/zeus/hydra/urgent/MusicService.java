@@ -278,7 +278,7 @@ public class MusicService extends MediaBrowserServiceCompat implements
     private static class MusicStartEvent implements Event {
         @Nullable
         @Override
-        public String getEventName() {
+        public String eventName() {
             return "be.ugent.zeus.hydra.urgent.analytics.music_start";
         }
     }
@@ -286,7 +286,7 @@ public class MusicService extends MediaBrowserServiceCompat implements
     private static class MusicStopEvent implements Event {
         @Nullable
         @Override
-        public String getEventName() {
+        public String eventName() {
             return "be.ugent.zeus.hydra.urgent.analytics.music_stop";
         }
     }

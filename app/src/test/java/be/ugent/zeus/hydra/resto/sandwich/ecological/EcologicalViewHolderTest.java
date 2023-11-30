@@ -73,7 +73,7 @@ public class EcologicalViewHolderTest {
         EcologicalViewHolder viewHolder = new EcologicalViewHolder(view, adapter);
         viewHolder.populate(sandwich);
 
-        assertTextIs(sandwich.getName(), view.findViewById(R.id.name));
+        assertTextIs(sandwich.name(), view.findViewById(R.id.name));
         assertNotEmpty(view.findViewById(R.id.dates));
         assertNotEmpty(view.findViewById(R.id.sandwich_ingredients));
 

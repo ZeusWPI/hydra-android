@@ -47,13 +47,13 @@ public class NewsRequest extends JsonOkHttpRequest<NewsStream> {
 
     @NonNull
     @Override
-    protected String getAPIUrl() {
+    protected String apiUrl() {
         String endpoint = context.getString(R.string.ugent_news_endpoint);
         return Endpoints.ZEUS_V2 + endpoint;
     }
 
     @Override
-    public Duration getCacheDuration() {
+    public Duration cacheDuration() {
         return Duration.ofDays(1);
     }
 }

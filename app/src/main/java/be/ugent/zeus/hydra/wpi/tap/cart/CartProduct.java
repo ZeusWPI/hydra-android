@@ -22,82 +22,37 @@
 
 package be.ugent.zeus.hydra.wpi.tap.cart;
 
-import java.math.BigDecimal;
-import java.util.Objects;
-
 import be.ugent.zeus.hydra.wpi.tap.product.Product;
+
+import java.math.BigDecimal;
 
 /**
  * Represents a product (or more than one) in the user's cart.
- * <p> 
+ * <p>
  * Various details about the product are also saved, but this is to reduce
  * the number of network requests we need to make.
- * 
+ *
  * @author Niko Strijbol
  */
-public class CartProduct {
-    private final int amount;
-    private final int productId;
-    private final String name;
-    private final int price;
-    private final String thumbnail;
-    
-    CartProduct(Product product, int amount) {
-        this(amount, product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
-    }
-
-    private CartProduct(int amount, int productId, String name, int price, String thumbnail) {
-        this.amount = amount;
-        this.productId = productId;
-        this.name = name;
-        this.price = price;
-        this.thumbnail = thumbnail;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public int getProductId() {
-        return productId;
-    }
-
-    public String getThumbnail() {
-        return thumbnail;
-    }
-
+public record CartProduct(
+        int amount,
+        Product product
+) {
     /**
      * @return A new product cart with the amount incremented by 1.
      */
-    public CartProduct increment() {
-        return new CartProduct(this.amount + 1, this.productId, this.name, this.price, this.thumbnail);
+    public CartProduct incrementAmount() {
+        return new CartProduct(this.amount + 1, product());
     }
 
     /**
      * @return A new product cart with the amount decremented by 1.
      */
-    public CartProduct decrement() {
-        return new CartProduct(this.amount - 1, this.productId, this.name, this.price, this.thumbnail);
+    public CartProduct decrementAmount() {
+        return new CartProduct(this.amount - 1, product());
     }
-
-    public BigDecimal getPriceDecimal() {
-        return new BigDecimal(price).movePointLeft(2);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CartProduct that = (CartProduct) o;
-        return amount == that.amount && productId == that.productId;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(amount, productId);
+    
+    public BigDecimal totalPrice() {
+        return product().priceDecimal().multiply(BigDecimal.valueOf(amount()));
     }
 }

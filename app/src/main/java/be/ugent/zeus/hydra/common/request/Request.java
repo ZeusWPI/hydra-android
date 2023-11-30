@@ -23,7 +23,6 @@
 package be.ugent.zeus.hydra.common.request;
 
 import android.os.Bundle;
-import android.util.Pair;
 import androidx.annotation.NonNull;
 
 import java.util.function.Function;
@@ -93,12 +92,7 @@ public interface Request<T> {
      * @return A new combined request.
      */
     @NonNull
-    default <S> Request<Pair<T, S>> andThen(@NonNull Request<S> second) {
-        return args -> execute(args).andThen(second.execute(args));
-    }
-
-    @NonNull
-    default <S> Request<Pair<T, S>> andThen(@NonNull Function<T, Request<S>> second) {
-        return args -> execute(args).andThen(v -> second.apply(v).execute(args));
+    default <S> Request<S> andThen(@NonNull Function<T, Request<S>> second) {
+        return args -> execute(args).andThen(v -> second.apply(v).execute(args)).map(p -> p.second);
     }
 }

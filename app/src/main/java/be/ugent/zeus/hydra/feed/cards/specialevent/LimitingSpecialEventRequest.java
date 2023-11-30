@@ -27,8 +27,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
 
 import be.ugent.zeus.hydra.BuildConfig;
@@ -59,15 +58,14 @@ public class LimitingSpecialEventRequest extends HideableHomeFeedRequest {
     @Override
     protected Result<Stream<Card>> performRequestCards(@NonNull Bundle args) {
         OffsetDateTime now = OffsetDateTime.now();
-        return remoteEventRequest.execute(args).map(specialEventWrapper -> {
+        return remoteEventRequest.execute(args).map(wrapper -> {
             List<Card> list = new ArrayList<>();
 
-            List<SpecialEvent> specialEvents = new ArrayList<>(specialEventWrapper.getSpecialEvents());
-
-            for (SpecialEvent event : specialEvents) {
-                if ((event.getStart() == null && event.getEnd() == null)
-                        || (event.getStart().isBefore(now) && event.getEnd().isAfter(now))
-                        || (BuildConfig.DEBUG && event.isDevelopment())
+            List<SpecialEvent> unwrapped = Objects.requireNonNullElse(wrapper.specialEvents(), Collections.emptyList());
+            for (SpecialEvent event : unwrapped) {
+                if ((event.start() == null || event.end() == null)
+                        || (event.start().isBefore(now) && event.end().isAfter(now))
+                        || (BuildConfig.DEBUG && event.development())
                         || (BuildConfig.DEBUG && BuildConfig.DEBUG_ENABLE_ALL_SPECIALS)) {
                     list.add(new SpecialEventCard(event));
                 }
@@ -78,7 +76,7 @@ public class LimitingSpecialEventRequest extends HideableHomeFeedRequest {
     }
 
     @Override
-    public int getCardType() {
+    public int cardType() {
         return Card.Type.SPECIAL_EVENT;
     }
 }

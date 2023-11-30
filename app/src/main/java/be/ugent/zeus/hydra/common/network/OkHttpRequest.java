@@ -48,8 +48,8 @@ public abstract class OkHttpRequest<D> implements Request<D> {
      * @param context The context.
      */
     protected OkHttpRequest(@NonNull Context context) {
-        this.moshi = InstanceProvider.getMoshi();
-        this.client = InstanceProvider.getClient(context);
+        this.moshi = InstanceProvider.moshi();
+        this.client = InstanceProvider.client(context);
         this.tracker = Reporting.getTracker(context);
     }
 }

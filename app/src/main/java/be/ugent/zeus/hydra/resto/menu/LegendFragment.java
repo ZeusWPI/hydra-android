@@ -60,7 +60,7 @@ public class LegendFragment extends Fragment {
 
         @Nullable
         @Override
-        public Bundle getParams() {
+        public Bundle params() {
             BaseEvents.Params names = Reporting.getEvents().params();
             Bundle params = new Bundle();
             params.putString(names.itemCategory(), RestoMenu.class.getSimpleName());
@@ -70,7 +70,7 @@ public class LegendFragment extends Fragment {
 
         @Nullable
         @Override
-        public String getEventName() {
+        public String eventName() {
             return Reporting.getEvents().viewItem();
         }
     }

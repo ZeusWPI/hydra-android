@@ -38,14 +38,14 @@ import be.ugent.zeus.hydra.common.utils.ThreadingUtils;
 public class RequestLiveData<M> extends BaseLiveData<Result<M>> {
 
     private final Request<M> request;
-    private final Context applicationContext;
+    protected final Context context;
 
     public RequestLiveData(Context context, Request<M> request) {
         this(context, request, true);
     }
 
     public RequestLiveData(Context context, Request<M> request, boolean load) {
-        this.applicationContext = context.getApplicationContext();
+        this.context = context.getApplicationContext();
         this.request = request;
         if (load) {
             loadData();
@@ -59,14 +59,10 @@ public class RequestLiveData<M> extends BaseLiveData<Result<M>> {
      */
     @Override
     protected void loadData(@NonNull Bundle bundle) {
-        ThreadingUtils.executeWithResult(() -> getRequest().execute(bundle), this::setValue);
+        ThreadingUtils.executeWithResult(() -> request().execute(bundle), this::setValue);
     }
 
-    protected Context getContext() {
-        return applicationContext;
-    }
-
-    protected Request<M> getRequest() {
+    protected Request<M> request() {
         return request;
     }
 }

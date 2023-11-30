@@ -25,23 +25,17 @@ package be.ugent.zeus.hydra.resto.salad;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Objects;
-
 /**
  * @author Niko Strijbol
  */
-public class SaladBowl implements Parcelable {
-    
-    private String name;
-    private String description;
-    private String price;
-    
-    public SaladBowl() {}
+public record SaladBowl(
+        String name,
+        String description,
+        String price
+) implements Parcelable {
 
-    protected SaladBowl(Parcel in) {
-        name = in.readString();
-        description = in.readString();
-        price = in.readString();
+    private SaladBowl(Parcel in) {
+        this(in.readString(), in.readString(), in.readString());
     }
 
     @Override
@@ -56,7 +50,7 @@ public class SaladBowl implements Parcelable {
         return 0;
     }
 
-    public static final Creator<SaladBowl> CREATOR = new Creator<SaladBowl>() {
+    public static final Creator<SaladBowl> CREATOR = new Creator<>() {
         @Override
         public SaladBowl createFromParcel(Parcel in) {
             return new SaladBowl(in);
@@ -67,31 +61,4 @@ public class SaladBowl implements Parcelable {
             return new SaladBowl[size];
         }
     };
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SaladBowl saladBowl = (SaladBowl) o;
-        return Objects.equals(name, saladBowl.name) &&
-                Objects.equals(description, saladBowl.description) &&
-                Objects.equals(price, saladBowl.price);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, description, price);
-    }
 }

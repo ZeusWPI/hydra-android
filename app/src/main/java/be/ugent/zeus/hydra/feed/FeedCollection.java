@@ -39,6 +39,6 @@ class FeedCollection extends ExtendedSparseArray<FeedOperation> {
      * @param operation The operation to add to the mapping.
      */
     public void add(FeedOperation operation) {
-        append(operation.getCardType(), operation);
+        append(operation.cardType(), operation);
     }
 }

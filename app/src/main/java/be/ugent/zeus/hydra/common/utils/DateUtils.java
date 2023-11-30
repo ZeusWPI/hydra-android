@@ -49,10 +49,10 @@ public class DateUtils {
     /**
      * Get the date in friendly format. The style is {@link FormatStyle#MEDIUM}.
      *
-     * @see #getFriendlyDate(Context, LocalDate, FormatStyle)
+     * @see #friendlyDate(Context, LocalDate, FormatStyle)
      */
-    public static String getFriendlyDate(Context context, @NonNull LocalDate date) {
-        return getFriendlyDate(context, date, FormatStyle.MEDIUM);
+    public static String friendlyDate(Context context, @NonNull LocalDate date) {
+        return friendlyDate(context, date, FormatStyle.MEDIUM);
     }
 
     /**
@@ -73,13 +73,13 @@ public class DateUtils {
      * A date is thus considered special if it is one of the cases above; this can be summarized as follows: a date
      * is special if it is less than 14 days (two weeks) in the future.
      * <p>
-     * Other dates are formatted using {@link #getDateFormatterForStyle(FormatStyle)}.
+     * Other dates are formatted using {@link #dateFormatterForStyle(FormatStyle)}.
      *
      * @param date        The date you wish to format.
      * @param formatStyle The style of non-special dates.
      * @return A friendly representation of the date.
      */
-    public static String getFriendlyDate(Context context, @NonNull LocalDate date, FormatStyle formatStyle) {
+    public static String friendlyDate(Context context, @NonNull LocalDate date, FormatStyle formatStyle) {
 
         int ONE_WEEK_DAYS = 7;
         int TWO_WEEKS_DAYS = 14;
@@ -102,17 +102,17 @@ public class DateUtils {
             return context.getString(R.string.date_next_x, date.getDayOfWeek().getDisplayName(TextStyle.FULL, locale));
         } else {
             // All other cases, e.g. the past, the far future or some language that does not support all features.
-            return getDateFormatterForStyle(formatStyle).format(date);
+            return dateFormatterForStyle(formatStyle).format(date);
         }
     }
 
     @VisibleForTesting
-    static DateTimeFormatter getDateFormatterForStyle(FormatStyle style) {
+    static DateTimeFormatter dateFormatterForStyle(FormatStyle style) {
         return DateTimeFormatter.ofLocalizedDate(style);
     }
 
     /**
-     * Check if a given date is friendly or not. Friendly is defined by {@link #getFriendlyDate(Context, LocalDate)}.
+     * Check if a given date is friendly or not. Friendly is defined by {@link #friendlyDate(Context, LocalDate)}.
      *
      * @param date The date to check.
      * @return True if a friendly date would be returned.
@@ -149,7 +149,7 @@ public class DateUtils {
         return relativeDateTimeString(dateTime, context, false);
     }
 
-    public static String getFriendlyDateTime(OffsetDateTime dateTime) {
+    public static String friendlyDateTime(OffsetDateTime dateTime) {
         return dateTime.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
     }
 

@@ -20,46 +20,47 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.feed.cards.specialevent;
+package be.ugent.zeus.hydra.association;
 
 import android.content.Intent;
-import android.net.Uri;
-import android.view.View;
+import androidx.core.content.IntentCompat;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.intent.Intents;
 
-import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.feed.cards.implementations.AbstractFeedViewHolderTest;
-import be.ugent.zeus.hydra.specialevent.SpecialEvent;
+import be.ugent.zeus.hydra.common.network.InstanceProvider;
+import be.ugent.zeus.hydra.testing.NoNetworkInterceptor;
+import be.ugent.zeus.hydra.testing.RobolectricUtils;
+import be.ugent.zeus.hydra.testing.Utils;
+import okhttp3.OkHttpClient;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertTextIs;
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.getShadowApplication;
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
-import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static org.junit.Assert.assertEquals;
 
 /**
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-public class SpecialEventCardViewHolderTest extends AbstractFeedViewHolderTest {
+public class EventDetailsActivityTest {
+
+    @Before
+    public void setUp() {
+        OkHttpClient.Builder builder = InstanceProvider.builder(ApplicationProvider.getApplicationContext().getCacheDir());
+        builder.addInterceptor(new NoNetworkInterceptor());
+        InstanceProvider.client(builder.build());
+        Intents.init();
+    }
 
     @Test
-    public void populate() {
-        View view = inflate(activityContext, R.layout.home_card_special);
-        SpecialEventCardViewHolder cardViewHolder = new SpecialEventCardViewHolder(view, adapter.getCompanion());
-        SpecialEventCard card = generate(SpecialEventCard.class);
-        SpecialEvent event = card.getSpecialEvent();
-        event.setInApp("test");
-        cardViewHolder.populate(card);
+    public void shouldReturnCorrectIntent_whenStartIsCalled() {
+        Event e = Utils.generate(Event.class);
+        Association a = Utils.generate(Association.class);
+        Intent actual = EventDetailsActivity.start(RobolectricUtils.getActivityContext(), e, a);
+        Intent expected = new Intent(RobolectricUtils.getActivityContext(), EventDetailsActivity.class);
 
-        assertTextIs(event.getName(), view.findViewById(R.id.title));
-        assertTextIs(event.getSimpleText(), view.findViewById(R.id.text));
-
-        view.performClick();
-        Intent expected = new Intent(Intent.ACTION_VIEW, Uri.parse(event.getLink()));
-        Intent actual = getShadowApplication().getNextStartedActivity();
         assertEquals(expected.getComponent(), actual.getComponent());
+        assertEquals(e, IntentCompat.getParcelableExtra(actual, EventDetailsActivity.PARCEL_EVENT, Event.class));
     }
 }

@@ -54,12 +54,12 @@ public class ProductRequest extends JsonArrayRequest<Product> {
 
     @NonNull
     @Override
-    protected String getAPIUrl() {
+    protected String apiUrl() {
         return Endpoints.TAP + "products";
     }
 
     @Override
-    public Duration getCacheDuration() {
+    public Duration cacheDuration() {
         return Duration.ofDays(1);
     }
 }

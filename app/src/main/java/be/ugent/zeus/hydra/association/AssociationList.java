@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2023 Niko Strijbol
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,33 +20,28 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.association.event;
+package be.ugent.zeus.hydra.association;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 /**
- * @author Niko Strijbol
+ * Top-level response object for the DSA API.
+ * <p>
+ * This is basically an object with an association list inside it.
+ * While the list won't be null most of the time, we do not control this API,
+ * so we assume is can be null to have a more robust app.
  */
-public final class EventPage {
-
-    /** @noinspection unused*/
-    private List<Event> entries;
-
-    public List<Event> getEntries() {
-        return entries;
-    }
-
+public record AssociationList(
+        @Nullable List<Association> associations
+) {
+    @NonNull
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        EventPage eventPage = (EventPage) o;
-        return Objects.equals(entries, eventPage.entries);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(entries);
+    public List<Association> associations() {
+        return Objects.requireNonNullElse(associations, Collections.emptyList());
     }
 }

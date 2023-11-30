@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.association.common;
+package be.ugent.zeus.hydra.association;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -32,8 +32,6 @@ import androidx.preference.PreferenceManager;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
-import be.ugent.zeus.hydra.association.Association;
 
 /**
  * Class that manages storing which associations the user wants to see
@@ -73,13 +71,13 @@ public class AssociationVisibilityStorage {
         // Start with all associations.
         Set<String> whitelist = new HashSet<>();
         for (Association association : associations) {
-            whitelist.add(association.getAbbreviation());
+            whitelist.add(association.abbreviation());
         }
 
         // Get the existing blacklist, either from storage or from the selected one.
         Set<String> blacklist;
         if (newWhitelist == null) {
-            blacklist = getBlacklist(context);
+            blacklist = blacklist(context);
 
             // Remove any obsolete associations.
             Set<String> obsolete = new HashSet<>();
@@ -94,7 +92,7 @@ public class AssociationVisibilityStorage {
         } else {
             blacklist = newWhitelist.stream()
                     .filter(p -> !p.second)
-                    .map(p -> p.first.getAbbreviation())
+                    .map(p -> p.first.abbreviation())
                     .collect(Collectors.toCollection(HashSet::new));
         }
         
@@ -110,7 +108,7 @@ public class AssociationVisibilityStorage {
      * Get the saved blacklist.
      */
     @NonNull
-    public static Set<String> getBlacklist(@NonNull Context context) {
+    public static Set<String> blacklist(@NonNull Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         return new HashSet<>(preferences.getStringSet(PREF_BLACKLIST, new HashSet<>()));
     }
@@ -123,7 +121,7 @@ public class AssociationVisibilityStorage {
      * @param abbreviation The abbreviation of the association you want to whitelist.
      */
     public static void blacklist(@NonNull Context context, @NonNull String abbreviation) {
-        Set<String> existing = getBlacklist(context);
+        Set<String> existing = blacklist(context);
         existing.add(abbreviation);
         saveBlacklist(context, existing);
     }
@@ -136,7 +134,7 @@ public class AssociationVisibilityStorage {
      * @param abbreviation The abbreviation of the association you want to whitelist.
      */
     public static void whitelist(@NonNull Context context, @NonNull String abbreviation) {
-        Set<String> existing = getBlacklist(context);
+        Set<String> existing = blacklist(context);
         existing.remove(abbreviation);
         saveBlacklist(context, existing);
     }

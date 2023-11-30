@@ -27,17 +27,16 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.ListPreference;
 import androidx.preference.PreferenceManager;
+
+import java.util.Objects;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.PreferenceFragment;
-
-import java.util.Objects;
 
 /**
  * Show preferences related to the theme of the app.
@@ -62,17 +61,12 @@ public class ThemeFragment extends PreferenceFragment {
     @AppCompatDelegate.NightMode
     public static int getNightMode(Context context) {
         String value = PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_THEME_NIGHT_MODE, defaultValue());
-        switch (value) {
-            case "battery":
-                return AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY;
-            case "dark":
-                return AppCompatDelegate.MODE_NIGHT_NO;
-            case "light":
-                return AppCompatDelegate.MODE_NIGHT_YES;
-            case "system":
-            default:
-                return AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
-        }
+        return switch (value) {
+            case "battery" -> AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY;
+            case "dark" -> AppCompatDelegate.MODE_NIGHT_NO;
+            case "light" -> AppCompatDelegate.MODE_NIGHT_YES;
+            default -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+        };
     }
 
     @Override
@@ -117,24 +111,17 @@ public class ThemeFragment extends PreferenceFragment {
         }
     }
 
-    private static class ThemeChanged implements Event {
-        private final String newValue;
+    private record ThemeChanged(String newValue) implements Event {
 
-        private ThemeChanged(String newValue) {
-            this.newValue = newValue;
-        }
-
-        @Nullable
         @Override
-        public Bundle getParams() {
+        public Bundle params() {
             Bundle bundle = new Bundle();
             bundle.putString("theme", newValue);
             return bundle;
         }
 
-        @Nullable
         @Override
-        public String getEventName() {
+        public String eventName() {
             return "be.ugent.zeus.hydra.theme";
         }
     }

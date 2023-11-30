@@ -30,6 +30,7 @@ import java.util.Objects;
  * Transaction on Tab.
  * 
  * @author Niko Strijbol
+ * @noinspection unused
  */
 public class Transaction {
     private int id;
@@ -40,61 +41,61 @@ public class Transaction {
     private String issuer;
     private String message;
 
-    public int getId() {
+    public int id() {
         return id;
     }
 
-    public String getDebtor() {
+    public String debtor() {
         return debtor;
     }
 
-    public String getCreditor() {
+    public String creditor() {
         return creditor;
     }
 
-    public OffsetDateTime getTime() {
+    public OffsetDateTime time() {
         return time;
     }
 
-    public int getAmount() {
+    public int amount() {
         return amount;
     }
 
-    public String getIssuer() {
+    public String issuer() {
         return issuer;
     }
 
-    public String getMessage() {
+    public String message() {
         return message;
     }
     
-    public BigDecimal getBigAmount() {
-        return new BigDecimal(getAmount()).movePointLeft(2);
+    public BigDecimal bigAmount() {
+        return new BigDecimal(amount()).movePointLeft(2);
     }
 
-    public BigDecimal getAdjustedAmount(String fromPerspectiveOf) {
-        BigDecimal raw = getBigAmount();
-        if (fromPerspectiveOf.equals(getDebtor())) {
+    public BigDecimal adjustedAmount(String fromPerspectiveOf) {
+        BigDecimal raw = bigAmount();
+        if (fromPerspectiveOf.equals(debtor())) {
             return raw.negate();
         } else {
             return raw;
         }
     }
     
-    public String getDisplayOther(String fromPerspectiveOf) {
-        String other = getOtherParty(fromPerspectiveOf);
+    public String displayOther(String fromPerspectiveOf) {
+        String other = otherParty(fromPerspectiveOf);
         if (other.equals("Tab")) {
             other = "Zeus";
         }
         return other;
     }
 
-    public String getOtherParty(String fromPerspectiveOf) {
+    public String otherParty(String fromPerspectiveOf) {
         String other;
-        if (fromPerspectiveOf.equals(getDebtor())) {
-            other = getCreditor();
+        if (fromPerspectiveOf.equals(debtor())) {
+            other = creditor();
         } else {
-            other = getDebtor();
+            other = debtor();
         }
         return other;
     }

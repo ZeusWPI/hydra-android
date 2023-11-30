@@ -49,7 +49,7 @@ public class TapUserRequest extends JsonOkHttpRequest<TapUser> {
 
     @NonNull
     @Override
-    protected String getAPIUrl() {
+    protected String apiUrl() {
         return Endpoints.TAP + "users/" + AccountManager.getUsername(context);
     }
 
@@ -61,7 +61,7 @@ public class TapUserRequest extends JsonOkHttpRequest<TapUser> {
     }
 
     @Override
-    public Duration getCacheDuration() {
+    public Duration cacheDuration() {
         // Do not cache this at the moment.
         return Duration.ZERO;
     }

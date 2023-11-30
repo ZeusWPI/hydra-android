@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 The Hydra authors
+ * Copyright (c) 2023 The Hydra authors
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,46 +20,20 @@
  * SOFTWARE.
  */
 
-package be.ugent.zeus.hydra.association.list;
+package be.ugent.zeus.hydra.feed.cards.debug;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import android.view.View;
 
-import java.util.*;
-import java.util.stream.Stream;
-
-import be.ugent.zeus.hydra.association.Association;
-import be.ugent.zeus.hydra.association.common.AssociationMap;
+import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
+import be.ugent.zeus.hydra.feed.cards.CardViewHolder;
 
 /**
+ * View holder for debug cards.
+ *
  * @author Niko Strijbol
  */
-public class MemoryAssociationMap implements AssociationMap {
-
-    private final Map<String, Association> map = new HashMap<>();
-
-    public MemoryAssociationMap() {
-    }
-
-    public MemoryAssociationMap(Iterable<Association> associations) {
-        for (Association association : associations) {
-            map.put(association.getAbbreviation(), association);
-        }
-    }
-
-    @NonNull
-    @Override
-    public Association get(@Nullable String abbreviation) {
-        return map.getOrDefault(abbreviation, Association.unknown(abbreviation));
-    }
-
-    @Override
-    public Stream<Association> associations() {
-        return map.values().stream();
-    }
-
-    @Override
-    public boolean isRequested(@NonNull String abbreviation) {
-        return false;
+public class DebugCardViewHolder extends CardViewHolder {
+    public DebugCardViewHolder(View itemView, HomeFeedAdapter adapter) {
+        super(itemView, adapter);
     }
 }

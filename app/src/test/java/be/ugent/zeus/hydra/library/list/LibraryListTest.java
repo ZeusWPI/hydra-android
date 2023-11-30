@@ -22,24 +22,18 @@
 
 package be.ugent.zeus.hydra.library.list;
 
-import be.ugent.zeus.hydra.common.ModelTest;
 import be.ugent.zeus.hydra.testing.Utils;
 import org.junit.Test;
+
+import static be.ugent.zeus.hydra.testing.Assert.assertRecordParcelable;
 
 /**
  * @author Niko Strijbol
  */
-public class LibraryListTest extends ModelTest<LibraryList> {
-
-    public LibraryListTest() {
-        super(LibraryList.class);
-    }
+public class LibraryListTest {
 
     @Test
-    @Override
-    public void equalsAndHash() {
-        Utils.defaultVerifier(LibraryList.class)
-                .withOnlyTheseFields("name", "libraries", "totalLibraries")
-                .verify();
+    public void parcelable() {
+        assertRecordParcelable(Utils.generate(LibraryList.class));
     }
 }

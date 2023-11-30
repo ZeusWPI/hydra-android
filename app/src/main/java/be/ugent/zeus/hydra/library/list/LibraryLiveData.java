@@ -36,7 +36,6 @@ import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
 import be.ugent.zeus.hydra.common.database.Database;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.library.Library;
-import be.ugent.zeus.hydra.library.favourites.FavouritesRepository;
 
 /**
  * @author Niko Strijbol
@@ -57,16 +56,16 @@ class LibraryLiveData extends RequestLiveData<List<Pair<Library, Boolean>>> impl
      */
     private static Request<List<Pair<Library, Boolean>>> makeRequest(Context context) {
 
-        FavouritesRepository repository = Database.get(context).getFavouritesRepository();
+        var repository = Database.get(context).getFavouriteRepository();
 
         return new LibraryListRequest(context).map(libraryList -> {
             Set<String> favourites = new HashSet<>(repository.getFavouriteIds());
             // We sort favourites first and then faculty libraries and then by name.
-            return libraryList.getLibraries().stream()
-                    .map(library -> Pair.create(library, favourites.contains(library.getCode())))
+            return libraryList.libraries().stream()
+                    .map(library -> Pair.create(library, favourites.contains(library.code())))
                     .sorted(Comparator.comparing(statusExtractor()).reversed()
                             .thenComparing(Comparator.comparing(libraryExtractor().andThen(Library::isFacultyBib)).reversed())
-                            .thenComparing(libraryExtractor().andThen(Library::getName))).collect(Collectors.toList());
+                            .thenComparing(libraryExtractor().andThen(Library::name))).collect(Collectors.toList());
         });
     }
 
@@ -81,7 +80,7 @@ class LibraryLiveData extends RequestLiveData<List<Pair<Library, Boolean>>> impl
     @Override
     protected void onActive() {
         super.onActive();
-        FavouritesRepository repository = Database.get(getContext()).getFavouritesRepository();
+        var repository = Database.get(context).getFavouriteRepository();
         maybeUnregister();
         favouriteSource = Transformations.distinctUntilChanged(repository.count());
         favouriteSource.observeForever(this);

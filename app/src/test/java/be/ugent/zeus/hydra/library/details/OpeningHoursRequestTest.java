@@ -61,14 +61,14 @@ public class OpeningHoursRequestTest extends AbstractJsonRequestTest<List<Openin
     public void testLibraryCode() throws IOException {
         Library library = getRandomConstLibrary();
         OpeningHoursRequest request = getRequest();
-        assertThat(request.getAPIUrl(), endsWith("libraries/" + library.getCode() + "/calendar.json"));
+        assertThat(request.apiUrl(), endsWith("libraries/" + library.code() + "/calendar.json"));
     }
 
     private Library getRandomConstLibrary() throws IOException {
         JsonAdapter<LibraryList> listAdapter = moshi.adapter(LibraryList.class);
         LibraryList list = listAdapter.fromJson(readData(getResourceFile("all_libraries.json")));
         assertNotNull(list);
-        assertNotNull(list.getLibraries());
-        return list.getLibraries().get(0);
+        assertNotNull(list.libraries());
+        return list.libraries().get(0);
     }
 }

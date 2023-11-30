@@ -89,7 +89,7 @@ public class FormActivity extends BaseActivity<ActivityWpiTabTransactionFormBind
                 setResult(RESULT_OK);
                 finish();
             } else {
-                RequestException e = booleanResult.getError();
+                RequestException e = booleanResult.error();
                 Log.e(TAG, "error during transaction request", e);
                 if (e instanceof TabRequestException) {
                     List<String> messages = ((TabRequestException) e).getMessages();
@@ -118,9 +118,9 @@ public class FormActivity extends BaseActivity<ActivityWpiTabTransactionFormBind
             }
         });
 
-        model.getData().observe(this, members -> {
+        model.data().observe(this, members -> {
             autocompleteAdapter.clear();
-            autocompleteAdapter.addAll(members.getData());
+            autocompleteAdapter.addAll(members.data());
         });
 
         // Set up sync between UI and object.

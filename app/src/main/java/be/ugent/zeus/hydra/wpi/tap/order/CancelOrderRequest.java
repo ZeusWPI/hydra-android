@@ -65,7 +65,7 @@ public class CancelOrderRequest extends OkHttpRequest<Boolean> {
                 .addHeader("Accept", "application/json")
                 .addHeader("Content-Type", json.toString())
                 .addHeader("Authorization", "Bearer " + AccountManager.getTapKey(context))
-                .url(Endpoints.TAP + "users/" + AccountManager.getUsername(context) + "/orders/" + order.getId())
+                .url(Endpoints.TAP + "users/" + AccountManager.getUsername(context) + "/orders/" + order.id())
                 .delete()
                 .build();
 

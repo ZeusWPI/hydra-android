@@ -35,7 +35,6 @@ import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDaoTest;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.Warning;
 import nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi;
 import okio.BufferedSource;
 import okio.Okio;
@@ -88,7 +87,6 @@ public class Utils {
      */
     public static <T> SingleTypeEqualsVerifierApi<T> defaultVerifier(Class<T> clazz) {
         return EqualsVerifier.forClass(clazz)
-                .suppress(Warning.NONFINAL_FIELDS)
                 .withPrefabValues(ZonedDateTime.class, ZonedDateTime.now(), ZonedDateTime.now().minusDays(2));
     }
 
@@ -105,6 +103,7 @@ public class Utils {
     }
 
     public static File getResourceFile(String resourcePath) {
+        //noinspection DataFlowIssue
         return new File(DismissalDaoTest.class.getClassLoader().getResource(resourcePath).getFile());
     }
 
@@ -131,6 +130,7 @@ public class Utils {
      * @param name     The name of the field to set.
      * @param value    The value to set the field to.
      */
+    @Deprecated
     public static void setField(Object instance, String name, Object value) {
         try {
 

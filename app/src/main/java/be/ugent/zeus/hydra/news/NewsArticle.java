@@ -25,74 +25,36 @@ package be.ugent.zeus.hydra.news;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.time.OffsetDateTime;
+
 import be.ugent.zeus.hydra.common.ArticleViewer;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
-
-import java.time.OffsetDateTime;
-import java.util.Objects;
+import io.soabase.recordbuilder.core.RecordBuilder;
 
 /**
  * @author Niko Strijbol
  */
-public final class NewsArticle implements Parcelable, ArticleViewer.Article {
-    
-    private String content;
-    private String id;
-    private String link;
-    private OffsetDateTime published;
-    private String summary;
-    private String title;
-    private OffsetDateTime updated;
-    
-    public NewsArticle() {
-        // Moshi constructor
-    }
+@RecordBuilder
+public record NewsArticle(
+        String content,
+        String id,
+        String link,
+        OffsetDateTime published,
+        String summary,
+        String title,
+        OffsetDateTime updated
+) implements Parcelable, ArticleViewer.Article, NewsArticleBuilder.With {
 
-    public OffsetDateTime getPublished() {
-        return published;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public OffsetDateTime getUpdated() {
-        return updated;
-    }
-
-    @Override
-    public String getLink() {
-        return link;
-    }
-    
-    public String getSummary() {
-        return summary;
-    }
-
-    @Override
-    public String getTitle() {
-        return title;
-    }
-
-    public void setUpdated(OffsetDateTime updated) {
-        this.updated = updated;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        NewsArticle that = (NewsArticle) o;
-        return id.equals(that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    private NewsArticle(Parcel in) {
+        this(
+                in.readString(),
+                in.readString(),
+                in.readString(),
+                DateTypeConverters.toOffsetDateTime(in.readString()),
+                in.readString(),
+                in.readString(),
+                DateTypeConverters.toOffsetDateTime(in.readString())
+        );
     }
 
 
@@ -112,17 +74,8 @@ public final class NewsArticle implements Parcelable, ArticleViewer.Article {
         dest.writeString(DateTypeConverters.fromOffsetDateTime(this.updated));
     }
 
-    protected NewsArticle(Parcel in) {
-        this.content = in.readString();
-        this.id = in.readString();
-        this.link = in.readString();
-        this.published = DateTypeConverters.toOffsetDateTime(in.readString());
-        this.summary = in.readString();
-        this.title = in.readString();
-        this.updated = DateTypeConverters.toOffsetDateTime(in.readString());
-    }
 
-    public static final Parcelable.Creator<NewsArticle> CREATOR = new Parcelable.Creator<NewsArticle>() {
+    public static final Parcelable.Creator<NewsArticle> CREATOR = new Parcelable.Creator<>() {
         @Override
         public NewsArticle createFromParcel(Parcel source) {
             return new NewsArticle(source);

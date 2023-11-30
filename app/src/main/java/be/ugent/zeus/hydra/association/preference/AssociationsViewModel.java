@@ -30,10 +30,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import be.ugent.zeus.hydra.association.Association;
-import be.ugent.zeus.hydra.association.common.AssociationRequestBuilder;
-import be.ugent.zeus.hydra.association.common.AssociationVisibilityStorage;
-import be.ugent.zeus.hydra.association.common.EventFilter;
+import be.ugent.zeus.hydra.association.*;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 
@@ -48,11 +45,11 @@ public class AssociationsViewModel extends RequestViewModel<List<Pair<Associatio
 
     @NonNull
     @Override
-    protected Request<List<Pair<Association, Boolean>>> getRequest() {
-        return AssociationRequestBuilder.createListRequest(getApplication()).map(m -> {
+    protected Request<List<Pair<Association, Boolean>>> request() {
+        return AssociationRequest.associationListRequest(getApplication()).map(m -> {
             Set<String> whitelist = AssociationVisibilityStorage.calculateWhitelist(getApplication(), m, null);
             return m.stream()
-                    .map(association -> new Pair<>(association, whitelist.contains(association.getAbbreviation())))
+                    .map(association -> new Pair<>(association, whitelist.contains(association.abbreviation())))
                     .sorted(EventFilter.selectionComparator())
                     .collect(Collectors.toList());
         });

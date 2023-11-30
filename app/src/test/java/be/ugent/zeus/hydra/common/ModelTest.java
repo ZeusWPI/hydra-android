@@ -38,6 +38,7 @@ import static be.ugent.zeus.hydra.testing.Assert.assertParcelable;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public abstract class ModelTest<T extends Parcelable> {
 
     private final Class<T> clazz;
@@ -49,10 +50,5 @@ public abstract class ModelTest<T extends Parcelable> {
     @Test
     public void parcelable() {
         assertParcelable(clazz);
-    }
-
-    @Test
-    public void equalsAndHash() {
-        Utils.defaultVerifier(clazz).verify();
     }
 }

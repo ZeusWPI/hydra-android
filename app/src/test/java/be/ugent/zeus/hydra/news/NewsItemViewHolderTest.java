@@ -64,7 +64,7 @@ public class NewsItemViewHolderTest {
         NewsArticle newsItem = generate(NewsArticle.class);
         viewHolder.populate(newsItem);
 
-        assertTextIs(newsItem.getTitle(), view.findViewById(R.id.name));
+        assertTextIs(newsItem.title(), view.findViewById(R.id.name));
         assertNotEmpty(view.findViewById(R.id.info));
         assertNotEmpty(view.findViewById(R.id.article_excerpt));
 
@@ -78,11 +78,11 @@ public class NewsItemViewHolderTest {
     public void populateVariant() {
         View view = inflate(R.layout.item_news);
         NewsItemViewHolder viewHolder = new NewsItemViewHolder(view, helper);
-        NewsArticle newsItem = generate(NewsArticle.class, "summary");
-        newsItem.setUpdated(OffsetDateTime.now().plusDays(10));
+        NewsArticle newsItem = generate(NewsArticle.class, "summary")
+                .withUpdated(OffsetDateTime.now().plusDays(10));
         viewHolder.populate(newsItem);
 
-        assertTextIs(newsItem.getTitle(), view.findViewById(R.id.name));
+        assertTextIs(newsItem.title(), view.findViewById(R.id.name));
         assertNotEmpty(view.findViewById(R.id.info));
         assertNotEmpty(view.findViewById(R.id.article_excerpt));
 

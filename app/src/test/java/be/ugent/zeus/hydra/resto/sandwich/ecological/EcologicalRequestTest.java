@@ -50,7 +50,7 @@ public class EcologicalRequestTest extends AbstractJsonRequestTest<List<Ecologic
     @Override
     protected List<EcologicalSandwich> getExpectedResult(String data) throws IOException {
         List<EcologicalSandwich> result = super.getExpectedResult(data);
-        result.sort(Comparator.comparing(EcologicalSandwich::getStart));
+        result.sort(Comparator.comparing(EcologicalSandwich::start));
         return result;
     }
 }

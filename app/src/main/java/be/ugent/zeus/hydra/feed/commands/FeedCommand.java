@@ -60,7 +60,7 @@ public interface FeedCommand {
      * @return The string resource.
      */
     @StringRes
-    int getCompleteMessage();
+    int completeMessage();
 
     /**
      * The message to be shown when the command has successfully undone.
@@ -68,7 +68,7 @@ public interface FeedCommand {
      * @return The string resource.
      */
     @StringRes
-    default int getUndoMessage() {
+    default int undoMessage() {
         return R.string.action_undo;
     }
 }

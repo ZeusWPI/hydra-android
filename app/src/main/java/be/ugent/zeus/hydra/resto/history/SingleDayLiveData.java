@@ -45,7 +45,7 @@ public class SingleDayLiveData extends RequestLiveData<RestoMenu> implements Sha
     @Override
     protected void onInactive() {
         super.onInactive();
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         preferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 
@@ -58,21 +58,21 @@ public class SingleDayLiveData extends RequestLiveData<RestoMenu> implements Sha
 
     void changeDate(LocalDate newDate) {
         // This is due to Java limitations
-        getRequest().setDate(newDate);
-        if (getRequest().isSetup()) {
+        request().setDate(newDate);
+        if (request().isSetup()) {
             loadData();
         }
     }
 
     void changeResto(RestoChoice choice) {
-        getRequest().setChoice(choice);
-        if (getRequest().isSetup()) {
+        request().setChoice(choice);
+        if (request().isSetup()) {
             loadData();
         }
     }
 
     @Override
-    protected DayRequest getRequest() {
-        return (DayRequest) super.getRequest();
+    protected DayRequest request() {
+        return (DayRequest) super.request();
     }
 }

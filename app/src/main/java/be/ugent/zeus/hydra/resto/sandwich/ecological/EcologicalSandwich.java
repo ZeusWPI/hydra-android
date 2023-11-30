@@ -24,55 +24,30 @@ package be.ugent.zeus.hydra.resto.sandwich.ecological;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.NonNull;
+import androidx.core.os.ParcelCompat;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Ecological sandwich of the week.
  */
-@SuppressWarnings("WeakerAccess")
-public final class EcologicalSandwich implements Parcelable {
-    
-    private String name;
-    private boolean vegan;
-    private List<String> ingredients;
-    private LocalDate start;
-    private LocalDate end;
+public record EcologicalSandwich(
+        String name,
+        boolean vegan,
+        List<String> ingredients,
+        LocalDate start,
+        LocalDate end
+) implements Parcelable {
 
-    @SuppressWarnings("unused")
-    public EcologicalSandwich() {
-        // Json
-    }
-
-    protected EcologicalSandwich(Parcel in) {
-        this.name = in.readString();
-        this.ingredients = in.createStringArrayList();
-        this.start = (LocalDate) in.readSerializable();
-        this.end = (LocalDate) in.readSerializable();
-        this.vegan = in.readInt() == 1;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public List<String> getIngredients() {
-        return ingredients;
-    }
-
-    public LocalDate getEnd() {
-        return end;
-    }
-
-    public LocalDate getStart() {
-        return start;
-    }
-
-    public boolean isVegan() {
-        return vegan;
+    private EcologicalSandwich(Parcel in) {
+        this(
+                in.readString(),
+                ParcelCompat.readBoolean(in),
+                in.createStringArrayList(),
+                ParcelCompat.readSerializable(in, LocalDate.class.getClassLoader(), LocalDate.class),
+                ParcelCompat.readSerializable(in, LocalDate.class.getClassLoader(), LocalDate.class)
+        );
     }
 
     @Override
@@ -83,36 +58,13 @@ public final class EcologicalSandwich implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.name);
+        ParcelCompat.writeBoolean(dest, this.vegan);
         dest.writeStringList(this.ingredients);
         dest.writeSerializable(this.start);
         dest.writeSerializable(this.end);
-        dest.writeInt(this.vegan ? 1 : 0);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        EcologicalSandwich sandwich = (EcologicalSandwich) o;
-        return Objects.equals(name, sandwich.name) &&
-                Objects.equals(ingredients, sandwich.ingredients) &&
-                Objects.equals(start, sandwich.start) &&
-                Objects.equals(end, sandwich.end) &&
-                Objects.equals(vegan, sandwich.vegan);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, ingredients, start, end, vegan);
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return name;
-    }
-
-    public static final Creator<EcologicalSandwich> CREATOR = new Creator<EcologicalSandwich>() {
+    public static final Creator<EcologicalSandwich> CREATOR = new Creator<>() {
         @Override
         public EcologicalSandwich createFromParcel(Parcel source) {
             return new EcologicalSandwich(source);

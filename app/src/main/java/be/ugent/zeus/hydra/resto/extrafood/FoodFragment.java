@@ -77,9 +77,9 @@ public class FoodFragment extends Fragment {
         int position = requireArguments().getInt(ARG_POSITION);
 
         viewModel = new ViewModelProvider(this).get(ExtraFoodViewModel.class);
-        viewModel.getData().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
-        viewModel.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
-        viewModel.getData().observe(getViewLifecycleOwner(), new SuccessObserver<>() {
+        viewModel.data().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
+        viewModel.data().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
+        viewModel.data().observe(getViewLifecycleOwner(), new SuccessObserver<>() {
             @Override
             protected void onSuccess(@NonNull ExtraFood data) {
                 adapter.submitData(ExtraFoodViewModel.getFor(position, data));

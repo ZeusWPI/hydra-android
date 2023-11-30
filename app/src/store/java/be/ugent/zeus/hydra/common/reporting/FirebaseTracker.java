@@ -46,9 +46,9 @@ class FirebaseTracker implements Tracker {
 
     @Override
     public void log(Event event) {
-        if (event.getEventName() != null) {
+        if (event.eventName() != null) {
             FirebaseAnalytics.getInstance(applicationContext)
-                    .logEvent(event.getEventName(), event.getParams());
+                    .logEvent(event.eventName(), event.params());
         }
     }
 

@@ -22,7 +22,6 @@
 
 package be.ugent.zeus.hydra.feed;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -36,7 +35,7 @@ import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.association.common.AssociationVisibilityStorage;
+import be.ugent.zeus.hydra.association.AssociationVisibilityStorage;
 import be.ugent.zeus.hydra.common.ExtendedSparseArray;
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.database.Database;
@@ -98,7 +97,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
         Result<List<Card>> result = operation.transform(args, results);
 
         if (result.hasException()) {
-            errors.add(operation.getCardType());
+            errors.add(operation.cardType());
         }
 
         return result.orElse(results);
@@ -133,14 +132,15 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
     @Override
     protected void onActive() {
         super.onActive();
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+        var preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
         preferences.registerOnSharedPreferenceChangeListener(restoListener);
-        Map<String, ?> prefs = preferences.getAll();
+        var prefs = preferences.getAll();
         boolean shouldRefresh = false;
         for (String preference : watchedPreferences) {
-            Object newPreference = prefs.get(preference);
+            var newPreference = prefs.get(preference);
             if (newPreference != null) {
-                if (oldPreferences.containsKey(preference) && !oldPreferences.get(preference).equals(newPreference)) {
+                var oldPreference = oldPreferences.get(preference);
+                if (oldPreferences.containsKey(preference) && (oldPreference == null || !oldPreference.equals(newPreference))) {
                     shouldRefresh = true;
                 }
                 oldPreferences.put(preference, newPreference);
@@ -154,7 +154,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
     @Override
     protected void onInactive() {
         super.onInactive();
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+        var preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
         preferences.unregisterOnSharedPreferenceChangeListener(restoListener);
     }
 
@@ -164,7 +164,6 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
      * @param bundle The arguments for the request.
      */
     @Override
-    @SuppressLint("StaticFieldLeak")
     protected void loadData(@NonNull Bundle bundle) {
         ThreadingUtils.executeWithProgress(publishProgress -> {
             // Get the operations.
