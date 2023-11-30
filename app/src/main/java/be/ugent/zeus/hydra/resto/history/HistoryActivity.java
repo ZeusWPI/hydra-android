@@ -77,7 +77,7 @@ public class HistoryActivity
         } else {
             localDate = LocalDate.now();
         }
-        
+
         binding.exposedDropdown.setEnabled(false);
         binding.exposedDropdownContents.setText(getString(R.string.resto_spinner_loading), false);
 
@@ -85,20 +85,20 @@ public class HistoryActivity
 
         viewModel = provider.get(SingleDayViewModel.class);
         viewModel.changeDate(localDate); // Set the initial date
-        viewModel.getData().observe(this, new SuccessObserver<>() {
+        viewModel.data().observe(this, new SuccessObserver<>() {
             @Override
             protected void onSuccess(@NonNull RestoMenu data) {
                 // Add the fragment
                 binding.errorView.setVisibility(View.GONE);
-                setTitle(getString(R.string.resto_history_title, DateUtils.getFriendlyDate(HistoryActivity.this, data.getDate())));
+                setTitle(getString(R.string.resto_history_title, DateUtils.friendlyDate(HistoryActivity.this, data.date())));
                 showFragment(data);
             }
         });
-        viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
-        viewModel.getData().observe(this, new ProgressObserver<>(binding.progressBar));
+        viewModel.data().observe(this, PartialErrorObserver.with(this::onError));
+        viewModel.data().observe(this, new ProgressObserver<>(binding.progressBar));
 
         SelectableMetaViewModel metaViewModel = provider.get(SelectableMetaViewModel.class);
-        metaViewModel.getData().observe(this, SuccessObserver.with(this::onReceiveRestos));
+        metaViewModel.data().observe(this, SuccessObserver.with(this::onReceiveRestoChoices));
 
         findViewById(R.id.fab).setOnClickListener(v -> createAndSetupDialog().show());
     }
@@ -129,22 +129,19 @@ public class HistoryActivity
         if (throwable instanceof IOFailureException) {
             binding.errorView.setText(R.string.error_network);
         } else {
-            binding.errorView.setText(getString(R.string.resto_history_not_found, DateUtils.getFriendlyDate(this, localDate)));
+            binding.errorView.setText(getString(R.string.resto_history_not_found, DateUtils.friendlyDate(this, localDate)));
         }
     }
 
-    private void onReceiveRestos(List<RestoChoice> choices) {
-        SelectedResto selectedResto = new SelectedResto(this);
-        selectedResto.setSelected(restoChoice);
-        selectedResto.setData(choices);
-        viewModel.changeResto(selectedResto.getSelected());
-
-        List<SelectedResto.Wrapper> wrappers = selectedResto.getAsWrappers();
-        ArrayAdapter<SelectedResto.Wrapper> items = new ArrayAdapter<>(this, R.layout.x_simple_spinner_dropdown_item);
-        items.addAll(wrappers);
+    private void onReceiveRestoChoices(List<RestoChoice> choices) {
+        var selectedRestoIndex = SelectedResto.findChoiceIndex(this, choices, restoChoice);
+        var choice = choices.get(selectedRestoIndex);
+        viewModel.changeResto(choice);
+        ArrayAdapter<RestoChoice> items = new ArrayAdapter<>(this, R.layout.x_simple_spinner_dropdown_item);
+        items.addAll(choices);
         binding.exposedDropdownContents.setAdapter(items);
-        binding.exposedDropdownContents.setText(selectedResto.getSelected().getName(), false);
-        binding.exposedDropdownContents.setSelection(selectedResto.getSelectedIndex());
+        binding.exposedDropdownContents.setText(choice.name(), false);
+        binding.exposedDropdownContents.setSelection(selectedRestoIndex);
         binding.exposedDropdownContents.setEnabled(true);
         binding.exposedDropdownContents.setOnItemClickListener(this::onRestoSelected);
     }
@@ -174,14 +171,14 @@ public class HistoryActivity
     }
 
     public void onRestoSelected(AdapterView<?> parent, View view, int position, long id) {
-        SelectedResto.Wrapper wrapper = (SelectedResto.Wrapper) parent.getItemAtPosition(position);
-        restoChoice = wrapper.resto;
+        var selectedChoice = (RestoChoice) parent.getItemAtPosition(position);
         binding.exposedDropdown.clearFocus();
-
-        if (restoChoice == null || restoChoice.getEndpoint() == null) {
+        if (selectedChoice == null || selectedChoice.endpoint() == null) {
             // Do nothing, as this should not happen.
             return;
         }
+        
+        restoChoice = selectedChoice;
         viewModel.changeResto(restoChoice);
     }
 }

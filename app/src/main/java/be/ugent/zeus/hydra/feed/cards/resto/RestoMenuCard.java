@@ -45,8 +45,8 @@ class RestoMenuCard extends Card {
     private static final LocalDateTime interestStart = LocalDateTime.now().withHour(10).withMinute(30);
     private static final LocalDateTime interestEnd = LocalDateTime.now().withHour(14).withMinute(30);
 
-    private final RestoMenu restoMenu;
-    private final RestoChoice restoChoice;
+    public final RestoMenu restoMenu;
+    public final RestoChoice restoChoice;
     @MenuTable.DisplayKind
     private final int feedRestoKind;
 
@@ -56,18 +56,10 @@ class RestoMenuCard extends Card {
         this.feedRestoKind = feedRestoKind;
     }
 
-    RestoMenu getRestoMenu() {
-        return restoMenu;
-    }
-
-    RestoChoice getRestoChoice() {
-        return restoChoice;
-    }
-
     @Override
-    public int getPriority() {
+    public int priority() {
         LocalDateTime now = LocalDateTime.now();
-        int duration = (int) ChronoUnit.DAYS.between(now.toLocalDate(), restoMenu.getDate());
+        int duration = (int) ChronoUnit.DAYS.between(now.toLocalDate(), restoMenu.date());
         if (now.isAfter(interestStart) && now.isBefore(interestEnd)) {
             return Math.max(PriorityUtils.FEED_SPECIAL_SHIFT, PriorityUtils.lerp((int) ((duration - 0.5) * 24), 0, 504)) - 5;
         } else {
@@ -77,13 +69,13 @@ class RestoMenuCard extends Card {
     }
 
     @Override
-    public String getIdentifier() {
+    public String identifier() {
         // Two resto's for the same day are equal, regardless of the resto.
-        return restoMenu.getDate().toString();
+        return restoMenu.date().toString();
     }
 
     @Override
-    public int getCardType() {
+    public int cardType() {
         return Card.Type.RESTO;
     }
 

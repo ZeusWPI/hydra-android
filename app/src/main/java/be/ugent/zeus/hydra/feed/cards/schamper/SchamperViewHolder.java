@@ -38,7 +38,6 @@ import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.CardViewHolder;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
-import be.ugent.zeus.hydra.schamper.Article;
 
 /**
  * Home feed view holder for Schamper articles.
@@ -65,25 +64,25 @@ public class SchamperViewHolder extends CardViewHolder {
     public void populate(Card card) {
         super.populate(card);
 
-        Article article = card.<SchamperCard>checkCard(Card.Type.SCHAMPER).getArticle();
+        var article = card.<SchamperCard>checkCard(Card.Type.SCHAMPER).article;
 
-        title.setText(article.getTitle());
+        title.setText(article.title());
 
         // Construct coloured text
         Spannable category;
         if (article.hasCategoryColour()) {
-            int colour = Color.parseColor(article.getCategoryColour());
-            category = new SpannableString(article.getCategory());
+            int colour = Color.parseColor(article.categoryColour());
+            category = new SpannableString(article.category());
             category.setSpan(new ForegroundColorSpan(colour), 0, category.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else {
-            category = new SpannableString(article.getCategory());
+            category = new SpannableString(article.category());
         }
 
-        date.setText(TextUtils.concat(DateUtils.relativeDateTimeString(article.getPubDate(), itemView.getContext()), " • ", category));
-        author.setText(article.getAuthor());
+        date.setText(TextUtils.concat(DateUtils.relativeDateTimeString(article.pubDate(), itemView.getContext()), " • ", category));
+        author.setText(article.author());
 
-        PriorityUtils.loadThumbnail(itemView.getContext(), article.getImage(), image);
+        PriorityUtils.loadThumbnail(itemView.getContext(), article.image(), image);
 
-        this.itemView.setOnClickListener(v -> ArticleViewer.viewArticle(v.getContext(), article, adapter.getCompanion().getHelper()));
+        this.itemView.setOnClickListener(v -> ArticleViewer.viewArticle(v.getContext(), article, adapter.companion().helper()));
     }
 }

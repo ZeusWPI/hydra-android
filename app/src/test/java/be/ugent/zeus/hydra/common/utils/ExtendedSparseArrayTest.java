@@ -82,14 +82,14 @@ public class ExtendedSparseArrayTest {
 
     @Test
     public void testKeysNormal() {
-        List<Integer> result = smallArray.getKeys();
+        List<Integer> result = smallArray.keys();
         List<Integer> expected = Arrays.asList(0, 1, 2);
         assertEquals(expected, result);
     }
 
     @Test
     public void testKeysEmpty() {
-        List<Integer> result = new ExtendedSparseArray<Integer>().getKeys();
+        List<Integer> result = new ExtendedSparseArray<Integer>().keys();
         assertTrue(result.isEmpty());
     }
 }

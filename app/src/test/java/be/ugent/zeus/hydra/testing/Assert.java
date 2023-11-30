@@ -40,14 +40,50 @@ import org.hamcrest.*;
 import org.junit.ComparisonFailure;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Custom assert rules for unit tests.
  *
  * @author Niko Strijbol
  */
-@SuppressLint("NewApi")
 public class Assert {
+
+    private static <T> Parcelable.Creator<T> getCreator(T input) {
+        try {
+            Object creator = FieldUtils.readDeclaredStaticField(input.getClass(), "CREATOR");
+            //noinspection unchecked
+            return (Parcelable.Creator<T>) creator;
+        } catch (IllegalAccessException e) {
+            throw new AssertionError("Class does not have a CREATOR field.", e);
+        } catch (ClassCastException e) {
+            throw new AssertionError("Class does not have a correct CREATOR field, or it is used wrong.", e);
+        }
+    }
+
+    /**
+     * Assert that a class implements {@link Parcelable} correctly.
+     * <p>
+     * This assertion relies on a proper implementation of the equals method.
+     * The result of converting an object to a parcel and back should be the same.
+     * <p>
+     * The parcelable implementation is assumed to not have any special content descriptions, i.e.
+     * {@link Parcelable#describeContents()} always returns {@code 0}.
+     *
+     * @param instance An instance of the object to check.
+     * @param <T>      The type of the object to test.
+     */
+    public static <T extends Parcelable> void assertRecordParcelable(T instance) {
+        // This assert only works with records...
+        assertTrue(instance.getClass().isRecord());
+        assertEquals(0, instance.describeContents());
+        Parcel parcel = MockParcel.writeToParcelable(instance);
+        Parcelable.Creator<T> creator = getCreator(instance);
+        T other = creator.createFromParcel(parcel);
+        assertEquals(instance, other);
+        T[] array = creator.newArray(10);
+        assertEquals(10, array.length);
+    }
 
     /**
      * Assert that a class implements {@link Parcelable} correctly. This will check every field of the class.
@@ -58,6 +94,7 @@ public class Assert {
      * @param <T>   The type of the object to test.
      */
     @SuppressWarnings("unchecked")
+    @Deprecated
     public static <T extends Parcelable> void assertParcelable(Class<T> clazz) {
         Objects.requireNonNull(clazz);
         T original = Utils.generate(clazz);
@@ -79,6 +116,7 @@ public class Assert {
     /**
      * Matcher that take special care of {@link ZonedDateTime}s.
      */
+    @Deprecated
     public static <T> Matcher<T> samePropertyValuesAs(T instance) {
         return ShallowButFullEqual.sameFieldsAs(instance)
                 .withMatcher(ZonedDateTime.class, o -> new TypeSafeDiagnosingMatcher<ZonedDateTime>() {

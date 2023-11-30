@@ -42,7 +42,7 @@ interface AdapterUpdate<D> {
      */
     @Nullable
     @AnyThread
-    List<D> getNewData(@Nullable List<D> existingData);
+    List<D> newData(@Nullable List<D> existingData);
 
     /**
      * Apply the update to the update callback. At this point, the underlying data of the callback is already

@@ -39,7 +39,7 @@ public class MetaViewModel extends RequestViewModel<RestoMeta> {
 
     @NonNull
     @Override
-    protected Request<RestoMeta> getRequest() {
+    protected Request<RestoMeta> request() {
         return new MetaRequest(getApplication());
     }
 }

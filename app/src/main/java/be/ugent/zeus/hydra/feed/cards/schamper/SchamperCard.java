@@ -40,31 +40,27 @@ import static be.ugent.zeus.hydra.feed.cards.Card.Type.SCHAMPER;
  */
 class SchamperCard extends Card {
 
-    private final Article article;
+    final Article article;
 
     SchamperCard(Article article) {
         this.article = article;
     }
 
-    Article getArticle() {
-        return article;
-    }
-
     @Override
-    public int getPriority() {
-        OffsetDateTime date = article.getPubDate();
+    public int priority() {
+        OffsetDateTime date = article.pubDate();
         Duration duration = Duration.between(date, OffsetDateTime.now());
         // We only show the last month of schamper articles.
         return PriorityUtils.lerp((int) duration.toDays(), 0, 30);
     }
 
     @Override
-    public String getIdentifier() {
-        return article.getIdentifier();
+    public String identifier() {
+        return article.identifier();
     }
 
     @Override
-    public int getCardType() {
+    public int cardType() {
         return SCHAMPER;
     }
 

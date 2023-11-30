@@ -47,7 +47,7 @@ public class ArticleViewer {
         analytics.log(new ArticleViewedEvent(article));
 
         // Open in-app or in a custom tab
-        helper.openCustomTab(Uri.parse(article.getLink()));
+        helper.openCustomTab(Uri.parse(article.link()));
     }
 
     /**
@@ -57,36 +57,29 @@ public class ArticleViewer {
         /**
          * A link to the article. Must be unique.
          */
-        String getLink();
+        String link();
 
         /**
          * Title of the article.
          */
-        String getTitle();
+        String title();
     }
 
-    private static class ArticleViewedEvent implements Event {
+    private record ArticleViewedEvent(Article article) implements Event {
 
-        private final Article article;
-
-        ArticleViewedEvent(Article article) {
-            this.article = article;
-        }
-
-        @Nullable
         @Override
-        public Bundle getParams() {
+        public Bundle params() {
             BaseEvents.Params names = Reporting.getEvents().params();
             Bundle params = new Bundle();
             params.putString(names.contentType(), article.getClass().getSimpleName());
-            params.putString(names.itemId(), article.getLink());
-            params.putString(names.itemName(), article.getTitle());
+            params.putString(names.itemId(), article.link());
+            params.putString(names.itemName(), article.title());
             return params;
         }
 
         @Nullable
         @Override
-        public String getEventName() {
+        public String eventName() {
             return Reporting.getEvents().selectContent();
         }
     }

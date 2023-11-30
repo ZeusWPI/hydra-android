@@ -66,7 +66,7 @@ public class AssociationViewHolderTest {
 
         CheckBox checkBox = view.findViewById(R.id.checkbox);
 
-        assertTextIs(association.getName(), view.findViewById(R.id.title_checkbox));
+        assertTextIs(association.name(), view.findViewById(R.id.title_checkbox));
         assertTrue(checkBox.isChecked());
 
         view.performClick();

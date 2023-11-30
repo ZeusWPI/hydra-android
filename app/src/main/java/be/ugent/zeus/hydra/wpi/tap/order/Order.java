@@ -24,55 +24,32 @@ package be.ugent.zeus.hydra.wpi.tap.order;
 
 import androidx.annotation.Nullable;
 
-import com.squareup.moshi.Json;
-
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 
 import be.ugent.zeus.hydra.wpi.tap.product.Product;
+import com.squareup.moshi.Json;
 
 /**
  * Represents an order on Tap.
- * 
+ *
  * @author Niko Strijbol
  */
-public class Order {
-    private int id;
-    @Json(name = "price_cents")
-    private int price;
-    @Json(name = "created_at")
-    private OffsetDateTime createdAt;
-    @Json(name = "deletable_until")
-    private OffsetDateTime deletableUntil;
-    @Nullable
-    @Json(name = "transaction_id")
-    private Integer transactionId;
-    
-    private List<Product> products;
-
-    public int getId() {
-        return id;
-    }
-
-    @Nullable
-    public Integer getTransactionId() {
-        return transactionId;
-    }
-
-    public OffsetDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-    
-    public BigDecimal getTotal() {
+public record Order(
+        int id,
+        @Json(name = "price_cents")
+        int price,
+        @Json(name = "created_at")
+        OffsetDateTime createdAt,
+        @Json(name = "deletable_until")
+        OffsetDateTime deletableUntil,
+        @Nullable
+        @Json(name = "transaction_id")
+        Integer transactionId,
+        List<Product> products
+) {
+    public BigDecimal total() {
         return new BigDecimal(this.price).movePointLeft(2);
-    }
-
-    public OffsetDateTime getDeletableUntil() {
-        return deletableUntil;
     }
 }

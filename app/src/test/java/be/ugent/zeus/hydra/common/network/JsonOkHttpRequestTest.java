@@ -75,11 +75,12 @@ public class JsonOkHttpRequestTest {
         server = new MockWebServer();
         context = ApplicationProvider.getApplicationContext();
         // Disable retry when offline.
-        OkHttpClient.Builder builder = InstanceProvider.getBuilder(context.getCacheDir());
+        OkHttpClient.Builder builder = InstanceProvider.builder(context.getCacheDir());
+        //noinspection KotlinInternalInJava
         builder.retryOnConnectionFailure(false);
         // Reduce the amount of time we wait for errors to speed up tests.
         builder.readTimeout(Duration.ofMillis(250));
-        InstanceProvider.setClient(builder.build());
+        InstanceProvider.client(builder.build());
     }
 
     @After
@@ -98,7 +99,7 @@ public class JsonOkHttpRequestTest {
         Result<Integer> result = request.execute();
 
         assertTrue(result.hasData());
-        assertEquals(1, (int) result.getData());
+        assertEquals(1, (int) result.data());
     }
 
     @Test
@@ -112,14 +113,14 @@ public class JsonOkHttpRequestTest {
         Request<Integer> request = new TestRequest(url);
         Result<Integer> result = request.execute();
         assertTrue(result.hasData());
-        assertEquals(1, (int) result.getData());
+        assertEquals(1, (int) result.data());
 
         // The second request will not hit the network; the cache is used.
         Result<Integer> result2 = request.execute();
         assertTrue(result2.hasData());
-        assertEquals(1, (int) result2.getData());
+        assertEquals(1, (int) result2.data());
 
-        Cache cache = InstanceProvider.getClient(context).cache();
+        Cache cache = InstanceProvider.client(context).cache();
         assertNotNull(cache);
         assertEquals(1, cache.networkCount());
         assertEquals(1, cache.hitCount());
@@ -137,7 +138,7 @@ public class JsonOkHttpRequestTest {
         Request<Integer> request = new TestRequest(url);
         Result<Integer> result = request.execute();
         assertTrue(result.hasData());
-        assertEquals(1, (int) result.getData());
+        assertEquals(1, (int) result.data());
 
         // The second request also hits the network; a cache is available, but we request fresh data.
         // This is used when the user refreshes a view manually.
@@ -145,9 +146,9 @@ public class JsonOkHttpRequestTest {
         args.putBoolean(BaseLiveData.REFRESH_COLD, true);
         Result<Integer> result2 = request.execute(args);
         assertTrue(result2.hasData());
-        assertEquals(2, (int) result2.getData());
+        assertEquals(2, (int) result2.data());
 
-        Cache cache = InstanceProvider.getClient(context).cache();
+        Cache cache = InstanceProvider.client(context).cache();
         assertNotNull(cache);
         assertEquals(2, cache.networkCount());
         assertEquals(0, cache.hitCount());
@@ -165,14 +166,14 @@ public class JsonOkHttpRequestTest {
         Request<Integer> request = new TestRequest(url, Duration.ZERO);
         Result<Integer> result = request.execute();
         assertTrue(result.hasData());
-        assertEquals(1, (int) result.getData());
+        assertEquals(1, (int) result.data());
 
         // The second requests hits the network, since the cache is stale.
         Result<Integer> result2 = request.execute();
         assertTrue(result2.hasData());
-        assertEquals(2, (int) result2.getData());
+        assertEquals(2, (int) result2.data());
 
-        Cache cache = InstanceProvider.getClient(context).cache();
+        Cache cache = InstanceProvider.client(context).cache();
         assertNotNull(cache);
         assertEquals(2, cache.networkCount());
         assertEquals(0, cache.hitCount());
@@ -221,10 +222,11 @@ public class JsonOkHttpRequestTest {
 
     @Test(expected = RequestException.class)
     public void shouldThrow_WhenResponseIsJsonYetExpectedOtherJson() throws IOException, RequestException {
-        server.enqueue(new MockResponse().setBody("{\n" +
-                "\t   \"rank\": \"4\",\n" +
-                "\t   \"suit\": \"CLUBS\"\n" +
-                "\t }"));
+        server.enqueue(new MockResponse().setBody("""
+                {
+                \t   "rank": "4",
+                \t   "suit": "CLUBS"
+                \t }"""));
         server.start();
         HttpUrl url = server.url("/fine.json");
 
@@ -254,16 +256,16 @@ public class JsonOkHttpRequestTest {
         Request<Integer> request = new TestRequest(url);
         Result<Integer> result = request.execute();
         assertTrue(result.hasData());
-        assertEquals(1, (int) result.getData());
+        assertEquals(1, (int) result.data());
 
         server.shutdown();
 
         // Make another request.
         Result<Integer> result2 = request.execute();
         assertTrue(result2.hasData());
-        assertEquals(1, (int) result2.getData());
+        assertEquals(1, (int) result2.data());
 
-        Cache cache = InstanceProvider.getClient(context).cache();
+        Cache cache = InstanceProvider.client(context).cache();
         assertNotNull(cache);
         assertEquals(1, cache.networkCount());
         assertEquals(1, cache.hitCount());
@@ -280,9 +282,9 @@ public class JsonOkHttpRequestTest {
         Request<Integer> request = new TestRequest(url);
         Result<Integer> result = request.execute();
         assertTrue(result.hasData());
-        assertEquals(1, (int) result.getData());
+        assertEquals(1, (int) result.data());
 
-        Cache cache = InstanceProvider.getClient(context).cache();
+        Cache cache = InstanceProvider.client(context).cache();
         assertNotNull(cache);
         assertEquals(1, cache.networkCount());
         assertEquals(0, cache.hitCount());
@@ -295,7 +297,7 @@ public class JsonOkHttpRequestTest {
         args.putBoolean(BaseLiveData.REFRESH_COLD, true);
         Result<Integer> result2 = request.execute(args);
         assertTrue(result2.hasData());
-        assertEquals(1, (int) result2.getData());
+        assertEquals(1, (int) result2.data());
 
         assertEquals(2, cache.networkCount());
         assertEquals(1, cache.hitCount());
@@ -312,9 +314,9 @@ public class JsonOkHttpRequestTest {
         Request<Integer> request = new NoCacheRequest(url);
         Result<Integer> result = request.execute();
         assertTrue(result.hasData());
-        assertEquals(1, (int) result.getData());
+        assertEquals(1, (int) result.data());
 
-        Cache cache = InstanceProvider.getClient(context).cache();
+        Cache cache = InstanceProvider.client(context).cache();
         assertNotNull(cache);
         assertEquals(1, cache.networkCount());
         assertEquals(0, cache.hitCount());
@@ -341,10 +343,10 @@ public class JsonOkHttpRequestTest {
         Request<Integer> request = new TestRequest(url, Duration.ZERO);
         Result<Integer> result = request.execute();
         assertTrue(result.hasData());
-        assertEquals(1, (int) result.getData());
+        assertEquals(1, (int) result.data());
 
         // Assert that the request was successful.
-        Cache cache = InstanceProvider.getClient(context).cache();
+        Cache cache = InstanceProvider.client(context).cache();
         assertNotNull(cache);
         assertEquals(1, cache.networkCount());
         assertEquals(0, cache.hitCount());
@@ -355,7 +357,7 @@ public class JsonOkHttpRequestTest {
         // Make another request.
         Result<Integer> result2 = request.execute();
         assertTrue(result2.hasData());
-        assertEquals(1, (int) result2.getData());
+        assertEquals(1, (int) result2.data());
 
         assertEquals(2, cache.networkCount());
         assertEquals(1, cache.hitCount());
@@ -371,9 +373,9 @@ public class JsonOkHttpRequestTest {
         Request<Integer> request = new TestRequest(url, Duration.ZERO);
         Result<Integer> result = request.execute();
         assertTrue(result.hasData());
-        assertEquals(1, (int) result.getData());
+        assertEquals(1, (int) result.data());
 
-        Cache cache = InstanceProvider.getClient(context).cache();
+        Cache cache = InstanceProvider.client(context).cache();
         assertNotNull(cache);
         assertEquals(1, cache.networkCount());
         assertEquals(0, cache.hitCount());
@@ -386,7 +388,7 @@ public class JsonOkHttpRequestTest {
         args.putBoolean(BaseLiveData.REFRESH_COLD, true);
         Result<Integer> result2 = request.execute(args);
         assertTrue(result2.hasData());
-        assertEquals(1, (int) result2.getData());
+        assertEquals(1, (int) result2.data());
 
         assertEquals(3, cache.networkCount());
         assertEquals(1, cache.hitCount());
@@ -423,16 +425,17 @@ public class JsonOkHttpRequestTest {
 
         @NonNull
         @Override
-        protected String getAPIUrl() {
+        protected String apiUrl() {
             return url.toString();
         }
 
         @Override
-        protected Duration getCacheDuration() {
+        protected Duration cacheDuration() {
             return Duration.ofSeconds(cacheDuration.getSeconds());
         }
     }
 
+    /** @noinspection NewClassNamingConvention*/
     private static class NoCacheRequest extends TestRequest {
 
         NoCacheRequest(HttpUrl url) {

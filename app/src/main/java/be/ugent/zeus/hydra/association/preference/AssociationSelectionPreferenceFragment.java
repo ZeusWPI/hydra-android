@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.Association;
-import be.ugent.zeus.hydra.association.common.AssociationVisibilityStorage;
+import be.ugent.zeus.hydra.association.AssociationVisibilityStorage;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
@@ -101,9 +101,9 @@ public class AssociationSelectionPreferenceFragment extends Fragment {
         searchView.setOnQueryTextListener(adapter);
 
         AssociationsViewModel model = new ViewModelProvider(this).get(AssociationsViewModel.class);
-        model.getData().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
-        model.getData().observe(getViewLifecycleOwner(), SuccessObserver.with(adapter::submitData));
-        model.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
+        model.data().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
+        model.data().observe(getViewLifecycleOwner(), SuccessObserver.with(adapter::submitData));
+        model.data().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
     }
 
     @Override

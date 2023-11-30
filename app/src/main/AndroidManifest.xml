@@ -118,7 +118,7 @@
 
         <!-- Details about association events. -->
         <activity
-            android:name=".association.event.EventDetailsActivity"
+            android:name=".association.EventDetailsActivity"
             android:label="@string/event_detail_activity_title"
             android:launchMode="singleTop"
             android:parentActivityName=".MainActivity" />

@@ -47,24 +47,23 @@ class NewsItemCard extends Card {
     }
 
     @Override
-    public int getPriority() {
-        OffsetDateTime date = getNewsItem().getUpdated();
+    public int priority() {
+        OffsetDateTime date = newsItem().updated();
         Duration duration = Duration.between(date, OffsetDateTime.now());
         return PriorityUtils.lerp((int) duration.toHours(), 0, TWO_WEEKS_HOURS);
     }
 
     @Override
-    public String getIdentifier() {
-        return newsItem.getId();
+    public String identifier() {
+        return newsItem.id();
     }
 
     @Override
-    public int getCardType() {
+    public int cardType() {
         return Card.Type.NEWS_ITEM;
     }
 
-    @SuppressWarnings("WeakerAccess")
-    public NewsArticle getNewsItem() {
+    public NewsArticle newsItem() {
         return newsItem;
     }
 

@@ -30,7 +30,7 @@ import androidx.annotation.VisibleForTesting;
 import java.time.LocalDate;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.association.common.EventItem;
+import be.ugent.zeus.hydra.association.EventItem;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 
 
@@ -55,6 +55,6 @@ class DateHeaderViewHolder extends DataViewHolder<EventItem> {
 
     @Override
     public void populate(EventItem eventItem) {
-        headerText.setText(formatDate(headerText.getContext(), eventItem.getHeader()));
+        headerText.setText(formatDate(headerText.getContext(), eventItem.header()));
     }
 }

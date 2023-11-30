@@ -33,6 +33,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.pm.ShortcutInfoCompat;
 import androidx.core.content.pm.ShortcutManagerCompat;
 import androidx.core.graphics.drawable.IconCompat;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
@@ -51,6 +52,7 @@ import be.ugent.zeus.hydra.wpi.account.CombinedUserViewModel;
 import be.ugent.zeus.hydra.wpi.tap.cart.CartActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import org.jetbrains.annotations.NotNull;
 
 import static be.ugent.zeus.hydra.wpi.WpiActivity.ACTIVITY_DO_REFRESH;
 import static be.ugent.zeus.hydra.wpi.tap.product.ProductData.PREF_SHOW_ONLY_IN_STOCK;
@@ -72,7 +74,6 @@ public class ProductFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
         if (savedInstanceState != null) {
             favouriteProductId = savedInstanceState.getInt(SAVED_FAVOURITE, -1);
         }
@@ -97,24 +98,24 @@ public class ProductFragment extends Fragment {
         swipeRefreshLayout.setColorSchemeColors(ColourUtils.resolveColour(requireContext(), R.attr.colorSecondary));
 
         viewModel = new ViewModelProvider(this).get(ProductViewModel.class);
-        viewModel.getData().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
-        viewModel.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
+        viewModel.data().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
+        viewModel.data().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
         viewModel.getFilteredData().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
-        viewModel.getRefreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
+        viewModel.refreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
 
         // For refreshing, we request a refresh from the parent activity.
         // We then listen to the parent refresh state and refresh this fragment when the parent is refreshing.
         CombinedUserViewModel activityViewModel = new ViewModelProvider(requireActivity()).get(CombinedUserViewModel.class);
         swipeRefreshLayout.setOnRefreshListener(activityViewModel);
-        activityViewModel.getRefreshing().observe(getViewLifecycleOwner(), refreshing -> {
+        activityViewModel.refreshing().observe(getViewLifecycleOwner(), refreshing -> {
             if (refreshing) {
                 viewModel.onRefresh();
             }
         });
 
         // Attach both to the combiner.
-        viewModel.getData().observe(getViewLifecycleOwner(), SuccessObserver.with(products -> viewModel.updateValue(products.getAllData())));
-        activityViewModel.getData().observe(getViewLifecycleOwner(), SuccessObserver.with(combinedUser -> viewModel.updateValue(combinedUser.getFavourite())));
+        viewModel.data().observe(getViewLifecycleOwner(), SuccessObserver.with(products -> viewModel.updateValue(products.getAllData())));
+        activityViewModel.data().observe(getViewLifecycleOwner(), SuccessObserver.with(combinedUser -> viewModel.updateValue(combinedUser.favourite())));
 
         // Listen to both.
         viewModel.getFavouriteProduct().observe(getViewLifecycleOwner(), pf -> {
@@ -122,8 +123,8 @@ public class ProductFragment extends Fragment {
             if (pf.first == null || pf.second == null) {
                 fab.hide();
             } else {
-                Optional<Product> product = pf.first.stream().filter(p -> p.getId() == pf.second).findFirst();
-                if (!product.isPresent()) {
+                Optional<Product> product = pf.first.stream().filter(p -> p.id() == pf.second).findFirst();
+                if (product.isEmpty()) {
                     // Oops.
                     fab.hide();
                     requireActivity().invalidateOptionsMenu();
@@ -132,10 +133,10 @@ public class ProductFragment extends Fragment {
                     return;
                 }
                 Product favourite = product.get();
-                favouriteProductId = favourite.getId();
+                favouriteProductId = favourite.id();
                 fab.setOnClickListener(v -> {
                     Intent intent = new Intent(requireActivity(), CartActivity.class);
-                    intent.putExtra(CartActivity.ARG_FAVOURITE_PRODUCT_ID, favourite.getId());
+                    intent.putExtra(CartActivity.ARG_FAVOURITE_PRODUCT_ID, favourite.id());
                     startActivityForResult(intent, ACTIVITY_DO_REFRESH);
                 });
                 fab.show();
@@ -143,42 +144,42 @@ public class ProductFragment extends Fragment {
                 maybeUpdateShortcut();
             }
         });
-    }
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_wpi_products, menu);
+        requireActivity().addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater menuInflater) {
+                menuInflater.inflate(R.menu.menu_wpi_products, menu);
 
-        // Set saved preference for stock stuff.
-        MenuItem item = menu.findItem(R.id.action_filter_stock);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        boolean show = preferences.getBoolean(PREF_SHOW_ONLY_IN_STOCK, false);
-        item.setChecked(show);
+                // Set saved preference for stock stuff.
+                MenuItem item = menu.findItem(R.id.action_filter_stock);
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+                boolean show = preferences.getBoolean(PREF_SHOW_ONLY_IN_STOCK, false);
+                item.setChecked(show);
 
-        // Hide or show based on whether the user has a favourite item or not.
-        MenuItem pinItem = menu.findItem(R.id.action_pin_favourite);
-        pinItem.setVisible(favouriteProductId != -1);
+                // Hide or show based on whether the user has a favourite item or not.
+                MenuItem pinItem = menu.findItem(R.id.action_pin_favourite);
+                pinItem.setVisible(favouriteProductId != -1);
+            }
 
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_filter_stock) {
-            boolean checked = !item.isChecked();
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-            preferences.edit()
-                    .putBoolean(PREF_SHOW_ONLY_IN_STOCK, checked)
-                    .apply();
-            item.setChecked(checked);
-            viewModel.requestRefresh();
-            return true;
-        } else if (item.getItemId() == R.id.action_pin_favourite) {
-            createOrUpdatePinnedShortcut();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+            @Override
+            public boolean onMenuItemSelected(@NonNull @NotNull MenuItem item) {
+                if (item.getItemId() == R.id.action_filter_stock) {
+                    boolean checked = !item.isChecked();
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+                    preferences.edit()
+                            .putBoolean(PREF_SHOW_ONLY_IN_STOCK, checked)
+                            .apply();
+                    item.setChecked(checked);
+                    viewModel.requestRefresh();
+                    return true;
+                } else if (item.getItemId() == R.id.action_pin_favourite) {
+                    createOrUpdatePinnedShortcut();
+                    return true;
+                }
+                
+                return false;
+            }
+        }, getViewLifecycleOwner());
     }
 
     private void onError(Throwable throwable) {

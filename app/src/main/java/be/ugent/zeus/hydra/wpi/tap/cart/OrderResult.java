@@ -24,7 +24,6 @@ package be.ugent.zeus.hydra.wpi.tap.cart;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.Objects;
 
 import com.squareup.moshi.Json;
 
@@ -33,45 +32,15 @@ import com.squareup.moshi.Json;
  *
  * @author Niko Strijbol
  */
-class OrderResult {
-    private Integer id;
-    @Json(name = "user_id")
-    private int userId;
-    @Json(name = "price_cents")
-    private int price;
-    @Json(name = "created_at")
-    private OffsetDateTime createdAt;
-    @Json(name = "updated_at")
-    private OffsetDateTime updatedAt;
-    @Json(name = "transaction_id")
-    private Integer transactionId;
-
-    public OrderResult() {
-        // Moshi
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public OffsetDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public BigDecimal getPrice() {
+public record OrderResult(
+        Integer id,
+        @Json(name = "user_id") int userId,
+        @Json(name = "price_cents") int price,
+        @Json(name = "created_at") OffsetDateTime createdAt,
+        @Json(name = "updated_at") OffsetDateTime updatedAt,
+        @Json(name = "transaction_id") Integer transactionId
+) {
+    public BigDecimal priceDecimal() {
         return new BigDecimal(price).movePointLeft(2);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        OrderResult that = (OrderResult) o;
-        return userId == that.userId && price == that.price && Objects.equals(id, that.id) && Objects.equals(createdAt, that.createdAt) && Objects.equals(updatedAt, that.updatedAt) && Objects.equals(transactionId, that.transactionId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, userId, price, createdAt, updatedAt, transactionId);
     }
 }

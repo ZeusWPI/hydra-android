@@ -50,13 +50,13 @@ public class ProductViewModel extends RequestViewModel<ProductData> {
 
     @NonNull
     @Override
-    protected Request<ProductData> getRequest() {
+    protected Request<ProductData> request() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplication());
         return new ProductRequest(getApplication()).map(products -> new ProductData(preferences, products));
     }
     
     public LiveData<Result<List<Product>>> getFilteredData() {
-        return Transformations.map(getData(), input -> input.map(ProductData::getFilteredData));
+        return Transformations.map(data(), input -> input.map(ProductData::getFilteredData));
     }
     
     public void updateValue(List<Product> products) {

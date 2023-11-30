@@ -24,7 +24,9 @@ package be.ugent.zeus.hydra.resto.sandwich.regular;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -40,7 +42,7 @@ import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.utils.ColourUtils;
 import com.google.android.material.snackbar.Snackbar;
 
-import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
+import static be.ugent.zeus.hydra.common.utils.FragmentUtils.registerRefreshMenu;
 
 /**
  * Activity that shows a list of regular sandwiches.
@@ -53,12 +55,6 @@ public class RegularFragment extends Fragment {
 
     private final RegularAdapter adapter = new RegularAdapter();
     private RegularViewModel viewModel;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
 
     @Nullable
     @Override
@@ -79,11 +75,13 @@ public class RegularFragment extends Fragment {
         swipeRefreshLayout.setColorSchemeColors(ColourUtils.resolveColour(requireContext(), R.attr.colorSecondary));
 
         viewModel = new ViewModelProvider(this).get(RegularViewModel.class);
-        viewModel.getData().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
-        viewModel.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
-        viewModel.getData().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
-        viewModel.getRefreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
+        viewModel.data().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
+        viewModel.data().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
+        viewModel.data().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
+        viewModel.refreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
         swipeRefreshLayout.setOnRefreshListener(viewModel);
+
+        registerRefreshMenu(this, viewModel);
     }
 
     private void onError(Throwable throwable) {
@@ -91,20 +89,5 @@ public class RegularFragment extends Fragment {
         Snackbar.make(requireView(), getString(R.string.error_network), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.action_again), v -> viewModel.onRefresh())
                 .show();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_refresh, menu);
-        requireBaseActivity(this).tintToolbarIcons(menu, R.id.action_refresh);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.action_refresh) {
-            viewModel.onRefresh();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

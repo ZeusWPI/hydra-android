@@ -73,17 +73,6 @@ public abstract class SearchableAdapter<D, VH extends DataViewHolder<D>> extends
         this.filter = Function.identity();
     }
 
-    /**
-     * @param searchPredicate The predicate used when searching. The predicate receives an item and the search query and
-     *                        should return true if the item is a match for the given query. This should be fairly fast,
-     *                        as it is executed for every item for every change in search query.
-     */
-    protected SearchableAdapter(BiPredicate<D, String> searchPredicate, Function<List<D>, List<D>> filter) {
-        super();
-        this.searchPredicate = searchPredicate;
-        this.filter = filter;
-    }
-
     protected SearchableAdapter(Function<D, String> stringifier) {
         this((d, s) -> stringifier.apply(d).contains(s));
     }

@@ -49,8 +49,8 @@ public class AbstractFeedViewHolderTest {
     @Before
     public void setUp() {
         adapter = mock(HomeFeedAdapter.class);
-        HomeFeedAdapter.AdapterCompanion companion = mock(HomeFeedAdapter.AdapterCompanion.class);
-        when(adapter.getCompanion()).thenReturn(companion);
+        var companion = mock(HomeFeedAdapter.AdapterCompanion.class);
+        when(adapter.companion()).thenReturn(companion);
         activityContext = RobolectricUtils.getActivityContext();
         when(companion.getContext()).thenReturn(activityContext);
         doAnswer((Answer<Void>) invocation -> {
@@ -58,6 +58,6 @@ public class AbstractFeedViewHolderTest {
             return null;
         }).when(companion).startActivityForResult(any(Intent.class), anyInt());
         helper = mock(ActivityHelper.class);
-        when(companion.getHelper()).thenReturn(helper);
+        when(companion.helper()).thenReturn(helper);
     }
 }

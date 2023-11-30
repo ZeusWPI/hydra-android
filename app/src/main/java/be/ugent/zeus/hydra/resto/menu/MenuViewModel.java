@@ -41,7 +41,7 @@ public class MenuViewModel extends RequestViewModel<List<RestoMenu>> {
     }
 
     @NonNull
-    protected Request<List<RestoMenu>> getRequest() {
+    protected Request<List<RestoMenu>> request() {
         return new MenuRequest(getApplication());
     }
 }

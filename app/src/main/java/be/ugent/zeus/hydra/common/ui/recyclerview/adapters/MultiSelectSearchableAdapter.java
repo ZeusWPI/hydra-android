@@ -82,9 +82,9 @@ public abstract class MultiSelectSearchableAdapter<D, VH extends DataViewHolder<
     public void setChecked(int position) {
         dataContainer.submitUpdate(new AdapterUpdate<>() {
             @Override
-            public List<Pair<D, Boolean>> getNewData(List<Pair<D, Boolean>> existingData) {
+            public List<Pair<D, Boolean>> newData(List<Pair<D, Boolean>> existingData) {
 
-                Pair<D, Boolean> data = getItem(position);
+                Pair<D, Boolean> data = item(position);
                 Pair<D, Boolean> newData = new Pair<>(data.first, !data.second);
 
                 existingData.remove(data);
@@ -118,7 +118,7 @@ public abstract class MultiSelectSearchableAdapter<D, VH extends DataViewHolder<
         dataContainer.submitUpdate(new AdapterUpdate<>() {
             @Override
             @Nullable
-            public List<Pair<D, Boolean>> getNewData(@Nullable List<Pair<D, Boolean>> existingData) {
+            public List<Pair<D, Boolean>> newData(@Nullable List<Pair<D, Boolean>> existingData) {
 
                 if (existingData == null) {
                     return null;

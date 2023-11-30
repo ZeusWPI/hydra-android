@@ -26,44 +26,20 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.List;
-import java.util.Objects;
-
-import androidx.annotation.NonNull;
 
 import com.squareup.moshi.Json;
 
 /**
  * Created by feliciaan on 04/02/16.
  */
-@SuppressWarnings("WeakerAccess")
-public final class RegularSandwich implements Parcelable {
+public record RegularSandwich(
+        String name,
+        List<String> ingredients,
+        @Json(name = "price_medium") String priceMedium
+) implements Parcelable {
 
-    private String name;
-    private List<String> ingredients;
-    @Json(name = "price_medium")
-    private String priceMedium;
-
-    @SuppressWarnings("unused")
-    public RegularSandwich() {
-
-    }
-
-    public RegularSandwich(Parcel in) {
-        this.name = in.readString();
-        this.ingredients = in.createStringArrayList();
-        this.priceMedium = in.readString();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public List<String> getIngredients() {
-        return ingredients;
-    }
-
-    public String getPriceMedium() {
-        return priceMedium;
+    private RegularSandwich(Parcel in) {
+        this(in.readString(), in.createStringArrayList(), in.readString());
     }
 
     @Override
@@ -78,28 +54,7 @@ public final class RegularSandwich implements Parcelable {
         dest.writeString(this.priceMedium);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RegularSandwich sandwich = (RegularSandwich) o;
-        return Objects.equals(name, sandwich.name) &&
-                Objects.equals(ingredients, sandwich.ingredients) &&
-                Objects.equals(priceMedium, sandwich.priceMedium);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, ingredients, priceMedium);
-    }
-
-    @Override
-    @NonNull
-    public String toString() {
-        return name;
-    }
-
-    public static final Parcelable.Creator<RegularSandwich> CREATOR = new Parcelable.Creator<RegularSandwich>() {
+    public static final Parcelable.Creator<RegularSandwich> CREATOR = new Parcelable.Creator<>() {
         @Override
         public RegularSandwich createFromParcel(Parcel source) {
             return new RegularSandwich(source);

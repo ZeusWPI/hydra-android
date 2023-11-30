@@ -59,7 +59,7 @@ public class OrderRequest extends JsonArrayRequest<Order> {
 
     @NonNull
     @Override
-    protected String getAPIUrl() {
+    protected String apiUrl() {
         String suffix = "";
         if (type != null) {
             suffix = "?state=" + type;

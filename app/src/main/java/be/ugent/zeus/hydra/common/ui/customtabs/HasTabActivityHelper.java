@@ -28,7 +28,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -57,7 +56,6 @@ class HasTabActivityHelper implements ActivityHelper {
     private final WeakReference<Activity> activity;
 
     private boolean showShareMenu;
-    private int intentFlags;
 
     private CustomTabsSession customTabsSession;
     private WeakReference<CustomTabsClient> client;
@@ -77,11 +75,6 @@ class HasTabActivityHelper implements ActivityHelper {
             packageNameSet.add(ri.activityInfo.packageName);
         }
         return packageNameSet;
-    }
-
-    @Override
-    public void setIntentFlags(int flags) {
-        this.intentFlags = flags;
     }
 
     /**
@@ -110,7 +103,6 @@ class HasTabActivityHelper implements ActivityHelper {
             }
             //Get the intent
             CustomTabsIntent customTabsIntent = builder.build();
-            customTabsIntent.intent.setFlags(this.intentFlags);
             customTabsIntent.intent.setPackage(packageName);
             customTabsIntent.launchUrl(activity.get(), uri);
         }
@@ -177,20 +169,12 @@ class HasTabActivityHelper implements ActivityHelper {
         customTabsSession = null;
     }
 
-    /**
-     * Creates or retrieves an exiting session.
-     *
-     * @return The session.
-     */
-    private CustomTabsSession getSession() {
-
+    private void initializeSession() {
         if (client == null) {
             customTabsSession = null;
         } else if (customTabsSession == null) {
             customTabsSession = client.get().newSession(null);
         }
-
-        return customTabsSession;
     }
 
     /**
@@ -228,7 +212,7 @@ class HasTabActivityHelper implements ActivityHelper {
                     connectionCallback.onCustomTabsConnected(HasTabActivityHelper.this);
                 }
                 //Initialize a session as soon as possible.
-                getSession();
+                initializeSession();
             }
 
             @Override
@@ -246,15 +230,5 @@ class HasTabActivityHelper implements ActivityHelper {
     @Override
     public void setShareMenu() {
         this.showShareMenu = true;
-    }
-
-    @Override
-    public boolean mayLaunchUrl(Uri uri, Bundle extras, List<Bundle> otherLikelyBundles) {
-        if (client == null) {
-            return false;
-        }
-
-        CustomTabsSession session = getSession();
-        return session != null && session.mayLaunchUrl(uri, extras, otherLikelyBundles);
     }
 }

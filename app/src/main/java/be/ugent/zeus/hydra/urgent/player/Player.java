@@ -22,20 +22,17 @@
 
 package be.ugent.zeus.hydra.urgent.player;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.media.AudioAttributes;
-import android.media.AudioFocusRequest;
 import android.media.AudioManager;
-import android.os.Build;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.media.AudioAttributesCompat;
+import androidx.media.AudioFocusRequestCompat;
+import androidx.media.AudioManagerCompat;
 
-import java.util.Objects;
 import java.util.stream.IntStream;
 
 import static be.ugent.zeus.hydra.urgent.player.MediaStateListener.State.*;
@@ -45,17 +42,17 @@ import static be.ugent.zeus.hydra.urgent.player.MediaStateListener.State.*;
  * <br>
  * Android has various restrictions and permissions on background playing, audio playback, wifi usage, etc. These things
  * are not managed by this class, but by the {@link be.ugent.zeus.hydra.urgent.MusicService}.
- *
+ * <p>
  * <h2>Playback</h2>
  * This class does not actually control the actual playback. That is done by the {@link InternalPlayer}. This class
  * exists to manage the state of said player, meaning it will ensure the internal player is in the correct state
  * before calling methods, such as play or pause.
- *
+ * <p>
  * <h2>Control</h2>
  * The player should not be controlled directly by other code. Instead, Android's media sessions should be used. This
  * class will ensure all necessary callbacks (such as {@link SessionPlayerCallback} and {@link PlayerSessionCallback})
  * are correctly set and attached.
- *
+ * <p>
  * <h2>Relation to {@link be.ugent.zeus.hydra.urgent.MusicService}</h2>
  * While the service will start this player and connect it to the media session, it will not control it. After the
  * connection is made, this class will take over control (and this class will be in turn controlled by the media
@@ -98,7 +95,7 @@ public class Player {
     /**
      * Internal request.
      */
-    private AudioFocusRequest audioFocusRequest;
+    private AudioFocusRequestCompat audioFocusRequest;
     /**
      * The volume we want. This is changed as a response to audio focus things.
      */
@@ -211,7 +208,7 @@ public class Player {
             playOrSchedulePlay();
         } else {
             cancelOrStopPlay();
-            abandonAudioFocus();
+            AudioManagerCompat.abandonAudioFocusRequest(audioManager, getAudioFocusRequest());
         }
     }
 
@@ -241,15 +238,7 @@ public class Player {
     }
 
     private void requestAudioFocus() {
-        int result;
-        if (Build.VERSION.SDK_INT >= 26) {
-            result = requestAudioFocusOreo();
-        } else {
-            result = audioManager.requestAudioFocus(focusChangeListener,
-                    audioAttributes.getLegacyStreamType(),
-                    AudioManager.AUDIOFOCUS_GAIN);
-        }
-
+        int result = AudioManagerCompat.requestAudioFocus(audioManager, getAudioFocusRequest());
         // Call the listener whenever focus is granted - even the first time!
         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             shouldPlayWhenReady = true;
@@ -259,34 +248,14 @@ public class Player {
         }
     }
 
-    private void abandonAudioFocus() {
-        if (Build.VERSION.SDK_INT >= 26) {
-            abandonAudioFocusOreo();
-        } else {
-            audioManager.abandonAudioFocus(focusChangeListener);
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private int requestAudioFocusOreo() {
-        return audioManager.requestAudioFocus(getAudioFocusRequest());
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private void abandonAudioFocusOreo() {
-        audioManager.abandonAudioFocusRequest(getAudioFocusRequest());
-    }
-
-    @TargetApi(Build.VERSION_CODES.O)
-    private AudioFocusRequest buildFocusRequest() {
-        return new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
-                .setAudioAttributes((AudioAttributes) Objects.requireNonNull(audioAttributes.unwrap()))
+    private AudioFocusRequestCompat buildFocusRequest() {
+        return new AudioFocusRequestCompat.Builder(AudioManagerCompat.AUDIOFOCUS_GAIN)
+                .setAudioAttributes(audioAttributes)
                 .setOnAudioFocusChangeListener(focusChangeListener)
                 .build();
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private AudioFocusRequest getAudioFocusRequest() {
+    private AudioFocusRequestCompat getAudioFocusRequest() {
         if (audioFocusRequest == null) {
             audioFocusRequest = buildFocusRequest();
         }
@@ -329,7 +298,7 @@ public class Player {
 
         public Player build() {
             // Create some classes we need for the Player.
-            AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+            AudioManager audioManager = ContextCompat.getSystemService(context, AudioManager.class);
             AudioAttributesCompat attributes = new AudioAttributesCompat.Builder()
                     .setUsage(AudioAttributesCompat.USAGE_MEDIA)
                     .setContentType(AudioAttributesCompat.CONTENT_TYPE_MUSIC)

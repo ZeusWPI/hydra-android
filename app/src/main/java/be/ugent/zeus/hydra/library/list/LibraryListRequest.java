@@ -44,12 +44,12 @@ class LibraryListRequest extends JsonOkHttpRequest<LibraryList> {
 
     @NonNull
     @Override
-    protected String getAPIUrl() {
+    protected String apiUrl() {
         return Endpoints.LIBRARY + "library_groups/main.json";
     }
 
     @Override
-    public Duration getCacheDuration() {
+    public Duration cacheDuration() {
         return ChronoUnit.MONTHS.getDuration();
     }
 }

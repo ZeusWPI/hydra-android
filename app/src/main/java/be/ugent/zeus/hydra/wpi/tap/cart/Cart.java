@@ -23,7 +23,6 @@
 package be.ugent.zeus.hydra.wpi.tap.cart;
 
 import android.util.Log;
-import android.util.Pair;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -48,7 +47,7 @@ import be.ugent.zeus.hydra.wpi.tap.product.Product;
  *
  * @author Niko Strijbol
  */
-class Cart {
+public class Cart {
     private static final String TAG = "Cart";
 
     private final List<CartProduct> orders;
@@ -75,18 +74,18 @@ class Cart {
      * @param barcodeToProductId Map of barcodes to product ID's.
      */
     public Cart(StorageCart existingCart, Map<Integer, Product> productIdToProduct, Map<String, Integer> barcodeToProductId) {
-        this(fromExisting(existingCart, productIdToProduct), productIdToProduct, barcodeToProductId, existingCart.getLastEdited());
+        this(fromExisting(existingCart, productIdToProduct), productIdToProduct, barcodeToProductId, existingCart.lastEdited());
     }
 
     private static List<CartProduct> fromExisting(StorageCart cart, Map<Integer, Product> productIdToProduct) {
         List<CartProduct> orders = new ArrayList<>();
-        for (Pair<Integer, Integer> productIdAndAmount : cart.getProductIds()) {
-            Product product = productIdToProduct.get(productIdAndAmount.first);
+        for (ProductIdAmount productIdAmount : cart.products()) {
+            Product product = productIdToProduct.get(productIdAmount.productId());
             if (product == null) {
                 // Skip this product, as it nog longer exists.
                 continue;
             }
-            orders.add(new CartProduct(product, productIdAndAmount.second));
+            orders.add(new CartProduct(productIdAmount.productId(), product));
         }
         return orders;
     }
@@ -96,15 +95,15 @@ class Cart {
      * that cannot be found on the network.
      */
     public StorageCart forStorage() {
-        return new StorageCart(orders.stream().map(cp -> new Pair<>(cp.getProductId(), cp.getAmount())).collect(Collectors.toList()), lastEdited);
+        return new StorageCart(orders.stream().map(cp -> new ProductIdAmount(cp.product().id(), cp.amount())).collect(Collectors.toList()), lastEdited);
     }
 
     public Map<String, List<Map<String, Object>>> forJson() {
         List<Map<String, Object>> attributes = new ArrayList<>();
         for (CartProduct cartProduct : this.getOrders()) {
             Map<String, Object> data = new HashMap<>();
-            data.put("product_id", cartProduct.getProductId());
-            data.put("count", cartProduct.getAmount());
+            data.put("product_id", cartProduct.product().id());
+            data.put("count", cartProduct.amount());
             attributes.add(data);
         }
         Map<String, List<Map<String, Object>>> total = new HashMap<>();
@@ -140,7 +139,7 @@ class Cart {
     private OptionalInt getPosition(Product product) {
         // Find the position of an existing cart product if available.
         return IntStream.range(0, orders.size())
-                .filter(i -> orders.get(i).getProductId() == product.getId())
+                .filter(i -> orders.get(i).product().id() == product.id())
                 .findFirst();
     }
 
@@ -156,7 +155,7 @@ class Cart {
         if (index.isPresent()) {
             return increment(orders.get(index.getAsInt()));
         } else {
-            CartProduct newProduct = new CartProduct(product, 1);
+            CartProduct newProduct = new CartProduct(1, product);
             List<CartProduct> replacementList = new ArrayList<>(orders);
             replacementList.add(newProduct);
             return new Cart(replacementList, productIdToProduct, barcodeToProductId);
@@ -185,7 +184,7 @@ class Cart {
 
     public Cart increment(CartProduct product) {
         int index = orders.indexOf(product);
-        CartProduct replacement = product.increment();
+        CartProduct replacement = product.incrementAmount();
         List<CartProduct> replacementList = new ArrayList<>(orders);
         replacementList.set(index, replacement);
         return new Cart(replacementList, productIdToProduct, barcodeToProductId);
@@ -198,11 +197,11 @@ class Cart {
     }
 
     public Cart decrement(CartProduct product) {
-        if (product.getAmount() == 1) {
+        if (product.amount() == 1) {
             return remove(product);
         } else {
             int index = orders.indexOf(product);
-            CartProduct replacement = product.decrement();
+            CartProduct replacement = product.decrementAmount();
             List<CartProduct> replacementList = new ArrayList<>(orders);
             replacementList.set(index, replacement);
             return new Cart(replacementList, productIdToProduct, barcodeToProductId);
@@ -212,7 +211,7 @@ class Cart {
     public BigDecimal getTotalPrice() {
         BigDecimal totalAmount = BigDecimal.ZERO;
         for (CartProduct product : getOrders()) {
-            totalAmount = totalAmount.add(product.getPriceDecimal().multiply(BigDecimal.valueOf(product.getAmount())));
+            totalAmount = totalAmount.add(product.totalPrice());
         }
         return totalAmount;
     }
@@ -220,7 +219,7 @@ class Cart {
     public int getTotalProducts() {
         int totalProducts = 0;
         for (CartProduct product : getOrders()) {
-            totalProducts += product.getAmount();
+            totalProducts += product.amount();
         }
         return totalProducts;
     }

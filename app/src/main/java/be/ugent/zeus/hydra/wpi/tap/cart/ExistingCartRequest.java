@@ -28,9 +28,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.Moshi;
-
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -39,6 +36,8 @@ import java.util.Objects;
 import be.ugent.zeus.hydra.common.network.InstanceProvider;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
 
 /**
  * Get an existing cart if there is one available.
@@ -47,7 +46,7 @@ import be.ugent.zeus.hydra.common.request.Result;
  */
 class ExistingCartRequest implements Request<StorageCart> {
     
-    public static final String PREF_CART_STORAGE = "pref_cart_storage";
+    public static final String PREF_CART_STORAGE = "pref_cart_storage_v2";
     
     private final Context context;
 
@@ -57,24 +56,19 @@ class ExistingCartRequest implements Request<StorageCart> {
 
     public static void saveCartStorage(@NonNull Context context, @NonNull StorageCart storage) {
         SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(context);
-        Moshi moshi = InstanceProvider.getMoshi();
+        Moshi moshi = InstanceProvider.moshi();
         JsonAdapter<StorageCart> adapter = moshi.adapter(StorageCart.class);
         String raw = adapter.toJson(storage);
         p.edit()
                 .putString(PREF_CART_STORAGE, raw)
                 .apply();
     }
-    
-    public static boolean hasExistingCart(@NonNull Context context) {
-        SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(context);
-        return p.contains(PREF_CART_STORAGE);
-    }
 
     @NonNull
     @Override
     public Result<StorageCart> execute(@NonNull Bundle args) {
         SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(context);
-        Moshi moshi = InstanceProvider.getMoshi();
+        Moshi moshi = InstanceProvider.moshi();
         JsonAdapter<StorageCart> adapter = moshi.adapter(StorageCart.class);
         
         StorageCart found;
@@ -83,7 +77,7 @@ class ExistingCartRequest implements Request<StorageCart> {
             
             // Carts older than this are discarded.
             OffsetDateTime oldestLimit = OffsetDateTime.now().minusDays(1);
-            if (found.getLastEdited().isBefore(oldestLimit)) {
+            if (found.lastEdited().isBefore(oldestLimit)) {
                 found = null;
             }
         } catch (IOException | NullPointerException e) {

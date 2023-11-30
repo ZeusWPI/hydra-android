@@ -27,16 +27,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import androidx.annotation.NonNull;
-import androidx.annotation.VisibleForTesting;
+import androidx.core.os.ParcelCompat;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.common.converter.IntBoolean;
 import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 import com.squareup.moshi.Json;
+import io.soabase.recordbuilder.core.RecordBuilder;
 
 /**
  * Model for a library.
@@ -45,77 +44,58 @@ import com.squareup.moshi.Json;
  *
  * @author Niko Strijbol
  */
-@SuppressWarnings("WeakerAccess")
-public final class Library implements Parcelable {
-    
+@RecordBuilder
+public record Library(
+        String department,
+        String email,
+        List<String> address,
+        String name,
+        @Json(name = "name_nl") String nameDutch,
+        @Json(name = "name_en") String nameEnglish,
+        String code,
+        List<String> telephone,
+        @IntBoolean boolean active,
+        @Json(name = "thumbnail_url") String thumbnail,
+        @Json(name = "image_url") String image,
+        @Json(name = "lat") String latitude,
+        @Json(name = "long") String longitude,
+        List<String> comments,
+        String contact,
+        String campus,
+        String faculty,
+        String link,
+        boolean favourite
+) implements Parcelable, LibraryBuilder.With {
+
     private static final String FALLBACK_HEADER = "https://picsum.photos/800/450?image=1073";
     private static final String FALLBACK_HEADER_SMALL = "https://picsum.photos/400/225?image=1073";
-    private String department;
-    private String email;
-    private List<String> address;
-    private String name;
-    @Json(name = "name_nl")
-    private String nameDutch;
-    @Json(name = "name_en")
-    private String nameEnglish;
-    private String code;
-    private List<String> telephone;
-    @IntBoolean
-    private boolean active;
-    @Json(name = "thumbnail_url")
-    private String thumbnail;
-    @Json(name = "image_url")
-    private String image;
-    @Json(name = "lat")
-    private String latitude;
-    @Json(name = "long")
-    private String longitude;
-    private List<String> comments;
-    private String contact;
-    private String campus;
-    private String faculty;
-    private String link;
-    private boolean favourite;
 
-    public Library() {
-        // No-args constructor
+    private Library(Parcel in) {
+        this(
+                in.readString(),
+                in.readString(),
+                in.createStringArrayList(),
+                in.readString(),
+                in.readString(),
+                in.readString(),
+                in.readString(),
+                in.createStringArrayList(),
+                ParcelCompat.readBoolean(in),
+                in.readString(),
+                in.readString(),
+                in.readString(),
+                in.readString(),
+                in.createStringArrayList(),
+                in.readString(),
+                in.readString(),
+                in.readString(),
+                in.readString(),
+                ParcelCompat.readBoolean(in)
+        );
     }
 
-    protected Library(Parcel in) {
-        this.department = in.readString();
-        this.email = in.readString();
-        this.address = in.createStringArrayList();
-        this.name = in.readString();
-        this.code = in.readString();
-        this.telephone = in.createStringArrayList();
-        this.active = in.readByte() != 0;
-        this.thumbnail = in.readString();
-        this.image = in.readString();
-        this.latitude = in.readString();
-        this.longitude = in.readString();
-        this.comments = in.createStringArrayList();
-        this.contact = in.readString();
-        this.campus = in.readString();
-        this.faculty = in.readString();
-        this.link = in.readString();
-        this.favourite = in.readByte() != 0;
-        this.nameEnglish = in.readString();
-        this.nameDutch = in.readString();
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public List<String> getAddress() {
-        return address;
-    }
-
-    public String getName() {
+    @Override
+    public String name() {
         Locale locale = Locale.getDefault();
         if (locale.getLanguage().equals(Locale.ENGLISH.getLanguage()) && !TextUtils.isEmpty(nameEnglish)) {
             return nameEnglish;
@@ -126,7 +106,7 @@ public final class Library implements Parcelable {
         }
     }
 
-    public static final Creator<Library> CREATOR = new Creator<Library>() {
+    public static final Creator<Library> CREATOR = new Creator<>() {
         @Override
         public Library createFromParcel(Parcel source) {
             return new Library(source);
@@ -138,75 +118,18 @@ public final class Library implements Parcelable {
         }
     };
 
-    @VisibleForTesting
-    public void setTestName(String name) {
-        this.name = name;
-        this.nameEnglish = name;
-        this.nameDutch = name;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    @VisibleForTesting
-    public void setCode(String code) {
-        this.code = code;
-    }
-
     public boolean isFacultyBib() {
         return this.name.contains("Faculteitsbibliotheek");
-    }
-
-    public List<String> getTelephone() {
-        return telephone;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public String getThumbnail() {
-        return thumbnail;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public String getLatitude() {
-        return latitude;
-    }
-
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public String getContact() {
-        return contact;
-    }
-
-    public String getCampus() {
-        return campus;
-    }
-
-    public String getFaculty() {
-        return faculty;
-    }
-
-    public String getLink() {
-        return link;
     }
 
     /**
      * @return Concatenated comments (no delimiter) or null if there are no comments.
      */
-    public String getCommentsAsString() {
+    public String commentsAsString() {
         if (comments == null) {
             return null;
         } else {
-            //noinspection SimplifyStreamApiCallChains
-            return comments.stream().collect(Collectors.joining());
+            return String.join("", comments);
         }
     }
 
@@ -214,11 +137,10 @@ public final class Library implements Parcelable {
      * @return Concatenated phones (semi-colon delimiter) or null if there are no phones.
      */
     public String getPhones() {
-        if (getTelephone() == null) {
+        if (telephone == null) {
             return null;
         } else {
-            //noinspection SimplifyStreamApiCallChains
-            return getTelephone().stream().collect(Collectors.joining("; "));
+            return String.join("; ", telephone);
         }
     }
 
@@ -229,23 +151,23 @@ public final class Library implements Parcelable {
      * @return The header image.
      */
     @NonNull
-    public String getHeaderImage(Context context) {
+    public String headerImage(Context context) {
         // If data-saving is enabled, use the thumbnail instead of the full image.
         if (NetworkUtils.isMeteredConnection(context)) {
-            if (getThumbnail() == null || getThumbnail().isEmpty()) {
+            if (thumbnail == null || thumbnail.isEmpty()) {
                 return FALLBACK_HEADER_SMALL;
             } else {
-                return getThumbnail();
+                return thumbnail;
             }
         } else {
-            if (getImage() == null || getImage().isEmpty()) {
-                if (getThumbnail() == null || getThumbnail().isEmpty()) {
+            if (image == null || image.isEmpty()) {
+                if (thumbnail == null || thumbnail.isEmpty()) {
                     return FALLBACK_HEADER;
                 } else {
-                    return getThumbnail();
+                    return thumbnail;
                 }
             } else {
-                return getImage();
+                return image;
             }
         }
     }
@@ -255,11 +177,10 @@ public final class Library implements Parcelable {
      */
     @NonNull
     public String addressAsString() {
-        if (getAddress() == null) {
+        if (address == null) {
             return "";
         } else {
-            //noinspection SimplifyStreamApiCallChains
-            return getAddress().stream().collect(Collectors.joining("\n"));
+            return String.join("\n", address);
         }
     }
 
@@ -267,20 +188,7 @@ public final class Library implements Parcelable {
      * @return True if there is at least one telephone number.
      */
     public boolean hasTelephone() {
-        return getTelephone() != null && !getTelephone().isEmpty();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Library library = (Library) o;
-        return Objects.equals(code, library.code) && Objects.equals(favourite, library.favourite);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(code, favourite);
+        return telephone != null && !telephone.isEmpty();
     }
 
     @Override
@@ -294,9 +202,11 @@ public final class Library implements Parcelable {
         dest.writeString(this.email);
         dest.writeStringList(this.address);
         dest.writeString(this.name);
+        dest.writeString(this.nameDutch);
+        dest.writeString(this.nameEnglish);
         dest.writeString(this.code);
         dest.writeStringList(this.telephone);
-        dest.writeByte(this.active ? (byte) 1 : (byte) 0);
+        ParcelCompat.writeBoolean(dest, this.active);
         dest.writeString(this.thumbnail);
         dest.writeString(this.image);
         dest.writeString(this.latitude);
@@ -306,8 +216,6 @@ public final class Library implements Parcelable {
         dest.writeString(this.campus);
         dest.writeString(this.faculty);
         dest.writeString(this.link);
-        dest.writeByte(this.favourite ? (byte) 1 : (byte) 0);
-        dest.writeString(this.nameEnglish);
-        dest.writeString(this.nameDutch);
+        ParcelCompat.writeBoolean(dest, this.favourite);
     }
 }

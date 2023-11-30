@@ -72,7 +72,7 @@ public class OnboardingActivity extends IntroActivity {
     private static final class TutorialBeginEvent implements Event {
         @Nullable
         @Override
-        public String getEventName() {
+        public String eventName() {
             return Reporting.getEvents().tutorialBegin();
         }
     }

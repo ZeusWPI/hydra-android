@@ -44,5 +44,5 @@ public interface ResultStarter {
 
     void onActivityResult(int requestCode, int resultCode, @Nullable Intent data);
 
-    int getRequestCode();
+    int requestCode();
 }

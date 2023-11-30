@@ -28,8 +28,8 @@ import android.view.View;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.Association;
-import be.ugent.zeus.hydra.association.event.Event;
-import be.ugent.zeus.hydra.association.event.EventDetailsActivity;
+import be.ugent.zeus.hydra.association.Event;
+import be.ugent.zeus.hydra.association.EventDetailsActivity;
 import be.ugent.zeus.hydra.feed.cards.implementations.AbstractFeedViewHolderTest;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -55,8 +55,8 @@ public class EventCardViewHolderTest extends AbstractFeedViewHolderTest {
         Pair<Event, Association> event = eventCard.getEvent();
         viewHolder.populate(eventCard);
 
-        assertTextIs(event.first.getTitle(), view.findViewById(R.id.name));
-        assertTextIs(event.first.getLocation(), view.findViewById(R.id.association));
+        assertTextIs(event.first.title(), view.findViewById(R.id.name));
+        assertTextIs(event.first.location(), view.findViewById(R.id.association));
         assertNotEmpty(view.findViewById(R.id.starttime));
 
         view.performClick();

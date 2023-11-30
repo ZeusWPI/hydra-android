@@ -24,7 +24,6 @@ package be.ugent.zeus.hydra.wpi.tap.cart;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.WorkerThread;
 
@@ -98,7 +97,7 @@ class CreateOrderRequest extends OkHttpRequest<OrderResult> {
                 }
                 JsonAdapter<OrderResult> resultAdapter = moshi.adapter(OrderResult.class);
                 OrderResult result = resultAdapter.fromJson(responseBody.source());
-                if (result == null || result.getId() == null) {
+                if (result == null || result.id() == null) {
                     return Result.Builder.fromException(new RequestException("Unsuccessful transaction."));
                 }
                 return Result.Builder.fromData(result);

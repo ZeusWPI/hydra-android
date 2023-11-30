@@ -41,7 +41,7 @@ public class SaladViewModel extends RequestViewModel<List<SaladBowl>> {
 
     @NonNull
     @Override
-    protected Request<List<SaladBowl>> getRequest() {
+    protected Request<List<SaladBowl>> request() {
         return new SaladRequest(getApplication());
     }
 }

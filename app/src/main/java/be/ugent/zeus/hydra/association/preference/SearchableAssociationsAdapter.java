@@ -39,8 +39,8 @@ import be.ugent.zeus.hydra.common.utils.ViewUtils;
 class SearchableAssociationsAdapter extends MultiSelectSearchableAdapter<Association, AssociationViewHolder> {
 
     SearchableAssociationsAdapter() {
-        super(text -> a -> a.getName().toLowerCase(Locale.getDefault()).contains(text) ||
-                a.getAbbreviation().toLowerCase(Locale.ROOT).contains(text));
+        super(text -> a -> a.name().toLowerCase(Locale.getDefault()).contains(text) ||
+                a.abbreviation().toLowerCase(Locale.ROOT).contains(text));
     }
 
     @NonNull

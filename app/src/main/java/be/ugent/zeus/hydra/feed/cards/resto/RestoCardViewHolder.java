@@ -62,14 +62,14 @@ public class RestoCardViewHolder extends CardViewHolder {
         super.populate(card);
 
         RestoMenuCard menuCard = card.checkCard(Card.Type.RESTO);
-        RestoMenu menu = menuCard.getRestoMenu();
-        RestoChoice choice = menuCard.getRestoChoice();
+        RestoMenu menu = menuCard.restoMenu;
+        RestoChoice choice = menuCard.restoChoice;
         String text = itemView.getResources().getString(R.string.feed_resto_menu_title);
-        toolbar.setTitle(String.format(text, DateUtils.getFriendlyDate(toolbar.getContext(), menu.getDate()), choice.getName()));
+        toolbar.setTitle(String.format(text, DateUtils.friendlyDate(toolbar.getContext(), menu.date()), choice.name()));
 
         // Get the mode.
         @MenuTable.DisplayKind
-        int mode = HomeFragment.getFeedRestoKind(itemView.getContext());
+        int mode = HomeFragment.feedRestoKind(itemView.getContext());
 
         table.setMenu(menu, mode, false);
 
@@ -77,7 +77,7 @@ public class RestoCardViewHolder extends CardViewHolder {
         itemView.setOnClickListener(v -> {
             Intent intent = new Intent(itemView.getContext(), MainActivity.class);
             intent.putExtra(MainActivity.ARG_TAB, R.id.drawer_resto);
-            intent.putExtra(RestoFragment.ARG_DATE, menu.getDate());
+            intent.putExtra(RestoFragment.ARG_DATE, menu.date());
             itemView.getContext().startActivity(intent);
         });
     }
@@ -89,7 +89,7 @@ public class RestoCardViewHolder extends CardViewHolder {
         // We always want at least one thing in the menu.
         // So, if we only have one thing, the last item won't have the hide menu.
         @MenuTable.DisplayKind
-        int kind = HomeFragment.getFeedRestoKind(itemView.getContext());
+        int kind = HomeFragment.feedRestoKind(itemView.getContext());
         
         int displayed = Integer.bitCount(kind);
         
@@ -120,18 +120,13 @@ public class RestoCardViewHolder extends CardViewHolder {
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()) {
-            case KindMenu.HIDE_HOT:
-            case KindMenu.HIDE_SOUP:
-            case KindMenu.SHOW_HOT:
-            case KindMenu.SHOW_SOUP:
-            case KindMenu.SHOW_COLD:
-            case KindMenu.HIDE_COLD:
-                adapter.getCompanion().executeCommand(new RestoKindCommand(item.getItemId()));
-                return true;
-            default:
-                return super.onMenuItemClick(item);
-        }
+        return switch (item.getItemId()) {
+            case KindMenu.HIDE_HOT, KindMenu.HIDE_SOUP, KindMenu.SHOW_HOT, KindMenu.SHOW_SOUP, KindMenu.SHOW_COLD, KindMenu.HIDE_COLD -> {
+                adapter.companion().executeCommand(new RestoKindCommand(item.getItemId()));
+                yield true;
+            }
+            default -> super.onMenuItemClick(item);
+        };
     }
 
     @interface KindMenu {

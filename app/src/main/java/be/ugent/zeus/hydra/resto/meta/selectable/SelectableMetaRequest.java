@@ -51,9 +51,9 @@ public class SelectableMetaRequest implements Request<List<RestoChoice>> {
     @NonNull
     @Override
     public Result<List<RestoChoice>> execute(@NonNull Bundle args) {
-        return resultRequest.execute(args).map(restoMeta -> restoMeta.locations.stream()
-                .filter(resto -> !TextUtils.isEmpty(resto.getEndpoint()))
-                .map(resto -> new RestoChoice(resto.getName(), resto.getEndpoint()))
+        return resultRequest.execute(args).map(restoMeta -> restoMeta.locations().stream()
+                .filter(resto -> !TextUtils.isEmpty(resto.endpoint()))
+                .map(resto -> new RestoChoice(resto.name(), resto.endpoint()))
                 .collect(Collectors.toCollection(ArrayList::new)));
     }
 }

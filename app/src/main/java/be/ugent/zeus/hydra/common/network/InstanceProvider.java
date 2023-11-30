@@ -46,20 +46,20 @@ public final class InstanceProvider {
     private InstanceProvider() {
     }
 
-    private static synchronized OkHttpClient getClient(File cacheDir) {
+    private static synchronized OkHttpClient client(File cacheDir) {
         if (client == null) {
-            client = getBuilder(cacheDir).build();
+            client = builder(cacheDir).build();
         }
         return client;
     }
 
     @VisibleForTesting
-    public static void setClient(OkHttpClient client) {
+    public static void client(OkHttpClient client) {
         InstanceProvider.client = client;
     }
 
     @VisibleForTesting
-    public static OkHttpClient.Builder getBuilder(File cacheDir) {
+    public static OkHttpClient.Builder builder(File cacheDir) {
         //noinspection KotlinInternalInJava
         return new OkHttpClient.Builder().cache(new Cache(cacheDir, CACHE_SIZE));
     }
@@ -70,12 +70,12 @@ public final class InstanceProvider {
      * @param context A context.
      * @return The client.
      */
-    public static synchronized OkHttpClient getClient(Context context) {
+    public static synchronized OkHttpClient client(Context context) {
         File cacheDir = new File(context.getCacheDir(), "http");
-        return getClient(cacheDir);
+        return client(cacheDir);
     }
 
-    public static synchronized Moshi getMoshi() {
+    public static synchronized Moshi moshi() {
         if (moshi == null) {
             moshi = new Moshi.Builder()
                     .add(new BooleanJsonAdapter())

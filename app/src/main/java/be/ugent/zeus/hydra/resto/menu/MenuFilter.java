@@ -94,7 +94,7 @@ public class MenuFilter implements Function<List<RestoMenu>, List<RestoMenu>> {
         boolean isEarlyEnough = LocalDateTime.now(clock).isBefore(LocalDateTime.of(today, closingHour));
 
         return restoMenus.stream()
-                .filter(m -> m.getDate().isAfter(today) || (m.getDate().isEqual(today) && isEarlyEnough))
+                .filter(m -> m.date().isAfter(today) || (m.date().isEqual(today) && isEarlyEnough))
                 .collect(Collectors.toList());
     }
 }

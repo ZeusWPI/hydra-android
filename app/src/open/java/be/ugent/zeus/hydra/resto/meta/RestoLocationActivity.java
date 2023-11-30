@@ -83,9 +83,9 @@ public class RestoLocationActivity extends BaseActivity<ActivityRestoLocationBin
         mapController.setCenter(DEFAULT_LOCATION);
 
         viewModel = new ViewModelProvider(this).get(MetaViewModel.class);
-        viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
-        viewModel.getData().observe(this, new ProgressObserver<>(binding.progressBar));
-        viewModel.getData().observe(this, SuccessObserver.with(this::receiveData));
+        viewModel.data().observe(this, PartialErrorObserver.with(this::onError));
+        viewModel.data().observe(this, new ProgressObserver<>(binding.progressBar));
+        viewModel.data().observe(this, SuccessObserver.with(this::receiveData));
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             enableLocation();
@@ -124,12 +124,12 @@ public class RestoLocationActivity extends BaseActivity<ActivityRestoLocationBin
 
     private void addData() {
 
-        for (Resto location : meta.locations) {
-            GeoPoint point = new GeoPoint(location.getLatitude(), location.getLongitude());
+        for (Resto location : meta.locations()) {
+            GeoPoint point = new GeoPoint(location.latitude(), location.longitude());
             Marker m = new Marker(binding.map);
             m.setPosition(point);
-            m.setTitle(location.getName());
-            m.setSubDescription(location.getAddress());
+            m.setTitle(location.name());
+            m.setSubDescription(location.address());
             m.setDraggable(false);
             m.setIcon(ContextCompat.getDrawable(this, R.drawable.shortcut_resto));
             binding.map.getOverlayManager().add(m);

@@ -25,6 +25,7 @@ package be.ugent.zeus.hydra.wpi.cammie;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -78,7 +79,7 @@ public class CammieActivity extends BaseActivity<ActivityWpiCammieBinding> {
             // we add a delay of about 1 second.
             // In the other case, just do it.
             if (enabled && !binding.moveNorthWest.isEnabled()) {
-                new Handler().postDelayed(() -> toggleButtons(true), 1000);
+                new Handler(Looper.getMainLooper()).postDelayed(() -> toggleButtons(true), 1000);
             } else {
                 toggleButtons(enabled);
             }

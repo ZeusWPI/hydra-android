@@ -25,7 +25,6 @@ package be.ugent.zeus.hydra.urgent;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ServiceInfo;
 import android.net.wifi.WifiManager;
@@ -57,11 +56,11 @@ import be.ugent.zeus.hydra.urgent.player.*;
  * It is highly recommended to read the Android documentation first, before working on these classes. For example,
  * the term media session is strictly used to denote the media session managed by Android itself, through the
  * {@link MediaSessionCompat} class.
- *
+ * <p>
  * <h2>Service</h2>
  * The service is responsible for keeping the stream alive and managing the various background permissions and
  * restrictions imposed by Android. It is not responsible for controlling the audio.
- *
+ * <p>
  * <h2>Audio controls</h2>
  * The main responsibility of this service is keeping an instance of {@link Player} alive. The service will start the
  * player, construct a media session and connect everything up. Afterwards, control is given up to the media session.
@@ -113,7 +112,7 @@ public class MusicService extends MediaBrowserServiceCompat implements
         notificationManager = NotificationManagerCompat.from(this);
 
         // Create the WiFi lock we we will use later.
-        WifiManager manager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        WifiManager manager = ContextCompat.getSystemService(getApplicationContext(), WifiManager.class);
         if (manager != null) {
             this.wifiLock = manager.createWifiLock(WifiManager.WIFI_MODE_FULL, WIFI_LOCK_TAG);
         }
@@ -262,7 +261,7 @@ public class MusicService extends MediaBrowserServiceCompat implements
         if (wifiLock != null && wifiLock.isHeld()) {
             wifiLock.release();
         }
-        stopForeground(false);
+        ServiceCompat.stopForeground(this, 0);
     }
 
     @Override
@@ -272,14 +271,14 @@ public class MusicService extends MediaBrowserServiceCompat implements
             wifiLock.release();
         }
         Reporting.getTracker(this).log(new MusicStopEvent());
-        stopForeground(true);
+        ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE);
         foreground = false;
     }
 
     private static class MusicStartEvent implements Event {
         @Nullable
         @Override
-        public String getEventName() {
+        public String eventName() {
             return "be.ugent.zeus.hydra.urgent.analytics.music_start";
         }
     }
@@ -287,7 +286,7 @@ public class MusicService extends MediaBrowserServiceCompat implements
     private static class MusicStopEvent implements Event {
         @Nullable
         @Override
-        public String getEventName() {
+        public String eventName() {
             return "be.ugent.zeus.hydra.urgent.analytics.music_stop";
         }
     }

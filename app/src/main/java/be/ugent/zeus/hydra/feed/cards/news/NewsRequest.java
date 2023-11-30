@@ -48,14 +48,14 @@ public class NewsRequest extends HideableHomeFeedRequest {
     }
 
     @Override
-    public int getCardType() {
+    public int cardType() {
         return Card.Type.NEWS_ITEM;
     }
 
     @NonNull
     @Override
     protected Result<Stream<Card>> performRequestCards(@NonNull Bundle args) {
-        return request.execute(args).map(s -> s.getEntries()
+        return request.execute(args).map(s -> s.entries()
                 .stream()
                 .map(NewsItemCard::new));
     }

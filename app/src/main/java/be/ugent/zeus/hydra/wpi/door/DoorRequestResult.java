@@ -24,29 +24,11 @@ package be.ugent.zeus.hydra.wpi.door;
 
 /**
  * Result of a successful door request.
- * 
+ *
+ * @param status This will always be "OK", otherwise there will be no JSON response.
+ * @param before The state of the door before the request.
  * @author Niko Strijbol
  * @see <a href="https://github.com/ZeusWPI/mattermore/blob/5576da45f4cf7af2e206e15907885b30151cd42b/app/app.py#L202">Door API source code</a>
  */
-public class DoorRequestResult {
-    private String status;
-    private String before;
-    
-    public DoorRequestResult() {
-        // Moshi
-    }
-
-    /**
-     * @return This will always be "OK", otherwise there will be no JSON response.
-     */
-    public String getStatus() {
-        return status;
-    }
-
-    /**
-     * @return The state of the door before the request.
-     */
-    public String getBefore() {
-        return before;
-    }
+public record DoorRequestResult(String status, String before) {
 }

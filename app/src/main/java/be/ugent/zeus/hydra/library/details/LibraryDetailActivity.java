@@ -60,7 +60,6 @@ import be.ugent.zeus.hydra.common.ui.html.Utils;
 import be.ugent.zeus.hydra.common.utils.*;
 import be.ugent.zeus.hydra.databinding.ActivityLibraryDetailsBinding;
 import be.ugent.zeus.hydra.library.Library;
-import be.ugent.zeus.hydra.library.favourites.FavouritesRepository;
 import be.ugent.zeus.hydra.library.favourites.LibraryFavourite;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
@@ -93,9 +92,9 @@ public class LibraryDetailActivity extends BaseActivity<ActivityLibraryDetailsBi
 
         library = IntentCompat.getParcelableExtra(getIntent(), ARG_LIBRARY, Library.class);
 
-        Picasso.get().load(library.getHeaderImage(this)).into(binding.headerImage);
+        Picasso.get().load(library.headerImage(this)).into(binding.headerImage);
 
-        binding.collapsingToolbar.setTitle(library.getName());
+        binding.collapsingToolbar.setTitle(library.name());
         String address = makeFullAddressText();
         if (TextUtils.isEmpty(address)) {
             binding.libraryAddressCard.setVisibility(View.GONE);
@@ -132,7 +131,7 @@ public class LibraryDetailActivity extends BaseActivity<ActivityLibraryDetailsBi
             }
         });
 
-        String comments = library.getCommentsAsString();
+        String comments = library.commentsAsString();
         if (TextUtils.isEmpty(comments)) {
             binding.libraryRemarks.setVisibility(View.GONE);
             binding.libraryRemarksDivider.setVisibility(View.GONE);
@@ -142,7 +141,7 @@ public class LibraryDetailActivity extends BaseActivity<ActivityLibraryDetailsBi
             binding.expandableLayout.setExpanded(true, false);
         }
 
-        binding.libraryMailRowText.setText(library.getEmail());
+        binding.libraryMailRowText.setText(library.email());
         LinkifyCompat.addLinks(binding.libraryMailRowText, Linkify.EMAIL_ADDRESSES);
         String phoneString = library.getPhones();
         if (TextUtils.isEmpty(phoneString)) {
@@ -151,19 +150,19 @@ public class LibraryDetailActivity extends BaseActivity<ActivityLibraryDetailsBi
             binding.libraryPhoneRowText.setText(phoneString);
             LinkifyCompat.addLinks(binding.libraryPhoneRowText, Linkify.PHONE_NUMBERS);
         }
-        binding.libraryContactRowText.setText(library.getContact());
+        binding.libraryContactRowText.setText(library.contact());
 
         HoursViewModel model = provider.get(HoursViewModel.class);
         model.setLibrary(library);
-        model.getData().observe(this, PartialErrorObserver.with(this::onError));
-        model.getData().observe(this, new ProgressObserver<>(binding.progressBar));
-        model.getData().observe(this, SuccessObserver.with(this::receiveData));
+        model.data().observe(this, PartialErrorObserver.with(this::onError));
+        model.data().observe(this, new ProgressObserver<>(binding.progressBar));
+        model.data().observe(this, SuccessObserver.with(this::receiveData));
 
         Reporting.getTracker(this).log(new LibraryViewEvent(library));
     }
 
     private void updateStatus(Library library, boolean isSelected) {
-        FavouritesRepository repository = Database.get(this).getFavouritesRepository();
+        var repository = Database.get(this).getFavouriteRepository();
         ThreadingUtils.execute(() -> {
             if (isSelected) {
                 repository.delete(LibraryFavourite.from(library));
@@ -204,13 +203,13 @@ public class LibraryDetailActivity extends BaseActivity<ActivityLibraryDetailsBi
             TableRow tableRow = new TableRow(this);
             tableRow.setPadding(0, rowPadding, 0, rowPadding);
             TextView date = new TextView(this, null, R.attr.textAppearanceBodyMedium);
-            date.setText(DateUtils.getFriendlyDate(this, hours.getDate()));
+            date.setText(DateUtils.friendlyDate(this, hours.date()));
             TextView openHours = new TextView(this, null, R.attr.textAppearanceBodyMedium);
             openHours.setPadding(rowPadding, 0, 0, 0);
-            openHours.setText(hours.getHours());
+            openHours.setText(hours.hours());
             tableRow.addView(date);
             tableRow.addView(openHours);
-            if (!TextUtils.isEmpty(hours.getComments())) {
+            if (!TextUtils.isEmpty(hours.comments())) {
                 TextView comments = new TextView(this, null, R.attr.textAppearanceBodyMedium);
                 TableLayout.LayoutParams params = new TableLayout.LayoutParams();
                 params.weight = 0;
@@ -218,7 +217,7 @@ public class LibraryDetailActivity extends BaseActivity<ActivityLibraryDetailsBi
                 params.height = TableLayout.LayoutParams.MATCH_PARENT;
                 comments.setLayoutParams(params);
                 comments.setPadding(rowPadding, 0, 0, 0);
-                comments.setText(hours.getComments());
+                comments.setText(hours.comments());
             }
             tableLayout.addView(tableRow);
         }
@@ -230,7 +229,7 @@ public class LibraryDetailActivity extends BaseActivity<ActivityLibraryDetailsBi
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_library_details, menu);
         tintToolbarIcons(menu, R.id.library_url);
-        if (library.getLink() == null) {
+        if (library.link() == null) {
             menu.removeItem(R.id.library_url);
         }
         return super.onCreateOptionsMenu(menu);
@@ -240,8 +239,8 @@ public class LibraryDetailActivity extends BaseActivity<ActivityLibraryDetailsBi
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == R.id.library_url) {
-            if (library.getLink() != null) {
-                NetworkUtils.maybeLaunchBrowser(this, library.getLink());
+            if (library.link() != null) {
+                NetworkUtils.maybeLaunchBrowser(this, library.link());
             }
             return true;
         }
@@ -252,7 +251,7 @@ public class LibraryDetailActivity extends BaseActivity<ActivityLibraryDetailsBi
      * @return Intent to launch Google Maps to show the location of the library.
      */
     private Intent mapsIntent() {
-        Uri uri = Uri.parse("geo:" + library.getLatitude() + "," + library.getLongitude() + "0?q=" + library.addressAsString());
+        Uri uri = Uri.parse("geo:" + library.latitude() + "," + library.longitude() + "0?q=" + library.addressAsString());
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.setPackage("com.google.android.apps.maps");
         return intent;
@@ -263,19 +262,19 @@ public class LibraryDetailActivity extends BaseActivity<ActivityLibraryDetailsBi
      */
     private String makeFullAddressText() {
         List<String> parts = new ArrayList<>();
-        parts.add(library.getName());
-        if (!TextUtils.isEmpty(library.getCampus())) {
-            String campus = library.getCampus();
-            if (!TextUtils.isEmpty(library.getFaculty())) {
-                campus += " (" + library.getFaculty();
-                if (!TextUtils.isEmpty(library.getDepartment())) {
-                    campus += ", " + library.getDepartment();
+        parts.add(library.name());
+        if (!TextUtils.isEmpty(library.campus())) {
+            String campus = library.campus();
+            if (!TextUtils.isEmpty(library.faculty())) {
+                campus += " (" + library.faculty();
+                if (!TextUtils.isEmpty(library.department())) {
+                    campus += ", " + library.department();
                 }
             }
             campus += ")";
             parts.add(campus);
         }
-        parts.addAll(library.getAddress());
+        parts.addAll(library.address());
         //noinspection SimplifyStreamApiCallChains
         return parts.stream().collect(Collectors.joining("\n"));
     }
@@ -286,28 +285,21 @@ public class LibraryDetailActivity extends BaseActivity<ActivityLibraryDetailsBi
                 .show();
     }
 
-    private static class LibraryViewEvent implements Event {
-
-        private final Library library;
-
-        private LibraryViewEvent(Library library) {
-            this.library = library;
-        }
-
-        @Nullable
+    private record LibraryViewEvent(Library library) implements Event {
+        
         @Override
-        public Bundle getParams() {
+        public Bundle params() {
             BaseEvents.Params names = Reporting.getEvents().params();
             Bundle params = new Bundle();
             params.putString(names.itemCategory(), Library.class.getSimpleName());
-            params.putString(names.itemId(), library.getCode());
-            params.putString(names.itemName(), library.getName());
+            params.putString(names.itemId(), library.code());
+            params.putString(names.itemName(), library.name());
             return params;
         }
 
         @Nullable
         @Override
-        public String getEventName() {
+        public String eventName() {
             return Reporting.getEvents().viewItem();
         }
     }

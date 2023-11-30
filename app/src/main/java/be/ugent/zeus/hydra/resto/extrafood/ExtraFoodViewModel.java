@@ -48,21 +48,17 @@ public class ExtraFoodViewModel extends RequestViewModel<ExtraFood> {
      * @return The result.
      */
     static List<Food> getFor(int position, ExtraFood data) {
-        switch (position) {
-            case 0:
-                return data.getBreakfast();
-            case 1:
-                return data.getDesserts();
-            case 2:
-                return data.getDrinks();
-            default:
-                throw new AdapterOutOfBoundsException(position, 3);
-        }
+        return switch (position) {
+            case 0 -> data.breakfast();
+            case 1 -> data.desserts();
+            case 2 -> data.drinks();
+            default -> throw new AdapterOutOfBoundsException(position, 3);
+        };
     }
 
     @NonNull
     @Override
-    protected Request<ExtraFood> getRequest() {
+    protected Request<ExtraFood> request() {
         return new ExtraFoodRequest(getApplication());
     }
 }

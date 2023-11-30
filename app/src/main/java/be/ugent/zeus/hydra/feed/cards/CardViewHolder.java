@@ -72,7 +72,7 @@ public abstract class CardViewHolder extends DataViewHolder<Card> implements Swi
         this.card = card;
 
         if (BuildConfig.DEBUG && BuildConfig.DEBUG_HOME_STREAM_PRIORITY) {
-            priority.setText("Prioriteit: " + card.getPriority());
+            priority.setText("Prioriteit: " + card.priority());
         }
 
         toolbar.setOnMenuClickListener(this);
@@ -89,10 +89,10 @@ public abstract class CardViewHolder extends DataViewHolder<Card> implements Swi
             Log.e(TAG, "Card was null when menu was called. Ignoring.");
             return false;
         }
-        HomeFeedAdapter.AdapterCompanion companion = adapter.getCompanion();
+        HomeFeedAdapter.AdapterCompanion companion = adapter.companion();
         int itemId = item.getItemId();
         if (itemId == R.id.menu_hide_type) {
-            companion.executeCommand(new DisableTypeCommand(card.getCardType()));
+            companion.executeCommand(new DisableTypeCommand(card.cardType()));
             return true;
         } else if (itemId == R.id.menu_hide_card) {
             companion.executeCommand(new DisableIndividualCard(card));
@@ -104,7 +104,7 @@ public abstract class CardViewHolder extends DataViewHolder<Card> implements Swi
     @Override
     public void onSwiped() {
         if (card != null) {
-            adapter.getCompanion().executeCommand(new DisableIndividualCard(card));
+            adapter.companion().executeCommand(new DisableIndividualCard(card));
         } else {
             Log.w(TAG, "onSwiped: card is null somehow. Ignoring!");
         }

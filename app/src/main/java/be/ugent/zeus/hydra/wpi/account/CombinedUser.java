@@ -23,84 +23,22 @@
 package be.ugent.zeus.hydra.wpi.account;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 /**
  * A combined user for Tab and Tap.
- * 
+ *
  * @author Niko Strijbol
  */
-public class CombinedUser {
-    
-    private int id;
-    private String name;
-    private int balance;
-    private String profilePicture;
-    protected int orders;
-    private Integer favourite;
+public record CombinedUser(
+        int id,
+        String name,
+        int balance,
+        String profilePicture,
+        int orders,
+        Integer favourite
+) {
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getBalance() {
-        return balance;
-    }
-
-    public void setBalance(int balance) {
-        this.balance = balance;
-    }
-
-    public String getProfilePicture() {
-        return profilePicture;
-    }
-
-    public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture;
-    }
-
-    public int getOrders() {
-        return orders;
-    }
-
-    public void setOrders(int orders) {
-        this.orders = orders;
-    }
-
-    public BigDecimal getBalanceDecimal() {
-        return new BigDecimal(getBalance()).movePointLeft(2);
-    }
-
-    public Integer getFavourite() {
-        return favourite;
-    }
-
-    public void setFavourite(Integer favourite) {
-        this.favourite = favourite;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CombinedUser that = (CombinedUser) o;
-        return id == that.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public BigDecimal balanceDecimal() {
+        return new BigDecimal(balance()).movePointLeft(2);
     }
 }

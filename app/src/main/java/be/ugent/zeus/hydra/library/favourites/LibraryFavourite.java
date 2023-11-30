@@ -39,7 +39,7 @@ import be.ugent.zeus.hydra.library.Library;
  *
  * @author Niko Strijbol
  */
-@Entity(tableName = FavouritesTable.TABLE_NAME)
+@Entity(tableName = FavouriteTable.TABLE_NAME)
 public final class LibraryFavourite {
 
     /**
@@ -47,12 +47,12 @@ public final class LibraryFavourite {
      * but that would be a lot of work for something that doesn't happen a lot.
      */
     @NonNull
-    @ColumnInfo(name = FavouritesTable.Columns.LIBRARY_NAME)
+    @ColumnInfo(name = FavouriteTable.Columns.LIBRARY_NAME)
     private final String name;
 
     @NonNull
     @PrimaryKey
-    @ColumnInfo(name = FavouritesTable.Columns.LIBRARY_ID)
+    @ColumnInfo(name = FavouriteTable.Columns.LIBRARY_ID)
     private final String code;
 
     public LibraryFavourite(@NonNull String name, @NonNull String code) {
@@ -62,7 +62,7 @@ public final class LibraryFavourite {
 
     @NonNull
     public static LibraryFavourite from(@NonNull Library library) {
-        return new LibraryFavourite(library.getName(), library.getCode());
+        return new LibraryFavourite(library.name(), library.code());
     }
 
     @NonNull

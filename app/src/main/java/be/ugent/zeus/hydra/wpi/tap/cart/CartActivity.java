@@ -100,10 +100,10 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
         binding.scanAdd.setOnClickListener(v -> {
             BarcodeScanner scanner = Manager.getScanner();
             if (scanner.needsActivity()) {
-                Intent intent = scanner.getActivityIntent(CartActivity.this);
-                startActivityForResult(intent, scanner.getRequestCode());
+                Intent intent = scanner.activityIntent(CartActivity.this);
+                startActivityForResult(intent, scanner.requestCode());
             } else {
-                scanner.getBarcode(CartActivity.this, this::onBarcodeScan, this::onError);
+                scanner.barcode(CartActivity.this, this::onBarcodeScan, this::onError);
             }
         });
         binding.manualAdd.setOnClickListener(v -> {
@@ -132,9 +132,9 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
         swipeRefreshLayout.setEnabled(false);
         swipeRefreshLayout.setColorSchemeColors(ColourUtils.resolveColour(this, R.attr.colorSecondary));
 
-        viewModel.getData().observe(this, PartialErrorObserver.with(this::onCartLoadError));
+        viewModel.data().observe(this, PartialErrorObserver.with(this::onCartLoadError));
         // A custom adapter to map the data and save an instance of it.
-        viewModel.getData().observe(this, new SuccessObserver<Cart>() {
+        viewModel.data().observe(this, new SuccessObserver<>() {
             @Override
             protected void onSuccess(@NonNull Cart data) {
                 Log.i(TAG, "onSuccess: received cart, with X items: " + data.getOrders().size());
@@ -143,12 +143,12 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
                 updateCartSummary(data);
             }
         });
-        viewModel.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
+        viewModel.refreshing().observe(this, swipeRefreshLayout::setRefreshing);
         swipeRefreshLayout.setOnRefreshListener(viewModel);
 
         viewModel.getRequestResult().observe(this, EventObserver.with(orderResult -> {
             if (orderResult.isWithoutError()) {
-                BigDecimal total = orderResult.getData().getPrice();
+                BigDecimal total = orderResult.data().priceDecimal();
                 String formattedTotal = currencyFormatter.format(total);
                 String message = getString(R.string.wpi_tap_order_ok, formattedTotal);
                 Toast.makeText(CartActivity.this, message, Toast.LENGTH_SHORT).show();
@@ -156,7 +156,7 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
                 this.clearCart(true);
                 finish();
             } else {
-                RequestException e = orderResult.getError();
+                RequestException e = orderResult.error();
                 Log.e(TAG, "error during transaction request", e);
                 String message = e.getMessage();
                 new MaterialAlertDialogBuilder(CartActivity.this)
@@ -236,7 +236,7 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
             new MaterialAlertDialogBuilder(CartActivity.this)
                 .setMessage(getString(R.string.wpi_tap_product_not_found, barcode))
                 .setPositiveButton(R.string.action_share, (dialog, which) -> startActivity(shareIntent))
-                .setNegativeButton(android.R.string.no, null)
+                .setNegativeButton(android.R.string.cancel, null)
                 .show();
             return;
         }
@@ -246,7 +246,7 @@ public class CartActivity extends BaseActivity<ActivityWpiTapCartBinding> implem
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == Manager.getScanner().getRequestCode()) {
+        if (requestCode == Manager.getScanner().requestCode()) {
             // Handle it.
             String barcode = Manager.getScanner().interpretActivityResult(data, resultCode);
             onBarcodeScan(barcode);

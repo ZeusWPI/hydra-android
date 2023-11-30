@@ -46,9 +46,9 @@ class SelectableLiveData extends RequestLiveData<List<RestoChoice>> implements S
     @Override
     protected void onActive() {
         super.onActive();
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String key = RestoPreferenceFragment.getRestoEndpoint(getContext(), preferences);
-        String name = preferences.getString(RestoPreferenceFragment.PREF_RESTO_NAME, getContext().getString(R.string.resto_default_name));
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String key = RestoPreferenceFragment.getRestoEndpoint(context, preferences);
+        String name = preferences.getString(RestoPreferenceFragment.PREF_RESTO_NAME, context.getString(R.string.resto_default_name));
         RestoChoice resto = new RestoChoice(name, key);
         // Register the listener for when the settings change while it's active
         preferences.registerOnSharedPreferenceChangeListener(this);
@@ -62,7 +62,7 @@ class SelectableLiveData extends RequestLiveData<List<RestoChoice>> implements S
     @Override
     protected void onInactive() {
         super.onInactive();
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         preferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 

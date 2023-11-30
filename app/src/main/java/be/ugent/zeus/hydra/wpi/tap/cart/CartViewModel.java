@@ -23,7 +23,6 @@
 package be.ugent.zeus.hydra.wpi.tap.cart;
 
 import android.app.Application;
-import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.*;
 
@@ -63,7 +62,7 @@ public class CartViewModel extends RequestViewModel<Cart> {
 
     @NonNull
     @Override
-    protected Request<Cart> getRequest() {
+    protected Request<Cart> request() {
         return new CartRequest(getApplication(), initialProductId);
     }
 

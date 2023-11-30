@@ -25,6 +25,8 @@ package be.ugent.zeus.hydra.resto;
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
+import androidx.core.os.ParcelCompat;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -39,21 +41,25 @@ import java.util.Objects;
  */
 public final class RestoMenu implements Parcelable {
     
-    private boolean open;
-    private LocalDate date;
-    private List<RestoMeal> meals;
-    private transient List<RestoMeal> mainDishes;
-    private transient List<RestoMeal> coldDishes;
-    private transient List<RestoMeal> soups;
-    private List<String> vegetables;
-    private String message;
+    private final boolean open;
+    private final LocalDate date;
+    private final List<RestoMeal> meals;
+    private final List<String> vegetables;
+    private final String message;
+    
+    private transient CategorizedMeals categorized;
 
-    public RestoMenu() {
+    public RestoMenu(boolean open, LocalDate date, List<RestoMeal> meals, List<String> vegetables, String message) {
+        this.open = open;
+        this.date = date;
+        this.meals = meals;
+        this.vegetables = vegetables;
+        this.message = message;
     }
 
-    protected RestoMenu(Parcel in) {
+    private RestoMenu(Parcel in) {
         this.open = in.readByte() != 0;
-        this.date = (LocalDate) in.readSerializable();
+        this.date = ParcelCompat.readSerializable(in, LocalDate.class.getClassLoader(), LocalDate.class);
         this.meals = in.createTypedArrayList(RestoMeal.CREATOR);
         this.vegetables = in.createStringArrayList();
         this.message = in.readString();
@@ -62,22 +68,33 @@ public final class RestoMenu implements Parcelable {
     /**
      * Sort the meals available in the menu.
      */
-    private void fillCategories() {
-        soups = new ArrayList<>();
-        mainDishes = new ArrayList<>();
-        coldDishes = new ArrayList<>();
+    private void fillCategoriesIfNeeded() {
+        if (categorized != null) {
+            return;
+        }
+        
+        var soups = new ArrayList<RestoMeal>();
+        var mainDishes = new ArrayList<RestoMeal>();
+        var coldDishes = new ArrayList<RestoMeal>();
 
         for (RestoMeal meal : meals) {
-            if (meal.getKind() != null && meal.getKind().equals("soup")) {
+            if (meal.kind() != null && meal.kind().equals("soup")) {
                 soups.add(meal);
             } else {
-                if (RestoMeal.MENU_TYPE_COLD.equals(meal.getType())) {
+                if (RestoMeal.MENU_TYPE_COLD.equals(meal.type())) {
                     coldDishes.add(meal);
                 } else {
                     mainDishes.add(meal);
                 }
             }
         }
+        
+        this.categorized = new CategorizedMeals(mainDishes, coldDishes, soups);
+    }
+    
+    @VisibleForTesting
+    public RestoMenu withDate(LocalDate date) {
+        return new RestoMenu(open, date, meals, vegetables, message);
     }
 
     /**
@@ -87,78 +104,40 @@ public final class RestoMenu implements Parcelable {
         return !open;
     }
 
-    /**
-     * @see #isClosed()
-     */
-    public void setOpen(boolean open) {
-        this.open = open;
-    }
-
-    /**
-     * @return The meals available on this menu.
-     */
-    public List<RestoMeal> getMeals() {
-        return meals;
-    }
-
-    public void setMeals(List<RestoMeal> meals) {
-        this.meals = meals;
-        fillCategories();
-    }
-
-    public List<String> getVegetables() {
+    public List<String> vegetables() {
         return vegetables;
     }
 
-    public void setVegetables(List<String> vegetables) {
-        this.vegetables = vegetables;
-    }
-
-    public LocalDate getDate() {
+    public LocalDate date() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public String getMessage() {
+    public String message() {
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    @NonNull
+    public List<RestoMeal> soups() {
+        fillCategoriesIfNeeded();
+        return categorized.soups();
     }
 
     @NonNull
-    public List<RestoMeal> getSoups() {
-        if (soups == null) {
-            fillCategories();
-        }
-        return soups;
-    }
-
-    @NonNull
-    public List<RestoMeal> getMainDishes() {
-        if (mainDishes == null) {
-            fillCategories();
-        }
-        return mainDishes;
+    public List<RestoMeal> mainDishes() {
+        fillCategoriesIfNeeded();
+        return categorized.mainDishes();
     }
     
     @NonNull
-    public List<RestoMeal> getColdDishes() {
-        if (coldDishes == null) {
-            fillCategories();
-        }
-        return coldDishes;
+    public List<RestoMeal> coldDishes() {
+        fillCategoriesIfNeeded();
+        return categorized.coldDishes();
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof RestoMenu)) return false;
-        RestoMenu restoMenu = (RestoMenu) o;
+        if (!(o instanceof RestoMenu restoMenu)) return false;
         return open == restoMenu.open &&
                 Objects.equals(date, restoMenu.date) &&
                 Objects.equals(meals, restoMenu.meals) &&
@@ -178,14 +157,14 @@ public final class RestoMenu implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeByte(this.open ? (byte) 1 : (byte) 0);
+        ParcelCompat.writeBoolean(dest, this.open);
         dest.writeSerializable(this.date);
         dest.writeTypedList(this.meals);
         dest.writeStringList(this.vegetables);
         dest.writeString(this.message);
     }
 
-    public static final Parcelable.Creator<RestoMenu> CREATOR = new Parcelable.Creator<RestoMenu>() {
+    public static final Parcelable.Creator<RestoMenu> CREATOR = new Parcelable.Creator<>() {
         @Override
         public RestoMenu createFromParcel(Parcel source) {
             return new RestoMenu(source);
@@ -196,4 +175,10 @@ public final class RestoMenu implements Parcelable {
             return new RestoMenu[size];
         }
     };
+    
+    public record CategorizedMeals(
+            List<RestoMeal> mainDishes,
+            List<RestoMeal> coldDishes,
+            List<RestoMeal> soups
+            ) {}
 }

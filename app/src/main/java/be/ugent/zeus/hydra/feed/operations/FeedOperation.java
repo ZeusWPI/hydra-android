@@ -55,5 +55,5 @@ public interface FeedOperation {
      * @return The type.
      */
     @Card.Type
-    int getCardType();
+    int cardType();
 }

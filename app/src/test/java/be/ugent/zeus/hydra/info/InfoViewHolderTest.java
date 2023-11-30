@@ -51,7 +51,7 @@ public class InfoViewHolderTest {
         InfoViewHolder holder = new InfoViewHolder(view, helper);
         holder.populate(infoItem);
 
-        assertTextIs(infoItem.getTitle(), view.findViewById(R.id.info_name));
+        assertTextIs(infoItem.title(), view.findViewById(R.id.info_name));
         assertTrue(view.hasOnClickListeners());
     }
 }

@@ -101,12 +101,12 @@ public class HomeFeedSelectFragment extends Fragment {
 
         //Save the settings.
         //We save which cards we DON'T want, so we need to inverse it.
-        List<Pair<Tuple, Boolean>> values = adapter.getItemsAndState();
+        List<Pair<Tuple, Boolean>> values = adapter.itemsAndState();
         Set<String> disabled = new HashSet<>();
 
         for (Pair<Tuple, Boolean> value : values) {
             if (!value.second) {
-                disabled.add(valueMapper.get(value.first.getTitle()));
+                disabled.add(valueMapper.get(value.first.title()));
             }
         }
 
@@ -114,23 +114,7 @@ public class HomeFeedSelectFragment extends Fragment {
         preferences.edit().putStringSet(PREF_DISABLED_CARD_TYPES, disabled).apply();
     }
 
-    private static class Tuple {
-
-        private final String title;
-        private final String description;
-
-        private Tuple(String title, String description) {
-            this.title = title;
-            this.description = description;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public String getDescription() {
-            return description;
-        }
+    private record Tuple(String title, String description) {
     }
 
     private static class FeedOptionsAdapter extends MultiSelectAdapter<Tuple> {
@@ -141,8 +125,8 @@ public class HomeFeedSelectFragment extends Fragment {
             return new DescriptionMultiSelectListViewHolder<>(
                     ViewUtils.inflate(parent, R.layout.item_checkbox_string_description),
                     this,
-                    Tuple::getTitle,
-                    Tuple::getDescription
+                    Tuple::title,
+                    Tuple::description
             );
         }
     }

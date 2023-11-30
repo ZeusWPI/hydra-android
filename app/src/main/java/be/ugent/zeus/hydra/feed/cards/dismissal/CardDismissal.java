@@ -52,16 +52,16 @@ public final class CardDismissal {
     }
 
     public static CardDismissal dismiss(Card card) {
-        return new CardDismissal(new CardIdentifier(card.getCardType(), card.getIdentifier()), Instant.now());
+        return new CardDismissal(new CardIdentifier(card.cardType(), card.identifier()), Instant.now());
     }
 
     @NonNull
-    public CardIdentifier getIdentifier() {
+    public CardIdentifier identifier() {
         return identifier;
     }
 
     @NonNull
-    public Instant getDismissalDate() {
+    public Instant dismissalDate() {
         return dismissalDate;
     }
 

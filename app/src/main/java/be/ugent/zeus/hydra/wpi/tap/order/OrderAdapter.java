@@ -46,7 +46,7 @@ public class OrderAdapter extends DiffAdapter<Order, OrderViewHolder> {
 
     @Override
     public long getItemId(int position) {
-        return getItem(position).getId();
+        return item(position).id();
     }
 
     @NonNull

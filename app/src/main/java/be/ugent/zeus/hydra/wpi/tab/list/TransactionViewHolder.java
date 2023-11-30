@@ -39,7 +39,7 @@ import be.ugent.zeus.hydra.wpi.account.AccountManager;
  *
  * @author Niko Strijbol
  */
-class TransactionViewHolder extends DataViewHolder<Transaction> {
+public class TransactionViewHolder extends DataViewHolder<Transaction> {
 
     private final ImageView thumbnail;
     private final TextView title;
@@ -62,20 +62,20 @@ class TransactionViewHolder extends DataViewHolder<Transaction> {
 
     @Override
     public void populate(final Transaction transaction) {
-        title.setText(transaction.getDisplayOther(me));
-        if (transaction.getIssuer().equals("Tap")) {
+        title.setText(transaction.displayOther(me));
+        if (transaction.issuer().equals("Tap")) {
             thumbnail.setImageResource(R.drawable.logo_tap);
-        } else if (transaction.getAmount() > 0) {
+        } else if (transaction.amount() > 0) {
             thumbnail.setImageResource(R.drawable.ic_bank_transfer_out);
-        } else if (transaction.getAmount() < 0) {
+        } else if (transaction.amount() < 0) {
             thumbnail.setImageResource(R.drawable.ic_bank_transfer_in);
         } else {
             // This is probably not possible.
             thumbnail.setImageResource(R.drawable.ic_receipt_long);
         }
-        meta.setText(currencyFormatter.format(transaction.getAdjustedAmount(me)));
-        secondDescription.setText(transaction.getMessage());
-        firstDescription.setText(DateUtils.relativeDateTimeString(transaction.getTime(), itemView.getContext()));
+        meta.setText(currencyFormatter.format(transaction.adjustedAmount(me)));
+        secondDescription.setText(transaction.message());
+        firstDescription.setText(DateUtils.relativeDateTimeString(transaction.time(), itemView.getContext()));
     }
     
 }

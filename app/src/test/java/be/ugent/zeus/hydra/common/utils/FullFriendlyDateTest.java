@@ -37,13 +37,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.ParameterizedRobolectricTestRunner;
 
-import static be.ugent.zeus.hydra.common.utils.DateUtils.getDateFormatterForStyle;
+import static be.ugent.zeus.hydra.common.utils.DateUtils.dateFormatterForStyle;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Tests for the {@link DateUtils#getFriendlyDate(Context, LocalDate, FormatStyle)} and {@link DateUtils#willBeFriendly(LocalDate)}.
+ * Tests for the {@link DateUtils#friendlyDate(Context, LocalDate, FormatStyle)} and {@link DateUtils#willBeFriendly(LocalDate)}.
  * <p>
  * The second method is not tested separately to reduce code duplication, since the logic is exactly the same.
  *
@@ -60,7 +60,7 @@ public class FullFriendlyDateTest extends DateTest {
     public FullFriendlyDateTest(FormatStyle style, boolean supportsToday, boolean supportsTomorrow, boolean supportsOvermorrow) {
         super(supportsToday, supportsTomorrow, supportsOvermorrow);
         this.style = style;
-        defaultFormatter = getDateFormatterForStyle(style);
+        defaultFormatter = dateFormatterForStyle(style);
     }
 
     @ParameterizedRobolectricTestRunner.Parameters
@@ -84,7 +84,7 @@ public class FullFriendlyDateTest extends DateTest {
 
     @Test
     public void todaySupport() {
-        String result = DateUtils.getFriendlyDate(c, now, style);
+        String result = DateUtils.friendlyDate(c, now, style);
         String expected;
         if (supportsToday) {
             expected = c.getString(R.string.date_today);
@@ -98,7 +98,7 @@ public class FullFriendlyDateTest extends DateTest {
     @Test
     public void tomorrowSupport() {
         LocalDate tomorrow = now.plusDays(1);
-        String result = DateUtils.getFriendlyDate(c, tomorrow, style);
+        String result = DateUtils.friendlyDate(c, tomorrow, style);
         String expected;
         if (supportsTomorrow) {
             expected = c.getString(R.string.date_tomorrow);
@@ -112,7 +112,7 @@ public class FullFriendlyDateTest extends DateTest {
     @Test
     public void testOvermorrowSupport() {
         LocalDate overmorrow = now.plusDays(2);
-        String result = DateUtils.getFriendlyDate(c, overmorrow, style);
+        String result = DateUtils.friendlyDate(c, overmorrow, style);
         String expected;
         if (supportsOvermorrow) {
             expected = c.getString(R.string.date_overmorrow);
@@ -126,7 +126,7 @@ public class FullFriendlyDateTest extends DateTest {
     @Test
     public void testThisWeek() {
         LocalDate thisWeek = now.plusDays(3);
-        String result = DateUtils.getFriendlyDate(c, thisWeek, style);
+        String result = DateUtils.friendlyDate(c, thisWeek, style);
         String expected = thisWeek.getDayOfWeek().getDisplayName(TextStyle.FULL, locale);
         assertEquals(expected, result);
         assertTrue(DateUtils.willBeFriendly(thisWeek));
@@ -135,7 +135,7 @@ public class FullFriendlyDateTest extends DateTest {
     @Test
     public void testNextWeekStartLimit() {
         LocalDate startLimit = now.plusDays(7);
-        String result = DateUtils.getFriendlyDate(c, startLimit, style);
+        String result = DateUtils.friendlyDate(c, startLimit, style);
         String dayOfWeek = startLimit.getDayOfWeek().getDisplayName(TextStyle.FULL, locale);
         String expected = c.getString(R.string.date_next_x, dayOfWeek);
         assertEquals(expected, result);
@@ -145,7 +145,7 @@ public class FullFriendlyDateTest extends DateTest {
     @Test
     public void testNextWeek() {
         LocalDate thisWeek = now.plusDays(10);
-        String result = DateUtils.getFriendlyDate(c, thisWeek, style);
+        String result = DateUtils.friendlyDate(c, thisWeek, style);
         String dayOfWeek = thisWeek.getDayOfWeek().getDisplayName(TextStyle.FULL, locale);
         String expected = c.getString(R.string.date_next_x, dayOfWeek);
         assertEquals(expected, result);
@@ -155,7 +155,7 @@ public class FullFriendlyDateTest extends DateTest {
     @Test
     public void testNextWeekEndLimit() {
         LocalDate endLimit = now.plusDays(14);
-        String result = DateUtils.getFriendlyDate(c, endLimit, style);
+        String result = DateUtils.friendlyDate(c, endLimit, style);
         String expected = defaultFormatter.format(endLimit);
         assertEquals(expected, result);
         assertFalse(DateUtils.willBeFriendly(endLimit));
@@ -164,7 +164,7 @@ public class FullFriendlyDateTest extends DateTest {
     @Test
     public void testFarFuture() {
         LocalDate future = now.plusDays(100);
-        String result = DateUtils.getFriendlyDate(c, future, style);
+        String result = DateUtils.friendlyDate(c, future, style);
         String expected = defaultFormatter.format(future);
         assertEquals(expected, result);
         assertFalse(DateUtils.willBeFriendly(future));
@@ -173,7 +173,7 @@ public class FullFriendlyDateTest extends DateTest {
     @Test
     public void testPast() {
         LocalDate past = now.minusDays(100);
-        String result = DateUtils.getFriendlyDate(c, past, style);
+        String result = DateUtils.friendlyDate(c, past, style);
         String expected = defaultFormatter.format(past);
         assertEquals(expected, result);
         assertFalse(DateUtils.willBeFriendly(past));

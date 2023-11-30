@@ -59,17 +59,17 @@ class EcologicalViewHolder extends DataViewHolder<EcologicalSandwich> {
     @Override
     public void populate(EcologicalSandwich sandwich) {
         Context c = itemView.getContext();
-        name.setText(sandwich.getName());
-        String start = DateUtils.getFriendlyDate(c, sandwich.getStart());
-        String end = DateUtils.getFriendlyDate(c, sandwich.getEnd());
-        if (sandwich.isVegan()) {
+        name.setText(sandwich.name());
+        String start = DateUtils.friendlyDate(c, sandwich.start());
+        String end = DateUtils.friendlyDate(c, sandwich.end());
+        if (sandwich.vegan()) {
             Drawable image = AppCompatResources.getDrawable(c, R.drawable.resto_vegan);
             name.setCompoundDrawablesWithIntrinsicBounds(null, null, image, null);
         } else {
             name.setCompoundDrawables(null, null, null, null);
         }
         dates.setText(String.format(c.getString(R.string.date_between), start, end));
-        String ingredientsString = StringUtils.formatList(sandwich.getIngredients());
+        String ingredientsString = StringUtils.formatList(sandwich.ingredients());
         ingredients.setText(String.format(c.getString(R.string.resto_sandwich_ingredients), ingredientsString));
         expandableLayout.setExpanded(adapter.isChecked(getBindingAdapterPosition()), false);
         itemView.setOnClickListener(v -> {

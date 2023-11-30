@@ -56,7 +56,7 @@ public abstract class RefreshViewModel extends AndroidViewModel implements Swipe
     /**
      * @return The refreshing status.
      */
-    public LiveData<Boolean> getRefreshing() {
+    public LiveData<Boolean> refreshing() {
         if (refreshing == null) {
             refreshing = buildRefreshLiveData();
         }

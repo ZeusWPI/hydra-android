@@ -25,7 +25,7 @@ package be.ugent.zeus.hydra.feed.commands;
 import android.content.Context;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.association.common.AssociationVisibilityStorage;
+import be.ugent.zeus.hydra.association.AssociationVisibilityStorage;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.feed.cards.Card;
 
@@ -54,7 +54,7 @@ public class DisableAssociationCommand implements FeedCommand {
     }
 
     @Override
-    public int getCompleteMessage() {
+    public int completeMessage() {
         return R.string.feed_card_hidden_association;
     }
 }

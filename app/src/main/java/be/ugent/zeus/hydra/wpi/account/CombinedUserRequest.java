@@ -24,10 +24,7 @@ package be.ugent.zeus.hydra.wpi.account;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Pair;
 import androidx.annotation.NonNull;
-
-import java.util.function.Function;
 
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
@@ -40,27 +37,26 @@ import be.ugent.zeus.hydra.wpi.tap.user.TapUserRequest;
  * @author Niko Strijbol
  */
 public class CombinedUserRequest implements Request<CombinedUser> {
-    
+
     private final Request<TabUser> tabUserRequest;
     private final Request<TapUser> tapUserRequest;
-    
+
     public CombinedUserRequest(Context context) {
         this.tabUserRequest = new TabUserRequest(context);
         this.tapUserRequest = new TapUserRequest(context);
     }
-    
+
     @NonNull
     @Override
     public Result<CombinedUser> execute(@NonNull Bundle args) {
-        return tabUserRequest.andThen(tapUserRequest).map(p -> {
-            CombinedUser user = new CombinedUser();
-            user.setName(p.second.getName());
-            user.setId(p.second.getId());
-            user.setOrders(p.second.getOrderCount());
-            user.setProfilePicture(p.second.getProfileImageUrl());
-            user.setBalance(p.first.getBalance());
-            user.setFavourite(p.second.getFavourite());
-            return user;
-        }).execute(args);
+        return tabUserRequest.andThen(tabUser ->
+                tapUserRequest.map(tapUser -> new CombinedUser(
+                        tapUser.id(),
+                        tapUser.name(),
+                        tabUser.balance(),
+                        tapUser.profileImageUrl(),
+                        tapUser.orderCount(),
+                        tapUser.favourite()
+                ))).execute(args);
     }
 }

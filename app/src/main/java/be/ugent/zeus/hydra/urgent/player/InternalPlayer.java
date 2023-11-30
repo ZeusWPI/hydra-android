@@ -22,7 +22,6 @@
 
 package be.ugent.zeus.hydra.urgent.player;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
@@ -181,7 +180,6 @@ class InternalPlayer {
     }
 
     void setAudioAttributes(@NonNull AudioAttributesCompat attributes) {
-        @SuppressLint("WrongConstant") 
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
                 .setContentType(attributes.getContentType())
                 .setFlags(attributes.getFlags())

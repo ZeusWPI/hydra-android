@@ -55,17 +55,17 @@ class LibraryCard extends Card {
     }
 
     @Override
-    public int getPriority() {
+    public int priority() {
         return PriorityUtils.FEED_SPECIAL_SHIFT + 1;
     }
 
     @Override
-    public String getIdentifier() {
+    public String identifier() {
         return TAG;
     }
 
     @Override
-    public int getCardType() {
+    public int cardType() {
         return Type.LIBRARY;
     }
 

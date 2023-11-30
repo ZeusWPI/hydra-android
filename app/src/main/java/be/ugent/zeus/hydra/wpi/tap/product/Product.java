@@ -22,91 +22,36 @@
 
 package be.ugent.zeus.hydra.wpi.tap.product;
 
+import java.math.BigDecimal;
+
 import com.squareup.moshi.Json;
 
-import java.math.BigDecimal;
-import java.util.Locale;
-import java.util.Objects;
-
-import be.ugent.zeus.hydra.common.network.Endpoints;
+import static be.ugent.zeus.hydra.wpi.tap.TapUtils.createImageUrl;
 
 /**
  * Product from Tab
  *
  * @author Niko Strijbol
  */
-public class Product {
+public record Product(
+        int id,
+        String name,
+        @Json(name = "price_cents")
+        int price,
+        @Json(name = "avatar_file_name")
+        String avatarFileName,
+        String category,
+        int stock,
+        Integer calories
+) {
 
     private static final String IMAGE_URL = "system/products/avatars/%s/%s/%s/medium/%s";
 
-    private int id;
-    private String name;
-    @Json(name = "price_cents")
-    private int price;
-    @Json(name = "avatar_file_name")
-    private String avatarFileName;
-    private String category;
-    private int stock;
-    private Integer calories;
-
-    public Product() {
-        // Moshi
+    public BigDecimal priceDecimal() {
+        return new BigDecimal(price()).movePointLeft(2);
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public String getAvatarFileName() {
-        return avatarFileName;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public Integer getCalories() {
-        return calories;
-    }
-
-    public BigDecimal getPriceDecimal() {
-        return new BigDecimal(getPrice()).movePointLeft(2);
-    }
-
-    public String getImageUrl() {
-        if (this.avatarFileName == null) {
-            return null;
-        }
-        String paddedID = String.format(Locale.ROOT, "%09d", id);
-        String first = paddedID.substring(0, 3);
-        String second = paddedID.substring(3, 6);
-        String third = paddedID.substring(6, 9);
-
-        return Endpoints.TAP + String.format(Locale.ROOT, IMAGE_URL, first, second, third, this.avatarFileName);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return id == product.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public String imageUrl() {
+        return createImageUrl(this.id, IMAGE_URL, avatarFileName());
     }
 }

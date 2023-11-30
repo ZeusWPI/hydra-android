@@ -26,21 +26,14 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by feliciaan on 04/02/16.
  */
-public final class RestoMeta implements Parcelable {
-    
-    public List<Resto> locations;
-
-    @SuppressWarnings("unused") // Used by Moshi.
-    public RestoMeta() {
-    }
+public record RestoMeta(List<Resto> locations) implements Parcelable {
 
     private RestoMeta(Parcel in) {
-        this.locations = in.createTypedArrayList(Resto.CREATOR);
+        this(in.createTypedArrayList(Resto.CREATOR));
     }
 
     @Override
@@ -53,20 +46,7 @@ public final class RestoMeta implements Parcelable {
         dest.writeTypedList(this.locations);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RestoMeta restoMeta = (RestoMeta) o;
-        return Objects.equals(locations, restoMeta.locations);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(locations);
-    }
-
-    public static final Parcelable.Creator<RestoMeta> CREATOR = new Parcelable.Creator<RestoMeta>() {
+    public static final Parcelable.Creator<RestoMeta> CREATOR = new Parcelable.Creator<>() {
         @Override
         public RestoMeta createFromParcel(Parcel source) {
             return new RestoMeta(source);

@@ -26,8 +26,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.Nullable;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Represents an association registered with the DSA.
@@ -35,40 +35,38 @@ import java.util.Objects;
  * @author feliciaan
  * @author Niko Strijbol
  */
-public final class Association implements Parcelable {
-    
-    private String abbreviation;
-    private String name;
-    private List<String> path;
-    @Nullable
-    private String description;
-    private String email;
-    @Nullable
-    private String logo;
-    @Nullable
-    private String website;
+public record Association(
+        String abbreviation,
+        String name,
+        List<String> path,
+        @Nullable String description,
+        @Nullable String email,
+        @Nullable String logo,
+        @Nullable String website
+) implements Parcelable {
 
-    public Association() {
-        // Moshi uses this!
-    }
-
-    /** @noinspection ProtectedMemberInFinalClass*/
-    protected Association(Parcel in) {
-        abbreviation = in.readString();
-        name = in.readString();
-        path = in.createStringArrayList();
-        description = in.readString();
-        email = in.readString();
-        logo = in.readString();
-        website = in.readString();
+    private Association(Parcel in) {
+        this(
+                in.readString(),
+                in.readString(),
+                in.createStringArrayList(),
+                in.readString(),
+                in.readString(),
+                in.readString(),
+                in.readString()
+        );
     }
 
     public static Association unknown(String name) {
-        Association association = new Association();
-        association.abbreviation = "unknown";
-        association.name = name;
-        association.description = "Onbekende vereniging";
-        return association;
+        return new Association(
+                "unknown",
+                name,
+                Collections.emptyList(),
+                "Onbekende vereniging",
+                null,
+                null,
+                null
+        );
     }
 
     @Override
@@ -98,43 +96,4 @@ public final class Association implements Parcelable {
             return new Association[size];
         }
     };
-
-    @Nullable
-    public String getDescription() {
-        return description;
-    }
-
-    @Nullable
-    public String getWebsite() {
-        return website;
-    }
-
-    /**
-     * @return A name for this association. If a full name is available, that is returned. If not, the display name is.
-     */
-    public String getName() {
-        return name;
-    }
-
-    public String getAbbreviation() {
-        return abbreviation;
-    }
-
-    @Nullable
-    public String getImageLink() {
-        return logo;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Association that = (Association) o;
-        return Objects.equals(abbreviation, that.abbreviation);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(abbreviation);
-    }
 }

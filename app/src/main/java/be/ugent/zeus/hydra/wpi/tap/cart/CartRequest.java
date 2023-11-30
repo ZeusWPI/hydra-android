@@ -24,6 +24,7 @@ package be.ugent.zeus.hydra.wpi.tap.cart;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Pair;
 import androidx.annotation.NonNull;
 
 import java.util.List;
@@ -59,11 +60,11 @@ class CartRequest implements Request<Cart> {
     @Override
     public Result<Cart> execute(@NonNull Bundle args) {
         return productRequest
-                .andThen(existingCartRequest)
-                .andThen(barcodeRequest)
+                .andThen(products -> existingCartRequest.map(s -> new Pair<>(products, s)))
+                .andThen(listStorageCartPair -> barcodeRequest.map(s -> new Pair<>(listStorageCartPair, s)))
                 .map(pair -> {
-                    Map<Integer, Product> productMap = pair.first.first.stream().collect(Collectors.toMap(Product::getId, Function.identity()));
-                    Map<String, Integer> barcodeToProduct = pair.second.stream().collect(Collectors.toMap(Barcode::getCode, Barcode::getProductId));
+                    Map<Integer, Product> productMap = pair.first.first.stream().collect(Collectors.toMap(Product::id, Function.identity()));
+                    Map<String, Integer> barcodeToProduct = pair.second.stream().collect(Collectors.toMap(Barcode::code, Barcode::productId));
                     Cart cart = new Cart(pair.first.second, productMap, barcodeToProduct);
                     return cart.maybeAddInitialProduct(initialProductId);
                 })

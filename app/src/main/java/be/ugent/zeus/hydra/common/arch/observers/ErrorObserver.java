@@ -52,7 +52,7 @@ public abstract class ErrorObserver<D> implements Observer<Result<D>> {
     @Override
     public void onChanged(@Nullable Result<D> e) {
         if (e != null && !e.hasData()) {
-            onError(e.getError());
+            onError(e.error());
         }
     }
 

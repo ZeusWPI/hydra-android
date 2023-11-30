@@ -102,9 +102,9 @@ public class InfoFragment extends Fragment {
             model = null;
         } else {
             model = new ViewModelProvider(this).get(InfoViewModel.class);
-            model.getData().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
-            model.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(progressBar));
-            model.getData().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
+            model.data().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
+            model.data().observe(getViewLifecycleOwner(), new ProgressObserver<>(progressBar));
+            model.data().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
         }
 
         requireActivity().addMenuProvider(new MenuProvider() {

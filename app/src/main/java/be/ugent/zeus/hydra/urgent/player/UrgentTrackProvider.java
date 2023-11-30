@@ -82,27 +82,27 @@ public class UrgentTrackProvider {
             // It failed.
             return;
         }
-        UrgentInfo info = programme.getData();
+        UrgentInfo info = programme.data();
 
         MediaMetadataCompat.Builder builder = new MediaMetadataCompat.Builder()
                 .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, URGENT_ID)
-                .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, info.getUrl());
+                .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, info.url());
 
-        ProgrammeInformation information = info.getMeta();
+        ProgrammeInformation information = info.meta();
 
-        if (!TextUtils.isEmpty(information.getName())) {
-            builder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, information.getName())
+        if (!TextUtils.isEmpty(information.name())) {
+            builder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, information.name())
                     .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, context.getString(R.string.urgent_fm));
         } else {
             builder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, context.getString(R.string.urgent_fm));
         }
 
         try {
-            if (!TextUtils.isEmpty(information.getImageUrl())) {
+            if (!TextUtils.isEmpty(information.imageUrl())) {
                 okhttp3.Request request = new okhttp3.Request.Builder()
-                        .url(information.getImageUrl())
+                        .url(information.imageUrl())
                         .build();
-                try (Response response = InstanceProvider.getClient(context).newCall(request).execute()) {
+                try (Response response = InstanceProvider.client(context).newCall(request).execute()) {
                     assert response.body() != null;
                     InputStream inputStream = response.body().byteStream();
                     Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
@@ -116,8 +116,8 @@ public class UrgentTrackProvider {
             Bitmap albumArt = BitmapFactory.decodeResource(context.getResources(), R.drawable.logo_urgent);
             builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, albumArt);
         }
-        if (!TextUtils.isEmpty(information.getDescription())) {
-            builder.putString(METADATA_DESCRIPTION, information.getDescription());
+        if (!TextUtils.isEmpty(information.description())) {
+            builder.putString(METADATA_DESCRIPTION, information.description());
         }
 
         track = builder.build();

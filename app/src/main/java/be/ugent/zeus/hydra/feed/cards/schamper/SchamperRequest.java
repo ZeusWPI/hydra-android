@@ -51,7 +51,7 @@ public class SchamperRequest extends HideableHomeFeedRequest {
     }
 
     @Override
-    public int getCardType() {
+    public int cardType() {
         return Card.Type.SCHAMPER;
     }
 
@@ -61,7 +61,7 @@ public class SchamperRequest extends HideableHomeFeedRequest {
         LocalDateTime twoMonthsAgo = LocalDateTime.now().minusMonths(1);
 
         return request.execute(args).map(articles -> articles.stream()
-                .filter(a -> a.getLocalPubDate().isAfter(twoMonthsAgo))
+                .filter(a -> a.localPubDate().isAfter(twoMonthsAgo))
                 .map(SchamperCard::new));
     }
 }

@@ -51,16 +51,18 @@ public class ExtraFoodActivity extends BaseActivity<ActivityExtraFoodBinding> {
         binding.pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
+                //noinspection DataFlowIssue
+                var title = binding.tabLayout.getTabAt(position).getText().toString();
                 Reporting.getTracker(ExtraFoodActivity.this)
                         .setCurrentScreen(
                                 ExtraFoodActivity.this,
-                                binding.tabLayout.getTabAt(position).getText().toString(),
+                                title,
                                 FoodFragment.class.getSimpleName());
             }
         });
 
         viewModel = new ViewModelProvider(this).get(ExtraFoodViewModel.class);
-        viewModel.getRefreshing().observe(this, aBoolean -> {
+        viewModel.refreshing().observe(this, aBoolean -> {
             if (aBoolean != null && aBoolean) {
                 Toast.makeText(getApplicationContext(), R.string.resto_extra_refresh_started, Toast.LENGTH_SHORT).show();
             }

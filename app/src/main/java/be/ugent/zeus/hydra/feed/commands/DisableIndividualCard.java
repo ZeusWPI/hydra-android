@@ -52,21 +52,21 @@ public class DisableIndividualCard implements FeedCommand {
 
     @Override
     public int execute(Context context) {
-        Reporting.getTracker(context).log(new DismissalEvent(cardDismissal.getIdentifier()));
+        Reporting.getTracker(context).log(new DismissalEvent(cardDismissal.identifier()));
         DismissalDao dao = daoSupplier.apply(context);
         dao.insert(cardDismissal);
-        return cardDismissal.getIdentifier().getCardType();
+        return cardDismissal.identifier().getCardType();
     }
 
     @Override
     public int undo(Context context) {
         DismissalDao dao = daoSupplier.apply(context);
         dao.delete(cardDismissal);
-        return cardDismissal.getIdentifier().getCardType();
+        return cardDismissal.identifier().getCardType();
     }
 
     @Override
-    public int getCompleteMessage() {
+    public int completeMessage() {
         return R.string.feed_card_hidden_single;
     }
 }

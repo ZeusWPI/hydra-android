@@ -47,7 +47,7 @@ public class FoodViewHolderTest {
         FoodViewHolder viewHolder = new FoodViewHolder(view);
         viewHolder.populate(food);
 
-        assertTextIs(food.getName(), view.findViewById(R.id.food_item_name));
+        assertTextIs(food.name(), view.findViewById(R.id.food_item_name));
         assertNotEmpty(view.findViewById(R.id.food_item_price));
     }
 }

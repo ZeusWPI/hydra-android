@@ -30,7 +30,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -73,16 +72,16 @@ public class TransactionFragment extends Fragment {
         swipeRefreshLayout.setColorSchemeColors(ColourUtils.resolveColour(requireContext(), R.attr.colorSecondary));
 
         viewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
-        viewModel.getData().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
-        viewModel.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
-        viewModel.getData().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
-        viewModel.getRefreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
+        viewModel.data().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
+        viewModel.data().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
+        viewModel.data().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
+        viewModel.refreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
 
         // For refreshing, we request a refresh from the parent activity.
         // We then listen to the parent refresh state and refresh this fragment when the parent is refreshing.
         CombinedUserViewModel activityViewModel = new ViewModelProvider(requireActivity()).get(CombinedUserViewModel.class);
         swipeRefreshLayout.setOnRefreshListener(activityViewModel);
-        activityViewModel.getRefreshing().observe(getViewLifecycleOwner(), refreshing -> {
+        activityViewModel.refreshing().observe(getViewLifecycleOwner(), refreshing -> {
             if (refreshing) {
                 viewModel.onRefresh();
             }

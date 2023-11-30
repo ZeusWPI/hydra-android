@@ -45,12 +45,12 @@ public abstract class DataAdapter<D, VH extends DataViewHolder<D>> extends Recyc
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
-        holder.populate(getItem(position));
+        holder.populate(item(position));
     }
 
     @Override
     public int getItemCount() {
-        return dataContainer.getData().size();
+        return dataContainer.data().size();
     }
 
     /**
@@ -59,8 +59,8 @@ public abstract class DataAdapter<D, VH extends DataViewHolder<D>> extends Recyc
      * @param position The position of the item in the adapter's data set.
      * @return The item.
      */
-    public D getItem(int position) {
-        return dataContainer.getData().get(position);
+    public D item(int position) {
+        return dataContainer.data().get(position);
     }
 
     /**

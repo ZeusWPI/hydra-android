@@ -24,7 +24,6 @@ package be.ugent.zeus.hydra.wpi.tab.create;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.WorkerThread;
 
@@ -55,7 +54,7 @@ public class CreateTransactionRequest extends OkHttpRequest<Boolean> {
     private final TransactionForm form;
     private final Context context;
 
-    public CreateTransactionRequest(@NonNull Context context, @NonNull TransactionForm form) {
+    CreateTransactionRequest(@NonNull Context context, @NonNull TransactionForm form) {
         super(context);
         this.context = context.getApplicationContext();
         this.form = form;

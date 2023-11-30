@@ -31,8 +31,8 @@ import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.Association;
-import be.ugent.zeus.hydra.association.event.Event;
-import be.ugent.zeus.hydra.association.event.EventDetailsActivity;
+import be.ugent.zeus.hydra.association.Event;
+import be.ugent.zeus.hydra.association.EventDetailsActivity;
 import be.ugent.zeus.hydra.common.utils.DateUtils;
 import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.feed.cards.Card;
@@ -70,13 +70,13 @@ public class EventCardViewHolder extends CardViewHolder {
         super.populate(card);
         event = card.<EventCard>checkCard(Card.Type.ACTIVITY).getEvent();
 
-        title.setText(event.first.getTitle());
-        association.setText(event.first.getLocation());
-        start.setText(DateUtils.relativeDateTimeString(event.first.getStart(), itemView.getContext(), false));
+        title.setText(event.first.title());
+        association.setText(event.first.location());
+        start.setText(DateUtils.relativeDateTimeString(event.first.start(), itemView.getContext(), false));
         String description = itemView.getResources().getString(R.string.feed_event_title);
-        toolbar.setTitle(String.format(description, event.second.getAbbreviation()));
+        toolbar.setTitle(String.format(description, event.second.abbreviation()));
 
-        PriorityUtils.loadThumbnail(itemView.getContext(), event.second.getImageLink(), imageView);
+        PriorityUtils.loadThumbnail(itemView.getContext(), event.second.logo(), imageView);
 
         itemView.setOnClickListener(v -> v.getContext().startActivity(EventDetailsActivity.start(itemView.getContext(), event.first, event.second)));
     }
@@ -88,7 +88,7 @@ public class EventCardViewHolder extends CardViewHolder {
             return super.onMenuItemClick(item);
         }
         if (item.getItemId() == R.id.menu_hide_association) {
-            adapter.getCompanion().executeCommand(new DisableAssociationCommand(event.first.getAssociation()));
+            adapter.companion().executeCommand(new DisableAssociationCommand(event.first.association()));
             return true;
         }
         return super.onMenuItemClick(item);

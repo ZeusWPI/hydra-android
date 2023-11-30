@@ -22,20 +22,18 @@
 
 package be.ugent.zeus.hydra.wpi.tap.cart;
 
-import static androidx.recyclerview.widget.RecyclerView.NO_POSITION;
-
-import android.util.Log;
 import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Currency;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
+
+import static androidx.recyclerview.widget.RecyclerView.NO_POSITION;
 
 /**
  * View holder for the products in the Tap cart.
@@ -64,12 +62,11 @@ class CartProductViewHolder extends DataViewHolder<CartProduct> implements View.
 
     @Override
     public void populate(final CartProduct product) {
-        title.setText(product.getName());
-        PriorityUtils.loadThumbnail(itemView.getContext(), product.getThumbnail(), thumbnail);
-        BigDecimal totalPrice = product.getPriceDecimal().multiply(BigDecimal.valueOf(product.getAmount()));
-        meta.setText(currencyFormatter.format(totalPrice));
-        String unitPrice = currencyFormatter.format(product.getPriceDecimal());
-        description.setText(itemView.getContext().getString(R.string.wpi_cart_product_description, product.getAmount(), unitPrice));
+        title.setText(product.product().name());
+        PriorityUtils.loadThumbnail(itemView.getContext(), product.product().imageUrl(), thumbnail);
+        meta.setText(currencyFormatter.format(product.totalPrice()));
+        String unitPrice = currencyFormatter.format(product.product().priceDecimal());
+        description.setText(itemView.getContext().getString(R.string.wpi_cart_product_description, product.amount(), unitPrice));
     }
 
     @Override
@@ -90,9 +87,9 @@ class CartProductViewHolder extends DataViewHolder<CartProduct> implements View.
         if (position == NO_POSITION) {
             return;
         }
-        CartProduct product = adapter.getItem(position);
+        CartProduct product = adapter.item(position);
         MenuItem item = menu.findItem(R.id.cart_minus);
-        item.setVisible(product.getAmount() != 1);
+        item.setVisible(product.amount() != 1);
     }
 
     @Override
@@ -105,7 +102,7 @@ class CartProductViewHolder extends DataViewHolder<CartProduct> implements View.
         if (position == NO_POSITION) {
             return false;
         }
-        CartProduct product = adapter.getItem(position);
+        CartProduct product = adapter.item(position);
         if (item.getItemId() == R.id.cart_plus) {
             cartInteraction.increment(product);
             return true;

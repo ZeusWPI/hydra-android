@@ -51,19 +51,19 @@ class EcologicalRequest extends JsonArrayRequest<EcologicalSandwich> {
     @Override
     public Result<List<EcologicalSandwich>> execute(@NonNull Bundle args) {
         return super.execute(args).map(sandwiches -> {
-            Collections.sort(sandwiches, Comparator.comparing(EcologicalSandwich::getStart));
+            Collections.sort(sandwiches, Comparator.comparing(EcologicalSandwich::start));
             return sandwiches;
         });
     }
 
     @NonNull
     @Override
-    protected String getAPIUrl() {
+    protected String apiUrl() {
         return Endpoints.ZEUS_V2 + "resto/sandwiches/overview.json";
     }
 
     @Override
-    public Duration getCacheDuration() {
+    public Duration cacheDuration() {
         return ChronoUnit.WEEKS.getDuration();
     }
 }

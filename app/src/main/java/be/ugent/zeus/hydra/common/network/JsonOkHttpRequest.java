@@ -49,7 +49,7 @@ import okhttp3.Response;
  * <p>
  * <h1>Caching</h1>
  * The caching implementation uses OkHttp's cache implementation. How long a response is cached is determined by
- * {@link #getCacheDuration()}. By default, requests are not cached.
+ * {@link #cacheDuration()}. By default, requests are not cached.
  * <p>
  * Additionally, stale data is always used by default if needed.
  * <p>
@@ -97,7 +97,7 @@ public abstract class JsonOkHttpRequest<D> extends OkHttpRequest<D> {
     @WorkerThread
     public Result<D> execute(@NonNull Bundle args) {
 
-        JsonAdapter<D> adapter = getAdapter();
+        JsonAdapter<D> adapter = adapter();
 
         try {
             return executeRequest(adapter, args);
@@ -135,7 +135,7 @@ public abstract class JsonOkHttpRequest<D> extends OkHttpRequest<D> {
         }
     }
 
-    protected JsonAdapter<D> getAdapter() {
+    protected JsonAdapter<D> adapter() {
         return moshi.adapter(typeToken);
     }
 
@@ -165,7 +165,7 @@ public abstract class JsonOkHttpRequest<D> extends OkHttpRequest<D> {
                     .build();
         } catch (JsonDataException | NullPointerException e) {
             // Create, log and throw exception, since this is not normal.
-            String message = "The server did not respond with the expected format for URL: " + getAPIUrl();
+            String message = "The server did not respond with the expected format for URL: " + apiUrl();
             InvalidFormatException exception = new InvalidFormatException(message, e);
             tracker.logError(exception);
             return Result.Builder.fromException(exception);
@@ -173,11 +173,11 @@ public abstract class JsonOkHttpRequest<D> extends OkHttpRequest<D> {
     }
 
     @NonNull
-    protected abstract String getAPIUrl();
+    protected abstract String apiUrl();
 
     protected okhttp3.Request.Builder constructRequest(@NonNull Bundle arguments) {
         return new okhttp3.Request.Builder()
-                .url(getAPIUrl())
+                .url(apiUrl())
                 .cacheControl(constructCacheControl(arguments))
                 .addHeader("Accept", "application/json");
     }
@@ -198,7 +198,7 @@ public abstract class JsonOkHttpRequest<D> extends OkHttpRequest<D> {
         if (arguments.getBoolean(BaseLiveData.REFRESH_COLD, false)) {
             cacheControl.maxAge(0, TimeUnit.SECONDS);
         } else {
-            Duration cacheDuration = getCacheDuration();
+            Duration cacheDuration = cacheDuration();
             cacheControl.maxAge((int) cacheDuration.getSeconds(), TimeUnit.SECONDS);
         }
         return cacheControl.build();
@@ -209,12 +209,12 @@ public abstract class JsonOkHttpRequest<D> extends OkHttpRequest<D> {
      *
      * @return The duration, 0 by default.
      */
-    protected Duration getCacheDuration() {
+    protected Duration cacheDuration() {
         return Duration.ZERO;
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
-    Type getTypeToken() {
+    Type typeToken() {
         return typeToken;
     }
 }

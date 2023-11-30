@@ -41,7 +41,7 @@ public class SchamperViewModel extends RequestViewModel<List<Article>> {
 
     @NonNull
     @Override
-    protected Request<List<Article>> getRequest() {
+    protected Request<List<Article>> request() {
         return new SchamperArticlesRequest(getApplication());
     }
 }

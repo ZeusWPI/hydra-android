@@ -24,7 +24,6 @@ package be.ugent.zeus.hydra.wpi.tab.create;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -41,13 +40,13 @@ import be.ugent.zeus.hydra.common.utils.ThreadingUtils;
 
 /**
  * Responsible for managing requests to create transactions.
- * 
+ * <p> 
  * There are a set of methods that return LiveData. Those should be
  * listened to to get the results.
  * 
  * @author Niko Strijbol
  */
-public class TransactionViewModel extends RequestViewModel<List<String>> {
+class TransactionViewModel extends RequestViewModel<List<String>> {
     
     private final MutableLiveData<NetworkState> networkState;
     private final MutableLiveData<Event<Result<Boolean>>> requestResult;
@@ -78,12 +77,12 @@ public class TransactionViewModel extends RequestViewModel<List<String>> {
 
     @NonNull
     @Override
-    protected Request<List<String>> getRequest() {
+    protected Request<List<String>> request() {
         return new MemberRequest(getApplication())
             .map(members -> members
                  .stream()
-                 .sorted(Comparator.comparing(Member::getName))
-                 .map(Member::getName)
+                 .sorted(Comparator.comparing(Member::name))
+                 .map(Member::name)
                  .collect(Collectors.toList()));
     }
 }

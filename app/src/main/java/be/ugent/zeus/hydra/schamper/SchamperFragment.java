@@ -24,7 +24,9 @@ package be.ugent.zeus.hydra.schamper;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -36,14 +38,13 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
-import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.SpanItemSpacingDecoration;
 import be.ugent.zeus.hydra.common.utils.ColourUtils;
 import com.google.android.material.snackbar.Snackbar;
 
-import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
+import static be.ugent.zeus.hydra.common.utils.FragmentUtils.registerRefreshMenu;
 
 /**
  * Display Schamper articles in the main activity.
@@ -68,7 +69,6 @@ public class SchamperFragment extends Fragment {
         super.onCreate(savedInstanceState);
         helper = CustomTabsHelper.initHelper(getActivity(), null);
         helper.setShareMenu();
-        setHasOptionsMenu(true);
     }
 
     @Override
@@ -85,30 +85,13 @@ public class SchamperFragment extends Fragment {
         swipeRefreshLayout.setColorSchemeColors(ColourUtils.resolveColour(requireContext(), R.attr.colorSecondary));
 
         viewModel = new ViewModelProvider(this).get(SchamperViewModel.class);
-        viewModel.getData().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
-        viewModel.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
-        viewModel.getData().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
-        viewModel.getRefreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
+        viewModel.data().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
+        viewModel.data().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
+        viewModel.data().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
+        viewModel.refreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
         swipeRefreshLayout.setOnRefreshListener(viewModel);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_refresh, menu);
-        BaseActivity<?> activity = requireBaseActivity(this);
-        activity.tintToolbarIcons(menu, R.id.action_refresh);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.action_refresh) {
-            viewModel.onRefresh();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        
+        registerRefreshMenu(this, viewModel);
     }
 
     private void onError(Throwable throwable) {

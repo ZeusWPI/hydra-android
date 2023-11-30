@@ -45,12 +45,12 @@ public class NewsItemViewHolderTest extends AbstractFeedViewHolderTest {
     @Test
     public void populate() {
         View view = inflate(activityContext, R.layout.home_card_news_item);
-        NewsItemViewHolder viewHolder = new NewsItemViewHolder(view, adapter);
-        NewsItemCard card = generate(NewsItemCard.class);
-        NewsArticle item = card.getNewsItem();
+        var viewHolder = new NewsItemViewHolder(view, adapter);
+        var article = generate(NewsArticle.class);
+        var card = new NewsItemCard(article);
         viewHolder.populate(card);
 
-        assertTextIs(item.getTitle(), view.findViewById(R.id.name));
+        assertTextIs(article.title(), view.findViewById(R.id.name));
         assertNotEmpty(view.findViewById(R.id.info));
     }
 }

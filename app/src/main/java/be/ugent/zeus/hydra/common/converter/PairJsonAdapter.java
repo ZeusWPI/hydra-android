@@ -81,11 +81,10 @@ public class PairJsonAdapter<L, R> extends JsonAdapter<Pair<L, R>> {
                 return null; // Annotations? This factory doesn't apply.
             }
 
-            if (!(type instanceof ParameterizedType)) {
+            if (!(type instanceof ParameterizedType parameterizedType)) {
                 return null; // No type parameter? This factory doesn't apply.
             }
 
-            ParameterizedType parameterizedType = (ParameterizedType) type;
             if (parameterizedType.getRawType() != Pair.class) {
                 return null; // Not a pair? This factory doesn't apply.
             }

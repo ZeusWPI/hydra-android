@@ -27,6 +27,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.*;
@@ -116,15 +117,15 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
             binding.balanceDescription.setVisibility(View.VISIBLE);
             binding.tapOrder.setVisibility(View.VISIBLE);
             binding.tabTransaction.setVisibility(View.VISIBLE);
-            String balance = currencyFormatter.format(user.getBalanceDecimal());
+            String balance = currencyFormatter.format(user.balanceDecimal());
             binding.tabBalance.setText(balance);
             int colour;
-            if (user.getBalanceDecimal().compareTo(BigDecimal.ONE) < 0) {
+            if (user.balanceDecimal().compareTo(BigDecimal.ONE) < 0) {
                 colour = ColourUtils.resolveColour(this, R.attr.colorError);
             } else {
                 colour = ColourUtils.resolveColour(this, R.attr.colorOnSurface);
             }
-            favouriteProductId = user.getFavourite();
+            favouriteProductId = user.favourite();
             binding.tapAddFavourite.setVisibility(favouriteProductId == null ? View.GONE : View.VISIBLE);
             binding.tabBalance.setTextColor(colour);
             syncDoorButtons();
@@ -145,7 +146,7 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
             // is much faster than the actual lock.
             // In the other case, just do it.
             if (enabled && (!binding.doorOpen.isEnabled() || !binding.doorClose.isEnabled())) {
-                new Handler().postDelayed(() -> {
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
                     binding.doorOpen.setEnabled(true);
                     binding.doorClose.setEnabled(true);
                 }, 3000);
@@ -189,7 +190,7 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
         OrderAdapter tapOrderAdapter = new OrderAdapter(order -> {
             OffsetDateTime now = OffsetDateTime.now();
             // We can no longer cancel the order...
-            if (now.isAfter(order.getDeletableUntil())) {
+            if (now.isAfter(order.deletableUntil())) {
                 Toast.makeText(this, R.string.wpi_tap_order_too_late, Toast.LENGTH_SHORT)
                         .show();
                 viewModel.onRefresh();
@@ -215,7 +216,7 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
         binding.recyclerView.addItemDecoration(new SpanItemSpacingDecoration(this));
         binding.recyclerView.setAdapter(mainAdapter);
 
-        viewModel.getRefreshing().observe(this, binding.swipeRefreshLayout::setRefreshing);
+        viewModel.refreshing().observe(this, binding.swipeRefreshLayout::setRefreshing);
 
         // Attach request data.
         viewModel.getRequestData().observe(this, PartialErrorObserver.with(this::onError));
@@ -241,7 +242,7 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
             if (booleanResult.isWithoutError()) {
                 Toast.makeText(WpiActivity.this, R.string.wpi_tap_order_cancelled, Toast.LENGTH_SHORT).show();
             } else {
-                onError(booleanResult.getError());
+                onError(booleanResult.error());
             }
             viewModel.onRefresh();
         }));
@@ -250,7 +251,7 @@ public class WpiActivity extends BaseActivity<ActivityWpiBinding> {
             if (booleanResult.isWithoutError()) {
                 Toast.makeText(WpiActivity.this, R.string.wpi_tab_request_executed, Toast.LENGTH_SHORT).show();
             } else {
-                onError(booleanResult.getError());
+                onError(booleanResult.error());
             }
             viewModel.onRefresh();
         }));

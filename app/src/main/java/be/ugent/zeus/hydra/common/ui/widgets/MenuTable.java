@@ -187,7 +187,7 @@ public class MenuTable extends TableLayout {
 
         // If there is no message and it is closed.
         if (menu.hasMessage()) {
-            createText(menu.menu.getMessage(), false, true);
+            createText(menu.menu.message(), false, true);
             if (menu.menu.isClosed()) {
                 return;
             }

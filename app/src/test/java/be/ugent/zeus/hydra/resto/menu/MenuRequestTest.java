@@ -56,6 +56,6 @@ public class MenuRequestTest extends AbstractJsonRequestTest<List<RestoMenu>> {
         MenuRequest request = new MenuRequest(context);
         String resto = context.getString(R.string.value_resto_default_endpoint);
         String expected = String.format(Locale.ROOT, OVERVIEW_URL, resto);
-        Assert.assertEquals(expected, request.getAPIUrl());
+        Assert.assertEquals(expected, request.apiUrl());
     }
 }

@@ -38,5 +38,5 @@ public interface HomeFeedRequest extends Request<Stream<Card>> {
      * @return The card type of the cards that are produced here.
      */
     @Card.Type
-    int getCardType();
+    int cardType();
 }

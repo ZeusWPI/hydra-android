@@ -17,8 +17,6 @@
 package com.heinrichreimersoftware.materialintro.util;
 
 import android.content.Context;
-import android.os.Build;
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;

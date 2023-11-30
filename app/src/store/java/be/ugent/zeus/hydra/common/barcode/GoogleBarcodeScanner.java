@@ -25,20 +25,11 @@ package be.ugent.zeus.hydra.common.barcode;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.Objects;
-import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
-import be.ugent.zeus.hydra.common.request.RequestException;
-import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.common.scanner.BarcodeScanner;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Tasks;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanner;
 import com.google.mlkit.vision.codescanner.GmsBarcodeScannerOptions;
@@ -55,12 +46,12 @@ class GoogleBarcodeScanner implements BarcodeScanner {
     }
 
     @Override
-    public Intent getActivityIntent(Activity activity) {
+    public Intent activityIntent(Activity activity) {
         throw new UnsupportedOperationException("This Barcode Scanner does not use an activity.");
     }
 
     @Override
-    public int getRequestCode() {
+    public int requestCode() {
         throw new UnsupportedOperationException("This Barcode Scanner does not use an activity.");
     }
 
@@ -71,7 +62,7 @@ class GoogleBarcodeScanner implements BarcodeScanner {
     }
 
     @Override
-    public void getBarcode(Context context, Consumer<String> onSuccess, Consumer<Exception> onError) {
+    public void barcode(Context context, Consumer<String> onSuccess, Consumer<Exception> onError) {
         GmsBarcodeScannerOptions options = new GmsBarcodeScannerOptions.Builder()
                 .setBarcodeFormats(
                         Barcode.FORMAT_EAN_13,

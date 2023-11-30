@@ -51,8 +51,8 @@ class LibraryListAdapter extends SearchableAdapter<Pair<Library, Boolean>, Libra
     LibraryListAdapter(LibraryViewModel viewModel) {
         super((pair, s) -> {
             Library library = pair.first;
-            boolean contained = library.getName() != null && library.getName().toLowerCase(Locale.getDefault()).contains(s);
-            if (library.getCampus() != null && library.getCampus().toLowerCase(Locale.getDefault()).contains(s)) {
+            boolean contained = library.name() != null && library.name().toLowerCase(Locale.getDefault()).contains(s);
+            if (library.campus() != null && library.campus().toLowerCase(Locale.getDefault()).contains(s)) {
                 contained = true;
             }
             return contained;

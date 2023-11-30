@@ -63,19 +63,19 @@ public abstract class Card implements Comparable<Card> {
      * @return The card type.
      */
     @Type
-    public abstract int getCardType();
+    public abstract int cardType();
 
     /**
      * @return Priority should be a number between 0 and 1010. See the class description.
      */
-    public abstract int getPriority();
+    public abstract int priority();
 
     /**
      * Get the unique (under the card type) identifier.
      *
      * @return Unique identifier for this card under the card type.
      */
-    public abstract String getIdentifier();
+    public abstract String identifier();
 
     @Override
     public abstract int hashCode();
@@ -84,7 +84,7 @@ public abstract class Card implements Comparable<Card> {
     public abstract boolean equals(Object obj);
 
     /**
-     * The ordering of cards is implemented using the {@link #getPriority()} function.
+     * The ordering of cards is implemented using the {@link #priority()} function.
      * As long as that function is correctly implemented, this class guarantees a correct
      * implementation of the comparison.
      * <p>
@@ -94,7 +94,7 @@ public abstract class Card implements Comparable<Card> {
      */
     @Override
     public int compareTo(@NonNull Card card) {
-        return Integer.compare(this.getPriority(), card.getPriority());
+        return Integer.compare(this.priority(), card.priority());
     }
 
     /**
@@ -107,7 +107,7 @@ public abstract class Card implements Comparable<Card> {
      * @return The cast card if it is of the right type.
      */
     public <C extends Card> C checkCard(@Type int type) {
-        if (getCardType() != type) {
+        if (cardType() != type) {
             throw new ClassCastException("This card has the wrong type.");
         }
 

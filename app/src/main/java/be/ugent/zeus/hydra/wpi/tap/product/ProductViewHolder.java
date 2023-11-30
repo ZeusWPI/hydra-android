@@ -25,10 +25,7 @@ package be.ugent.zeus.hydra.wpi.tap.product;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
-
-import org.w3c.dom.Text;
 
 import java.text.NumberFormat;
 import java.util.Currency;
@@ -43,7 +40,7 @@ import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
  *
  * @author Niko Strijbol
  */
-class ProductViewHolder extends DataViewHolder<Product> {
+public class ProductViewHolder extends DataViewHolder<Product> {
 
     private final ImageView thumbnail;
     private final TextView title;
@@ -65,16 +62,16 @@ class ProductViewHolder extends DataViewHolder<Product> {
 
     @Override
     public void populate(final Product product) {
-        title.setText(product.getName());
-        PriorityUtils.loadThumbnail(itemView.getContext(), product.getImageUrl(), thumbnail);
-        meta.setText(currencyFormatter.format(product.getPriceDecimal()));
+        title.setText(product.name());
+        PriorityUtils.loadThumbnail(itemView.getContext(), product.imageUrl(), thumbnail);
+        meta.setText(currencyFormatter.format(product.priceDecimal()));
         String calories;
-        if (product.getCalories() != null) {
-            calories = decimalFormatter.format(product.getCalories()) + " kcal";
+        if (product.calories() != null) {
+            calories = decimalFormatter.format(product.calories()) + " kcal";
         } else {
             calories = itemView.getContext().getString(R.string.wpi_product_na);
         }
-        description.setText(itemView.getContext().getString(R.string.wpi_product_description, calories, product.getStock()));
+        description.setText(itemView.getContext().getString(R.string.wpi_product_description, calories, product.stock()));
         if (onClickListener != null) {
             itemView.setOnClickListener(v -> onClickListener.accept(product));
         }

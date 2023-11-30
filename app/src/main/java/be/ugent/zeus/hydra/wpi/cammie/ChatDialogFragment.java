@@ -61,7 +61,7 @@ public class ChatDialogFragment extends DialogFragment {
                 .setTitle(R.string.wpi_cammie_chat_dialog_title)
                 .setView(R.layout.fragment_wpi_cammie_chat)
                 .setPositiveButton(R.string.action_send, (dialog, which) -> {
-                    // This will also dismiss the dialog unfortunately.
+                    // This will also dismiss the dialog, unfortunately.
                     buttonPressed = true;
                     TextInputEditText input = (TextInputEditText) DialogCompat.requireViewById((Dialog) dialog, R.id.message_entry);
                     vm.sendMessage(input.getEditableText().toString());

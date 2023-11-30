@@ -32,7 +32,7 @@ import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.common.database.migrations.*;
 import be.ugent.zeus.hydra.feed.cards.dismissal.CardDismissal;
 import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDao;
-import be.ugent.zeus.hydra.library.favourites.FavouritesRepository;
+import be.ugent.zeus.hydra.library.favourites.FavouriteRepository;
 import be.ugent.zeus.hydra.library.favourites.LibraryFavourite;
 
 import static be.ugent.zeus.hydra.common.database.Database.VERSION;
@@ -102,5 +102,5 @@ public abstract class Database extends RoomDatabase {
      */
     public abstract DismissalDao getCardDao();
 
-    public abstract FavouritesRepository getFavouritesRepository();
+    public abstract FavouriteRepository getFavouriteRepository();
 }

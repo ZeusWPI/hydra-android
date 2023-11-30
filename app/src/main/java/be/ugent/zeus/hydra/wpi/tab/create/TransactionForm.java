@@ -103,12 +103,6 @@ class TransactionForm implements Parcelable {
         dest.writeString(this.description);
     }
 
-    public void readFromParcel(Parcel source) {
-        this.destination = source.readString();
-        this.amount = source.readInt();
-        this.description = source.readString();
-    }
-
     public TransactionForm() {
     }
 
@@ -118,7 +112,7 @@ class TransactionForm implements Parcelable {
         this.description = in.readString();
     }
 
-    public static final Parcelable.Creator<TransactionForm> CREATOR = new Parcelable.Creator<TransactionForm>() {
+    public static final Parcelable.Creator<TransactionForm> CREATOR = new Parcelable.Creator<>() {
         @Override
         public TransactionForm createFromParcel(Parcel source) {
             return new TransactionForm(source);

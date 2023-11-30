@@ -43,7 +43,7 @@ public class WaitRequest implements HomeFeedRequest {
     private static final String TAG = "WaitRequest";
 
     @Override
-    public int getCardType() {
+    public int cardType() {
         return DEBUG;
     }
 

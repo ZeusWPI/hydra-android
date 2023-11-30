@@ -54,23 +54,23 @@ public class NewsItemViewHolder extends CardViewHolder {
     public void populate(final Card card) {
         super.populate(card);
 
-        NewsArticle newsItem = card.<NewsItemCard>checkCard(Card.Type.NEWS_ITEM).getNewsItem();
+        NewsArticle newsItem = card.<NewsItemCard>checkCard(Card.Type.NEWS_ITEM).newsItem();
 
-        title.setText(newsItem.getTitle());
+        title.setText(newsItem.title());
         
         CharSequence dateString;
-        if (newsItem.getPublished().toLocalDate().isEqual(newsItem.getUpdated().toLocalDate())) {
-            dateString = DateUtils.relativeDateTimeString(newsItem.getPublished(), itemView.getContext());
+        if (newsItem.published().toLocalDate().isEqual(newsItem.updated().toLocalDate())) {
+            dateString = DateUtils.relativeDateTimeString(newsItem.published(), itemView.getContext());
         } else {
             dateString = itemView.getContext().getString(R.string.article_date_changed,
-                    DateUtils.relativeDateTimeString(newsItem.getPublished(), itemView.getContext(), true),
-                    DateUtils.relativeDateTimeString(newsItem.getUpdated(), itemView.getContext(), true)
+                    DateUtils.relativeDateTimeString(newsItem.published(), itemView.getContext(), true),
+                    DateUtils.relativeDateTimeString(newsItem.updated(), itemView.getContext(), true)
             );
         }
         
         info.setText(dateString);
         title.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 
-        itemView.setOnClickListener(v -> ArticleViewer.viewArticle(v.getContext(), newsItem, adapter.getCompanion().getHelper()));
+        itemView.setOnClickListener(v -> ArticleViewer.viewArticle(v.getContext(), newsItem, adapter.companion().helper()));
     }
 }

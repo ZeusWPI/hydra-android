@@ -39,7 +39,7 @@ public class CombinedUserViewModel extends RequestViewModel<CombinedUser> {
 
     @NonNull
     @Override
-    protected Request<CombinedUser> getRequest() {
+    protected Request<CombinedUser> request() {
         return new CombinedUserRequest(getApplication());
     }
 }

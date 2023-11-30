@@ -56,12 +56,12 @@ public class TransactionRequest extends JsonArrayRequest<Transaction> {
 
     @NonNull
     @Override
-    protected String getAPIUrl() {
+    protected String apiUrl() {
         return Endpoints.TAB + "users/" + AccountManager.getUsername(context) + "/transactions";
     }
 
     @Override
-    public Duration getCacheDuration() {
+    public Duration cacheDuration() {
         return Duration.ZERO;
     }
 }

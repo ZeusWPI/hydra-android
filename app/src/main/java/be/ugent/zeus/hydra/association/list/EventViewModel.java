@@ -23,22 +23,17 @@
 package be.ugent.zeus.hydra.association.list;
 
 import android.app.Application;
-import android.util.Pair;
 import androidx.annotation.NonNull;
 
-import java.util.List;
-
-import be.ugent.zeus.hydra.association.common.AssociationMap;
-import be.ugent.zeus.hydra.association.common.AssociationRequestBuilder;
-import be.ugent.zeus.hydra.association.common.EventFilter;
-import be.ugent.zeus.hydra.association.common.EventItem;
+import be.ugent.zeus.hydra.association.AssociationRequest;
+import be.ugent.zeus.hydra.association.EventFilter;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 
 /**
  * @author Niko Strijbol
  */
-public class EventViewModel extends RequestViewModel<Pair<AssociationMap, List<EventItem>>> {
+public class EventViewModel extends RequestViewModel<AssociationRequest.EventItemsAndAssociations> {
 
     private EventFilter filter;
 
@@ -46,13 +41,13 @@ public class EventViewModel extends RequestViewModel<Pair<AssociationMap, List<E
         super(application);
     }
 
-    public void setParams(EventFilter filter) {
+    public void params(EventFilter filter) {
         this.filter = filter;
     }
 
     @NonNull
     @Override
-    protected Request<Pair<AssociationMap, List<EventItem>>> getRequest() {
-        return AssociationRequestBuilder.createItemFilteredEventRequest(getApplication(), filter);
+    protected Request<AssociationRequest.EventItemsAndAssociations> request() {
+        return AssociationRequest.filteredEventItemRequest(getApplication(), filter);
     }
 }

@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.os.BundleCompat;
 import androidx.fragment.app.Fragment;
 
 import be.ugent.zeus.hydra.common.reporting.BaseEvents;
@@ -46,9 +47,9 @@ public class SingleDayFragment extends Fragment {
 
     private RestoMenu data;
     private FragmentMenuBinding binding;
-    
+
     private boolean showAllergens;
-    
+
     public static SingleDayFragment newInstance(RestoMenu menu) {
         return newInstance(menu, false);
     }
@@ -65,7 +66,7 @@ public class SingleDayFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        data = requireArguments().getParcelable(ARG_DATA_MENU);
+        data = BundleCompat.getParcelable(requireArguments(), ARG_DATA_MENU, RestoMenu.class);
     }
 
     @Override
@@ -100,28 +101,21 @@ public class SingleDayFragment extends Fragment {
         Reporting.getTracker(getContext()).log(new MenuEvent(data));
     }
 
-    private static class MenuEvent implements Event {
+    private record MenuEvent(RestoMenu menu) implements Event {
 
-        private final RestoMenu menu;
-
-        private MenuEvent(RestoMenu menu) {
-            this.menu = menu;
-        }
-
-        @Nullable
         @Override
-        public Bundle getParams() {
+        public Bundle params() {
             BaseEvents.Params names = Reporting.getEvents().params();
             Bundle params = new Bundle();
             params.putString(names.itemCategory(), RestoMenu.class.getSimpleName());
-            params.putString(names.itemId(), menu.getDate().toString());
-            params.putString("date", menu.getDate().toString());
+            params.putString(names.itemId(), menu.date().toString());
+            params.putString("date", menu.date().toString());
             return params;
         }
 
         @Nullable
         @Override
-        public String getEventName() {
+        public String eventName() {
             return Reporting.getEvents().viewItem();
         }
     }

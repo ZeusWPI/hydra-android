@@ -25,7 +25,6 @@ package be.ugent.zeus.hydra.resto;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -62,13 +61,22 @@ public class RestoPreferenceFragment extends PreferenceFragment {
     public static final String DEFAULT_CLOSING_TIME = "21:00";
     public static final String PREF_RESTO_CLOSING_HOUR = "pref_resto_closing_hour";
 
-    public static String getDefaultResto(Context context) {
+    public static String getDefaultRestoEndpoint(Context context) {
         return context.getString(R.string.value_resto_default_endpoint);
     }
 
     public static String getRestoEndpoint(Context context, SharedPreferences preferences) {
-        String defaultResto = getDefaultResto(context);
+        String defaultResto = getDefaultRestoEndpoint(context);
         return preferences.getString(PREF_RESTO_KEY, defaultResto);
+    }
+    
+    public static String getDefaultRestoName(Context context) {
+        return context.getString(R.string.resto_default_name);
+    }
+    
+    public static String getRestoName(Context context, SharedPreferences preferences) {
+        String defaultName = getDefaultRestoName(context);
+        return preferences.getString(PREF_RESTO_NAME, defaultName);
     }
 
     @Override
@@ -77,7 +85,7 @@ public class RestoPreferenceFragment extends PreferenceFragment {
         requirePreference("pref_choice_resto_select").setVisible(false);
 
         SelectableMetaViewModel metaViewModel = new ViewModelProvider(this).get(SelectableMetaViewModel.class);
-        metaViewModel.getData().observe(this, SuccessObserver.with(this::receiveResto));
+        metaViewModel.data().observe(this, SuccessObserver.with(this::receiveResto));
     }
 
     @Override
@@ -106,7 +114,7 @@ public class RestoPreferenceFragment extends PreferenceFragment {
         selector.setVisible(true);
 
         String[] names = restos.stream()
-                .map(RestoChoice::getName)
+                .map(RestoChoice::name)
                 .toArray(String[]::new);
         selector.setEntries(names);
         selector.setEntryValues(names);
@@ -120,7 +128,7 @@ public class RestoPreferenceFragment extends PreferenceFragment {
             int index = Arrays.asList(names).indexOf(name);
             preferences.edit()
                     .putString(PREF_RESTO_NAME, name)
-                    .putString(PREF_RESTO_KEY, restos.get(index).getEndpoint())
+                    .putString(PREF_RESTO_KEY, restos.get(index).endpoint())
                     .apply();
             return true;
         });

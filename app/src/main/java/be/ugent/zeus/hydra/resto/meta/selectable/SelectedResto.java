@@ -24,16 +24,11 @@ package be.ugent.zeus.hydra.resto.meta.selectable;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.preference.PreferenceManager;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
-import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 
@@ -42,94 +37,29 @@ import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
  */
 public class SelectedResto {
 
-    private final Context context;
-
-    private int selectedIndex = -1;
-    private List<RestoChoice> choices;
-    private RestoChoice selected;
-
-    public SelectedResto(Context context) {
-        this.context = context.getApplicationContext();
+    private SelectedResto() {
+        // No.
     }
 
-    public void setData(List<RestoChoice> receivedRestos) {
-        choices = receivedRestos;
+    public static int findChoiceIndex(Context context, List<RestoChoice> choices, @Nullable RestoChoice previouslySelected) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String selectedKey;
-        if (selected == null) {
-            selectedKey = RestoPreferenceFragment.getRestoEndpoint(context, preferences);
-        } else {
-            selectedKey = selected.getEndpoint();
-        }
-        String defaultName = context.getString(R.string.resto_default_name);
-        String selectedName;
-        if (selected == null) {
-            selectedName = preferences.getString(RestoPreferenceFragment.PREF_RESTO_NAME, defaultName);
-        } else {
-            selectedName = selected.getName();
-        }
-        if (selected == null) {
+        RestoChoice selected;
+        if (previouslySelected == null) {
+            var selectedKey = RestoPreferenceFragment.getRestoEndpoint(context, preferences);
+            var selectedName = RestoPreferenceFragment.getRestoName(context, preferences);
             selected = new RestoChoice(selectedName, selectedKey);
+        } else {
+            selected = previouslySelected;
         }
-        RestoChoice selectedChoice = new RestoChoice(selectedName, selectedKey);
-        selectedIndex = receivedRestos.indexOf(selectedChoice);
+        int selectedIndex = choices.indexOf(selected);
         if (selectedIndex == -1) {
             // The key does not exist.
-            String defaultRestoEndpoint = RestoPreferenceFragment.getDefaultResto(context);
-            RestoChoice defaultChoice = new RestoChoice(defaultName, defaultRestoEndpoint);
-            selectedIndex = receivedRestos.indexOf(defaultChoice);
+            String defaultEndpoint = RestoPreferenceFragment.getDefaultRestoEndpoint(context);
+            String defaultName = RestoPreferenceFragment.getDefaultRestoName(context);
+            RestoChoice defaultChoice = new RestoChoice(defaultName, defaultEndpoint);
+            selectedIndex = choices.indexOf(defaultChoice);
         }
-    }
 
-    public int getSelectedIndex() {
         return selectedIndex;
-    }
-
-    public RestoChoice getSelected() {
-        return selected;
-    }
-
-    public void setSelected(RestoChoice selected) {
-        this.selected = selected;
-    }
-
-    public List<Wrapper> getAsWrappers() {
-        return choices.stream().map(Wrapper::new).collect(Collectors.toList());
-    }
-
-    public static class Wrapper {
-
-        public final RestoChoice resto;
-        public final String string;
-
-        private Wrapper(RestoChoice resto) {
-            this.resto = resto;
-            this.string = null;
-        }
-
-        public Wrapper(String string) {
-            this.resto = null;
-            this.string = string;
-        }
-
-        @NonNull
-        @Override
-        public String toString() {
-            return resto == null ? string : resto.getName();
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Wrapper that = (Wrapper) o;
-            return Objects.equals(resto, that.resto) &&
-                    Objects.equals(string, that.string);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(resto, string);
-        }
     }
 }

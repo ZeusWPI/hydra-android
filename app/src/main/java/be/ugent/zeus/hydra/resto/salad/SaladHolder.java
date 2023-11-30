@@ -55,9 +55,9 @@ class SaladHolder extends DataViewHolder<SaladBowl> {
     @Override
     public void populate(SaladBowl bowl) {
         Context c = itemView.getContext();
-        name.setText(bowl.getName());
-        price.setText(String.format(c.getString(R.string.resto_salad_price), bowl.getPrice()));
-        description.setText(bowl.getDescription());
+        name.setText(bowl.name());
+        price.setText(String.format(c.getString(R.string.resto_salad_price), bowl.price()));
+        description.setText(bowl.description());
         expandableLayout.setExpanded(adapter.isChecked(getBindingAdapterPosition()), false);
         itemView.setOnClickListener(v -> {
             adapter.setChecked(getBindingAdapterPosition());

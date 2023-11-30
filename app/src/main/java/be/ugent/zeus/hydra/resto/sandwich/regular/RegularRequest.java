@@ -50,19 +50,19 @@ class RegularRequest extends JsonArrayRequest<RegularSandwich> {
     @Override
     public Result<List<RegularSandwich>> execute(@NonNull Bundle args) {
         return super.execute(args).map(sandwiches -> {
-            Collections.sort(sandwiches, (o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName()));
+            Collections.sort(sandwiches, (o1, o2) -> o1.name().compareToIgnoreCase(o2.name()));
             return sandwiches;
         });
     }
 
     @NonNull
     @Override
-    protected String getAPIUrl() {
+    protected String apiUrl() {
         return Endpoints.ZEUS_V2 + "resto/sandwiches/static.json";
     }
 
     @Override
-    public Duration getCacheDuration() {
+    public Duration cacheDuration() {
         return ChronoUnit.WEEKS.getDuration();
     }
 }

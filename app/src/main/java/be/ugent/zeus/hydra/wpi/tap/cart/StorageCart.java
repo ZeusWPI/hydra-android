@@ -22,45 +22,13 @@
 
 package be.ugent.zeus.hydra.wpi.tap.cart;
 
-import android.util.Pair;
-
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Class to save cart data.
- * 
+ *
  * @author Niko Strijbol
  */
-class StorageCart {
-    
-    private final List<Pair<Integer, Integer>> productIdsAndAmounts;
-    private final OffsetDateTime lastEdited;
-
-    public StorageCart(List<Pair<Integer, Integer>> productIds, OffsetDateTime lastEdited) {
-        this.productIdsAndAmounts = productIds;
-        this.lastEdited = lastEdited;
-    }
-
-    public OffsetDateTime getLastEdited() {
-        return lastEdited;
-    }
-
-    public List<Pair<Integer, Integer>> getProductIds() {
-        return productIdsAndAmounts;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        StorageCart that = (StorageCart) o;
-        return productIdsAndAmounts.equals(that.productIdsAndAmounts) && lastEdited.equals(that.lastEdited);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(productIdsAndAmounts, lastEdited);
-    }
+public record StorageCart(List<ProductIdAmount> products, OffsetDateTime lastEdited) {
 }

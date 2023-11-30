@@ -54,7 +54,7 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
     /**
      * @return The default state.
      */
-    public boolean getDefaultValue() {
+    public boolean defaultValue() {
         return defaultValue;
     }
 
@@ -121,12 +121,12 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
      */
     public void setChecked(int position) {
         Log.d(TAG, "setChecked: " + position + ", current is: " + isChecked(position));
-        if (!isChecked(position) == getDefaultValue()) {
+        if (!isChecked(position) == defaultValue()) {
             booleanArray.delete(position);
-            Log.d(TAG, "setChecked: setting to " + getDefaultValue());
+            Log.d(TAG, "setChecked: setting to " + defaultValue());
         } else {
-            Log.d(TAG, "setChecked: setting to " + !getDefaultValue());
-            booleanArray.put(position, !getDefaultValue());
+            Log.d(TAG, "setChecked: setting to " + !defaultValue());
+            booleanArray.put(position, !defaultValue());
         }
         for (Callback<H> c : callbacks) {
             c.onStateChanged(MultiSelectAdapter.this);
@@ -168,10 +168,10 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
      * 
      * @return A list, where each item is a pair of the item and its state.
      */
-    public List<Pair<H, Boolean>> getItemsAndState() {
+    public List<Pair<H, Boolean>> itemsAndState() {
         List<Pair<H, Boolean>> itemsAndState = new ArrayList<>(getItemCount());
         for (int i = 0; i < getItemCount(); i++) {
-            itemsAndState.add(new Pair<>(getItem(i), isChecked(i)));
+            itemsAndState.add(new Pair<>(item(i), isChecked(i)));
         }
         return itemsAndState;
     }
@@ -184,14 +184,14 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
      *
      * @param values The values to set.
      */
-    public void setItemsAndState(List<Pair<H, Boolean>> values) {
+    public void itemsAndState(List<Pair<H, Boolean>> values) {
         List<H> items = new ArrayList<>();
         submitData(items);
         booleanArray.clear();
         for (int i = 0; i < values.size(); i++) {
             Pair<H, Boolean> value = values.get(i);
             items.add(value.first);
-            if (value.second != getDefaultValue()) {
+            if (value.second != defaultValue()) {
                 booleanArray.append(i, value.second);
             }
         }
@@ -206,14 +206,14 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
      * @return True if there is at least one selected element.
      */
     public boolean hasSelected() {
-        return getDefaultValue() || booleanArray.size() > 0;
+        return defaultValue() || booleanArray.size() > 0;
     }
 
     /**
      * @return Number of selected items.
      */
     public int selectedSize() {
-        if (getDefaultValue()) {
+        if (defaultValue()) {
             return getItemCount();
         } else {
             return booleanArray.size();
@@ -223,13 +223,13 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
     /**
      * @return A read only collections of all the items that have state {@code true}.
      */
-    public Collection<H> getSelectedItems() {
+    public Collection<H> selectedItems() {
         List<H> list = new ArrayList<>();
-        if (getDefaultValue()) {
-            return dataContainer.getData();
+        if (defaultValue()) {
+            return dataContainer.data();
         } else {
             for (int i = 0; i < booleanArray.size(); i++) {
-                list.add(getItem(booleanArray.keyAt(i)));
+                list.add(item(booleanArray.keyAt(i)));
             }
         }
         return Collections.unmodifiableCollection(list);

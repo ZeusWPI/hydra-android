@@ -45,13 +45,13 @@ public class MemoryDismissalDao extends DismissalDao {
 
     @Override
     public List<CardDismissal> getForType(int cardType) {
-        return dismissals.stream().filter(d -> d.getIdentifier().getCardType() == cardType).collect(Collectors.toList());
+        return dismissals.stream().filter(d -> d.identifier().getCardType() == cardType).collect(Collectors.toList());
     }
 
     @Override
     public List<CardIdentifier> getIdsForType(int type) {
         return dismissals.stream()
-                .map(CardDismissal::getIdentifier)
+                .map(CardDismissal::identifier)
                 .filter(i -> i.getCardType() == type)
                 .collect(Collectors.toList());
     }
@@ -69,9 +69,9 @@ public class MemoryDismissalDao extends DismissalDao {
     @Override
     public void prune(int cardType, List<Card> allCards) {
         List<CardDismissal> typeDismissals = getForType(cardType);
-        Set<CardIdentifier> cardSet = allCards.stream().map(c -> new CardIdentifier(c.getCardType(), c.getIdentifier())).collect(Collectors.toSet());
+        Set<CardIdentifier> cardSet = allCards.stream().map(c -> new CardIdentifier(c.cardType(), c.identifier())).collect(Collectors.toSet());
         for (CardDismissal dismissal : typeDismissals) {
-            if (!cardSet.contains(dismissal.getIdentifier())) {
+            if (!cardSet.contains(dismissal.identifier())) {
                 delete(dismissal);
             }
         }
@@ -90,7 +90,7 @@ public class MemoryDismissalDao extends DismissalDao {
     @Override
     protected void deleteCard(int cardType, String id) {
         dismissals.removeIf(cardDismissal -> {
-            CardIdentifier identifier = cardDismissal.getIdentifier();
+            CardIdentifier identifier = cardDismissal.identifier();
             return identifier.getCardType() == cardType && identifier.getIdentifier().equals(id);
         });
     }
