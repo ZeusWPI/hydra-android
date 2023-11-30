@@ -31,6 +31,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.*;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
@@ -58,14 +59,15 @@ import be.ugent.zeus.hydra.preferences.PreferenceActivity;
 import be.ugent.zeus.hydra.resto.menu.RestoFragment;
 import be.ugent.zeus.hydra.schamper.SchamperFragment;
 import be.ugent.zeus.hydra.urgent.UrgentFragment;
+import be.ugent.zeus.hydra.wpi.EnableManager;
+import be.ugent.zeus.hydra.wpi.WpiActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.tabs.TabLayout;
-import be.ugent.zeus.hydra.wpi.EnableManager;
-import be.ugent.zeus.hydra.wpi.WpiActivity;
 import dev.chrisbanes.insetter.Insetter;
 import jonathanfinerty.once.Once;
+import org.jetbrains.annotations.NotNull;
 
 import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireArguments;
 
@@ -259,6 +261,37 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
         // Register the listener for navigation events from the drawer.
         binding.navigationView.setNavigationItemSelectedListener(this);
+
+        OnBackPressedCallback drawerCloser = new OnBackPressedCallback(false) {
+
+            @Override
+            public void handleOnBackPressed() {
+                binding.drawerLayout.closeDrawer(GravityCompat.START);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, drawerCloser);
+        
+        binding.drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull @NotNull View drawerView, float slideOffset) {
+                // Do nothing.
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull @NotNull View drawerView) {
+                drawerCloser.setEnabled(true);
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull @NotNull View drawerView) {
+                drawerCloser.setEnabled(false);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+                // Do nothing.
+            }
+        });
 
         toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.action_drawer_open, R.string.action_drawer_close) {
             @Override
@@ -499,44 +532,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     }
 
     /**
-     * Implements the correct back-button behaviour for the drawer. If the drawer does not consume the back press,
-     * the parent method is called.
-     */
-    @Override
-    public void onBackPressed() {
-        // If the drawer is open, close it.
-        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            binding.drawerLayout.closeDrawer(GravityCompat.START);
-            return;
-        }
-
-        // The super method handles both the fragment back stack and finishing the activity. To know what was executed,
-        // we need to add a listener.
-        FragmentManager.OnBackStackChangedListener listener = () -> {
-            Fragment current = getSupportFragmentManager().findFragmentById(R.id.content);
-            Log.w(TAG, "onBackPressed: current fragment is somehow null? Ignoring update for now.");
-            if (current == null) {
-                return;
-            }
-            MenuItem item = binding.navigationView.getMenu().findItem(getFragmentMenuId(current));
-            updateDrawer(current, item);
-        };
-
-        // Allow the current fragment to intercept the back press.
-        Fragment current = getSupportFragmentManager().findFragmentById(R.id.content);
-        if (current instanceof OnBackPressed && (((OnBackPressed) current).onBackPressed())) {
-            // The fragment has handled it.
-            return;
-        }
-
-        // We need to listen to the back stack to update the drawer.
-        getSupportFragmentManager().addOnBackStackChangedListener(listener);
-        super.onBackPressed();
-        // The drawer has been updated, so we abandon the listener.
-        getSupportFragmentManager().removeOnBackStackChangedListener(listener);
-    }
-
-    /**
      * Set the menu ID as argument for a fragment.
      *
      * @param fragment The fragment.
@@ -663,21 +658,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
          * Called when the user will be switching to another fragment.
          */
         void onRemovalScheduled();
-    }
-
-    /**
-     * Allows fragments to listen to and intercept back button presses.
-     */
-    @FunctionalInterface
-    public interface OnBackPressed {
-
-        /**
-         * Called when the back button is pressed. This function provides the fragment
-         * with an opportunity to intercept the back press.
-         *
-         * @return True if consumed, false otherwise. Consumed events are not propagated.
-         */
-        boolean onBackPressed();
     }
 
     private static final class TutorialEndEvent implements Event {

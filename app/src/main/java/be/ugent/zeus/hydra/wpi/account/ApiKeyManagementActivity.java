@@ -26,7 +26,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.MenuItem;
 import androidx.annotation.Nullable;
 
 import java.util.Objects;
@@ -53,6 +52,7 @@ public class ApiKeyManagementActivity extends BaseActivity<ActivityWpiApiKeyMana
         binding.apiTap.setText(AccountManager.getTapKey(this));
         binding.apiUsername.setText(AccountManager.getUsername(this));
         binding.doorApiKey.setText(AccountManager.getDoorKey(this));
+        setResult(RESULT_OK, new Intent());
     }
 
     @Override
@@ -71,22 +71,6 @@ public class ApiKeyManagementActivity extends BaseActivity<ActivityWpiApiKeyMana
         binding.apiTap.removeTextChangedListener(this);
         binding.apiUsername.removeTextChangedListener(this);
         binding.doorApiKey.removeTextChangedListener(this);
-    }
-
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent();
-        setResult(RESULT_OK, intent);
-        super.onBackPressed();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            Intent intent = new Intent();
-            setResult(RESULT_OK, intent);
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
