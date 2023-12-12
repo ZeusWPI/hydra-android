@@ -60,7 +60,7 @@ public class MoveRequest extends OkHttpRequest<String> {
         SOUTH_EAST(REL, 10, -10),
         SMALL_TABLE(ABS, 43, 15),
         BIG_TABLE(ABS, 32, 6),
-        SOFA(ABS, 64, 4),
+        SOFA(ABS, 64, 10),
         DOOR(ABS, 30, 4);
 
         final String command;
