@@ -52,6 +52,10 @@ class MediaNotificationBuilder {
 
     Notification buildNotification(MediaSessionCompat mediaSession) {
         MediaControllerCompat controller = mediaSession.getController();
+        var playbackState = controller.getPlaybackState();
+        if (playbackState == null) {
+            return null; // Nothing we can do currently.
+        }
 
         // Construct the actual notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, ChannelCreator.URGENT_CHANNEL);
@@ -65,10 +69,10 @@ class MediaNotificationBuilder {
                         .setShowActionsInCompactView(0);
 
         // Construct the play/pause button.
-        boolean isPlaying = controller.getPlaybackState().getState() == PlaybackStateCompat.STATE_PLAYING;
-        boolean isConnecting = controller.getPlaybackState().getState() == PlaybackStateCompat.STATE_CONNECTING
-                || controller.getPlaybackState().getState() == PlaybackStateCompat.STATE_BUFFERING;
-        boolean isError = controller.getPlaybackState().getState() == PlaybackStateCompat.STATE_ERROR;
+        boolean isPlaying = playbackState.getState() == PlaybackStateCompat.STATE_PLAYING;
+        boolean isConnecting = playbackState.getState() == PlaybackStateCompat.STATE_CONNECTING
+                || playbackState.getState() == PlaybackStateCompat.STATE_BUFFERING;
+        boolean isError = playbackState.getState() == PlaybackStateCompat.STATE_ERROR;
         if (isPlaying || isConnecting) {
             builder.addAction(new NotificationCompat.Action(
                     R.drawable.noti_ic_stop,
