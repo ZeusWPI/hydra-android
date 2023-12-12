@@ -25,10 +25,13 @@
             toolsVersion = null;
             platformToolsVersion = androidVersions.platformToolsVersion;
             buildToolsVersions = [ androidVersions.buildToolsVersions ];
-            includeEmulator = false;
+            includeEmulator = true;
+            emulatorVersion = "34.1.9";
+            includeSystemImages = true;
+            systemImageTypes = [ "google_apis_playstore" ];
+            abiVersions = [ "x86_64" ];
             platformVersions = [ androidVersions.platformVersions ];
-            # Enable once nixpkgs is fixed...
-            includeSources = false;
+            includeSources = true;
             includeNDK = false;
             useGoogleAPIs = true;
             includeExtras = [
