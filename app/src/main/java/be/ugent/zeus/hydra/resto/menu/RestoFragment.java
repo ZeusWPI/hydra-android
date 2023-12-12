@@ -63,7 +63,6 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
 
 import static be.ugent.zeus.hydra.common.utils.FragmentUtils.registerMenuProvider;
@@ -90,7 +89,7 @@ public class RestoFragment extends Fragment implements
     private MenuViewModel menuViewModel;
     private SelectableMetaViewModel metaViewModel;
     private TextInputLayout exposedDropdown;
-    private MaterialAutoCompleteTextView exposedDropdownContents;
+    private AutoCompleteTextView exposedDropdownContents;
     private ProgressBar exposedDropdownProgress;
     private View exposedDropdownWrapper;
     private TabLayout tabLayout;
