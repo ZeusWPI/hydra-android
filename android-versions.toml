@@ -4,6 +4,6 @@
 #            AND as a "TOML file" by Nix. So it needs to be valid in both.
 # Since properties strings are not quoted, we unquote the values in Gradle.
 cmdLineToolsVersion = "12.0-rc15"
-platformToolsVersion = "34.0.4"
+platformToolsVersion = "34.0.5"
 buildToolsVersions = "34.0.0"
 platformVersions = "34"
