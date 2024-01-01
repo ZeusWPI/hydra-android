@@ -199,7 +199,7 @@ dependencies {
     implementation 'dev.chrisbanes.insetter:insetter:0.6.1'
     implementation 'com.github.niqdev:ipcam-view:2.4.0'
 
-    annotationProcessor 'io.soabase.record-builder:record-builder-processor:37'
+    annotationProcessor 'io.soabase.record-builder:record-builder-processor:38'
     compileOnly 'io.soabase.record-builder:record-builder-core:37'
 
     // Dependencies for the Play Store version.
