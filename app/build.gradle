@@ -197,7 +197,7 @@ dependencies {
     implementation 'com.github.jonfinerty:Once:19fa6fa10d'
     implementation 'com.github.esnaultdev:MaterialValues:v1.1.1'
     implementation 'dev.chrisbanes.insetter:insetter:0.6.1'
-    implementation 'com.github.niqdev:ipcam-view:2.4.0'
+    implementation 'com.github.niqdev:ipcam-view:2.4.1'
 
     annotationProcessor 'io.soabase.record-builder:record-builder-processor:37'
     compileOnly 'io.soabase.record-builder:record-builder-core:37'
