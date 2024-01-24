@@ -235,7 +235,7 @@ dependencies {
     testImplementation 'org.skyscreamer:jsonassert:1.5.1'
     testImplementation 'com.github.niknetniko:easy-random:master-SNAPSHOT'
     testImplementation 'org.apache.commons:commons-lang3:3.14.0'
-    testImplementation 'commons-validator:commons-validator:1.7'
+    testImplementation 'commons-validator:commons-validator:1.8.0'
     testImplementation 'com.google.guava:guava:33.0.0-jre'
 }
 
