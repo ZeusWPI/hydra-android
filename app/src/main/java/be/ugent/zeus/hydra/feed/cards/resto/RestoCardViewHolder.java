@@ -108,20 +108,12 @@ public class RestoCardViewHolder extends CardViewHolder {
         } else {
             menu.add(NONE, KindMenu.SHOW_HOT, NONE, R.string.feed_pref_resto_show_hot);
         }
-
-        if ((kind & MenuTable.DisplayKind.COLD) == MenuTable.DisplayKind.COLD) {
-            if (displayed > 1) {
-                menu.add(NONE, KindMenu.HIDE_COLD, NONE, R.string.feed_pref_resto_hide_cold);
-            }
-        } else {
-            menu.add(NONE, KindMenu.SHOW_COLD, NONE, R.string.feed_pref_resto_show_cold);
-        }
     }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         return switch (item.getItemId()) {
-            case KindMenu.HIDE_HOT, KindMenu.HIDE_SOUP, KindMenu.SHOW_HOT, KindMenu.SHOW_SOUP, KindMenu.SHOW_COLD, KindMenu.HIDE_COLD -> {
+            case KindMenu.HIDE_HOT, KindMenu.HIDE_SOUP, KindMenu.SHOW_HOT, KindMenu.SHOW_SOUP -> {
                 adapter.companion().executeCommand(new RestoKindCommand(item.getItemId()));
                 yield true;
             }
