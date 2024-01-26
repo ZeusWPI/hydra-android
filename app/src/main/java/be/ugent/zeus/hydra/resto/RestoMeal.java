@@ -25,8 +25,9 @@ package be.ugent.zeus.hydra.resto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.Nullable;
+
 import java.util.List;
-import javax.annotation.Nullable;
 
 /**
  * Represents a meal.
