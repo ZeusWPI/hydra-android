@@ -43,16 +43,16 @@ public final class RestoMenu implements Parcelable {
     private final boolean open;
     private final LocalDate date;
     private final List<RestoMeal> meals;
-    private final List<String> vegetables;
+    private final List<RestoMeal> vegetables2;
     private final String message;
     
     private transient CategorizedMeals categorized;
 
-    public RestoMenu(boolean open, LocalDate date, List<RestoMeal> meals, List<String> vegetables, String message) {
+    public RestoMenu(boolean open, LocalDate date, List<RestoMeal> meals, List<RestoMeal> vegetables2, String message) {
         this.open = open;
         this.date = date;
         this.meals = meals;
-        this.vegetables = vegetables;
+        this.vegetables2 = vegetables2;
         this.message = message;
     }
 
@@ -60,7 +60,7 @@ public final class RestoMenu implements Parcelable {
         this.open = in.readByte() != 0;
         this.date = ParcelCompat.readSerializable(in, LocalDate.class.getClassLoader(), LocalDate.class);
         this.meals = in.createTypedArrayList(RestoMeal.CREATOR);
-        this.vegetables = in.createStringArrayList();
+        this.vegetables2 = in.createTypedArrayList(RestoMeal.CREATOR);
         this.message = in.readString();
     }
 
@@ -127,8 +127,8 @@ public final class RestoMenu implements Parcelable {
         return !open;
     }
 
-    public List<String> vegetables() {
-        return vegetables;
+    public List<RestoMeal> vegetables() {
+        return vegetables2;
     }
 
     public LocalDate date() {
@@ -164,13 +164,13 @@ public final class RestoMenu implements Parcelable {
         return open == restoMenu.open &&
                 Objects.equals(date, restoMenu.date) &&
                 Objects.equals(meals, restoMenu.meals) &&
-                Objects.equals(vegetables, restoMenu.vegetables) &&
+                Objects.equals(vegetables2, restoMenu.vegetables2) &&
                 Objects.equals(message, restoMenu.message);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(open, date, meals, vegetables, message);
+        return Objects.hash(open, date, meals, vegetables2, message);
     }
 
     @Override
@@ -179,11 +179,11 @@ public final class RestoMenu implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
         ParcelCompat.writeBoolean(dest, this.open);
         dest.writeSerializable(this.date);
         dest.writeTypedList(this.meals);
-        dest.writeStringList(this.vegetables);
+        dest.writeTypedList(this.vegetables2);
         dest.writeString(this.message);
     }
 

@@ -225,7 +225,7 @@ public class MenuTable extends TableLayout {
             if (showTitles) {
                 createTitle(getContext().getString(R.string.resto_menu_vegetables));
             }
-            menu.addVegetableViews(this);
+            menu.addVegetableViews(this, showAllergens);
         }
     }
 

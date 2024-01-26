@@ -26,6 +26,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.List;
+import javax.annotation.Nullable;
 
 /**
  * Represents a meal.
@@ -33,7 +34,7 @@ import java.util.List;
  * @author Niko Strijbol
  * @author Mitch
  */
-public record RestoMeal(String name, String price, String type, String kind,
+public record RestoMeal(String name, @Nullable String price, @Nullable String type, String kind,
                         List<String> allergens) implements Parcelable {
     public static final String MENU_TYPE_COLD = "cold";
 

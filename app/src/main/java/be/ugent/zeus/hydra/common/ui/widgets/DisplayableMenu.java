@@ -26,9 +26,7 @@ import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TableRow;
-import android.widget.TextView;
+import android.widget.*;
 import androidx.annotation.DrawableRes;
 import androidx.appcompat.content.res.AppCompatResources;
 
@@ -107,27 +105,8 @@ public class DisplayableMenu {
      * @param parent The view to which the child views will be added. This will be done by calling {@link
      *               ViewGroup#addView(View)}. This is also the view to get a context from.
      */
-    void addVegetableViews(ViewGroup parent) {
-
-        final Context context = parent.getContext();
-        final int rowPadding = convertDpToPixelInt(ROW_PADDING_DP, context);
-
-        for (String vegetable : menu.vegetables()) {
-
-            TableRow tr = new TableRow(context);
-            TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
-            tr.setLayoutParams(lp);
-            tr.setPadding(0, rowPadding, 0, rowPadding);
-
-            ImageView imageView = makeImageView(context, R.drawable.resto_vegetables);
-
-            TextView tvCenter = makeCenterTextView(context, vegetable, lp);
-
-            tr.addView(imageView);
-            tr.addView(tvCenter);
-
-            parent.addView(tr);
-        }
+    void addVegetableViews(ViewGroup parent, boolean showAllergens) {
+        addMealViews(parent, menu.vegetables(), showAllergens);
     }
 
     /**
@@ -219,17 +198,22 @@ public class DisplayableMenu {
             //Set the correct image.
             @DrawableRes final int id = getDrawable(meal);
 
-            ImageView imageView = makeImageView(context, id);
-            String name = meal.name();
-            TextView tvCenter = makeCenterTextView(context, name, lp);
-            TextView tvRight = new MaterialTextView(context, null, normalStyle);
-            tvRight.setLayoutParams(lp);
-            tvRight.setText(meal.price());
-            tvRight.setGravity(Gravity.END);
+            tr.addView(makeImageView(context, id));
+            var center = makeCenterTextView(context, meal.name(), lp);
+            tr.addView(center);
 
-            tr.addView(imageView);
-            tr.addView(tvCenter);
-            tr.addView(tvRight);
+            if (meal.price() != null) {
+                TextView tvRight = new MaterialTextView(context, null, normalStyle);
+                tvRight.setLayoutParams(lp);
+                tvRight.setText(meal.price());
+                tvRight.setGravity(Gravity.END);
+                tr.addView(tvRight);
+            } else {
+                // Allow the center to span more columns.
+                TableRow.LayoutParams tlp = (TableRow.LayoutParams) center.getLayoutParams();
+                tlp.span = 2;
+                center.setLayoutParams(tlp);
+            }
 
             parent.addView(tr);
             
