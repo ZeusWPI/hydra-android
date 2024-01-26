@@ -33,10 +33,11 @@
     <!-- Attributes for the resto menu -->
     <declare-styleable name="MenuTable">
         <attr name="showKind">
-            <flag name="main" value="1" />          <!-- 00 -->
-            <flag name="soup" value="2" />          <!-- 01 -->
-            <flag name="vegetables" value="4" />    <!-- 10 -->
-            <flag name="all" value="7" />           <!-- 11 -->
+            <!-- Keep in sync with DisplayKind -->
+            <flag name="main" value="1" />
+            <flag name="soup" value="2" />
+            <flag name="vegetables" value="4" />
+            <flag name="all" value="15" />
         </attr>
         <attr name="showTitles" format="boolean" />
         <attr name="selectable" format="boolean" />

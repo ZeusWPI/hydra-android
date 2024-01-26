@@ -136,8 +136,8 @@ public class DisplayableMenu {
      * @param parent The view to which the child views will be added. This will be done by calling {@link
      *               ViewGroup#addView(View)}. This is also the view to get a context from.
      */
-    void addSoupViews(ViewGroup parent) {
-        addMealViews(parent, menu.soups(), false);
+    void addSoupViews(ViewGroup parent, boolean showAllergens) {
+        addMealViews(parent, menu.soups(), showAllergens);
     }
 
     /**

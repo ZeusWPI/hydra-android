@@ -25,7 +25,6 @@ package be.ugent.zeus.hydra.resto;
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
-import androidx.annotation.VisibleForTesting;
 import androidx.core.os.ParcelCompat;
 
 import java.time.LocalDate;
@@ -67,13 +66,14 @@ public final class RestoMenu implements Parcelable {
 
     /**
      * Sort the meals available in the menu.
+     * This will also fix the soups.
      */
     private void fillCategoriesIfNeeded() {
         if (categorized != null) {
             return;
         }
         
-        var soups = new ArrayList<RestoMeal>();
+        List<RestoMeal> soups = new ArrayList<>();
         var mainDishes = new ArrayList<RestoMeal>();
         var coldDishes = new ArrayList<RestoMeal>();
 
@@ -89,12 +89,35 @@ public final class RestoMenu implements Parcelable {
             }
         }
         
+        soups = fixSoups(soups);
+        
         this.categorized = new CategorizedMeals(mainDishes, coldDishes, soups);
     }
     
-    @VisibleForTesting
-    public RestoMenu withDate(LocalDate date) {
-        return new RestoMenu(open, date, meals, vegetables, message);
+    private static String removeSuffix(String word, String suffix) {
+        if (word.endsWith(suffix)) {
+            return word.substring(0, word.length() - suffix.length());
+        } else {
+            return word;
+        }
+    }
+    
+    private List<RestoMeal> fixSoups(List<RestoMeal> soups) {
+        // TODO: this is rather ugly...
+        List<RestoMeal> finalSoups = new ArrayList<>();
+        var priceBig = "";
+        for (RestoMeal soup: soups) {
+            if (soup.name().endsWith("big") || soup.name().endsWith("groot")) {
+                priceBig = soup.price();
+            } else {
+                var name = removeSuffix(soup.name(), " small");
+                name = removeSuffix(name, " klein");
+                finalSoups.add(soup.withName(name));
+            }
+        }
+        final String suffix = priceBig;
+        
+        return finalSoups.stream().map(s -> s.withPrice(s.price() + " / " + suffix)).toList();
     }
 
     /**

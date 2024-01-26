@@ -55,6 +55,13 @@ public record RestoMeal(String name, String price, String type, String kind,
         dest.writeStringList(this.allergens);
     }
 
+    public RestoMeal withPrice(String newPrice) {
+        return new RestoMeal(name, newPrice, type, kind, allergens);
+    }
+
+    public RestoMeal withName(String newName) {
+        return new RestoMeal(newName, price, type, kind, allergens);
+    }
 
     public static final Parcelable.Creator<RestoMeal> CREATOR = new Parcelable.Creator<>() {
         @Override
