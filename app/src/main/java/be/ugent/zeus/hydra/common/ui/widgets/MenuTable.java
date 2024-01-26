@@ -218,19 +218,21 @@ public class MenuTable extends TableLayout {
             if (showTitles) {
                 createTitle(getContext().getString(R.string.resto_menu_soup));
             }
-            menu.addSoupViews(this);
+            menu.addSoupViews(this, showAllergens);
         }
 
         if (isSetIn(displayedKinds, DisplayKind.VEGETABLES) && menu.hasVegetables()) {
             if (showTitles) {
                 createTitle(getContext().getString(R.string.resto_menu_vegetables));
             }
-            menu.addVegetableViews(this);
+            menu.addVegetableViews(this, showAllergens);
         }
     }
 
     /**
      * Flags to indicate what should be displayed by the menu.
+     * <p>
+     * Keep in sync with the showKind XML attribute.
      */
     @IntDef(flag = true, value = {DisplayKind.HOT, DisplayKind.COLD, DisplayKind.SOUP, DisplayKind.VEGETABLES, DisplayKind.ALL})
     @Retention(RetentionPolicy.SOURCE)

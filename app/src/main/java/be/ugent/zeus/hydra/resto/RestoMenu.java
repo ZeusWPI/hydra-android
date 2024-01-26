@@ -25,7 +25,6 @@ package be.ugent.zeus.hydra.resto;
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
-import androidx.annotation.VisibleForTesting;
 import androidx.core.os.ParcelCompat;
 
 import java.time.LocalDate;
@@ -44,16 +43,16 @@ public final class RestoMenu implements Parcelable {
     private final boolean open;
     private final LocalDate date;
     private final List<RestoMeal> meals;
-    private final List<String> vegetables;
+    private final List<RestoMeal> vegetables2;
     private final String message;
     
     private transient CategorizedMeals categorized;
 
-    public RestoMenu(boolean open, LocalDate date, List<RestoMeal> meals, List<String> vegetables, String message) {
+    public RestoMenu(boolean open, LocalDate date, List<RestoMeal> meals, List<RestoMeal> vegetables2, String message) {
         this.open = open;
         this.date = date;
         this.meals = meals;
-        this.vegetables = vegetables;
+        this.vegetables2 = vegetables2;
         this.message = message;
     }
 
@@ -61,19 +60,20 @@ public final class RestoMenu implements Parcelable {
         this.open = in.readByte() != 0;
         this.date = ParcelCompat.readSerializable(in, LocalDate.class.getClassLoader(), LocalDate.class);
         this.meals = in.createTypedArrayList(RestoMeal.CREATOR);
-        this.vegetables = in.createStringArrayList();
+        this.vegetables2 = in.createTypedArrayList(RestoMeal.CREATOR);
         this.message = in.readString();
     }
 
     /**
      * Sort the meals available in the menu.
+     * This will also fix the soups.
      */
     private void fillCategoriesIfNeeded() {
         if (categorized != null) {
             return;
         }
         
-        var soups = new ArrayList<RestoMeal>();
+        List<RestoMeal> soups = new ArrayList<>();
         var mainDishes = new ArrayList<RestoMeal>();
         var coldDishes = new ArrayList<RestoMeal>();
 
@@ -89,12 +89,35 @@ public final class RestoMenu implements Parcelable {
             }
         }
         
+        soups = fixSoups(soups);
+        
         this.categorized = new CategorizedMeals(mainDishes, coldDishes, soups);
     }
     
-    @VisibleForTesting
-    public RestoMenu withDate(LocalDate date) {
-        return new RestoMenu(open, date, meals, vegetables, message);
+    private static String removeSuffix(String word, String suffix) {
+        if (word.endsWith(suffix)) {
+            return word.substring(0, word.length() - suffix.length());
+        } else {
+            return word;
+        }
+    }
+    
+    private List<RestoMeal> fixSoups(List<RestoMeal> soups) {
+        // TODO: this is rather ugly...
+        List<RestoMeal> finalSoups = new ArrayList<>();
+        var priceBig = "";
+        for (RestoMeal soup: soups) {
+            if (soup.name().endsWith("big") || soup.name().endsWith("groot")) {
+                priceBig = soup.price();
+            } else {
+                var name = removeSuffix(soup.name(), " small");
+                name = removeSuffix(name, " klein");
+                finalSoups.add(soup.withName(name));
+            }
+        }
+        final String suffix = priceBig;
+        
+        return finalSoups.stream().map(s -> s.withPrice(s.price() + " / " + suffix)).toList();
     }
 
     /**
@@ -104,8 +127,8 @@ public final class RestoMenu implements Parcelable {
         return !open;
     }
 
-    public List<String> vegetables() {
-        return vegetables;
+    public List<RestoMeal> vegetables() {
+        return vegetables2;
     }
 
     public LocalDate date() {
@@ -141,13 +164,13 @@ public final class RestoMenu implements Parcelable {
         return open == restoMenu.open &&
                 Objects.equals(date, restoMenu.date) &&
                 Objects.equals(meals, restoMenu.meals) &&
-                Objects.equals(vegetables, restoMenu.vegetables) &&
+                Objects.equals(vegetables2, restoMenu.vegetables2) &&
                 Objects.equals(message, restoMenu.message);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(open, date, meals, vegetables, message);
+        return Objects.hash(open, date, meals, vegetables2, message);
     }
 
     @Override
@@ -156,11 +179,11 @@ public final class RestoMenu implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
         ParcelCompat.writeBoolean(dest, this.open);
         dest.writeSerializable(this.date);
         dest.writeTypedList(this.meals);
-        dest.writeStringList(this.vegetables);
+        dest.writeTypedList(this.vegetables2);
         dest.writeString(this.message);
     }
 

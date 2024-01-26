@@ -25,6 +25,8 @@ package be.ugent.zeus.hydra.resto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.Nullable;
+
 import java.util.List;
 
 /**
@@ -33,7 +35,7 @@ import java.util.List;
  * @author Niko Strijbol
  * @author Mitch
  */
-public record RestoMeal(String name, String price, String type, String kind,
+public record RestoMeal(String name, @Nullable String price, @Nullable String type, String kind,
                         List<String> allergens) implements Parcelable {
     public static final String MENU_TYPE_COLD = "cold";
 
@@ -55,6 +57,13 @@ public record RestoMeal(String name, String price, String type, String kind,
         dest.writeStringList(this.allergens);
     }
 
+    public RestoMeal withPrice(String newPrice) {
+        return new RestoMeal(name, newPrice, type, kind, allergens);
+    }
+
+    public RestoMeal withName(String newName) {
+        return new RestoMeal(newName, price, type, kind, allergens);
+    }
 
     public static final Parcelable.Creator<RestoMeal> CREATOR = new Parcelable.Creator<>() {
         @Override

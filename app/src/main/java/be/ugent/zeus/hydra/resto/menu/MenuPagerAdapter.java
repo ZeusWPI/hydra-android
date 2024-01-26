@@ -26,6 +26,7 @@ import android.annotation.SuppressLint;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.time.LocalDate;
@@ -34,6 +35,7 @@ import java.util.List;
 import java.util.Objects;
 
 import be.ugent.zeus.hydra.resto.RestoMenu;
+import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.resto.SingleDayFragment;
 
 /**
@@ -43,13 +45,15 @@ import be.ugent.zeus.hydra.resto.SingleDayFragment;
  */
 class MenuPagerAdapter extends FragmentStateAdapter {
     private static final int LEGEND = -63;
-    
-    private boolean showAllergens = false;
+
+    private boolean showAllergens;
 
     private List<RestoMenu> data = Collections.emptyList();
 
     public MenuPagerAdapter(@NonNull Fragment fragment) {
         super(fragment);
+        showAllergens = PreferenceManager.getDefaultSharedPreferences(fragment.requireContext())
+                .getBoolean(RestoPreferenceFragment.PREF_SHOW_ALLERGENS, false);
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -108,7 +112,7 @@ class MenuPagerAdapter extends FragmentStateAdapter {
             return true;
         }
 
-        for (RestoMenu menu: this.data) {
+        for (RestoMenu menu : this.data) {
             if (Objects.hash(menu, showAllergens) == itemId) {
                 return true;
             }

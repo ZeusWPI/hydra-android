@@ -26,9 +26,7 @@ import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TableRow;
-import android.widget.TextView;
+import android.widget.*;
 import androidx.annotation.DrawableRes;
 import androidx.appcompat.content.res.AppCompatResources;
 
@@ -40,6 +38,8 @@ import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.resto.RestoMeal;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import com.google.android.material.textview.MaterialTextView;
+
+import static be.ugent.zeus.hydra.common.utils.ViewUtils.convertDpToPixelInt;
 
 /**
  * Helper class to display meals.
@@ -76,7 +76,8 @@ public class DisplayableMenu {
         ImageView imageView = new ImageView(context);
         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         imageView.setImageDrawable(AppCompatResources.getDrawable(context, id));
-        TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.MATCH_PARENT);
+        var size = convertDpToPixelInt(16, context);
+        TableRow.LayoutParams params = new TableRow.LayoutParams(size, size);
         imageView.setLayoutParams(params);
         return imageView;
     }
@@ -104,27 +105,8 @@ public class DisplayableMenu {
      * @param parent The view to which the child views will be added. This will be done by calling {@link
      *               ViewGroup#addView(View)}. This is also the view to get a context from.
      */
-    void addVegetableViews(ViewGroup parent) {
-
-        final Context context = parent.getContext();
-        final int rowPadding = ViewUtils.convertDpToPixelInt(ROW_PADDING_DP, context);
-
-        for (String vegetable : menu.vegetables()) {
-
-            TableRow tr = new TableRow(context);
-            TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
-            tr.setLayoutParams(lp);
-            tr.setPadding(0, rowPadding, 0, rowPadding);
-
-            ImageView imageView = makeImageView(context, R.drawable.resto_vegetables);
-
-            TextView tvCenter = makeCenterTextView(context, vegetable, lp);
-
-            tr.addView(imageView);
-            tr.addView(tvCenter);
-
-            parent.addView(tr);
-        }
+    void addVegetableViews(ViewGroup parent, boolean showAllergens) {
+        addMealViews(parent, menu.vegetables(), showAllergens);
     }
 
     /**
@@ -133,8 +115,8 @@ public class DisplayableMenu {
      * @param parent The view to which the child views will be added. This will be done by calling {@link
      *               ViewGroup#addView(View)}. This is also the view to get a context from.
      */
-    void addSoupViews(ViewGroup parent) {
-        addMealViews(parent, menu.soups(), false);
+    void addSoupViews(ViewGroup parent, boolean showAllergens) {
+        addMealViews(parent, menu.soups(), showAllergens);
     }
 
     /**
@@ -190,7 +172,7 @@ public class DisplayableMenu {
     private TextView makeCenterTextView(Context context, String text, TableRow.LayoutParams lp) {
         TextView tvCenter = new MaterialTextView(context, null, normalStyle);
         tvCenter.setTextIsSelectable(selectable);
-        tvCenter.setPadding(ViewUtils.convertDpToPixelInt(16, context), 0, 0, 0);
+        tvCenter.setPadding(convertDpToPixelInt(16, context), 0, 0, 0);
         tvCenter.setLayoutParams(lp);
         tvCenter.setText(text);
         return tvCenter;
@@ -204,7 +186,7 @@ public class DisplayableMenu {
      */
     private void addMealViews(ViewGroup parent, List<RestoMeal> meals, boolean showAllergens) {
         final Context context = parent.getContext();
-        final int rowPadding = ViewUtils.convertDpToPixelInt(ROW_PADDING_DP, context);
+        final int rowPadding = convertDpToPixelInt(ROW_PADDING_DP, context);
 
         TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
 
@@ -216,17 +198,22 @@ public class DisplayableMenu {
             //Set the correct image.
             @DrawableRes final int id = getDrawable(meal);
 
-            ImageView imageView = makeImageView(context, id);
-            String name = meal.name();
-            TextView tvCenter = makeCenterTextView(context, name, lp);
-            TextView tvRight = new MaterialTextView(context, null, normalStyle);
-            tvRight.setLayoutParams(lp);
-            tvRight.setText(meal.price());
-            tvRight.setGravity(Gravity.END);
+            tr.addView(makeImageView(context, id));
+            var center = makeCenterTextView(context, meal.name(), lp);
+            tr.addView(center);
 
-            tr.addView(imageView);
-            tr.addView(tvCenter);
-            tr.addView(tvRight);
+            if (meal.price() != null) {
+                TextView tvRight = new MaterialTextView(context, null, normalStyle);
+                tvRight.setLayoutParams(lp);
+                tvRight.setText(meal.price());
+                tvRight.setGravity(Gravity.END);
+                tr.addView(tvRight);
+            } else {
+                // Allow the center to span more columns.
+                TableRow.LayoutParams tlp = (TableRow.LayoutParams) center.getLayoutParams();
+                tlp.span = 2;
+                center.setLayoutParams(tlp);
+            }
 
             parent.addView(tr);
             

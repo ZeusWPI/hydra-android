@@ -228,6 +228,11 @@
     <string name="resto_legend_gap_desc">Goede Agrarische Productie</string>
     <string name="resto_order_now">Bestel online</string>
     <string name="resto_show_allergens">Allergenen tonen</string>
+    <string name="resto_allergens_warning">
+        Hoewel allergenen zo nauwkeurig mogelijk worden weergegeven, zijn fouten altijd mogelijk.
+        De allergenenlijst in de resto is de autoritaire bron van informatie.
+        Controleer die lijst zeker bij een allergie!
+    </string>
 
     <!-- This is the endpoint for the Resto API. Must be one of the provided API endpoints. -->
     <string name="value_resto_default_endpoint">nl-debrug</string>
@@ -246,8 +251,6 @@
     <string name="feed_pref_resto_hide_soup">Soep verbergen</string>
     <string name="feed_pref_resto_show_hot">Warm gerecht tonen</string>
     <string name="feed_pref_resto_hide_hot">Warm gerecht verbergen</string>
-    <string name="feed_pref_resto_show_cold">Koud gerecht tonen</string>
-    <string name="feed_pref_resto_hide_cold">Koud gerecht verbergen</string>
 
     <string name="feed_card_type_title_resto">Restomenu</string>
     <string name="feed_card_type_title_events">Activiteiten</string>

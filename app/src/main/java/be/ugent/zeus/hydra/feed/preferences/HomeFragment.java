@@ -49,7 +49,7 @@ public class HomeFragment extends PreferenceFragment {
 
     public static final String PREF_DATA_SAVER = "pref_home_feed_save_data";
     public static final boolean PREF_DATA_SAVER_DEFAULT = false;
-    private static final String PREF_RESTO_KINDS = "pref_feed_resto_kinds_v2";
+    private static final String PREF_RESTO_KINDS = "pref_feed_resto_kinds_v3";
     @MenuTable.DisplayKind
     private static final int PREF_RESTO_KINDS_DEFAULT = MenuTable.DisplayKind.HOT | MenuTable.DisplayKind.SOUP;
     private DeleteViewModel viewModel;

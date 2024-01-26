@@ -85,6 +85,7 @@ public class SingleDayFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.menuTable.setMenu(data, showAllergens);
+        binding.allergenWarningText.setVisibility(showAllergens ? View.VISIBLE : View.GONE);
     }
 
     public RestoMenu getData() {
