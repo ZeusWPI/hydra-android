@@ -61,6 +61,8 @@ public class RestoPreferenceFragment extends PreferenceFragment {
     public static final String DEFAULT_CLOSING_TIME = "21:00";
     public static final String PREF_RESTO_CLOSING_HOUR = "pref_resto_closing_hour";
 
+    public static final String PREF_SHOW_ALLERGENS = "key_show_allergens";
+
     public static String getDefaultRestoEndpoint(Context context) {
         return context.getString(R.string.value_resto_default_endpoint);
     }

@@ -30,6 +30,7 @@ import android.view.*;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
@@ -64,8 +65,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.android.material.textfield.TextInputLayout;
+import org.jetbrains.annotations.NotNull;
 
-import static be.ugent.zeus.hydra.common.utils.FragmentUtils.registerMenuProvider;
 import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
 
 /**
@@ -133,31 +134,48 @@ public class RestoFragment extends Fragment implements
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "receiveResto: on view created");
 
-        registerMenuProvider(this, R.menu.menu_resto, new int[]{R.id.action_history}, menuItem -> {
-            int itemId = menuItem.getItemId();
-            if (itemId == R.id.action_refresh) {
-                Toast toast = Toast.makeText(requireContext(), R.string.resto_extra_refresh_started, Toast.LENGTH_SHORT);
-                toast.show();
-                metaViewModel.onRefresh();
-                menuViewModel.onRefresh();
-                return true;
-            } else if (itemId == R.id.resto_show_website) {
-                NetworkUtils.maybeLaunchBrowser(requireContext(), URL);
-                return true;
-            } else if (itemId == R.id.action_history) {
-                startActivity(new Intent(requireContext(), HistoryActivity.class));
-                return true;
-            } else if (itemId == R.id.resto_order_online) {
-                String url = ORDER_URL + requireContext().getString(R.string.value_info_endpoint);
-                NetworkUtils.maybeLaunchBrowser(requireContext(), url);
-                return true;
-            } else if (itemId == R.id.resto_show_allergens) {
-                menuItem.setChecked(!menuItem.isChecked());
-                pageAdapter.setShowAllergens(menuItem.isChecked());
-                return true;
+        var manager = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        var activity = requireBaseActivity(this);
+        activity.addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater menuInflater) {
+                menuInflater.inflate(R.menu.menu_resto, menu);
+                activity.tintToolbarIcons(menu, R.id.action_history);
+                var showAllergens = manager.getBoolean(RestoPreferenceFragment.PREF_SHOW_ALLERGENS, false);
+                menu.findItem(R.id.resto_show_allergens).setChecked(showAllergens);
             }
-            return false;
-        });
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull @NotNull MenuItem menuItem) {
+                int itemId = menuItem.getItemId();
+                if (itemId == R.id.action_refresh) {
+                    Toast toast = Toast.makeText(requireContext(), R.string.resto_extra_refresh_started, Toast.LENGTH_SHORT);
+                    toast.show();
+                    metaViewModel.onRefresh();
+                    menuViewModel.onRefresh();
+                    return true;
+                } else if (itemId == R.id.resto_show_website) {
+                    NetworkUtils.maybeLaunchBrowser(requireContext(), URL);
+                    return true;
+                } else if (itemId == R.id.action_history) {
+                    startActivity(new Intent(requireContext(), HistoryActivity.class));
+                    return true;
+                } else if (itemId == R.id.resto_order_online) {
+                    String url = ORDER_URL + requireContext().getString(R.string.value_info_endpoint);
+                    NetworkUtils.maybeLaunchBrowser(requireContext(), url);
+                    return true;
+                } else if (itemId == R.id.resto_show_allergens) {
+                    menuItem.setChecked(!menuItem.isChecked());
+                    var newValue = menuItem.isChecked();
+                    manager.edit()
+                            .putBoolean(RestoPreferenceFragment.PREF_SHOW_ALLERGENS, newValue)
+                            .apply();
+                    pageAdapter.setShowAllergens(newValue);
+                    return true;
+                }
+                return false;
+            }
+        }, getViewLifecycleOwner());
 
         requireBaseActivity(this).requireToolbar().setDisplayShowTitleEnabled(false);
         exposedDropdown = requireActivity().findViewById(R.id.exposed_dropdown);

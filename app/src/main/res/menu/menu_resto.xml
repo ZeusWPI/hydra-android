@@ -23,16 +23,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_history"
-        android:icon="@drawable/ic_history"
-        android:orderInCategory="50"
-        android:title="@string/resto_history"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/action_refresh"
         android:icon="@drawable/ic_refresh"
         android:orderInCategory="60"
         android:title="@string/action_refresh"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_history"
+        android:icon="@drawable/ic_history"
+        android:orderInCategory="50"
+        android:title="@string/resto_history"
         app:showAsAction="never" />
     <item
         android:id="@+id/resto_show_website"
@@ -49,6 +49,5 @@
         android:orderInCategory="120"
         android:title="@string/resto_show_allergens"
         android:checkable="true"
-        android:checked="false"
         app:showAsAction="never" />
 </menu>
