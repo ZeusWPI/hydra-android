@@ -41,6 +41,8 @@ import be.ugent.zeus.hydra.resto.RestoMeal;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import com.google.android.material.textview.MaterialTextView;
 
+import static be.ugent.zeus.hydra.common.utils.ViewUtils.convertDpToPixelInt;
+
 /**
  * Helper class to display meals.
  * <p>
@@ -76,7 +78,8 @@ public class DisplayableMenu {
         ImageView imageView = new ImageView(context);
         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         imageView.setImageDrawable(AppCompatResources.getDrawable(context, id));
-        TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.MATCH_PARENT);
+        var size = convertDpToPixelInt(16, context);
+        TableRow.LayoutParams params = new TableRow.LayoutParams(size, size);
         imageView.setLayoutParams(params);
         return imageView;
     }
@@ -107,7 +110,7 @@ public class DisplayableMenu {
     void addVegetableViews(ViewGroup parent) {
 
         final Context context = parent.getContext();
-        final int rowPadding = ViewUtils.convertDpToPixelInt(ROW_PADDING_DP, context);
+        final int rowPadding = convertDpToPixelInt(ROW_PADDING_DP, context);
 
         for (String vegetable : menu.vegetables()) {
 
@@ -190,7 +193,7 @@ public class DisplayableMenu {
     private TextView makeCenterTextView(Context context, String text, TableRow.LayoutParams lp) {
         TextView tvCenter = new MaterialTextView(context, null, normalStyle);
         tvCenter.setTextIsSelectable(selectable);
-        tvCenter.setPadding(ViewUtils.convertDpToPixelInt(16, context), 0, 0, 0);
+        tvCenter.setPadding(convertDpToPixelInt(16, context), 0, 0, 0);
         tvCenter.setLayoutParams(lp);
         tvCenter.setText(text);
         return tvCenter;
@@ -204,7 +207,7 @@ public class DisplayableMenu {
      */
     private void addMealViews(ViewGroup parent, List<RestoMeal> meals, boolean showAllergens) {
         final Context context = parent.getContext();
-        final int rowPadding = ViewUtils.convertDpToPixelInt(ROW_PADDING_DP, context);
+        final int rowPadding = convertDpToPixelInt(ROW_PADDING_DP, context);
 
         TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
 
