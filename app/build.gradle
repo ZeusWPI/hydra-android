@@ -40,8 +40,8 @@ android {
         applicationId "be.ugent.zeus.hydra"
         minSdk 21
         targetSdk 34
-        versionCode 37000
-        versionName "3.7.0"
+        versionCode 37100
+        versionName "3.7.1"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resourceConfigurations += ['nl', 'en']
