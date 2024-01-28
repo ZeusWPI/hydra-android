@@ -31,6 +31,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Represents a menu for a single day.
@@ -117,7 +118,7 @@ public final class RestoMenu implements Parcelable {
         }
         final String suffix = priceBig;
         
-        return finalSoups.stream().map(s -> s.withPrice(s.price() + " / " + suffix)).toList();
+        return finalSoups.stream().map(s -> s.withPrice(s.price() + " / " + suffix)).collect(Collectors.toList());
     }
 
     /**
