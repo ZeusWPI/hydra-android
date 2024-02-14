@@ -155,7 +155,7 @@ public class DisplayableMenu {
     }
 
     boolean hasVegetables() {
-        return !menu.vegetables().isEmpty();
+        return menu.vegetables() != null && !menu.vegetables().isEmpty();
     }
     
     boolean hasColdDishes() {
