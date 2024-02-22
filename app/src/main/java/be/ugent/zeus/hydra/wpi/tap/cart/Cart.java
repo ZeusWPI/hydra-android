@@ -82,10 +82,10 @@ public class Cart {
         for (ProductIdAmount productIdAmount : cart.products()) {
             Product product = productIdToProduct.get(productIdAmount.productId());
             if (product == null) {
-                // Skip this product, as it nog longer exists.
+                // Skip this product, as it no longer exists.
                 continue;
             }
-            orders.add(new CartProduct(productIdAmount.productId(), product));
+            orders.add(new CartProduct(productIdAmount.amount(), product));
         }
         return orders;
     }
