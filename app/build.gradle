@@ -236,7 +236,7 @@ dependencies {
     testImplementation 'com.github.niknetniko:easy-random:master-SNAPSHOT'
     testImplementation 'org.apache.commons:commons-lang3:3.14.0'
     testImplementation 'commons-validator:commons-validator:1.8.0'
-    testImplementation 'com.google.guava:guava:33.0.0-jre'
+    testImplementation 'com.google.guava:guava:33.1.0-jre'
 }
 
 
