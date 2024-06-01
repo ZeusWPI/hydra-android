@@ -170,7 +170,7 @@ android {
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
 
-    implementation 'androidx.core:core:1.13.0'
+    implementation 'androidx.core:core:1.13.1'
     implementation 'androidx.media:media:1.7.0'
     implementation 'androidx.fragment:fragment:1.6.2'
     implementation 'androidx.appcompat:appcompat:1.6.1'
