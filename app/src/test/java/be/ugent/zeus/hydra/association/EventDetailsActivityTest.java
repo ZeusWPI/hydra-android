@@ -29,7 +29,6 @@ import androidx.test.espresso.intent.Intents;
 
 import be.ugent.zeus.hydra.common.network.InstanceProvider;
 import be.ugent.zeus.hydra.testing.NoNetworkInterceptor;
-import be.ugent.zeus.hydra.testing.RobolectricUtils;
 import be.ugent.zeus.hydra.testing.Utils;
 import okhttp3.OkHttpClient;
 import org.junit.Before;
@@ -37,6 +36,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -57,8 +57,10 @@ public class EventDetailsActivityTest {
     public void shouldReturnCorrectIntent_whenStartIsCalled() {
         Event e = Utils.generate(Event.class);
         Association a = Utils.generate(Association.class);
-        Intent actual = EventDetailsActivity.start(RobolectricUtils.getActivityContext(), e, a);
-        Intent expected = new Intent(RobolectricUtils.getActivityContext(), EventDetailsActivity.class);
+
+        var aContext = getInstrumentation().getTargetContext();
+        var actual = EventDetailsActivity.start(aContext, e, a);
+        var expected = new Intent(aContext, EventDetailsActivity.class);
 
         assertEquals(expected.getComponent(), actual.getComponent());
         assertEquals(e, IntentCompat.getParcelableExtra(actual, EventDetailsActivity.PARCEL_EVENT, Event.class));
