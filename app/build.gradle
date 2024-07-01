@@ -232,7 +232,7 @@ dependencies {
     testImplementation 'com.squareup.okhttp3:mockwebserver:4.12.0'
     testImplementation 'nl.jqno.equalsverifier:equalsverifier:3.16.1'
     testImplementation 'com.shazam:shazamcrest:0.11'
-    testImplementation 'org.skyscreamer:jsonassert:1.5.1'
+    testImplementation 'org.skyscreamer:jsonassert:1.5.3'
     testImplementation 'com.github.niknetniko:easy-random:master-SNAPSHOT'
     testImplementation 'org.apache.commons:commons-lang3:3.14.0'
     testImplementation 'commons-validator:commons-validator:1.9.0'
