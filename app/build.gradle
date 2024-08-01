@@ -200,7 +200,7 @@ dependencies {
     implementation 'com.github.niqdev:ipcam-view:2.4.1'
 
     annotationProcessor 'io.soabase.record-builder:record-builder-processor:41'
-    compileOnly 'io.soabase.record-builder:record-builder-core:41'
+    compileOnly 'io.soabase.record-builder:record-builder-core:42'
 
     // Dependencies for the Play Store version.
     storeImplementation 'com.google.android.gms:play-services-maps:18.2.0'
