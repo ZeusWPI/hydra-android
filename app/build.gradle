@@ -172,7 +172,7 @@ dependencies {
 
     implementation 'androidx.core:core:1.13.1'
     implementation 'androidx.media:media:1.7.0'
-    implementation 'androidx.fragment:fragment:1.8.0'
+    implementation 'androidx.fragment:fragment:1.8.2'
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'androidx.preference:preference:1.2.1'
     implementation 'androidx.cardview:cardview:1.0.0'
