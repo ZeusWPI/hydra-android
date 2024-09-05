@@ -23,7 +23,7 @@
 package be.ugent.zeus.hydra.testing.matcher;
 
 import android.os.Build;
-import androidx.annotation.RequiresApi;
+import androidx.test.filters.SdkSuppress;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -37,13 +37,12 @@ import org.apache.commons.lang3.reflect.FieldUtils;
  *
  * @author Niko Strijbol
  */
-@RequiresApi(api = Build.VERSION_CODES.N)
+@SdkSuppress(minSdkVersion = Build.VERSION_CODES.N)
 class Fields<T> {
 
     private final Class<T> clazz;
 
     private final Collection<String> ignoredFields;
-    private List<Field> results;
 
     Fields(Class<T> clazz) {
         this.clazz = clazz;

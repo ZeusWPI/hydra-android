@@ -23,7 +23,6 @@
 package be.ugent.zeus.hydra.feed.cards.dismissal;
 
 import android.content.Context;
-import androidx.annotation.RequiresApi;
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -47,7 +46,6 @@ import org.robolectric.annotation.LooperMode;
 
 import static be.ugent.zeus.hydra.testing.Assert.assertCollectionEquals;
 import static be.ugent.zeus.hydra.testing.Assert.assertThat;
-import static be.ugent.zeus.hydra.testing.Assert.samePropertyValuesAs;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static be.ugent.zeus.hydra.testing.Utils.getRandom;
 import static org.hamcrest.Matchers.empty;
@@ -59,8 +57,6 @@ import static org.junit.Assert.*;
  *
  * @author Niko Strijbol
  */
-// Request an older version of Android, since the SQLite version in Robolectric does not follow Android releases.
-@RequiresApi(api = 26)
 @RunWith(AndroidJUnit4.class)
 @LooperMode(LooperMode.Mode.PAUSED)
 @Config(application = TestApp.class)

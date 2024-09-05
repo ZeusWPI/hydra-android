@@ -23,7 +23,7 @@
 package be.ugent.zeus.hydra.feed.commands;
 
 import android.os.Build;
-import androidx.annotation.RequiresApi;
+import androidx.test.filters.SdkSuppress;
 
 import java.util.HashSet;
 import java.util.List;
@@ -38,7 +38,7 @@ import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDao;
 /**
  * @author Niko Strijbol
  */
-@RequiresApi(api = Build.VERSION_CODES.N)
+@SdkSuppress(minSdkVersion = Build.VERSION_CODES.N)
 public class MemoryDismissalDao extends DismissalDao {
 
     private final Set<CardDismissal> dismissals = new HashSet<>();
