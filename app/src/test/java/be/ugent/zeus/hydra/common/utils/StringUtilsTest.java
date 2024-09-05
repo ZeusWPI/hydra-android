@@ -23,7 +23,7 @@
 package be.ugent.zeus.hydra.common.utils;
 
 import android.os.Build;
-import androidx.annotation.RequiresApi;
+import androidx.test.filters.SdkSuppress;
 
 import org.junit.Test;
 
@@ -32,7 +32,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Niko Strijbol
  */
-@RequiresApi(api = Build.VERSION_CODES.KITKAT)
+@SdkSuppress(minSdkVersion = Build.VERSION_CODES.KITKAT)
 public class StringUtilsTest {
 
     @Test

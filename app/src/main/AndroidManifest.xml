@@ -192,7 +192,8 @@
             android:label="@string/wpi_cammie_title"
             android:parentActivityName=".wpi.cammie.CammieActivity"
             android:screenOrientation="fullSensor"
-            android:theme="@style/Zeus.Material.Cammie" />
+            android:theme="@style/Zeus.Material.Cammie"
+            tools:ignore="DiscouragedApi" />
 
         <activity
             android:name=".wpi.door.NfcIntentReceiverActivity"
