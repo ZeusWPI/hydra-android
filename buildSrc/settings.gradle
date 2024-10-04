@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2015-2022 The Hydra authors
- *
+ * Copyright (c) 2024 Niko Strijbol
+ *  
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -19,36 +19,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-buildscript {
-    repositories {
-        // For Google-related dependencies
-        google()
-        // For the license plugin
-        mavenCentral()
-    }
-    dependencies {
-        classpath libs.android.build.tool
-        classpath libs.gms
-        classpath libs.firebase.crashlytics.gradle
-    }
-}
 
-allprojects {
-    repositories {
-        // Google libraries
-        google()
-        // Other libraries
-        mavenCentral()
-        // Some custom libraries
-        maven { url 'https://jitpack.io' }
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("libs") {
+            from(files("../gradle/libs.versions.toml"))
+        }
     }
-}
-
-tasks.register('clean', Delete) {
-    delete rootProject.layout.buildDirectory
-}
-
-// We want sources to improve IDE features inside our Gradle files.
-wrapper {
-    distributionType = Wrapper.DistributionType.ALL
 }

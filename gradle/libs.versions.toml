@@ -1,0 +1,72 @@
+[versions]
+androidxTest = '1.6.1'
+espresso = '3.6.1'
+livedata = '2.8.6'
+okhttp3 = '4.12.0'
+recordbuilder = '42'
+room = '2.6.1'
+
+[libraries]
+android-build-tool = { module = 'com.android.tools.build:gradle', version = '8.5.2' }
+androidx-appcompat = { module = 'androidx.appcompat:appcompat', version = '1.7.0' }
+androidx-browser = { module = 'androidx.browser:browser', version = '1.8.0' }
+androidx-cardview = { module = 'androidx.cardview:cardview', version = '1.0.0' }
+androidx-constraintlayout = { module = 'androidx.constraintlayout:constraintlayout', version = '2.1.4' }
+androidx-core = { module = 'androidx.core:core', version = '1.13.1' }
+androidx-core-testing = { module = 'androidx.arch.core:core-testing', version = '2.2.0' }
+androidx-espresso-contrib = { module = 'androidx.test.espresso:espresso-contrib', version.ref = 'espresso' }
+androidx-espresso-core = { module = 'androidx.test.espresso:espresso-core', version.ref = 'espresso' }
+androidx-espresso-intents = { module = 'androidx.test.espresso:espresso-intents', version.ref = 'espresso' }
+androidx-fragment = { module = 'androidx.fragment:fragment', version = '1.8.3' }
+androidx-junit = { module = 'androidx.test.ext:junit', version = '1.2.1' }
+androidx-lifecycle-data = { module = 'androidx.lifecycle:lifecycle-livedata', version.ref = 'livedata' }
+androidx-lifecycle-java = { module = 'androidx.lifecycle:lifecycle-common-java8', version.ref = 'livedata' }
+androidx-lifecycle-vm = { module = 'androidx.lifecycle:lifecycle-viewmodel', version.ref = 'livedata' }
+androidx-media = { module = 'androidx.media:media', version = '1.7.0' }
+androidx-preference = { module = 'androidx.preference:preference', version = '1.2.1' }
+androidx-recyclerview = { module = 'androidx.recyclerview:recyclerview', version = '1.3.2' }
+androidx-room-compiler = { module = 'androidx.room:room-compiler', version.ref = 'room' }
+androidx-room-runtime = { module = 'androidx.room:room-runtime', version.ref = 'room' }
+androidx-room-testing = { module = 'androidx.room:room-testing', version.ref = 'room' }
+androidx-rules = { module = 'androidx.test:rules', version.ref = 'androidxTest' }
+androidx-swiperefreshlayout = { module = 'androidx.swiperefreshlayout:swiperefreshlayout', version = '1.1.0' }
+androidx-test-core = { module = 'androidx.test:core', version.ref = 'androidxTest' }
+androidx-viewpager2 = { module = 'androidx.viewpager2:viewpager2', version = '1.1.0' }
+cachapa = { module = 'com.github.cachapa:ExpandableLayout', version = '2.9.2' }
+commons-lang3 = { module = 'org.apache.commons:commons-lang3', version = '3.17.0' }
+commons-validator = { module = 'commons-validator:commons-validator', version = '1.9.0' }
+desugar = { module = 'com.android.tools:desugar_jdk_libs', version = '2.1.2' }
+easyrandom = { module = 'com.github.niknetniko:easy-random', version = 'master-SNAPSHOT' }
+equalsverifier = { module = 'nl.jqno.equalsverifier:equalsverifier', version = '3.17' }
+firebase-analytics = { module = 'com.google.firebase:firebase-analytics', version = '22.1.0' }
+firebase-crashlytics = { module = 'com.google.firebase:firebase-crashlytics', version = '19.2.0' }
+firebase-crashlytics-gradle = { module = 'com.google.firebase:firebase-crashlytics-gradle', version = '3.0.2' }
+gms = { module = 'com.google.gms:google-services', version = '4.4.2' }
+guava = { module = 'com.google.guava:guava', version = '33.3.1-jre' }
+insetter = { module = 'dev.chrisbanes.insetter:insetter', version = '0.6.1' }
+ipcam = { module = 'com.github.niqdev:ipcam-view', version = '2.4.1' }
+jetbrains-annotations = { module = 'org.jetbrains:annotations', version = '25.0.0' }
+jsonassert = { module = 'org.skyscreamer:jsonassert', version = '1.5.3' }
+junit = { module = 'junit:junit', version = '4.13.2' }
+leakcanary = { module = 'com.squareup.leakcanary:leakcanary-android', version = '2.14' }
+material = { module = 'com.google.android.material:material', version = '1.12.0' }
+materialvalues = { module = 'com.github.esnaultdev:MaterialValues', version = 'v1.1.1' }
+mockito-core = { module = 'org.mockito:mockito-core', version = '5.14.1' }
+mockito-inline = { module = 'org.mockito:mockito-inline', version = '5.2.0' }
+moshi = { module = 'com.squareup.moshi:moshi', version = '1.15.1' }
+okhttp3 = { module = 'com.squareup.okhttp3:okhttp', version.ref = 'okhttp3' }
+okhttp3-mockwebserver = { module = 'com.squareup.okhttp3:mockwebserver', version.ref = 'okhttp3' }
+once = { module = 'com.github.jonfinerty:Once', version = '19fa6fa10d' }
+osmdroid = { module = 'org.osmdroid:osmdroid-android', version = '6.1.20' }
+picasso = { module = 'com.squareup.picasso:picasso', version = '2.8' }
+play-codescanner = { module = 'com.google.android.gms:play-services-code-scanner', version = '16.1.0' }
+play-maps = { module = 'com.google.android.gms:play-services-maps', version = '19.0.0' }
+recordbuilder-core = { module = 'io.soabase.record-builder:record-builder-core', version.ref = 'recordbuilder' }
+recordbuilder-processor = { module = 'io.soabase.record-builder:record-builder-processor', version.ref = 'recordbuilder' }
+robolectric = { module = 'org.robolectric:robolectric', version = '4.13' }
+rxjava-rules = { module = 'com.artemzin.rxjava:proguard-rules', version = '1.3.3.0' }
+shazamcrest = { module = 'com.shazam:shazamcrest', version = '0.11' }
+zxing = { module = 'com.journeyapps:zxing-android-embedded', version = '4.3.0' }
+
+[bundles]
+androidx-lifecycle = ['androidx-lifecycle-vm', 'androidx-lifecycle-data', 'androidx-lifecycle-java']

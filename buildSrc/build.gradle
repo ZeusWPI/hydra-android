@@ -1,6 +1,5 @@
 plugins {
     id 'groovy'
-    id 'java'
     id 'idea'
     id 'java-gradle-plugin'
 }
@@ -13,10 +12,10 @@ repositories {
 dependencies {
     implementation gradleApi()
     implementation localGroovy()
-    implementation 'com.android.tools.build:gradle:8.6.1'
-    implementation 'org.jetbrains:annotations:25.0.0'
-    testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito:mockito-core:5.14.1'
+    implementation libs.android.build.tool
+    implementation libs.jetbrains.annotations
+    testImplementation libs.junit
+    testImplementation libs.mockito.core
 }
 
 validatePlugins {
