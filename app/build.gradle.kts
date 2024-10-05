@@ -29,7 +29,6 @@ plugins {
     id("be.ugent.zeus.hydra.licenses")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
-    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 // Read our properties, see bottom for details.
