@@ -24,7 +24,7 @@ import java.io.FileInputStream
 import java.util.*
 
 plugins {
-    id("com.android.library")
+    id(libs.plugins.android.build.library.get().pluginId)
 }
 
 val versions = loadAndroidVersions()

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2022 The Hydra authors
+ * Copyright (c) 2015-2024 The Hydra authors
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,36 +19,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-buildscript {
-    repositories {
-        // For Google-related dependencies
-        google()
-        // For the license plugin
-        mavenCentral()
-    }
-    dependencies {
-        classpath libs.android.build.tool
-        classpath libs.gms
-        classpath libs.firebase.crashlytics.gradle
-    }
-}
 
-allprojects {
-    repositories {
-        // Google libraries
-        google()
-        // Other libraries
-        mavenCentral()
-        // Some custom libraries
-        maven { url 'https://jitpack.io' }
-    }
-}
-
-tasks.register('clean', Delete) {
-    delete rootProject.layout.buildDirectory
+plugins {
+    id(libs.plugins.android.build.tool.get().pluginId) apply false
+    alias(libs.plugins.gms) apply false
+    alias(libs.plugins.firebase.crashlytics.gradle) apply false
 }
 
 // We want sources to improve IDE features inside our Gradle files.
-wrapper {
+tasks.wrapper {
     distributionType = Wrapper.DistributionType.ALL
 }

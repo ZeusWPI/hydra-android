@@ -25,10 +25,10 @@ import com.google.gms.googleservices.GoogleServicesPlugin
 import java.io.FileInputStream
 
 plugins {
-    id("com.android.application")
+    id(libs.plugins.android.build.tool.get().pluginId)
     id("be.ugent.zeus.hydra.licenses")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
+    alias(libs.plugins.gms)
+    alias(libs.plugins.firebase.crashlytics.gradle)
 }
 
 // Read our properties, see bottom for details.
