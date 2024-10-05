@@ -167,7 +167,7 @@ android {
 
     lint {
         disable += listOf(
-            "RtlSymmetry", "VectorPath", "Overdraw", "GradleDependency", "NotificationPermission", "OldTargetApi"
+            "RtlSymmetry", "VectorPath", "Overdraw", "GradleDependency", "NotificationPermission", "OldTargetApi", "AndroidGradlePluginVersion"
         )
         showAll = true
         warningsAsErrors = true
