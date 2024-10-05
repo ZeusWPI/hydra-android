@@ -3,7 +3,7 @@
 <a href='https://play.google.com/store/apps/details?id=be.ugent.zeus.hydra'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="80px"/></a>
 <a href='https://f-droid.org/packages/be.ugent.zeus.hydra.open/'><img alt='Get it on F-Droid' src='https://fdroid.gitlab.io/artwork/badge/get-it-on.png' height="80px"/></a>
 
-The Android version of the Hydra app, available for Jelly Bean and up. Available on [Google Play](https://play.google.com/store/apps/details?id=be.ugent.zeus.hydra), on [F-Droid](https://f-droid.org/packages/be.ugent.zeus.hydra.open/) or as a download in the [release section](https://github.com/ZeusWPI/hydra-android/releases) (apk file).
+The Android version of the Hydra app, available for Android 5.0 (Lollipop) and up. Available on [Google Play](https://play.google.com/store/apps/details?id=be.ugent.zeus.hydra), on [F-Droid](https://f-droid.org/packages/be.ugent.zeus.hydra.open/) or as a download in the [release section](https://github.com/ZeusWPI/hydra-android/releases) (as an APK file).
 
 ## Contributing
 
