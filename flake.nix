@@ -41,6 +41,7 @@
               "android-sdk-license"
             ];
         };
+        aapt2Override = "${androidComposition.androidsdk}/libexec/android-sdk/build-tools/${androidVersions.buildToolsVersions}/aapt2";
       in
       {
         devShells = rec {
@@ -61,7 +62,7 @@
               }
               {
                 name = "GRADLE_OPTS";
-                eval = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${androidComposition.androidsdk}/libexec/android-sdk/build-tools/${androidVersions.buildToolsVersions}/aapt2";
+                eval = "-Pandroid.aapt2FromMavenOverride=${aapt2Override}";
               }
               {
                 name = "GRADLE_HOME";
@@ -71,7 +72,7 @@
             devshell.startup.link.text = ''
               mkdir -p "$PRJ_DATA_DIR/.gradle"
               cat <<EOF > "$PRJ_DATA_DIR/.gradle/gradle.properties"
-                org.gradle.jvmargs="$GRADLE_OPTS"
+              android.aapt2FromMavenOverride=${aapt2Override}
               EOF
             '';
           };
