@@ -44,7 +44,7 @@ firebase-crashlytics = { module = 'com.google.firebase:firebase-crashlytics', ve
 guava = { module = 'com.google.guava:guava', version = '33.3.1-jre' }
 insetter = { module = 'dev.chrisbanes.insetter:insetter', version = '0.6.1' }
 ipcam = { module = 'com.github.niqdev:ipcam-view', version = '2.4.1' }
-jetbrains-annotations = { module = 'org.jetbrains:annotations', version = '25.0.0' }
+jetbrains-annotations = { module = 'org.jetbrains:annotations', version = '26.0.1' }
 jsonassert = { module = 'org.skyscreamer:jsonassert', version = '1.5.3' }
 junit = { module = 'junit:junit', version = '4.13.2' }
 leakcanary = { module = 'com.squareup.leakcanary:leakcanary-android', version = '2.14' }
