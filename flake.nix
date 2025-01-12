@@ -26,7 +26,7 @@
             platformToolsVersion = androidVersions.platformToolsVersion;
             buildToolsVersions = [ androidVersions.buildToolsVersions ];
             includeEmulator = true;
-            emulatorVersion = "34.1.9";
+            emulatorVersion = "35.2.5";
             includeSystemImages = true;
             systemImageTypes = [ "google_apis_playstore" ];
             abiVersions = [ "x86_64" ];
@@ -49,7 +49,7 @@
           hydra-android = pkgs.devshell.mkShell {
             name = "hydra-android";
             packages = [
-              androidComposition.androidsdk pkgs.jdk11 pkgs.git pkgs.androidStudioPackages.beta
+              androidComposition.androidsdk pkgs.jdk11 pkgs.git
             ];
             env = [
               {
