@@ -45,7 +45,7 @@ android {
         compileSdk = versions.getProperty("platformVersions").toInt()
         applicationId = "be.ugent.zeus.hydra"
         minSdk = 21
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 37300
         versionName = "3.7.3"
         vectorDrawables.useSupportLibrary = true
