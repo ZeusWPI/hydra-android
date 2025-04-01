@@ -41,7 +41,7 @@ easyrandom = { module = 'org.jeasy:easy-random-core', version = '6.0.0-SNAPSHOT'
 equalsverifier = { module = 'nl.jqno.equalsverifier:equalsverifier', version = '3.19.1' }
 firebase-analytics = { module = 'com.google.firebase:firebase-analytics', version = '22.3.0' }
 firebase-crashlytics = { module = 'com.google.firebase:firebase-crashlytics', version = '19.4.1' }
-guava = { module = 'com.google.guava:guava', version = '33.4.0-jre' }
+guava = { module = 'com.google.guava:guava', version = '33.4.6-jre' }
 insetter = { module = 'dev.chrisbanes.insetter:insetter', version = '0.6.1' }
 ipcam = { module = 'com.github.niqdev:ipcam-view', version = '2.4.1' }
 jetbrains-annotations = { module = 'org.jetbrains:annotations', version = '26.0.2' }
