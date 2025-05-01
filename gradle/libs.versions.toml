@@ -13,7 +13,7 @@ androidx-appcompat = { module = 'androidx.appcompat:appcompat', version = '1.7.0
 androidx-browser = { module = 'androidx.browser:browser', version = '1.8.0' }
 androidx-cardview = { module = 'androidx.cardview:cardview', version = '1.0.0' }
 androidx-constraintlayout = { module = 'androidx.constraintlayout:constraintlayout', version = '2.2.1' }
-androidx-core = { module = 'androidx.core:core', version = '1.15.0' }
+androidx-core = { module = 'androidx.core:core', version = '1.16.0' }
 androidx-core-testing = { module = 'androidx.arch.core:core-testing', version = '2.2.0' }
 androidx-espresso-contrib = { module = 'androidx.test.espresso:espresso-contrib', version.ref = 'espresso' }
 androidx-espresso-core = { module = 'androidx.test.espresso:espresso-core', version.ref = 'espresso' }
