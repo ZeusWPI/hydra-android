@@ -3,7 +3,7 @@ androidxTest = '1.6.1'
 espresso = '3.6.1'
 livedata = '2.8.7'
 okhttp3 = '4.12.0'
-recordbuilder = '44'
+recordbuilder = '45'
 room = '2.6.1'
 buildtool = "8.7.3"
 
