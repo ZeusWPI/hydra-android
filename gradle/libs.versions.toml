@@ -5,7 +5,7 @@ livedata = '2.8.7'
 okhttp3 = '4.12.0'
 recordbuilder = '44'
 room = '2.6.1'
-buildtool = "8.7.3"
+buildtool = "8.9.2"
 
 [libraries]
 android-build-tool = { module = 'com.android.tools.build:gradle', version.ref = 'buildtool' }
