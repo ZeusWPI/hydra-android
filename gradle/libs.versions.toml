@@ -71,7 +71,7 @@ zxing = { module = 'com.journeyapps:zxing-android-embedded', version = '4.3.0' }
 android-build-tool = { id = 'com.android.application', version.ref = 'buildtool' }
 android-build-library = { id = 'com.android.library', version.ref = 'buildtool' }
 gms = 'com.google.gms.google-services:4.4.2'
-firebase-crashlytics-gradle = 'com.google.firebase.crashlytics:3.0.3'
+firebase-crashlytics-gradle = 'com.google.firebase.crashlytics:3.0.4'
 
 [bundles]
 androidx-lifecycle = ['androidx-lifecycle-vm', 'androidx-lifecycle-data', 'androidx-lifecycle-java']
