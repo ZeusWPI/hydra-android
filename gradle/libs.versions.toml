@@ -1,6 +1,6 @@
 [versions]
 androidxTest = '1.6.1'
-espresso = '3.6.1'
+espresso = '3.7.0'
 livedata = '2.9.2'
 okhttp3 = '4.12.0'
 recordbuilder = '47'
