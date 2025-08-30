@@ -39,7 +39,7 @@ commons-validator = { module = 'commons-validator:commons-validator', version = 
 desugar = { module = 'com.android.tools:desugar_jdk_libs', version = '2.1.5' }
 easyrandom = { module = 'org.jeasy:easy-random-core', version = '6.0.0-SNAPSHOT' }
 equalsverifier = { module = 'nl.jqno.equalsverifier:equalsverifier', version = '4.0.7' }
-firebase-analytics = { module = 'com.google.firebase:firebase-analytics', version = '22.5.0' }
+firebase-analytics = { module = 'com.google.firebase:firebase-analytics', version = '23.0.0' }
 firebase-crashlytics = { module = 'com.google.firebase:firebase-crashlytics', version = '19.4.1' }
 guava = { module = 'com.google.guava:guava', version = '33.4.8-jre' }
 insetter = { module = 'dev.chrisbanes.insetter:insetter', version = '0.6.1' }
