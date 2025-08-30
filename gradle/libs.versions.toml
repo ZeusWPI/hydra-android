@@ -1,5 +1,5 @@
 [versions]
-androidxTest = '1.6.1'
+androidxTest = '1.7.0'
 espresso = '3.7.0'
 livedata = '2.9.2'
 okhttp3 = '4.12.0'
