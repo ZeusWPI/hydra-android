@@ -84,4 +84,24 @@
 
     <!-- Urgent social buttons -->
     <dimen name="urgent_social_icon_size">64dp</dimen>
+    <!-- Some constants from material-values -->
+    
+    <dimen name="material_bottom_nav_bar_elevation">8dp</dimen>
+    <dimen name="material_elevation_fab_resting">6dp</dimen>
+    <dimen name="material_bottom_nav_bar_height">56dp</dimen>
+    <dimen name="material_list_single_line_without_avatar_dense_height">40dp</dimen>
+    <dimen name="material_card_gutter">8dp</dimen>
+    <dimen name="material_list_icon_last_position_margin_horizontal">16dp</dimen>
+    <dimen name="material_typography_regular_title_text_size">20sp</dimen>
+    <dimen name="material_list_single_line_with_avatar_normal_height">56dp</dimen>
+    <dimen name="material_list_icon_first_position_margin_start">16dp</dimen>
+    <dimen name="material_list_icon_size">24dp</dimen>
+    <dimen name="material_list_text_only_margin_horizontal">16dp</dimen>
+    <dimen name="material_card_title_block_padding_horizontal">24dp</dimen>
+    <dimen name="material_card_title_block_large_padding_top">24dp</dimen>
+    <dimen name="material_card_title_block_large_padding_bottom">16dp</dimen>
+    <dimen name="material_card_title_block_large_subtitle_margin_top">12dp</dimen>
+    <dimen name="material_list_normal_primary_text_size">16sp</dimen>
+    
+    
 </resources>

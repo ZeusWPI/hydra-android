@@ -203,9 +203,8 @@ dependencies {
     implementation(libs.picasso)
     implementation(libs.cachapa)
     implementation(project(":material-intro"))
+    implementation(project(":ipcam-view"))
     implementation(libs.once)
-    implementation(libs.materialvalues)
-    implementation(libs.ipcam)
 
     annotationProcessor(libs.recordbuilder.processor)
     compileOnly(libs.recordbuilder.core)

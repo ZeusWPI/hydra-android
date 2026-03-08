@@ -2,6 +2,7 @@
 androidxTest = '1.7.0'
 espresso = '3.7.0'
 livedata = '2.9.2'
+mjpeg = "3.0.0"
 okhttp3 = '4.12.0'
 recordbuilder = '52'
 room = '2.6.1'
@@ -41,13 +42,11 @@ equalsverifier = { module = 'nl.jqno.equalsverifier:equalsverifier', version = '
 firebase-analytics = { module = 'com.google.firebase:firebase-analytics', version = '23.0.0' }
 firebase-crashlytics = { module = 'com.google.firebase:firebase-crashlytics', version = '19.4.1' }
 guava = { module = 'com.google.guava:guava', version = '33.4.8-jre' }
-ipcam = { module = 'com.github.niqdev:ipcam-view', version = '2.4.1' }
 jetbrains-annotations = { module = 'org.jetbrains:annotations', version = '26.1.0' }
 jsonassert = { module = 'org.skyscreamer:jsonassert', version = '1.5.3' }
 junit = { module = 'junit:junit', version = '4.13.2' }
 leakcanary = { module = 'com.squareup.leakcanary:leakcanary-android', version = '2.14' }
 material = { module = 'com.google.android.material:material', version = '1.13.0' }
-materialvalues = { module = 'com.github.esnaultdev:MaterialValues', version = 'v1.1.1' }
 mockito-core = { module = 'org.mockito:mockito-core', version = '5.22.0' }
 mockito-inline = { module = 'org.mockito:mockito-inline', version = '5.2.0' }
 moshi = { module = 'com.squareup.moshi:moshi', version = '1.15.2' }

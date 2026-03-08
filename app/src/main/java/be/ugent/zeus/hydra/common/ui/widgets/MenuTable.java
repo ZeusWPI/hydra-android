@@ -26,6 +26,7 @@ package be.ugent.zeus.hydra.common.ui.widgets;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -103,7 +104,11 @@ public class MenuTable extends TableLayout {
      */
     private void createText(String text, boolean isTitle, boolean isHtml) {
 
-        final int rowPadding = getContext().getResources().getDimensionPixelSize(R.dimen.material_baseline_grid_1x);
+        final int rowPadding = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                8f,
+                getContext().getResources().getDisplayMetrics()
+        );
 
         TableRow tr = new TableRow(getContext());
         TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);

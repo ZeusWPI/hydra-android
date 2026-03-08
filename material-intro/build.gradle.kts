@@ -51,7 +51,7 @@ android {
         disable += listOf("Overdraw", "OldTargetApi", "GradleDependency")
         showAll = true
         warningsAsErrors = true
-        targetSdk = 36
+        targetSdk = versions.getProperty("platformVersions").toInt()
     }
 }
 

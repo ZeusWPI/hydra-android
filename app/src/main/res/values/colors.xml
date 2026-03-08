@@ -83,14 +83,14 @@
     <color name="md_theme_dark_primaryInverse">#095BBF</color>
 
     <!-- General colours -->
-    <color name="white">@color/material_color_white</color>
+    <color name="white">#FFFFFF</color>
 
     <!--
         ~ The grey colour for the launcher shortcuts background.
         ~ As seen here: https://material.io/guidelines/style/icons.html#icons-app-shortcut-icons,
         ~ the colour must be Solid fill of Material Grey 100 (#F5F5F5)
         -->
-    <color name="launcher_shortcut_background">@color/material_color_grey_100</color>
+    <color name="launcher_shortcut_background">#F5F5F5</color>
     <color name="hydra_launcher_color">@color/md_theme_light_primary</color>
     <color name="wpi_launcher_color">@color/wpi_theme_light_primary</color>
     
