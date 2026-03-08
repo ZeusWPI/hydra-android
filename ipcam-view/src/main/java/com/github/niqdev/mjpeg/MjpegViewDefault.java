@@ -1,25 +1,14 @@
 package com.github.niqdev.mjpeg;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.PixelFormat;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.Typeface;
+import android.graphics.*;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import androidx.annotation.NonNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-
-import androidx.annotation.NonNull;
 
 /*
  * I don't really understand and want to know what the hell it does!
@@ -32,10 +21,8 @@ public class MjpegViewDefault extends AbstractMjpegView {
 
     private final SurfaceHolder.Callback mSurfaceHolderCallback;
     private final SurfaceView mSurfaceView;
-    private final boolean transparentBackground;
-
     private MjpegViewThread thread;
-    private MjpegInputStreamDefault mIn = null;
+    private MjpegInputStream mIn = null;
     private boolean showFps = false;
     private boolean flipHorizontal = false;
     private boolean flipVertical = false;
@@ -43,21 +30,14 @@ public class MjpegViewDefault extends AbstractMjpegView {
     private volatile boolean mRun = false;
     private volatile boolean surfaceDone = false;
     private Paint overlayPaint;
-    private int overlayTextColor;
-    private int overlayBackgroundColor;
-    private int backgroundColor;
     private int ovlPos;
     private int dispWidth;
     private int dispHeight;
-    private int displayMode;
     private boolean resume = false;
 
-    private OnFrameCapturedListener onFrameCapturedListener;
-
-    MjpegViewDefault(SurfaceView surfaceView, SurfaceHolder.Callback callback, boolean transparentBackground) {
+    MjpegViewDefault(SurfaceView surfaceView, SurfaceHolder.Callback callback) {
         this.mSurfaceView = surfaceView;
         this.mSurfaceHolderCallback = callback;
-        this.transparentBackground = transparentBackground;
         init();
     }
 
@@ -89,11 +69,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
             overlayPaint.setTextAlign(Paint.Align.LEFT);
             overlayPaint.setTextSize(12);
             overlayPaint.setTypeface(Typeface.DEFAULT);
-            overlayTextColor = Color.WHITE;
-            overlayBackgroundColor = Color.BLACK;
-            backgroundColor = Color.BLACK;
             ovlPos = MjpegViewDefault.POSITION_LOWER_RIGHT;
-            displayMode = MjpegViewDefault.SIZE_STANDARD;
             dispWidth = mSurfaceView.getWidth();
             dispHeight = mSurfaceView.getHeight();
         }
@@ -108,6 +84,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
              * clear canvas cache
              * @see https://github.com/niqdev/ipcam-view/issues/14
              */
+            //noinspection deprecation
             mSurfaceView.destroyDrawingCache();
             thread.start();
         }
@@ -119,10 +96,66 @@ public class MjpegViewDefault extends AbstractMjpegView {
         thread.start();
     }
 
-    /*
-     * @see https://github.com/niqdev/ipcam-view/issues/14
-     */
-    synchronized void _stopPlayback() {
+    @Override
+    public void onSurfaceCreated(@NonNull SurfaceHolder holder) {
+        surfaceDone = true;
+    }
+
+    @Override
+    public void onSurfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
+        if (thread != null) {
+            thread.setSurfaceSize(width, height);
+        }
+    }
+
+    @Override
+    public void onSurfaceDestroyed(@NonNull SurfaceHolder holder) {
+        surfaceDone = false;
+        stopPlayback();
+        if (thread != null) {
+            thread = null;
+        }
+    }
+
+    @Override
+    public void setSource(@NonNull MjpegInputStream stream) {
+        // see https://github.com/niqdev/ipcam-view/issues/14
+        mIn = stream;
+        // make sure resume is calling _resumePlayback()
+        if (!resume) {
+            _startPlayback();
+        } else {
+            _resumePlayback();
+        }
+    }
+
+    @Override
+    public void showFps(boolean show) {
+        showFps = show;
+    }
+
+    @Override
+    public void flipSource(boolean flip) {
+        flipHorizontal(flip);
+    }
+
+    @Override
+    public void flipHorizontal(boolean flip) {
+        this.flipHorizontal = flip;
+    }
+
+    @Override
+    public void flipVertical(boolean flip) {
+        this.flipVertical = flip;
+    }
+
+    @Override
+    public void setRotate(float degrees) {
+        rotateDegrees = degrees;
+    }
+
+    @Override
+    public synchronized void stopPlayback() {
         mRun = false;
         boolean retry = true;
         while (retry) {
@@ -148,174 +181,9 @@ public class MjpegViewDefault extends AbstractMjpegView {
         }
     }
 
-    void _surfaceChanged(int w, int h) {
-        if (thread != null) {
-            thread.setSurfaceSize(w, h);
-        }
-    }
-
-    void _surfaceDestroyed() {
-        surfaceDone = false;
-        _stopPlayback();
-        if (thread != null) {
-            thread = null;
-        }
-    }
-
-    void _frameCapturedWithByteData(byte[] imageByte, byte[] header) {
-        if (onFrameCapturedListener != null) {
-            onFrameCapturedListener.onFrameCapturedWithHeader(imageByte, header);
-        }
-    }
-
-    void _frameCapturedWithBitmap(Bitmap bitmap) {
-        if (onFrameCapturedListener != null) {
-            onFrameCapturedListener.onFrameCaptured(bitmap);
-        }
-    }
-
-    void _surfaceCreated() {
-        surfaceDone = true;
-    }
-
-    void _showFps(boolean b) {
-        showFps = b;
-    }
-
-    void _flipHorizontal(boolean b) {
-        flipHorizontal = b;
-    }
-
-    void _flipVertical(boolean b) {
-        flipVertical = b;
-    }
-
-    /*
-     * @see https://github.com/niqdev/ipcam-view/issues/14
-     */
-    void _setSource(MjpegInputStreamDefault source) {
-        mIn = source;
-        // make sure resume is calling _resumePlayback()
-        if (!resume) {
-            _startPlayback();
-        } else {
-            _resumePlayback();
-        }
-    }
-
-    void setOverlayPaint(Paint p) {
-        overlayPaint = p;
-    }
-
-    void setOverlayTextColor(int c) {
-        overlayTextColor = c;
-    }
-
-    void setOverlayBackgroundColor(int c) {
-        overlayBackgroundColor = c;
-    }
-
-    void setOverlayPosition(int p) {
-        ovlPos = p;
-    }
-
-    void setDisplayMode(int s) {
-        displayMode = s;
-    }
-
-    @Override
-    public void onSurfaceCreated(@NonNull SurfaceHolder holder) {
-        _surfaceCreated();
-    }
-
-    /* override methods */
-
-    @Override
-    public void onSurfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
-        _surfaceChanged(width, height);
-    }
-
-    @Override
-    public void onSurfaceDestroyed(@NonNull SurfaceHolder holder) {
-        _surfaceDestroyed();
-    }
-
-    @Override
-    public void setSource(@NonNull MjpegInputStream stream) {
-        if (!(stream instanceof MjpegInputStreamDefault)) {
-            throw new IllegalArgumentException("stream must be an instance of MjpegInputStreamDefault");
-        }
-        _setSource((MjpegInputStreamDefault) stream);
-    }
-
-    @Override
-    public void setDisplayMode(DisplayMode mode) {
-        setDisplayMode(mode.getValue());
-    }
-
-    @Override
-    public void showFps(boolean show) {
-        _showFps(show);
-    }
-
-    @Override
-    public void flipSource(boolean flip) {
-        _flipHorizontal(flip);
-    }
-
-    @Override
-    public void flipHorizontal(boolean flip) {
-        _flipHorizontal(flip);
-    }
-
-    @Override
-    public void flipVertical(boolean flip) {
-        _flipVertical(flip);
-    }
-
-    @Override
-    public void setRotate(float degrees) {
-        rotateDegrees = degrees;
-    }
-
-    @Override
-    public void stopPlayback() {
-        _stopPlayback();
-    }
-
     @Override
     public boolean isStreaming() {
         return mRun;
-    }
-
-    @Override
-    public void setResolution(int width, int height) {
-        throw new UnsupportedOperationException("not implemented");
-    }
-
-    @Override
-    public void freeCameraMemory() {
-        throw new UnsupportedOperationException("not implemented");
-    }
-
-    @Override
-    public void setOnFrameCapturedListener(@NonNull OnFrameCapturedListener onFrameCapturedListener) {
-        this.onFrameCapturedListener = onFrameCapturedListener;
-    }
-
-    @Override
-    public void setCustomBackgroundColor(int backgroundColor) {
-        this.backgroundColor = backgroundColor;
-    }
-
-    @Override
-    public void setFpsOverlayBackgroundColor(int overlayBackgroundColor) {
-        this.overlayBackgroundColor = overlayBackgroundColor;
-    }
-
-    @Override
-    public void setFpsOverlayTextColor(int overlayTextColor) {
-        this.overlayTextColor = overlayTextColor;
     }
 
     @NonNull
@@ -324,85 +192,28 @@ public class MjpegViewDefault extends AbstractMjpegView {
         return mSurfaceView;
     }
 
-    @Override
-    public void resetTransparentBackground() {
-        mSurfaceView.setZOrderOnTop(false);
-        mSurfaceView.getHolder().setFormat(PixelFormat.OPAQUE);
-    }
-
-    @Override
-    public void setTransparentBackground() {
-        mSurfaceView.setZOrderOnTop(true);
-        mSurfaceView.getHolder().setFormat(PixelFormat.TRANSPARENT);
-    }
-
-    @Override
-    public void clearStream() {
-        Canvas c = null;
-
-        try {
-            c = mSurfaceView.getHolder().lockCanvas();
-            c.drawColor(0, PorterDuff.Mode.CLEAR);
-        } finally {
-            if (c != null) {
-                mSurfaceView.getHolder().unlockCanvasAndPost(c);
-            } else {
-                Log.w(TAG, "couldn't unlock surface canvas");
-            }
-        }
-    }
-
-    // no more accessible
     class MjpegViewThread extends Thread {
         private final SurfaceHolder mSurfaceHolder;
         private int frameCounter = 0;
         private Bitmap ovl;
 
-        // no more accessible
         MjpegViewThread(SurfaceHolder surfaceHolder) {
             mSurfaceHolder = surfaceHolder;
         }
 
         private Rect destRect(int bmw, int bmh) {
-
-            int tempx;
-            int tempy;
-            if (displayMode == MjpegViewDefault.SIZE_STANDARD) {
-                tempx = (dispWidth / 2) - (bmw / 2);
-                tempy = (dispHeight / 2) - (bmh / 2);
-                return new Rect(tempx, tempy, bmw + tempx, bmh + tempy);
+            float bmasp = (float) bmw / (float) bmh;
+            bmw = dispWidth;
+            bmh = (int) (dispWidth / bmasp);
+            if (bmh > dispHeight) {
+                bmh = dispHeight;
+                bmw = (int) (dispHeight * bmasp);
             }
-            if (displayMode == MjpegViewDefault.SIZE_BEST_FIT) {
-                float bmasp = (float) bmw / (float) bmh;
-                bmw = dispWidth;
-                bmh = (int) (dispWidth / bmasp);
-                if (bmh > dispHeight) {
-                    bmh = dispHeight;
-                    bmw = (int) (dispHeight * bmasp);
-                }
-                tempx = (dispWidth / 2) - (bmw / 2);
-                tempy = (dispHeight / 2) - (bmh / 2);
-                return new Rect(tempx, tempy, bmw + tempx, bmh + tempy);
-            }
-            if (displayMode == MjpegViewDefault.SIZE_SCALE_FIT) {
-                float bmasp = ((float) bmw / (float) bmh);
-                tempx = 0;
-                tempy = 0;
-                if (bmw < dispWidth) {
-                    bmw = dispWidth;
-                    // cross-multiplication using aspect ratio
-                    bmh = (int) (dispWidth / bmasp);
-                    // set it to the center height
-                    tempy = (dispHeight - bmh) / 4;
-                }
-                return new Rect(tempx, tempy, bmw, bmh + tempy);
-            }
-            if (displayMode == MjpegViewDefault.SIZE_FULLSCREEN)
-                return new Rect(0, 0, dispWidth, dispHeight);
-            return null;
+            int tempx = (dispWidth / 2) - (bmw / 2);
+            int tempy = (dispHeight / 2) - (bmh / 2);
+            return new Rect(tempx, tempy, bmw + tempx, bmh + tempy);
         }
 
-        // no more accessible
         void setSurfaceSize(int width, int height) {
             synchronized (mSurfaceHolder) {
                 dispWidth = width;
@@ -415,14 +226,12 @@ public class MjpegViewDefault extends AbstractMjpegView {
             p.getTextBounds(text, 0, text.length(), b);
             int bwidth = b.width() + 2;
             int bheight = b.height() + 2;
-            Bitmap bm = Bitmap.createBitmap(bwidth, bheight,
-                    Bitmap.Config.ARGB_8888);
+            Bitmap bm = Bitmap.createBitmap(bwidth, bheight, Bitmap.Config.ARGB_8888);
             Canvas c = new Canvas(bm);
-            p.setColor(overlayBackgroundColor);
+            p.setColor(Color.BLACK);
             c.drawRect(0, 0, bwidth, bheight, p);
-            p.setColor(overlayTextColor);
-            c.drawText(text, -b.left + 1,
-                    (bheight / 2) - ((p.ascent() + p.descent()) / 2) + 1, p);
+            p.setColor(Color.WHITE);
+            c.drawText(text, -b.left + 1, (bheight / 2) - ((p.ascent() + p.descent()) / 2) + 1, p);
             return bm;
         }
 
@@ -451,40 +260,30 @@ public class MjpegViewDefault extends AbstractMjpegView {
                                 byte[] header = mIn.readHeader();
                                 byte[] imageData = mIn.readMjpegFrame(header);
                                 bm = BitmapFactory.decodeStream(new ByteArrayInputStream(imageData));
-                                if (flipHorizontal || flipVertical)
+                                if (flipHorizontal || flipVertical) {
                                     bm = flip(bm);
-                                if (rotateDegrees != 0)
-                                    bm = rotate(bm, rotateDegrees);
-
-                                _frameCapturedWithByteData(imageData, header);
-                                _frameCapturedWithBitmap(bm);
-                                destRect = destRect(bm.getWidth(),
-                                        bm.getHeight());
-
-                                if (transparentBackground) {
-                                    c.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-                                } else {
-                                    c.drawColor(backgroundColor);
                                 }
+                                if (rotateDegrees != 0) {
+                                    bm = rotate(bm, rotateDegrees);
+                                }
+
+                                destRect = destRect(bm.getWidth(), bm.getHeight());
+
+                                c.drawColor(Color.BLACK);
 
                                 c.drawBitmap(bm, null, destRect, p);
 
                                 if (showFps) {
                                     p.setXfermode(mode);
                                     if (ovl != null) {
-                                        height = ((ovlPos & 1) == 1) ? destRect.top
-                                                : destRect.bottom
-                                                - ovl.getHeight();
-                                        width = ((ovlPos & 8) == 8) ? destRect.left
-                                                : destRect.right
-                                                - ovl.getWidth();
+                                        height = ((ovlPos & 1) == 1) ? destRect.top : destRect.bottom - ovl.getHeight();
+                                        width = ((ovlPos & 8) == 8) ? destRect.left : destRect.right - ovl.getWidth();
                                         c.drawBitmap(ovl, width, height, null);
                                     }
                                     p.setXfermode(null);
                                     frameCounter++;
                                     if ((System.currentTimeMillis() - start) >= 1000) {
-                                        fps = frameCounter
-                                                + "fps";
+                                        fps = frameCounter + "fps";
                                         frameCounter = 0;
                                         start = System.currentTimeMillis();
                                         ovl = makeFpsOverlay(overlayPaint, fps);
