@@ -50,7 +50,6 @@ android {
         versionName = "3.7.4"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        resourceConfigurations += listOf("nl", "en")
 
         // For a description of what these do, see the config.properties file.
         buildConfigField("boolean", "DEBUG_HOME_STREAM_PRIORITY", props.getProperty("hydra.debug.home.stream.priority"))
@@ -66,6 +65,12 @@ android {
                 argument("room.schemaLocation", "$projectDir/schemas")
             }
         }
+    }
+    
+    androidResources {
+        // Typical for Android, the old way is deprecated and the new way not stable yet.
+        @Suppress("UnstableApiUsage")
+        localeFilters += listOf("nl", "en")
     }
 
 
