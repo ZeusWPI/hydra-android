@@ -65,7 +65,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.tabs.TabLayout;
-import dev.chrisbanes.insetter.Insetter;
+import androidx.core.view.ViewCompat;
 import jonathanfinerty.once.Once;
 import org.jetbrains.annotations.NotNull;
 
@@ -233,9 +233,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         // Prevent navigation drawer from extending behind the notification bar.
         // It doesn't work to just set fitsSystemWindows=true, since this adds the padding
         // for the navigation bar to the header, which is not what you want.
-        Insetter.builder()
-                .padding(WindowInsetsCompat.Type.statusBars())
-                .applyToView(this.binding.navigationView.getHeaderView(0));
+        ViewCompat.setOnApplyWindowInsetsListener(this.binding.navigationView.getHeaderView(0), (v, insets) -> {
+            androidx.core.graphics.Insets statusInsets = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+            v.setPadding(statusInsets.left, statusInsets.top, statusInsets.right, statusInsets.bottom);
+            return insets;
+        });
+        ViewCompat.requestApplyInsets(this.binding.navigationView.getHeaderView(0));
 
         if (savedInstanceState != null) {
             isOnboardingOpen = savedInstanceState.getBoolean(STATE_IS_ONBOARDING_OPEN, false);

@@ -45,7 +45,7 @@ android {
         compileSdk = versions.getProperty("platformVersions").toInt()
         applicationId = "be.ugent.zeus.hydra"
         minSdk = 21
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 37400
         versionName = "3.7.4"
         vectorDrawables.useSupportLibrary = true
@@ -167,7 +167,7 @@ android {
 
     lint {
         disable += listOf(
-            "RtlSymmetry", "VectorPath", "Overdraw", "GradleDependency", "NotificationPermission", "OldTargetApi", "AndroidGradlePluginVersion"
+            "RtlSymmetry", "VectorPath", "Overdraw", "GradleDependency", "NotificationPermission", "AndroidGradlePluginVersion"
         )
         showAll = true
         warningsAsErrors = true
@@ -200,7 +200,6 @@ dependencies {
     implementation(project(":material-intro"))
     implementation(libs.once)
     implementation(libs.materialvalues)
-    implementation(libs.insetter)
     implementation(libs.ipcam)
 
     annotationProcessor(libs.recordbuilder.processor)

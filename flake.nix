@@ -26,7 +26,7 @@
             platformToolsVersion = androidVersions.platformToolsVersion;
             buildToolsVersions = [ androidVersions.buildToolsVersions ];
             includeEmulator = true;
-            emulatorVersion = "35.2.5";
+            emulatorVersion = "36.3.10";
             includeSystemImages = true;
             systemImageTypes = [ "google_apis_playstore" ];
             abiVersions = [ "x86_64" ];

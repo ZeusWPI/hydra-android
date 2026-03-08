@@ -30,6 +30,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.os.BundleCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.math.BigDecimal;
@@ -65,6 +67,12 @@ public class FormActivity extends BaseActivity<ActivityWpiTabTransactionFormBind
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(ActivityWpiTabTransactionFormBinding::inflate);
+        ViewCompat.setOnApplyWindowInsetsListener(binding.scroll, (v, insets) -> {
+            int bottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom;
+            v.setPadding(v.getPaddingLeft(), v.getPaddingTop(), v.getPaddingRight(), bottom);
+            return insets;
+        });
+        ViewCompat.requestApplyInsets(binding.scroll);
 
         if (savedInstanceState != null && savedInstanceState.containsKey(KEY_FORM_OBJECT)) {
             formObject = BundleCompat.getParcelable(savedInstanceState, KEY_FORM_OBJECT, TransactionForm.class);

@@ -39,6 +39,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.Button;
 import android.widget.TextSwitcher;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -173,6 +174,22 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
 
         setContentView(R.layout.mi_activity_intro);
         initViews();
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (position > 0) {
+                    previousSlide();
+                } else {
+                    Intent returnIntent = onSendActivityResult(RESULT_CANCELED);
+                    if (returnIntent != null)
+                        setResult(RESULT_CANCELED, returnIntent);
+                    else
+                        setResult(RESULT_CANCELED);
+                    finish();
+                }
+            }
+        });
     }
 
     @Override
@@ -218,20 +235,6 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
         outState.putInt(KEY_CURRENT_ITEM, miPager.getCurrentItem());
         outState.putBoolean(KEY_FULLSCREEN, fullscreen);
         outState.putBoolean(KEY_BUTTON_CTA_VISIBLE, buttonCtaVisible);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (position > 0) {
-            previousSlide();
-            return;
-        }
-        Intent returnIntent = onSendActivityResult(RESULT_CANCELED);
-        if (returnIntent != null)
-            setResult(RESULT_CANCELED, returnIntent);
-        else
-            setResult(RESULT_CANCELED);
-        super.onBackPressed();
     }
 
     public Intent onSendActivityResult(int result) {
