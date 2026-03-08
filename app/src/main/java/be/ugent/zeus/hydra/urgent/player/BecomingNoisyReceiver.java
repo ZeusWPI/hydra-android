@@ -26,6 +26,7 @@ import android.content.*;
 import android.media.AudioManager;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
+import androidx.core.content.ContextCompat;
 
 /**
  * Helper class for listening for when headphones are unplugged (or the audio
@@ -46,7 +47,7 @@ class BecomingNoisyReceiver extends BroadcastReceiver {
 
     void register() {
         if (!registered) {
-            context.registerReceiver(this, noisyIntentFilter);
+            ContextCompat.registerReceiver(context, this, noisyIntentFilter, ContextCompat.RECEIVER_NOT_EXPORTED);
             registered = true;
         }
     }

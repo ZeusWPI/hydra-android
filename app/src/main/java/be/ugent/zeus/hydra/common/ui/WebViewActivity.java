@@ -29,6 +29,8 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import be.ugent.zeus.hydra.databinding.ActivityWebviewBinding;
 
@@ -47,6 +49,12 @@ public class WebViewActivity extends BaseActivity<ActivityWebviewBinding> {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(ActivityWebviewBinding::inflate);
+        ViewCompat.setOnApplyWindowInsetsListener(binding.webContainer, (v, insets) -> {
+            int bottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom;
+            v.setPadding(v.getPaddingLeft(), v.getPaddingTop(), v.getPaddingRight(), bottom);
+            return insets;
+        });
+        ViewCompat.requestApplyInsets(binding.webContainer);
 
         binding.webView.getSettings().setJavaScriptEnabled(true);
         binding.webView.setWebViewClient(new ProgressClient(binding.progressBar.progressBar));

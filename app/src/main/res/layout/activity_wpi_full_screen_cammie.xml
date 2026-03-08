@@ -22,7 +22,6 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:stream="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:id="@+id/coordinator"
@@ -36,8 +35,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/cammie_viewer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        stream:type="stream_default" />
+        android:layout_height="match_parent" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:animateLayoutChanges="true"

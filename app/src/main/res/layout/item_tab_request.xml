@@ -61,8 +61,8 @@
         android:layout_width="wrap_content"
         app:icon="@drawable/ic_cancel"
         android:id="@+id/decline_button"
-        android:backgroundTint="@color/material_color_red_600"
-        android:background="@color/material_color_red_600"
+        android:backgroundTint="?attr/colorError"
+        android:background="?attr/colorError"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp" />
 

@@ -40,3 +40,4 @@ dependencyResolutionManagement {
 
 include(":app")
 include(":material-intro")
+include(":ipcam-view")

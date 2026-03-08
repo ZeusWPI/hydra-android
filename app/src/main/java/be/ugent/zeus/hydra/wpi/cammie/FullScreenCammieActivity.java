@@ -31,7 +31,6 @@ import androidx.core.view.WindowInsetsControllerCompat;
 import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.databinding.ActivityWpiFullScreenCammieBinding;
-import com.github.niqdev.mjpeg.DisplayMode;
 import com.github.niqdev.mjpeg.Mjpeg;
 
 /**
@@ -94,7 +93,6 @@ public class FullScreenCammieActivity extends BaseActivity<ActivityWpiFullScreen
                 .open(Endpoints.CAMMIE, 5)
                 .subscribe(inputStream -> {
                     binding.cammieViewer.setSource(inputStream);
-                    binding.cammieViewer.setDisplayMode(DisplayMode.BEST_FIT);
                     binding.cammieViewer.showFps(true);
                 });
     }

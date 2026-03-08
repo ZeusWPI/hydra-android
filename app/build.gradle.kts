@@ -45,12 +45,11 @@ android {
         compileSdk = versions.getProperty("platformVersions").toInt()
         applicationId = "be.ugent.zeus.hydra"
         minSdk = 21
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 37400
         versionName = "3.7.4"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        resourceConfigurations += listOf("nl", "en")
 
         // For a description of what these do, see the config.properties file.
         buildConfigField("boolean", "DEBUG_HOME_STREAM_PRIORITY", props.getProperty("hydra.debug.home.stream.priority"))
@@ -66,6 +65,12 @@ android {
                 argument("room.schemaLocation", "$projectDir/schemas")
             }
         }
+    }
+    
+    androidResources {
+        // Typical for Android, the old way is deprecated and the new way not stable yet.
+        @Suppress("UnstableApiUsage")
+        localeFilters += listOf("nl", "en")
     }
 
 
@@ -167,7 +172,7 @@ android {
 
     lint {
         disable += listOf(
-            "RtlSymmetry", "VectorPath", "Overdraw", "GradleDependency", "NotificationPermission", "OldTargetApi", "AndroidGradlePluginVersion"
+            "RtlSymmetry", "VectorPath", "Overdraw", "GradleDependency", "NotificationPermission", "AndroidGradlePluginVersion"
         )
         showAll = true
         warningsAsErrors = true
@@ -198,10 +203,8 @@ dependencies {
     implementation(libs.picasso)
     implementation(libs.cachapa)
     implementation(project(":material-intro"))
+    implementation(project(":ipcam-view"))
     implementation(libs.once)
-    implementation(libs.materialvalues)
-    implementation(libs.insetter)
-    implementation(libs.ipcam)
 
     annotationProcessor(libs.recordbuilder.processor)
     compileOnly(libs.recordbuilder.core)

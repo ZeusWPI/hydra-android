@@ -27,6 +27,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import java.util.Objects;
 
@@ -47,7 +49,13 @@ public class ApiKeyManagementActivity extends BaseActivity<ActivityWpiApiKeyMana
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(ActivityWpiApiKeyManagementBinding::inflate);
-        
+        ViewCompat.setOnApplyWindowInsetsListener(binding.scroll, (v, insets) -> {
+            int bottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom;
+            v.setPadding(v.getPaddingLeft(), v.getPaddingTop(), v.getPaddingRight(), bottom);
+            return insets;
+        });
+        ViewCompat.requestApplyInsets(binding.scroll);
+
         binding.apiTab.setText(AccountManager.getTabKey(this));
         binding.apiTap.setText(AccountManager.getTapKey(this));
         binding.apiUsername.setText(AccountManager.getUsername(this));

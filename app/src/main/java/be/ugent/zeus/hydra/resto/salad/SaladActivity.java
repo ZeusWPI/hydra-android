@@ -26,6 +26,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import be.ugent.zeus.hydra.R;
@@ -54,6 +56,12 @@ public class SaladActivity extends BaseActivity<ActivityRestoSaladBinding> {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(ActivityRestoSaladBinding::inflate);
+        ViewCompat.setOnApplyWindowInsetsListener(binding.recyclerView, (v, insets) -> {
+            int bottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom;
+            v.setPadding(v.getPaddingLeft(), v.getPaddingTop(), v.getPaddingRight(), bottom);
+            return insets;
+        });
+        ViewCompat.requestApplyInsets(binding.recyclerView);
 
         final ViewModelProvider provider = new ViewModelProvider(this);
         viewModel = provider.get(SaladViewModel.class);

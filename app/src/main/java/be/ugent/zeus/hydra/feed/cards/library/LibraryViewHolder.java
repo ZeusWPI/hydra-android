@@ -25,6 +25,7 @@ package be.ugent.zeus.hydra.feed.cards.library;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Pair;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
@@ -62,7 +63,11 @@ public class LibraryViewHolder extends CardViewHolder {
         Context c = itemView.getContext();
         styleName = ViewUtils.getAttr(c, R.attr.textAppearanceBodyMedium);
         styleHours = ViewUtils.getAttr(c, R.attr.textAppearanceCaption);
-        rowPadding = c.getResources().getDimensionPixelSize(R.dimen.material_baseline_grid_1x);
+        rowPadding = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                8f,
+                c.getResources().getDisplayMetrics()
+        );
 
         itemView.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), MainActivity.class);

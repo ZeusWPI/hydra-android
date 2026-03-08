@@ -53,8 +53,7 @@
             app:layout_constraintDimensionRatio="H,20:11"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.5"
-            stream:type="stream_default" />
+            app:layout_constraintWidth_percent="0.5" />
 
         <GridLayout
             android:id="@+id/grid_layout"

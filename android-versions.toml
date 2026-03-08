@@ -5,5 +5,5 @@
 # Since properties strings are not quoted, we unquote the values in Gradle.
 cmdLineToolsVersion = "16.0-rc01"
 platformToolsVersion = "35.0.2"
-buildToolsVersions = "35.0.0-rc4"
-platformVersions = "35"
+buildToolsVersions = "36.0.0"
+platformVersions = "36"
