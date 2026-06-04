@@ -24,6 +24,8 @@ package be.ugent.zeus.hydra.common.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
+import android.content.ActivityNotFoundException;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
@@ -63,6 +65,19 @@ public class WebViewActivity extends BaseActivity<ActivityWebviewBinding> {
     }
 
     private static class ProgressClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            if (url.startsWith("http://") || url.startsWith("https://")) {
+                try {
+                    view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                } catch (ActivityNotFoundException e) {
+                    // no app available to open the link
+                }
+                return true;
+            }
+            return false;
+        }
+
         private final ProgressBar progressBar;
 
         ProgressClient(ProgressBar progressBar) {
